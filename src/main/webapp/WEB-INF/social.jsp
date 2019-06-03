@@ -1,16 +1,6 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: alain
-  Date: 03/06/2019
-  Time: 16:40
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<head>
-    <title>Title</title>
-</head>
-<body>
-
-</body>
-</html>
+<%@ page contentType="text/html;charset=UTF-8" %>
+<div class="social">
+    <a href="http://facebook.com" id="fb"></a>
+    <a href="http://twitter.com" id="tw"></a>
+    <a href="http://linkedin.com" id="lk"></a>
+</div>

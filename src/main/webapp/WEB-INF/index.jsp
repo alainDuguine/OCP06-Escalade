@@ -27,6 +27,7 @@
         Donec porta suscipit justo. Quisque lacus mi, congue ac pellentesque sit amet, egestas sed metus. Morbi quis lacinia velit.
         Nullam luctus erat quis nisl feugiat dapibus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. </p>
     </section>
+    <%@include file="social.jsp"%>
     <script src="http://code.jquery.com/jquery.min.js"></script>
     <script src="../js/jq-hello.js"></script>
   </body>
