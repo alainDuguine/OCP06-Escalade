@@ -183,3 +183,96 @@ header{
     background-position: -100px -50px;
     left:110px;
 }
+
+/*=========================================================================================*/
+/*===== Mise en forme div form recherche ==================================================*/
+/*=========================================================================================*/
+
+#rechercheSpot{
+    border: 1px solid #a88680;
+    border-radius: 12px;
+    background-color: rgba(255,255,255,0.50);
+    margin-top: 3em;
+    margin-left: 1.5em;
+    padding: 1em;
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+}
+
+#rechercheSpot form{
+    display: flex;
+    flex-direction: column;
+}
+
+#rechercheDiv, #descriptionDiv{
+    margin:0;
+    padding: 0;
+    background-color: rgba(255,255,255,0.75);
+    border: 2px solid #a88680;
+    box-shadow: 3px 3px 3px #000;
+    padding-right: 1em;
+    padding-left: 1em;
+    padding-bottom: 0.5em;
+    text-align: left;
+    border-radius: 6px;
+}
+
+#rechercheDiv{
+    width: 50%;
+}
+
+#descriptionDiv{
+    margin-top:1em;
+    width: 80%;
+    height: 20em;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    word-wrap: break-word;
+    text-align: justify;
+}
+
+.rechercheForm{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 0.5em;
+    padding: 0em;
+}
+
+#rechercheDiv h1{
+    text-decoration: underline;
+    padding-left: 0.2em;
+    font-size:1.2em;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+/*=========================================================================================*/
+/*===== Mise en forme éléments formulaire =================================================*/
+/*=========================================================================================*/
+
+.rechercheForm input, .rechercheForm select{
+    width: 12em;
+    height: 2em;
+    margin: 0em 0.5em;
+    border-radius: 5px;
+    padding: 0px;
+}
+
+#nom{
+    border:1px solid rgb(173,173,173);
+}
+
+#officiel{
+    width:auto;
+    align-self: center;
+}
+
+.rechercheForm label{
+    font-size: 0.8em;
+    align-self: center;
+    margin-left: 0;
+}
