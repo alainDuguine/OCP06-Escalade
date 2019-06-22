@@ -33,9 +33,68 @@
                         <option>Nb Voies</option>
                     </select>
                 </div>
+                <div id="boutonSpot">
+                    <input type="submit" value="Rechercher">
+                </div>
             </form>
         </div>
-        <div id="descriptionDiv">
+        <div id="resultatDiv">
+            <table id="tableauResult">
+                <thead>
+                    <tr>
+                        <th>Nom Spot</th>
+                        <th>Région</th>
+                        <th>Département</th>
+                        <th>Ville</th>
+                        <th>Cotation mini</th>
+                        <th>Cotation max</th>
+                        <th>Nb Voies</th>
+                        <th>Officiel<br>"Les amis de l'escalade"</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Ablon</td>
+                        <td>Auvergne-Rhône-Alpes</td>
+                        <td>Haute-Savoie</td>
+                        <td>Ablon</td>
+                        <td>4b</td>
+                        <td>8b</td>
+                        <td>400</td>
+                        <td>Non</td>
+                    </tr>
+                    <tr>
+                        <td>Ailefroide</td>
+                        <td>Provence-Alpes-Côte d'Azur</td>
+                        <td>Hautes-Alpes</td>
+                        <td>L’Argentière la Bessée</td>
+                        <td>3a</td>
+                        <td>8a</td>
+                        <td>500</td>
+                        <td>Oui</td>
+                    </tr>
+                    <tr>
+                        <td>Bavella</td>
+                        <td>Corse</td>
+                        <td>Corse-du-Sud</td>
+                        <td>Col de Bavella</td>
+                        <td>3c</td>
+                        <td>8b</td>
+                        <td>200</td>
+                        <td>Non</td>
+                    </tr>
+                    <tr>
+                        <td>Céüse</td>
+                        <td>Provence-Alpes-Côte d'Azur</td>
+                        <td>Hautes-Alpes</td>
+                        <td>Col des Guérins</td>
+                        <td>5a</td>
+                        <td>9a</td>
+                        <td>400</td>
+                        <td>Oui</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </section>
     <%@include file="social.jsp"%>

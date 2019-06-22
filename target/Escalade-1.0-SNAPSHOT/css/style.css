@@ -205,7 +205,7 @@ header{
     flex-direction: column;
 }
 
-#rechercheDiv, #descriptionDiv{
+#rechercheDiv, #resultatDiv{
     margin:0;
     padding: 0;
     background-color: rgba(255,255,255,0.75);
@@ -222,7 +222,7 @@ header{
     width: 50%;
 }
 
-#descriptionDiv{
+#resultatDiv{
     margin-top:1em;
     width: 80%;
     height: 20em;
@@ -237,7 +237,7 @@ header{
     flex-direction: row;
     justify-content: space-between;
     margin: 0.5em;
-    padding: 0em;
+    padding: 0;
 }
 
 #rechercheDiv h1{
@@ -257,9 +257,40 @@ header{
 .rechercheForm input, .rechercheForm select{
     width: 12em;
     height: 2em;
-    margin: 0em 0.5em;
+    margin: 0 0.5em;
     border-radius: 5px;
-    padding: 0px;
+    padding: 0;
+}
+
+.rechercheForm input[type=text]:focus , .rechercheForm select:focus {
+    border: 2px solid #a88680;
+}
+
+#boutonSpot{
+    margin: auto;
+}
+
+input[type=submit]{
+    display: block;
+    align-self: center;
+    background-color: #a88680;
+    border: 1px solid rgb(173,173,173);
+    border-radius: 2px;
+    width: 8em;
+    line-height: 2.5em;
+    margin-top:0.5em;
+    margin-bottom: 0.5em;
+    box-shadow: 0 0 2px #000;
+    font-family: 'Merienda', 'Open Sans', sans-serif;
+    font-size: 0.9em;
+
+}
+
+input[type=submit]:hover{
+    background-color: #a8808e;
+    box-shadow: 0px 0px 4px #000;
+    border: 1px solid rgb(128,128,128);
+    font-weight: 700;
 }
 
 #nom{
@@ -275,4 +306,38 @@ header{
     font-size: 0.8em;
     align-self: center;
     margin-left: 0;
+}
+
+/*=========================================================================================*/
+/*===== Mise en forme tableaux ============================================================*/
+/*=========================================================================================*/
+
+table{
+    border-collapse: collapse;
+    border: 2px solid #a88680;
+    margin: 1em;
+}
+
+thead{
+    text-align: center;
+    font-size: 0.9em;
+    border: 2px solid #a88680;
+}
+
+th,td{
+    border:1px solid rgb(173,173,173);
+    padding: 0.5em;
+}
+
+tbody{
+    font-size: 0.7em;
+    padding: 0.5em;
+}
+
+tbody tr:nth-child(odd){
+    background-color: rgba(128,142,168,0.5);
+}
+
+tbody tr:hover{
+    background-color: #a8808e;
 }
