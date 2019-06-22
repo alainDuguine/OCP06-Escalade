@@ -3,6 +3,7 @@ package com.alain.dao.entities;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -13,7 +14,57 @@ public class ComplementVoie implements Serializable {
     private Date dateHeure;
     private String contenu;
 
+    // Associations
+    @ManyToOne
+    private Utilisateur utilisateur;
+    @ManyToOne
+    private Voie voie;
+
     public ComplementVoie() {
     }
 
+    public ComplementVoie(Date dateHeure, String contenu) {
+        this.dateHeure = dateHeure;
+        this.contenu = contenu;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Date getDateHeure() {
+        return dateHeure;
+    }
+
+    public void setDateHeure(Date dateHeure) {
+        this.dateHeure = dateHeure;
+    }
+
+    public String getContenu() {
+        return contenu;
+    }
+
+    public void setContenu(String contenu) {
+        this.contenu = contenu;
+    }
+
+    public Utilisateur getUtilisateur() {
+        return utilisateur;
+    }
+
+    public void setUtilisateur(Utilisateur utilisateur) {
+        this.utilisateur = utilisateur;
+    }
+
+    public Voie getVoie() {
+        return voie;
+    }
+
+    public void setVoie(Voie voie) {
+        this.voie = voie;
+    }
 }
