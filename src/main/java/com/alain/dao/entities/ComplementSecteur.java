@@ -13,11 +13,11 @@ public class ComplementSecteur implements Serializable {
     private Date dateHeure;
     private String contenu;
 
-//    // Associations
-//    @ManyToOne
-//    private Utilisateur utilisateur;
-//    @ManyToOne
-//    private Secteur secteur;
+    // Associations
+    @ManyToOne
+    private Utilisateur utilisateur;
+    @ManyToOne
+    private Secteur secteur;
 
     public ComplementSecteur() {
     }
@@ -51,19 +51,19 @@ public class ComplementSecteur implements Serializable {
         this.contenu = contenu;
     }
 
-//    public Utilisateur getUtilisateur() {
-//        return utilisateur;
-//    }
-//
-//    public void setUtilisateur(Utilisateur utilisateur) {
-//        this.utilisateur = utilisateur;
-//    }
-//
-//    public Secteur getSecteur() {
-//        return secteur;
-//    }
-//
-//    public void setSecteur(Secteur secteur) {
-//        this.secteur = secteur;
-//    }
+    public Utilisateur getUtilisateur() {
+        return utilisateur;
+    }
+
+    public void setUtilisateur(Utilisateur utilisateur) {
+        this.utilisateur = utilisateur;
+    }
+
+    public Secteur getSecteur() {
+        return secteur;
+    }
+
+    public void setSecteur(Secteur secteur) {
+        this.secteur = secteur;
+    }
 }

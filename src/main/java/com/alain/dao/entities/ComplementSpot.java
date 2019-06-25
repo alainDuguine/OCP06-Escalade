@@ -13,11 +13,11 @@ public class ComplementSpot implements Serializable {
     private Date dateHeure;
     private String contenu;
 
-//    // Associations
-//    @ManyToOne
-//    private Utilisateur utilisateur;
-//    @ManyToOne
-//    private Spot spot;
+    // Associations
+    @ManyToOne
+    private Utilisateur utilisateur;
+    @ManyToOne
+    private Spot spot;
 
     public ComplementSpot() {
     }
@@ -51,19 +51,19 @@ public class ComplementSpot implements Serializable {
         this.contenu = contenu;
     }
 
-//    public Utilisateur getUtilisateur() {
-//        return utilisateur;
-//    }
-//
-//    public void setUtilisateur(Utilisateur utilisateur) {
-//        this.utilisateur = utilisateur;
-//    }
-//
-//    public Spot getSpot() {
-//        return spot;
-//    }
-//
-//    public void setSpot(Spot spot) {
-//        this.spot = spot;
-//    }
+    public Utilisateur getUtilisateur() {
+        return utilisateur;
+    }
+
+    public void setUtilisateur(Utilisateur utilisateur) {
+        this.utilisateur = utilisateur;
+    }
+
+    public Spot getSpot() {
+        return spot;
+    }
+
+    public void setSpot(Spot spot) {
+        this.spot = spot;
+    }
 }

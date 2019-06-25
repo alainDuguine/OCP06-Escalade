@@ -16,13 +16,13 @@ public class Topo implements Serializable {
     private String description;
     private Boolean disponible;
 
-//    // Associations
-//    @ManyToOne
-//    private Utilisateur utilisateur;
-//    @ManyToMany
-//    private List<Utilisateur> empruntUtilisateurs;
-//    @ManyToMany
-//    private List<Spot> spot;
+    // Associations
+    @ManyToOne
+    private Utilisateur utilisateur;
+    @ManyToMany
+    private List<Utilisateur> empruntUtilisateurs;
+    @ManyToMany
+    private List<Spot> spot;
 
     public Topo() {
     }
@@ -73,28 +73,28 @@ public class Topo implements Serializable {
     public void setDisponible(Boolean disponible) {
         this.disponible = disponible;
     }
-////
-////    public Utilisateur getUtilisateur() {
-////        return utilisateur;
-////    }
-////
-////    public void setUtilisateur(Utilisateur utilisateur) {
-////        this.utilisateur = utilisateur;
-////    }
-//
-//    public List<Utilisateur> getEmpruntUtilisateurs() {
-//        return empruntUtilisateurs;
-//    }
-//
-//    public void setEmpruntUtilisateurs(List<Utilisateur> empruntUtilisateurs) {
-//        this.empruntUtilisateurs = empruntUtilisateurs;
-//    }
-//
-//    public List<Spot> getSpot() {
-//        return spot;
-//    }
-//
-//    public void setSpot(List<Spot> spot) {
-//        this.spot = spot;
-//    }
+
+    public Utilisateur getUtilisateur() {
+        return utilisateur;
+    }
+
+    public void setUtilisateur(Utilisateur utilisateur) {
+        this.utilisateur = utilisateur;
+    }
+
+    public List<Utilisateur> getEmpruntUtilisateurs() {
+        return empruntUtilisateurs;
+    }
+
+    public void setEmpruntUtilisateurs(List<Utilisateur> empruntUtilisateurs) {
+        this.empruntUtilisateurs = empruntUtilisateurs;
+    }
+
+    public List<Spot> getSpot() {
+        return spot;
+    }
+
+    public void setSpot(List<Spot> spot) {
+        this.spot = spot;
+    }
 }

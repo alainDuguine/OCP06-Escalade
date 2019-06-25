@@ -14,11 +14,11 @@ public class CommentaireSpot implements Serializable {
     private Date dateHeure;
     private String contenu;
 
-//    // Associations
-//    @ManyToOne
-//    private Utilisateur utilisateur;
-//    @ManyToOne
-//    private Spot spot;
+    // Associations
+    @ManyToOne
+    private Utilisateur utilisateur;
+    @ManyToOne
+    private Spot spot;
 
     public CommentaireSpot() {
     }
@@ -51,20 +51,20 @@ public class CommentaireSpot implements Serializable {
     public void setContenu(String contenu) {
         this.contenu = contenu;
     }
-//
-//    public Utilisateur getUtilisateur() {
-//        return utilisateur;
-//    }
-//
-//    public void setUtilisateur(Utilisateur utilisateur) {
-//        this.utilisateur = utilisateur;
-//    }
-//
-//    public Spot getSpot() {
-//        return spot;
-//    }
-//
-//    public void setSpot(Spot spot) {
-//        this.spot = spot;
-//    }
+
+    public Utilisateur getUtilisateur() {
+        return utilisateur;
+    }
+
+    public void setUtilisateur(Utilisateur utilisateur) {
+        this.utilisateur = utilisateur;
+    }
+
+    public Spot getSpot() {
+        return spot;
+    }
+
+    public void setSpot(Spot spot) {
+        this.spot = spot;
+    }
 }

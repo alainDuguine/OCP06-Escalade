@@ -14,11 +14,11 @@ public class CommentaireVoie implements Serializable {
     private String contenu;
 
 
-//    // Associations
-//    @ManyToOne
-//    private Utilisateur utilisateur;
-//    @ManyToOne
-//    private Voie voie;
+    // Associations
+    @ManyToOne
+    private Utilisateur utilisateur;
+    @ManyToOne
+    private Voie voie;
 
     public CommentaireVoie() {
     }
@@ -51,20 +51,20 @@ public class CommentaireVoie implements Serializable {
     public void setContenu(String contenu) {
         this.contenu = contenu;
     }
-//
-//    public Utilisateur getUtilisateur() {
-//        return utilisateur;
-//    }
-//
-//    public void setUtilisateur(Utilisateur utilisateur) {
-//        this.utilisateur = utilisateur;
-//    }
-//
-//    public Voie getVoie() {
-//        return voie;
-//    }
-//
-//    public void setVoie(Voie voie) {
-//        this.voie = voie;
-//    }
+
+    public Utilisateur getUtilisateur() {
+        return utilisateur;
+    }
+
+    public void setUtilisateur(Utilisateur utilisateur) {
+        this.utilisateur = utilisateur;
+    }
+
+    public Voie getVoie() {
+        return voie;
+    }
+
+    public void setVoie(Voie voie) {
+        this.voie = voie;
+    }
 }

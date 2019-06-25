@@ -13,18 +13,18 @@ public class Secteur implements Serializable {
     private String nom;
     private String description;
 
-//    // Associations
-//    @ManyToOne
-//    private Utilisateur utilisateur;
-//    @ManyToOne
-//    private Spot spot;
-//
-//    @OneToMany (mappedBy = "secteur")
-//    private List<Voie> voies;
-//    @OneToMany (mappedBy = "secteur")
-//    private List<CommentaireVoie> commentaires;
-//    @OneToMany (mappedBy = "secteur")
-//    private List<ComplementVoie> complements;
+    // Associations
+    @ManyToOne
+    private Utilisateur utilisateur;
+    @ManyToOne
+    private Spot spot;
+
+    @OneToMany (mappedBy = "secteur")
+    private List<Voie> voies;
+    @OneToMany (mappedBy = "secteur")
+    private List<CommentaireSecteur> commentaires;
+    @OneToMany (mappedBy = "secteur")
+    private List<ComplementSecteur> complements;
 
     public Secteur() {
     }
@@ -58,44 +58,44 @@ public class Secteur implements Serializable {
         this.description = description;
     }
 
-//    public Utilisateur getUtilisateur() {
-//        return utilisateur;
-//    }
-//
-//    public void setUtilisateur(Utilisateur utilisateur) {
-//        this.utilisateur = utilisateur;
-//    }
-//
-//    public Spot getSpot() {
-//        return spot;
-//    }
-//
-//    public void setSpot(Spot spot) {
-//        this.spot = spot;
-//    }
-//
-//    public List<Voie> getVoies() {
-//        return voies;
-//    }
-//
-//    public void setVoies(List<Voie> voies) {
-//        this.voies = voies;
-//    }
-//
-//    public List<CommentaireVoie> getCommentaires() {
-//        return commentaires;
-//    }
-//
-//    public void setCommentaires(List<CommentaireVoie> commentaires) {
-//        this.commentaires = commentaires;
-//    }
-//
-//    public List<ComplementVoie> getComplements() {
-//        return complements;
-//    }
-//
-//    public void setComplements(List<ComplementVoie> complements) {
-//        this.complements = complements;
-//    }
+    public Utilisateur getUtilisateur() {
+        return utilisateur;
+    }
+
+    public void setUtilisateur(Utilisateur utilisateur) {
+        this.utilisateur = utilisateur;
+    }
+
+    public Spot getSpot() {
+        return spot;
+    }
+
+    public void setSpot(Spot spot) {
+        this.spot = spot;
+    }
+
+    public List<Voie> getVoies() {
+        return voies;
+    }
+
+    public void setVoies(List<Voie> voies) {
+        this.voies = voies;
+    }
+
+    public List<CommentaireSecteur> getCommentaires() {
+        return commentaires;
+    }
+
+    public void setCommentaires(List<CommentaireSecteur> commentaires) {
+        this.commentaires = commentaires;
+    }
+
+    public List<ComplementSecteur> getComplements() {
+        return complements;
+    }
+
+    public void setComplements(List<ComplementSecteur> complements) {
+        this.complements = complements;
+    }
 }
 
