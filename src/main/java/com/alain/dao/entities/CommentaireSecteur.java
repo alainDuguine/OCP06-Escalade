@@ -1,12 +1,11 @@
 package com.alain.dao.entities;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
+@Entity
+@Table
 public class CommentaireSecteur implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,11 +13,11 @@ public class CommentaireSecteur implements Serializable {
     private Date dateHeure;
     private String contenu;
 
-    // Associations
-    @ManyToOne
-    private Utilisateur utilisateur;
-    @ManyToOne
-    private Secteur secteur;
+//    // Associations
+//    @ManyToOne
+//    private Utilisateur utilisateur;
+//    @ManyToOne
+//    private Secteur secteur;
 
 
     public CommentaireSecteur() {
@@ -52,20 +51,20 @@ public class CommentaireSecteur implements Serializable {
     public void setContenu(String contenu) {
         this.contenu = contenu;
     }
-
-    public Utilisateur getUtilisateur() {
-        return utilisateur;
-    }
-
-    public void setUtilisateur(Utilisateur utilisateur) {
-        this.utilisateur = utilisateur;
-    }
-
-    public Secteur getSecteur() {
-        return secteur;
-    }
-
-    public void setSecteur(Secteur secteur) {
-        this.secteur = secteur;
-    }
+//
+//    public Utilisateur getUtilisateur() {
+//        return utilisateur;
+//    }
+//
+//    public void setUtilisateur(Utilisateur utilisateur) {
+//        this.utilisateur = utilisateur;
+//    }
+//
+//    public Secteur getSecteur() {
+//        return secteur;
+//    }
+//
+//    public void setSecteur(Secteur secteur) {
+//        this.secteur = secteur;
+//    }
 }

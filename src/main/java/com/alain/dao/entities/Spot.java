@@ -20,18 +20,18 @@ public class Spot implements Serializable {
     private String pays;
     private Boolean officiel;
 
-    // Associations
-    @ManyToOne
-    private Utilisateur utilisateur;
-
-    @OneToMany (mappedBy ="spot")
-    private List<Secteur> secteurs;
-    @OneToMany (mappedBy = "spot")
-    private List<CommentaireVoie> commentaires;
-    @OneToMany(mappedBy = "spot")
-    private List<ComplementSpot> topo;
-    @ManyToMany (mappedBy = "spot")
-    private List<Topo> topos;
+//    // Associations
+//    @ManyToOne
+//    private Utilisateur utilisateur;
+//
+//    @OneToMany (mappedBy ="spot")
+//    private List<Secteur> secteurs;
+//    @OneToMany (mappedBy = "spot")
+//    private List<CommentaireVoie> commentaires;
+//    @OneToMany(mappedBy = "spot")
+//    private List<ComplementSpot> topo;
+//    @ManyToMany (mappedBy = "spot")
+//    private List<Topo> topos;
 
     public Spot() {
     }
@@ -118,44 +118,44 @@ public class Spot implements Serializable {
     public void setOfficiel(Boolean officiel) {
         this.officiel = officiel;
     }
-
-    public Utilisateur getUtilisateur() {
-        return utilisateur;
-    }
-
-    public void setUtilisateur(Utilisateur utilisateur) {
-        this.utilisateur = utilisateur;
-    }
-
-    public List<Secteur> getSecteurs() {
-        return secteurs;
-    }
-
-    public void setSecteurs(List<Secteur> secteurs) {
-        this.secteurs = secteurs;
-    }
-
-    public List<CommentaireVoie> getCommentaires() {
-        return commentaires;
-    }
-
-    public void setCommentaires(List<CommentaireVoie> commentaires) {
-        this.commentaires = commentaires;
-    }
-
-    public List<ComplementSpot> getTopo() {
-        return topo;
-    }
-
-    public void setTopo(List<ComplementSpot> topo) {
-        this.topo = topo;
-    }
-
-    public List<Topo> getTopos() {
-        return topos;
-    }
-
-    public void setTopos(List<Topo> topos) {
-        this.topos = topos;
-    }
+//
+//    public Utilisateur getUtilisateur() {
+//        return utilisateur;
+//    }
+//
+//    public void setUtilisateur(Utilisateur utilisateur) {
+//        this.utilisateur = utilisateur;
+//    }
+//
+//    public List<Secteur> getSecteurs() {
+//        return secteurs;
+//    }
+//
+//    public void setSecteurs(List<Secteur> secteurs) {
+//        this.secteurs = secteurs;
+//    }
+//
+//    public List<CommentaireVoie> getCommentaires() {
+//        return commentaires;
+//    }
+//
+//    public void setCommentaires(List<CommentaireVoie> commentaires) {
+//        this.commentaires = commentaires;
+//    }
+//
+//    public List<ComplementSpot> getTopo() {
+//        return topo;
+//    }
+//
+//    public void setTopo(List<ComplementSpot> topo) {
+//        this.topo = topo;
+//    }
+//
+//    public List<Topo> getTopos() {
+//        return topos;
+//    }
+//
+//    public void setTopos(List<Topo> topos) {
+//        this.topos = topos;
+//    }
 }

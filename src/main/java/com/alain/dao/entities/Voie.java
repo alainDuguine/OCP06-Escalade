@@ -16,16 +16,16 @@ public class Voie {
     private int nbLongueurs;
     private String commentaire;
 
-    // Associations
-    @ManyToOne
-    private Utilisateur utilisateur;
-    @ManyToOne
-    private Secteur secteur;
-
-    @OneToMany (mappedBy = "voie")
-    private List<CommentaireVoie> commentaires;
-    @OneToMany (mappedBy = "voie")
-    private List<ComplementVoie> complements;
+//    // Associations
+//    @ManyToOne
+//    private Utilisateur utilisateur;
+//    @ManyToOne
+//    private Secteur secteur;
+//
+//    @OneToMany (mappedBy = "voie")
+//    private List<CommentaireVoie> commentaires;
+//    @OneToMany (mappedBy = "voie")
+//    private List<ComplementVoie> complements;
 
     public Voie() {
     }
@@ -86,35 +86,35 @@ public class Voie {
         this.commentaire = commentaire;
     }
 
-    public Utilisateur getUtilisateur() {
-        return utilisateur;
-    }
-
-    public void setUtilisateur(Utilisateur utilisateur) {
-        this.utilisateur = utilisateur;
-    }
-
-    public Secteur getSecteur() {
-        return secteur;
-    }
-
-    public void setSecteur(Secteur secteur) {
-        this.secteur = secteur;
-    }
-
-    public List<CommentaireVoie> getCommentaires() {
-        return commentaires;
-    }
-
-    public void setCommentaires(List<CommentaireVoie> commentaires) {
-        this.commentaires = commentaires;
-    }
-
-    public List<ComplementVoie> getComplements() {
-        return complements;
-    }
-
-    public void setComplements(List<ComplementVoie> complements) {
-        this.complements = complements;
-    }
+//    public Utilisateur getUtilisateur() {
+//        return utilisateur;
+//    }
+//
+//    public void setUtilisateur(Utilisateur utilisateur) {
+//        this.utilisateur = utilisateur;
+//    }
+//
+//    public Secteur getSecteur() {
+//        return secteur;
+//    }
+//
+//    public void setSecteur(Secteur secteur) {
+//        this.secteur = secteur;
+//    }
+//
+//    public List<CommentaireVoie> getCommentaires() {
+//        return commentaires;
+//    }
+//
+//    public void setCommentaires(List<CommentaireVoie> commentaires) {
+//        this.commentaires = commentaires;
+//    }
+//
+//    public List<ComplementVoie> getComplements() {
+//        return complements;
+//    }
+//
+//    public void setComplements(List<ComplementVoie> complements) {
+//        this.complements = complements;
+//    }
 }
