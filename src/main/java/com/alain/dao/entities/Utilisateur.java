@@ -187,4 +187,16 @@ public class Utilisateur implements Serializable{
     public void setEmpruntsTopos(List<Topo> empruntsTopos) {
         this.empruntsTopos = empruntsTopos;
     }
+
+    @Override
+    public String toString() {
+        return "Utilisateur{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", motDePasse='" + motDePasse + '\'' +
+                ", nom='" + nom + '\'' +
+                ", prenom='" + prenom + '\'' +
+                ", role='" + role + '\'' +
+                '}';
+    }
 }
