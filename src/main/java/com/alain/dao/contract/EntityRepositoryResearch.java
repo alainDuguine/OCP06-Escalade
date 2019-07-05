@@ -1,4 +1,7 @@
 package com.alain.dao.contract;
 
-public interface EntityRepositoryResearch {
+import java.util.List;
+
+public interface EntityRepositoryResearch<T> extends EntityRepository{
+    List<T> findByDesignation(String des);
 }

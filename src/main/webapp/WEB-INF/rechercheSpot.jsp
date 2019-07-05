@@ -1,20 +1,20 @@
-<%@ page contentType="text/html;charset=UTF-8" %>
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
     <title>Rechercher un spot</title>
     <link rel="stylesheet" type="text/css" href="../css/style.css">
     <link href="https://fonts.googleapis.com/css?family=Merienda&display=swap" rel="stylesheet">
 </head>
 <body>
     <%@ include file= "header.jsp"%>
-    <section id="rechercheSpot">
+    <section class="mainDiv">
         <div id="rechercheDiv">
             <h1>Rechercher un spot</h1>
             <form method="post">
                 <div class="rechercheForm">
-                    <input type="text" name="nom" id="nom" placeholder=" Nom du spot">
+                    <input type="text" name="nomSpot" id="nomSpot" placeholder="Nom du spot">
+                    <input type="text" name="nomSecteur" id="nomSecteur" placeholder="Nom du secteur">
                     <input type="checkbox" name="officiel" id="officiel">
                     <label for="officiel">Officiel "Les amis de l'escalade"</label>
                     <br>
@@ -33,8 +33,9 @@
                         <option>Nb Voies</option>
                     </select>
                 </div>
-                <div id="boutonSpot">
+                <div class="bouton">
                     <input type="submit" value="Rechercher">
+                    <input type="submit" value="Réinitialiser">
                 </div>
             </form>
         </div>
@@ -67,7 +68,7 @@
                         <td>Ailefroide</td>
                         <td>Provence-Alpes-Côte d'Azur</td>
                         <td>Hautes-Alpes</td>
-                        <td>L’Argentière la Bessée</td>
+                        <td>L'Argentière la Bessée</td>
                         <td>3a</td>
                         <td>8a</td>
                         <td>500</td>

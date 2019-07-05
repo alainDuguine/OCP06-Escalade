@@ -1,4 +1,3 @@
-<%@ page contentType="text/html;charset=UTF-8" %>
 <div class="social">
     <a href="http://facebook.com" id="fb"></a>
     <a href="http://twitter.com" id="tw"></a>

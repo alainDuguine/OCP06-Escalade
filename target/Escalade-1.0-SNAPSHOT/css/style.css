@@ -113,8 +113,9 @@ header{
 /*=========================================================================================*/
 
 .description{
-    background-color: rgba(255,255,255,0.75);
-    border: 2px solid #a88680;
+    background-color: rgba(255,255,255,0.7);
+    border: 1px solid #a88680;
+    border-radius: 12px;
     box-shadow: 3px 3px 3px #000;
     width: 70%;
     height: 35em;
@@ -188,16 +189,23 @@ header{
 /*===== Mise en forme div form recherche ==================================================*/
 /*=========================================================================================*/
 
-#rechercheSpot{
+.mainDiv{
     border: 1px solid #a88680;
     border-radius: 12px;
     background-color: rgba(255,255,255,0.50);
-    margin-top: 3em;
-    margin-left: 1.5em;
+    margin-top: 1.5em;
+    margin-left: 2em;
     padding: 1em;
     width: 60%;
     display: flex;
     flex-direction: column;
+}
+
+#mainDivCenter{
+    margin-top: 4em;
+    margin-left: auto;
+    margin-right: auto;
+    align-self: center;
 }
 
 #rechercheSpot form{
@@ -232,7 +240,7 @@ header{
     text-align: justify;
 }
 
-.rechercheForm{
+.rechercheForm, .inscriptionForm, .connexionForm{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -240,7 +248,7 @@ header{
     padding: 0;
 }
 
-#rechercheDiv h1{
+#rechercheDiv h1, #inscriptionDiv h1{
     text-decoration: underline;
     padding-left: 0.2em;
     font-size:1.2em;
@@ -248,6 +256,52 @@ header{
     padding-bottom: 0.5em;
     margin-top: 0;
     margin-bottom: 0;
+}
+
+#inscriptionDiv{
+    width: 70%;
+    margin:auto;
+    padding: 0;
+    background-color: rgba(255,255,255,0.75);
+    border: 2px solid #a88680;
+    box-shadow: 3px 3px 3px #000;
+    padding-right: 1em;
+    padding-left: 1em;
+    padding-bottom: 0.5em;
+    text-align: left;
+    border-radius: 6px;
+}
+
+.erreur{
+    display: flex;
+    width: 100%;
+    line-height: 1em;
+    font-size: 0.7em;
+    color: red;
+    text-align: center;
+    padding-right : 2em;
+    margin-right: 3em;
+}
+
+.successConnect, .succesSuscribe{
+    width: 100%;
+    line-height: 1em;
+    font-size: 0.7em;
+    color: green;
+    text-align: center;
+}
+
+.echecConnect, .echecSuscribe{
+    width: 100%;
+    line-height: 1em;
+    font-size: 0.7em;
+    color: red;
+    text-align: center;
+}
+
+.erreur >  div{
+    width: 50%;
+    text-align: center;
 }
 
 /*=========================================================================================*/
@@ -262,15 +316,27 @@ header{
     padding: 0;
 }
 
-.rechercheForm input[type=text]:focus , .rechercheForm select:focus {
+.inscriptionForm input, .connexionForm input{
+    width: 50%;
+    height: 2.5em;
+    margin: 0 0.5em;
+    border-radius: 5px;
+    padding: 0;
+}
+
+.rechercheForm input[type=text]:focus, .rechercheForm select:focus, .inscriptionForm input[type=text]:focus, .rechercheForm select:focus, .connexionForm input[type=text], .connexionForm select:focus{
     border: 2px solid #a88680;
 }
 
-#boutonSpot{
+.bouton{
     margin: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
 }
 
 input[type=submit]{
+    margin: 1em;
     display: block;
     align-self: center;
     background-color: #a88680;
@@ -283,18 +349,17 @@ input[type=submit]{
     box-shadow: 0 0 2px #000;
     font-family: 'Merienda', 'Open Sans', sans-serif;
     font-size: 0.9em;
-
 }
 
 input[type=submit]:hover{
     background-color: #a8808e;
-    box-shadow: 0px 0px 4px #000;
+    box-shadow: 0 0 4px #000;
     border: 1px solid rgb(128,128,128);
     font-weight: 700;
 }
 
-#nom{
-    border:1px solid rgb(173,173,173);
+.inscriptionForm:invalid{
+    box-shadow: 0 0 5px 1px red
 }
 
 #officiel{
@@ -302,11 +367,12 @@ input[type=submit]:hover{
     align-self: center;
 }
 
-.rechercheForm label{
+.rechercheForm label, .inscriptionForm label, .connexionForm label, .connexionLabel{
     font-size: 0.8em;
     align-self: center;
     margin-left: 0;
 }
+
 
 /*=========================================================================================*/
 /*===== Mise en forme tableaux ============================================================*/

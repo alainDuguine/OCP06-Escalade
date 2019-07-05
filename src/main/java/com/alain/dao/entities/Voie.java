@@ -14,7 +14,7 @@ public class Voie {
     private String cotation;
     private double altitude;
     private int nbLongueurs;
-    private String commentaire;
+    private String description;
 
     // Associations
     @ManyToOne
@@ -35,7 +35,7 @@ public class Voie {
         this.cotation = cotation;
         this.altitude = altitude;
         this.nbLongueurs = nbLongueurs;
-        this.commentaire = commentaire;
+        this.description = commentaire;
     }
 
     public Long getId() {
@@ -79,11 +79,11 @@ public class Voie {
     }
 
     public String getCommentaire() {
-        return commentaire;
+        return description;
     }
 
     public void setCommentaire(String commentaire) {
-        this.commentaire = commentaire;
+        this.description = commentaire;
     }
 
     public Utilisateur getUtilisateur() {

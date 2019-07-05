@@ -6,21 +6,19 @@
 
         <servlet>
             <servlet-name>index</servlet-name>
-            <servlet-class>com.alain.servlets.Index</servlet-class>
+            <servlet-class>com.alain.web.Servlet</servlet-class>
         </servlet>
     
         <servlet-mapping>
             <servlet-name>index</servlet-name>
-            <url-pattern>/index</url-pattern>
+            <url-pattern>*.do</url-pattern>
         </servlet-mapping>
 
-        <servlet>
-            <servlet-name>rechercheSpot</servlet-name>
-            <servlet-class>com.alain.servlets.RechercheSpot</servlet-class>
-        </servlet>
-
-        <servlet-mapping>
-            <servlet-name>rechercheSpot</servlet-name>
-            <url-pattern>/rechercheSpot</url-pattern>
-        </servlet-mapping>
+    <jsp-config>
+        <jsp-property-group>
+            <url-pattern>*.jsp</url-pattern>
+            <page-encoding>UTF-8</page-encoding>
+            <include-prelude>/WEB-INF/taglibs.jsp</include-prelude>
+        </jsp-property-group>
+    </jsp-config>
 </web-app>

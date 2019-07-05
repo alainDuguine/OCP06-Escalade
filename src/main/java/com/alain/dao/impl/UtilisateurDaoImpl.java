@@ -12,17 +12,12 @@ public class UtilisateurDaoImpl extends EntityManagerUtil implements EntityRepos
 
     private EntityManager entityManager = getEntityManager();
 
-    public Utilisateur save(Utilisateur utilisateur) {
+    public void save(Utilisateur utilisateur) {
         EntityTransaction transaction = entityManager.getTransaction();
 
         transaction.begin();
-        // Enregistrement de l'utilisateur
         entityManager.persist(utilisateur);
-        // Récupération de l'id et renvoi de l'utilisateur
-        Query query = entityManager.createQuery("select MAX(u.id) from Utilisateur u");
-        utilisateur.setId((Long) query.getSingleResult());
         transaction.commit();
-        return utilisateur;
     }
 
     public Utilisateur update(Utilisateur utilisateur) {
@@ -42,6 +37,18 @@ public class UtilisateurDaoImpl extends EntityManagerUtil implements EntityRepos
 
     public Utilisateur findOne(Long id) {
         return entityManager.find(Utilisateur.class, id);
+    }
+
+    public Utilisateur findByEmail(String email) {
+        Utilisateur result;
+        Query query = entityManager.createQuery( "select u from Utilisateur u where u.email = :x");
+        query.setParameter("x", email);
+        try {
+            result = (Utilisateur) query.getSingleResult();
+        }catch (Exception e) {
+            result = null;
+        }
+        return result;
     }
 
     public List<Utilisateur> findByDesignation(String des) {

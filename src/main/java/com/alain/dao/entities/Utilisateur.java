@@ -1,17 +1,29 @@
 package com.alain.dao.entities;
 
+import com.alain.dao.contract.EntityRepository;
+import com.alain.metier.Utilities;
+
 import javax.persistence.*;
+import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Entity
 @Table
-public class Utilisateur implements Serializable{
+public class Utilisateur extends Entitie implements Serializable{
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String email;
+    @Transient
+    private String confirmation;
+    @Transient
     private String motDePasse;
+    private String encryptedPassword;
+    private byte[] salt;
     private String nom;
     private String prenom;
     private String role;
@@ -19,14 +31,13 @@ public class Utilisateur implements Serializable{
     public Utilisateur() {
     }
 
-    public Utilisateur(String email, String motDePasse, String nom, String prenom, String role) {
+    public Utilisateur(String email, String encryptedPassword, String nom, String prenom, String role) {
         this.email = email;
-        this.motDePasse = motDePasse;
+        this.encryptedPassword = encryptedPassword;
         this.nom = nom;
         this.prenom = prenom;
         this.role = role;
     }
-
 
     @OneToMany (mappedBy = "utilisateur")
     private List<Spot> spots;
@@ -90,6 +101,14 @@ public class Utilisateur implements Serializable{
 
     public void setPrenom(String prenom) {
         this.prenom = prenom;
+    }
+
+    public String getConfirmation() {
+        return confirmation;
+    }
+
+    public void setConfirmation(String confirmation) {
+        this.confirmation = confirmation;
     }
 
     public String getRole() {
@@ -188,6 +207,22 @@ public class Utilisateur implements Serializable{
         this.empruntsTopos = empruntsTopos;
     }
 
+    public byte[] getSalt() {
+        return salt;
+    }
+
+    public void setSalt(byte[] salt) {
+        this.salt = salt;
+    }
+
+    public String getEncryptedPassword() {
+        return encryptedPassword;
+    }
+
+    public void setEncryptedPassword(String encryptedPassword) {
+        this.encryptedPassword = encryptedPassword;
+    }
+
     @Override
     public String toString() {
         return "Utilisateur{" +
@@ -199,4 +234,62 @@ public class Utilisateur implements Serializable{
                 ", role='" + role + '\'' +
                 '}';
     }
+
+    public boolean check() {
+        boolean checkOk = true;
+        if (!Utilities.checkMail(this.email)) {
+            checkOk = false;
+        }
+        if (checkOk && !Utilities.checkPassword(motDePasse, confirmation)) {
+            checkOk = false;
+        }
+//        if (checkOk && !validNom(nom)) {
+//            checkOk = false;
+//        }
+//        if (checkOk && !validNom(prenom)) {
+//            checkOk = false;
+//        }
+        return checkOk;
+    }
+
+    public Map<String, String> checkErreurs(EntityRepository dao) {
+        Map<String, String> listErreur = new HashMap<String, String>();
+
+        if (!Utilities.checkMail(this.email)) {
+            listErreur.put(Utilities.CHAMP_EMAIL, "Veuillez saisir un email valide");
+        }else if(dao.findByEmail(this.email) != null){
+            listErreur.put(Utilities.CHAMP_EMAIL, "Cet e-mail est déjà enregistré");
+        }
+        if (!Utilities.checkPassword(motDePasse, confirmation)) {
+            listErreur.put(Utilities.CHAMP_PASS, "Les mots de passes ne correspondent pas");
+        }
+        if (!Utilities.isEmpty(nom)) {
+            listErreur.put(Utilities.CHAMP_NOM,"Veuillez saisir un nom");
+        }
+        if (!Utilities.isEmpty(prenom)) {
+            listErreur.put(Utilities.CHAMP_PRENOM, "Veuillez saisir un prénom");
+        }
+        return listErreur;
+    }
+
+    // Valorise les variables Utilisateurs depuis la requête http
+    public void hydrate(HttpServletRequest req) {
+        this.setEmail(Utilities.getValeurChamp(req, Utilities.CHAMP_EMAIL));
+        this.setMotDePasse(Utilities.getValeurChamp(req, Utilities.CHAMP_PASS));
+        this.setConfirmation(Utilities.getValeurChamp(req, Utilities.CHAMP_CONF));
+        this.setNom(Utilities.getValeurChamp(req, Utilities.CHAMP_NOM));
+        this.setPrenom(Utilities.getValeurChamp(req, Utilities.CHAMP_PRENOM));
+        this.setSalt(Utilities.getSalt());
+        this.setEncryptedPassword(Utilities.getSecurePassword(this.getMotDePasse(),this.getSalt()));
+    }
+
+    public boolean checkPassword(String password){
+        String testedPassword = Utilities.getSecurePassword(password, this.getSalt());
+        return encryptedPassword.equals(testedPassword);
+    }
+
+//    private boolean validNom(String nom){
+//        return Utilities.isEmpty(nom);
+//    }
+
 }

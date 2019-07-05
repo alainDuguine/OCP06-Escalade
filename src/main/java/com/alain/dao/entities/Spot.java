@@ -17,7 +17,7 @@ public class Spot implements Serializable {
     private String ville;
     private String departement;
     private String region;
-    private String pays;
+    private String description;
     private Boolean officiel;
 
     // Associations
@@ -36,14 +36,15 @@ public class Spot implements Serializable {
     public Spot() {
     }
 
-    public Spot(String nom, String adresse, String codePostal, String ville, String departement, String region, String pays, Boolean officiel) {
+    public Spot(String nom, String adresse, String codePostal, String ville, String departement, String region, String description, Boolean officiel) {
         this.nom = nom;
         this.adresse = adresse;
         this.codePostal = codePostal;
         this.ville = ville;
         this.departement = departement;
         this.region = region;
-        this.pays = pays;
+        this.description = description;
+
         this.officiel = officiel;
     }
 
@@ -103,14 +104,6 @@ public class Spot implements Serializable {
         this.region = region;
     }
 
-    public String getPays() {
-        return pays;
-    }
-
-    public void setPays(String pays) {
-        this.pays = pays;
-    }
-
     public Boolean getOfficiel() {
         return officiel;
     }
@@ -118,6 +111,15 @@ public class Spot implements Serializable {
     public void setOfficiel(Boolean officiel) {
         this.officiel = officiel;
     }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
 
     public Utilisateur getUtilisateur() {
         return utilisateur;
