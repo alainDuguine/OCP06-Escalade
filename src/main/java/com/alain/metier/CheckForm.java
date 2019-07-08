@@ -19,9 +19,6 @@ public class CheckForm {
         try {
             classBean = Class.forName(className);
             Entitie bean = (Entitie) classBean.newInstance();
-//          On passe le dao en paramètre, sinon il reconstruit la base de données à chaque fois
-//            classDaoImpl = Class.forName(daoImpl);
-//            EntityRepository dao = (EntityRepository) classDaoImpl.newInstance();
             bean.hydrate(req);
             listErreur = bean.checkErreurs(dao);
             if (listErreur.isEmpty()) {
@@ -38,10 +35,12 @@ public class CheckForm {
        String password = req.getParameter("password");
        Map<String,String> listErreur = new HashMap<>();
        if (user == null){
-           listErreur.put(Utilities.CHAMP_EMAIL,"Cet email n'existe pas dans notre base");
+           listErreur.put(user.CHAMP_EMAIL,"Cet email n'existe pas dans notre base");
        }else if (!user.checkPassword(password)){
-           listErreur.put(Utilities.CHAMP_PASS,"Le mot de passe et l'email ne correspondent pas");
+           listErreur.put(user.CHAMP_PASS,"Le mot de passe et l'email ne correspondent pas");
        }
        return listErreur;
     }
+
+
 }

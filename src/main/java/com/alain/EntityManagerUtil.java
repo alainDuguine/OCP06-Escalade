@@ -4,12 +4,12 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-public abstract class EntityManagerUtil{
+public class EntityManagerUtil{
 
     private static EntityManagerFactory entityManagerFactory;
     private static EntityManager entityManager;
 
-    public EntityManagerUtil() {
+    static{
         entityManagerFactory = Persistence.createEntityManagerFactory( "DB_ESCALADE" );
         entityManager = entityManagerFactory.createEntityManager();
     }
@@ -18,7 +18,7 @@ public abstract class EntityManagerUtil{
         return entityManagerFactory;
     }
 
-    public EntityManager getEntityManager() {
+    public static EntityManager getEntityManager() {
         return entityManager;
     }
 }

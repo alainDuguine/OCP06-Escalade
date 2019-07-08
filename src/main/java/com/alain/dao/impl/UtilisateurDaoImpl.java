@@ -8,16 +8,19 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
 import java.util.List;
 
-public class UtilisateurDaoImpl extends EntityManagerUtil implements EntityRepository<Utilisateur>{
+public class UtilisateurDaoImpl implements EntityRepository<Utilisateur>{
 
-    private EntityManager entityManager = getEntityManager();
+    EntityManager entityManager = EntityManagerUtil.getEntityManager();
 
-    public void save(Utilisateur utilisateur) {
+    public Utilisateur save(Utilisateur utilisateur) {
         EntityTransaction transaction = entityManager.getTransaction();
 
         transaction.begin();
         entityManager.persist(utilisateur);
         transaction.commit();
+        Long id = utilisateur.getId();
+        System.out.println(id);
+        return utilisateur;
     }
 
     public Utilisateur update(Utilisateur utilisateur) {

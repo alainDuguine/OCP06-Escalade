@@ -14,6 +14,12 @@ import java.util.Map;
 @Table
 public class Utilisateur extends Entitie implements Serializable{
 
+    public static final String CHAMP_EMAIL = "email";
+    public static final String CHAMP_PASS = "password";
+    public static final String CHAMP_CONF = "confirmation";
+    public static final String CHAMP_NOM = "nom";
+    public static final String CHAMP_PRENOM = "prenom";
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -26,17 +32,16 @@ public class Utilisateur extends Entitie implements Serializable{
     private byte[] salt;
     private String nom;
     private String prenom;
-    private String role;
+    private boolean admin = false;
 
     public Utilisateur() {
     }
 
-    public Utilisateur(String email, String encryptedPassword, String nom, String prenom, String role) {
+    public Utilisateur(String email, String encryptedPassword, String nom, String prenom) {
         this.email = email;
         this.encryptedPassword = encryptedPassword;
         this.nom = nom;
         this.prenom = prenom;
-        this.role = role;
     }
 
     @OneToMany (mappedBy = "utilisateur")
@@ -109,14 +114,6 @@ public class Utilisateur extends Entitie implements Serializable{
 
     public void setConfirmation(String confirmation) {
         this.confirmation = confirmation;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
     }
 
     public List<Spot> getSpots() {
@@ -231,54 +228,37 @@ public class Utilisateur extends Entitie implements Serializable{
                 ", motDePasse='" + motDePasse + '\'' +
                 ", nom='" + nom + '\'' +
                 ", prenom='" + prenom + '\'' +
-                ", role='" + role + '\'' +
+                ", admin='" + admin + '\'' +
                 '}';
-    }
-
-    public boolean check() {
-        boolean checkOk = true;
-        if (!Utilities.checkMail(this.email)) {
-            checkOk = false;
-        }
-        if (checkOk && !Utilities.checkPassword(motDePasse, confirmation)) {
-            checkOk = false;
-        }
-//        if (checkOk && !validNom(nom)) {
-//            checkOk = false;
-//        }
-//        if (checkOk && !validNom(prenom)) {
-//            checkOk = false;
-//        }
-        return checkOk;
     }
 
     public Map<String, String> checkErreurs(EntityRepository dao) {
         Map<String, String> listErreur = new HashMap<String, String>();
 
         if (!Utilities.checkMail(this.email)) {
-            listErreur.put(Utilities.CHAMP_EMAIL, "Veuillez saisir un email valide");
+            listErreur.put(CHAMP_EMAIL, "Veuillez saisir un email valide");
         }else if(dao.findByEmail(this.email) != null){
-            listErreur.put(Utilities.CHAMP_EMAIL, "Cet e-mail est déjà enregistré");
+            listErreur.put(CHAMP_EMAIL, "Cet e-mail est déjà enregistré");
         }
         if (!Utilities.checkPassword(motDePasse, confirmation)) {
-            listErreur.put(Utilities.CHAMP_PASS, "Les mots de passes ne correspondent pas");
+            listErreur.put(CHAMP_PASS, "Les mots de passes ne correspondent pas");
         }
         if (!Utilities.isEmpty(nom)) {
-            listErreur.put(Utilities.CHAMP_NOM,"Veuillez saisir un nom");
+            listErreur.put(CHAMP_NOM,"Veuillez saisir un nom");
         }
         if (!Utilities.isEmpty(prenom)) {
-            listErreur.put(Utilities.CHAMP_PRENOM, "Veuillez saisir un prénom");
+            listErreur.put(CHAMP_PRENOM, "Veuillez saisir un prénom");
         }
         return listErreur;
     }
 
     // Valorise les variables Utilisateurs depuis la requête http
     public void hydrate(HttpServletRequest req) {
-        this.setEmail(Utilities.getValeurChamp(req, Utilities.CHAMP_EMAIL));
-        this.setMotDePasse(Utilities.getValeurChamp(req, Utilities.CHAMP_PASS));
-        this.setConfirmation(Utilities.getValeurChamp(req, Utilities.CHAMP_CONF));
-        this.setNom(Utilities.getValeurChamp(req, Utilities.CHAMP_NOM));
-        this.setPrenom(Utilities.getValeurChamp(req, Utilities.CHAMP_PRENOM));
+        this.setEmail(Utilities.getValeurChamp(req, CHAMP_EMAIL));
+        this.setMotDePasse(Utilities.getValeurChamp(req, CHAMP_PASS));
+        this.setConfirmation(Utilities.getValeurChamp(req, CHAMP_CONF));
+        this.setNom(Utilities.getValeurChamp(req, CHAMP_NOM));
+        this.setPrenom(Utilities.getValeurChamp(req, CHAMP_PRENOM));
         this.setSalt(Utilities.getSalt());
         this.setEncryptedPassword(Utilities.getSecurePassword(this.getMotDePasse(),this.getSalt()));
     }
@@ -287,9 +267,5 @@ public class Utilisateur extends Entitie implements Serializable{
         String testedPassword = Utilities.getSecurePassword(password, this.getSalt());
         return encryptedPassword.equals(testedPassword);
     }
-
-//    private boolean validNom(String nom){
-//        return Utilities.isEmpty(nom);
-//    }
 
 }

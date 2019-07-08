@@ -25,6 +25,8 @@ public class Secteur implements Serializable {
     private List<CommentaireSecteur> commentaires;
     @OneToMany (mappedBy = "secteur")
     private List<ComplementSecteur> complements;
+    @OneToMany (mappedBy = "secteur")
+    private List<PhotoSecteur> photos;
 
     public Secteur() {
     }

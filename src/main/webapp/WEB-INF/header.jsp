@@ -9,7 +9,7 @@
             <p class="menu-button"><a href="">Les Topos</a></p>
             <p class="menu-button"><a href="">Apprendre</a></p>
             <p class="menu-button"><a href="">Liens</a></p>
-            <p class="menu-button"><a href="">Informations générales</a></p>
+            <p class="menu-button"><a href="dashboard.do">Mes Spots</a></p>
         </nav>
         <nav id="user">
             <p class="menu-button"><a href="connexion.do"><img id="icon-user" src="../img/User.png" title="Se connecter" alt="Se connecter"/></a></p>

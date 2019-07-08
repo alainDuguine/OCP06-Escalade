@@ -9,11 +9,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Utilities {
-    public static final String CHAMP_EMAIL = "email";
-    public static final String CHAMP_PASS = "password";
-    public static final String CHAMP_CONF = "confirmation";
-    public static final String CHAMP_NOM = "nom";
-    public static final String CHAMP_PRENOM = "prenom";
 
     public Map<String,String> erreurs = new HashMap<String, String>();
 

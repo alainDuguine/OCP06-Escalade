@@ -26,6 +26,8 @@ public class Voie {
     private List<CommentaireVoie> commentaires;
     @OneToMany (mappedBy = "voie")
     private List<ComplementVoie> complements;
+    @OneToMany (mappedBy = "voie")
+    private List<PhotoVoie> photos;
 
     public Voie() {
     }

@@ -3,7 +3,7 @@ package com.alain.dao.contract;
 import java.util.List;
 
 public interface EntityRepository<T> {
-    void save(T t);
+    T save(T t);
     T update(T t);
     void delete(Long id);
     List<T> findAll();

@@ -40,7 +40,7 @@
             </form>
         </div>
         <div id="resultatDiv">
-            <table id="tableauResult">
+            <table class="tableauResult">
                 <thead>
                     <tr>
                         <th>Nom Spot</th>
