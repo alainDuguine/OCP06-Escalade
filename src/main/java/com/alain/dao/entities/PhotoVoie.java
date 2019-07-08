@@ -1,16 +1,20 @@
 package com.alain.dao.entities;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 @Entity
 @Table
-public class PhotoVoie implements Serializable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String nom;
+@PrimaryKeyJoinColumn(name = "id")
+public class PhotoVoie extends Photo {
 
     @ManyToOne
     private Voie voie;
+
+    public Voie getVoie() {
+        return voie;
+    }
+
+    public void setVoie(Voie voie) {
+        this.voie = voie;
+    }
 }

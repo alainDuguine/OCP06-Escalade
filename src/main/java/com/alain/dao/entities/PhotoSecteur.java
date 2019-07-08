@@ -1,16 +1,20 @@
 package com.alain.dao.entities;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 @Entity
 @Table
-public class PhotoSecteur implements Serializable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String nom;
+@PrimaryKeyJoinColumn(name="id")
+public class PhotoSecteur extends Photo {
 
     @ManyToOne
     private Secteur secteur;
+
+    public Secteur getSecteur() {
+        return secteur;
+    }
+
+    public void setSecteur(Secteur secteur) {
+        this.secteur = secteur;
+    }
 }
