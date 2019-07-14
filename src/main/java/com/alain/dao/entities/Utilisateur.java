@@ -1,6 +1,7 @@
 package com.alain.dao.entities;
 
 import com.alain.dao.contract.EntityRepository;
+import com.alain.dao.impl.UtilisateurDaoImpl;
 import com.alain.metier.Utilities;
 
 import javax.persistence.*;
@@ -237,7 +238,7 @@ public class Utilisateur extends Entitie implements Serializable{
 
         if (!Utilities.checkMail(this.email)) {
             listErreur.put(CHAMP_EMAIL, "Veuillez saisir un email valide");
-        }else if(dao.findByEmail(this.email) != null){
+        }else if(((UtilisateurDaoImpl)dao).findByEmail(this.email) != null){
             listErreur.put(CHAMP_EMAIL, "Cet e-mail est déjà enregistré");
         }
         if (!Utilities.checkPassword(motDePasse, confirmation)) {

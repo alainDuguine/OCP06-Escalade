@@ -1,12 +1,19 @@
 package com.alain.dao.entities;
 
+import com.alain.dao.contract.EntityRepository;
+import com.alain.dao.impl.SpotDaoImpl;
+import com.alain.metier.Utilities;
+
 import javax.persistence.*;
+import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Entity
 @Table
-public class Secteur implements Serializable {
+public class Secteur extends Entitie implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -74,6 +81,7 @@ public class Secteur implements Serializable {
 
     public void setSpot(Spot spot) {
         this.spot = spot;
+        spot.addSecteur(this);
     }
 
     public List<Voie> getVoies() {
@@ -98,6 +106,27 @@ public class Secteur implements Serializable {
 
     public void setComplements(List<ComplementSecteur> complements) {
         this.complements = complements;
+    }
+
+    @Override
+    public void hydrate(HttpServletRequest req) {
+        this.setNom(Utilities.getValeurChamp(req, "nom"));
+        this.setDescription(Utilities.getValeurChamp(req, "description"));
+    }
+
+    @Override
+    public Map<String, String> checkErreurs(EntityRepository dao) {
+        Map<String, String> listErreur = new HashMap<String, String>();
+
+        if (!Utilities.isEmpty(this.nom)) {
+            listErreur.put("nom", "Veuillez entrer le nom du secteur");
+        }
+        if (!Utilities.isEmpty(this.description) || this.description.length() < 10) {
+            listErreur.put("nom", "Veuillez entrer une description d'au moins 50 caractères");
+        }else if (this.description.length() > 2000){
+            listErreur.put("description", "Veuillez entrer une description de maximum 2000 caractères.");
+        }
+        return listErreur;
     }
 }
 

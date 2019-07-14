@@ -4,9 +4,12 @@ package com.alain.web;
 import com.alain.EntityManagerUtil;
 import com.alain.dao.entities.Spot;
 import com.alain.dao.entities.Utilisateur;
+import com.alain.dao.impl.SecteurDaoImpl;
 import com.alain.dao.impl.SpotDaoImpl;
 import com.alain.dao.impl.UtilisateurDaoImpl;
 import com.alain.metier.CheckForm;
+import com.alain.metier.CheckFormResult;
+//import com.alain.metier.CheckFormUpload;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -19,7 +22,7 @@ import java.util.Map;
 
 public class Servlet extends HttpServlet {
     private UtilisateurDaoImpl utilisateurDaoImpl;
-    private SpotDaoImpl spotDaoImpl;
+
     private String resultat;
 
     @Override
@@ -47,7 +50,13 @@ public class Servlet extends HttpServlet {
         else if(path.equals("/ajoutSpot.do")) {
             this.getServletContext().getRequestDispatcher("/WEB-INF/ajoutSpot.jsp").forward(req, resp);
         }
+        else if(path.equals("/ajoutSecteur.do")){
+            Long idSpot = Long.parseLong(req.getParameter("idSpot"));
+            req.setAttribute("idSpot", idSpot);
+            this.getServletContext().getRequestDispatcher("/WEB-INF/ajoutSecteur.jsp").forward(req,resp);
+        }
         else if(path.equals("/dashboard.do")) {
+            SpotDaoImpl spotDaoImpl;
             spotDaoImpl = new SpotDaoImpl();
             List<Spot> listSpots = spotDaoImpl.findAll();
             req.setAttribute("spots", listSpots);
@@ -60,7 +69,8 @@ public class Servlet extends HttpServlet {
         String path = req.getServletPath();
         if (path.equals("/saveUser.do")){
             utilisateurDaoImpl = new UtilisateurDaoImpl();
-            Map<String,String> listErreur = CheckForm.checkAndSave(req, "com.alain.dao.entities.Utilisateur", utilisateurDaoImpl);
+            CheckFormResult result = CheckForm.checkAndSave(req, "com.alain.dao.entities.Utilisateur", utilisateurDaoImpl, null);
+            Map<String,String> listErreur = result.listErreur;
             if (listErreur.isEmpty()){
                 resultat = "Enregistrement réussi";
                 req.setAttribute("resultat", resultat);
@@ -71,7 +81,6 @@ public class Servlet extends HttpServlet {
                 req.setAttribute("listErreur", listErreur);
                 this.getServletContext().getRequestDispatcher("/WEB-INF/inscription.jsp").forward(req, resp);
             }
-
         }
         else if (path.equals("/connexion.do")){
             utilisateurDaoImpl = new UtilisateurDaoImpl();
@@ -86,14 +95,26 @@ public class Servlet extends HttpServlet {
             this.getServletContext().getRequestDispatcher("/WEB-INF/connexion.jsp").forward(req, resp);
         }
         else if (path.equals("/saveSpot.do")){
+            SpotDaoImpl spotDaoImpl;
             spotDaoImpl = new SpotDaoImpl();
-            Map<String,String> listErreur = CheckForm.checkAndSave(req, "com.alain.dao.entities.Spot", spotDaoImpl);
+            Map<String, String> listErreur = null;
+            if(req.getParameter("photo").isEmpty()){
+                listErreur = CheckForm.checkAndSave(req, "com.alain.dao.entities.Spot", spotDaoImpl, null).listErreur;
+            }else{
+//                listErreur = CheckFormUpload.checkAndUpload(req, "com.alain.dao.entities.Spot", spotDaoImpl);
+            }
             if (listErreur.isEmpty()){
                 resp.sendRedirect("/dashboard.do");
             }else{
                 resultat = "L'enregistrement a échoué";
+                req.setAttribute("resultat", resultat);
                 req.setAttribute("listErreur", listErreur);
             }
+        }else if (path.equals("/saveSecteur.do")){
+            SecteurDaoImpl secteurDaoImpl = new SecteurDaoImpl();
+            Map<String,String> listErreur = null;
+            Long idSpot = Long.parseLong(req.getParameter("idSpot"));
+            listErreur = CheckForm.checkAndSave(req, "com.alain.dao.entities.Secteur", secteurDaoImpl, idSpot).listErreur;
         }
     }
 }

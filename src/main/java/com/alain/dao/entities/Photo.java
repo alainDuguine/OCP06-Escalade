@@ -11,6 +11,9 @@ public class Photo implements Serializable {
     protected Long id;
     protected String nom;
 
+    public Photo() {
+    }
+
     public Long getId() {
         return id;
     }

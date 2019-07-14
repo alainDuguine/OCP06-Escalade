@@ -25,8 +25,6 @@ public class Spot extends Entitie implements Serializable {
     private Long id;
     private String nom;
     private String adresse;
-    private String ville;
-    private String departement;
     @Column (length = 2000)
     private String description;
     private Boolean officiel = false;
@@ -34,6 +32,10 @@ public class Spot extends Entitie implements Serializable {
     // Associations
     @ManyToOne
     private Utilisateur utilisateur;
+    @ManyToOne
+    private Departement departement;
+    @ManyToOne
+    private Ville ville;
 
     @OneToMany (mappedBy ="spot")
     private List<Secteur> secteurs;
@@ -49,14 +51,11 @@ public class Spot extends Entitie implements Serializable {
     public Spot() {
     }
 
-    public Spot(String nom, String adresse, String codePostal, String ville, String departement, String region, String description, Boolean officiel) {
+    public Spot(String nom, String adresse, String description, Boolean officiel) {
         this.nom = nom;
         this.adresse = adresse;
-        this.ville = ville;
-        this.departement = departement;
         this.description = description;
-
-        this.officiel = officiel;
+        this.officiel = false;
     }
 
     public Long getId() {
@@ -83,22 +82,6 @@ public class Spot extends Entitie implements Serializable {
         this.adresse = adresse;
     }
 
-    public String getVille() {
-        return ville;
-    }
-
-    public void setVille(String ville) {
-        this.ville = ville;
-    }
-
-    public String getDepartement() {
-        return departement;
-    }
-
-    public void setDepartement(String departement) {
-        this.departement = departement;
-    }
-
     public Boolean getOfficiel() {
         return officiel;
     }
@@ -115,6 +98,13 @@ public class Spot extends Entitie implements Serializable {
         this.description = description;
     }
 
+    public Ville getVille() {
+        return ville;
+    }
+
+    public void setVille(Ville ville) {
+        this.ville = ville;
+    }
 
     public Utilisateur getUtilisateur() {
         return utilisateur;
@@ -130,6 +120,10 @@ public class Spot extends Entitie implements Serializable {
 
     public void setSecteurs(List<Secteur> secteurs) {
         this.secteurs = secteurs;
+    }
+
+    public void addSecteur(Secteur secteur){
+        this.secteurs.add(secteur);
     }
 
     public List<CommentaireSpot> getCommentaires() {
@@ -164,18 +158,38 @@ public class Spot extends Entitie implements Serializable {
         this.photos = photos;
     }
 
-    public void addPhotoSpot(PhotoSpot photo){
-        photo.setSpot(this);
-        photos.add(photo);
+    public void addPhoto(Photo photo){
+        ((PhotoSpot) photo).setSpot(this);
+        photos.add((PhotoSpot) photo);
+    }
+
+    public Departement getDepartement() {
+        return departement;
+    }
+
+    public void setDepartement(Departement departement) {
+        this.departement = departement;
     }
 
     @Override
     public void hydrate(HttpServletRequest req) {
         this.setNom(Utilities.getValeurChamp(req, CHAMP_NOM));
         this.setAdresse(Utilities.getValeurChamp(req, CHAMP_ADRESSE));
-        this.setDepartement(Utilities.getValeurChamp(req, CHAMP_DEPARTEMENT));
-        this.setVille(Utilities.getValeurChamp(req, CHAMP_VILLE));
+//        this.setDepartement(Utilities.getValeurChamp(req, CHAMP_DEPARTEMENT));
+//        this.setVille(Utilities.getValeurChamp(req, CHAMP_VILLE));
         this.setDescription(Utilities.getValeurChamp(req, CHAMP_DESCRIPTION));
+//        if (!req.getParameter("photos").isEmpty()){
+//            try {
+//                ArrayList<Part> photos = (ArrayList<Part>) req.getParts();
+//                for (Part photo : photos){
+//                    PhotoSpot photoSpot =  new PhotoSpot();
+//                    photoSpot.setSpot(this);
+//                    photoSpot.setNomUpload(photo);
+//                }
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }
 //        this.addPhotos(Utilities.getValeurChamp(req, CHAMP_PHOTO));
     }
 
@@ -189,13 +203,13 @@ public class Spot extends Entitie implements Serializable {
         if (!Utilities.isEmpty(this.adresse)) {
             listErreur.put(CHAMP_ADRESSE, "Veuillez entrer l'adresse du spot");
         }
-        if (!Utilities.isEmpty(this.ville)) {
-            listErreur.put(CHAMP_VILLE, "Veuillez entrer la ville du spot");
-        }
+//        if (!Utilities.isEmpty(this.ville)) {
+//            listErreur.put(CHAMP_VILLE, "Veuillez entrer la ville du spot");
+//        }
         if (!Utilities.isEmpty(this.description) || this.description.length() < 10) {
-            listErreur.put(CHAMP_VILLE, "Veuillez entrer une description d'au moins 50 caractères");
+            listErreur.put(CHAMP_DESCRIPTION, "Veuillez entrer une description d'au moins 50 caractères");
         }else if (this.description.length() > 2000){
-            listErreur.put(CHAMP_VILLE, "Veuillez entrer une description de maximum 2000 caractères.");
+            listErreur.put(CHAMP_DESCRIPTION, "Veuillez entrer une description de maximum 2000 caractères.");
         }
         return listErreur;
     }

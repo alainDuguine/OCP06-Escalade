@@ -1,14 +1,28 @@
 package com.alain.metier;
 
+import com.alain.dao.contract.EntityRepository;
+import com.alain.dao.entities.Photo;
+
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.Part;
+import java.io.*;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.SecureRandom;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Utilities {
+
+    private static final String CHAMP_PHOTO = "photo";
+    private static final int TAILLE_TAMPON = 10240;
+    private static final String CHEMIN_UPLOAD = "D:\\fichiers\\";
+    private static final Long TAILLE_PHOTO_MAX = 2000000L; // 2,5Mo
+    private static final Long TOTAL_PHOTO_MAX = 250000000L; // 25Mo
 
     public Map<String,String> erreurs = new HashMap<String, String>();
 
@@ -85,6 +99,5 @@ public class Utilities {
         sr.nextBytes(salt);
         return salt;
     }
-
 
 }

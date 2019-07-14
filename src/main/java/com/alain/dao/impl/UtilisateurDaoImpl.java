@@ -12,14 +12,11 @@ public class UtilisateurDaoImpl implements EntityRepository<Utilisateur>{
 
     EntityManager entityManager = EntityManagerUtil.getEntityManager();
 
-    public Utilisateur save(Utilisateur utilisateur) {
+    public Utilisateur save(Utilisateur utilisateur, Long id) {
         EntityTransaction transaction = entityManager.getTransaction();
-
         transaction.begin();
         entityManager.persist(utilisateur);
         transaction.commit();
-        Long id = utilisateur.getId();
-        System.out.println(id);
         return utilisateur;
     }
 
@@ -54,8 +51,5 @@ public class UtilisateurDaoImpl implements EntityRepository<Utilisateur>{
         return result;
     }
 
-    public List<Utilisateur> findByDesignation(String des) {
-        return null;
-    }
 
 }

@@ -13,20 +13,21 @@ public class SpotDaoImpl extends EntityManagerUtil implements EntityRepository<S
     EntityManager entityManager = EntityManagerUtil.getEntityManager();
 
     @Override
-    public Spot save(Spot spot) {
+    public Spot save(Spot spot, Long id) {
         EntityTransaction transaction = entityManager.getTransaction();
-
         transaction.begin();
         entityManager.persist(spot);
         transaction.commit();
-        Long id = spot.getId();
-        System.out.println(id);
         return spot;
     }
 
     @Override
     public Spot update(Spot spot) {
-        return null;
+        EntityTransaction transaction = entityManager.getTransaction();
+        transaction.begin();
+        entityManager.merge(spot);
+        transaction.commit();
+        return spot;
     }
 
     @Override
@@ -43,16 +44,8 @@ public class SpotDaoImpl extends EntityManagerUtil implements EntityRepository<S
 
     @Override
     public Spot findOne(Long id) {
-        return null;
+        Spot spot = entityManager.find(Spot.class, id);
+        return spot;
     }
 
-    @Override
-    public Spot findByEmail(String email) {
-        return null;
-    }
-
-    @Override
-    public List<Spot> findByDesignation(String des) {
-        return null;
-    }
 }

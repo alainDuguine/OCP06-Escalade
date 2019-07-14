@@ -23,12 +23,11 @@
                 </tr>
                 <c:forEach items="${spots}" var="spot">
                     <tr>
-                        <input type="hidden" id="idSpot" name="idSpot" value="spot.id">
                         <td>${spot.nom}</td>
                         <td>${spot.adresse}</td>
                         <td>${spot.ville}</td>
                         <td>${spot.departement}</td>
-                        <td><a href="edit.do?id=${p.id}">Editer</a></td>
+                        <td><a href="ajoutSecteur.do?idSpot=${spot.id}">Ajouter un secteur</a></td>
                         <td><a onclick="return confirm('Etes vous sûr de vouloir supprimer cet enregistrement');" href="supprimer.do?id=${p.id}">Supprimer</a></td>
                     </tr>
                 </c:forEach>
