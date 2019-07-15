@@ -11,11 +11,11 @@
 <section class="mainDiv" id="mainDivCenter">
     <div id="inscriptionDiv">
         <h1>Ajouter un spot d'escalade :</h1>
+        <p class="${empty form.listErreurs ? 'successConnect' : 'echecConnect'}">${form.resultat}</p>
         <form method="post" action="saveSpot.do">
-
             <div class="erreur">
                 <div></div>
-                <div>${listErreur['nom']}</div>
+                <div>${form.listErreurs['nom']}</div>
             </div>
             <div class="inscriptionForm">
                 <label for="nom">Nom du spot :</label>
@@ -24,7 +24,7 @@
 
             <div class="erreur">
                 <div></div>
-                <div>${listErreur['adresse']}</div>
+                <div>${form.listErreurs['adresse']}</div>
             </div>
             <div class="inscriptionForm">
                 <label for="adresse">Adresse :</label>
@@ -33,8 +33,11 @@
 
             <div class="inscriptionForm">
                 <label for="departement">Département :</label>
-                <select name="departement" id="departement" required="required" value="<c:out value="${param.departement}"/>">
-                    <option value="" selected>Choisissez un département</option>
+
+                <!-- todo - Ajouter JS pour récupérer valeur select si requête échouée-->
+
+                <select name="departement" id="departement" required="required" valeur="<c:out value="${param.departement}"/>">
+                    <option value="">Choisissez un département</option>
                     <option value="Ain">Ain</option>
                     <option value="Aisne">Aisne</option>
                     <option value="Allier">Ain</option>
@@ -45,7 +48,7 @@
 
             <div class="erreur">
                 <div></div>
-                <div>${listErreur['ville']}</div>
+                <div>${form.listErreurs['ville']}</div>
             </div>
             <div class="inscriptionForm">
                 <label for="ville">Ville :</label>
@@ -54,17 +57,17 @@
 
             <div class="erreur">
                 <div></div>
-                <div>${listErreur['description']}</div>
+                <div>${form.listErreurs['description']}</div>
             </div>
             <div class="inscriptionForm">
                 <label for="description">Description :</label>
-                <textarea name="description" id="description" required="required" value="<c:out value="${param.description}"/>"></textarea>
+                <textarea name="description" id="description" required="required"><c:out value="${param.description}"/></textarea>
             </div>
 
 
             <div class="erreur">
                 <div></div>
-                <div>${listErreur['photo']}</div>
+                <div>${form.listErreurs['photo']}</div>
             </div>
             <div class="inscriptionForm">
                 <label for="photo">Ajouter des photos :</label>

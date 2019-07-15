@@ -11,11 +11,12 @@
 <section class="mainDiv" id="mainDivCenter">
     <div id="inscriptionDiv">
         <h1>Ajouter un spot d'escalade :</h1>
+        <p class="${empty form.listErreurs ? 'successConnect' : 'echecConnect'}">${form.resultat}</p>
         <form method="post" action="saveSecteur.do">
             <input type="text" name="idSpot" id="idSpot" hidden="hidden" value="<c:out value="${idSpot}"/>">
             <div class="erreur">
                 <div></div>
-                <div>${listErreur['nom']}</div>
+                <div>${form.listErreurs['nom']}</div>
             </div>
             <div class="inscriptionForm">
                 <label for="nom">Nom du secteur :</label>
@@ -24,7 +25,7 @@
 
             <div class="erreur">
                 <div></div>
-                <div>${listErreur['description']}</div>
+                <div>${form.listErreurs['description']}</div>
             </div>
             <div class="inscriptionForm">
                 <label for="description">Description :</label>
@@ -33,7 +34,7 @@
 
             <div class="erreur">
                 <div></div>
-                <div>${listErreur['photo']}</div>
+                <div>${form.listErreurs['photo']}</div>
             </div>
             <div class="inscriptionForm">
                 <label for="photo">Ajouter des photos :</label>

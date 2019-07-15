@@ -122,18 +122,22 @@ public class Secteur extends Entitie implements Serializable {
         if (!Utilities.isEmpty(this.nom)) {
             listErreur.put("nom", "Veuillez entrer le nom du secteur");
         }
-        if (!checkSecteurExist((SecteurDaoImpl)dao, req).isEmpty()){
-            listErreur.put("nom", "Un secteur du même nom existe déjà pour ce spot");
+        try {
+            if (!checkSecteurExist((SecteurDaoImpl)dao, req).isEmpty()){
+                listErreur.put("nom", "Un secteur du même nom existe déjà pour ce spot");
+            }
+        } catch (Exception e) {
+            listErreur.put("nom", "Le spot auquel vous voulez ajouter un secteur n'existe pas.");
         }
         if (!Utilities.isEmpty(this.description) || this.description.length() < 10) {
-            listErreur.put("nom", "Veuillez entrer une description d'au moins 50 caractères");
+            listErreur.put("description", "Veuillez entrer une description d'au moins 50 caractères");
         }else if (this.description.length() > 2000){
             listErreur.put("description", "Veuillez entrer une description de maximum 2000 caractères.");
         }
         return listErreur;
     }
 
-    public List<Secteur> checkSecteurExist(SecteurDaoImpl dao, HttpServletRequest req){
+    public List<Secteur> checkSecteurExist(SecteurDaoImpl dao, HttpServletRequest req) throws Exception {
         List<Secteur> secteurs;
         return secteurs = dao.findSecteurInSpot(this.nom, Long.parseLong(req.getParameter("idSpot")));
     }

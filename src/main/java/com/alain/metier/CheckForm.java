@@ -5,11 +5,9 @@ import com.alain.dao.contract.EntityRepository;
 import com.alain.dao.entities.Entitie;
 import com.alain.dao.entities.Utilisateur;
 import com.alain.dao.impl.UtilisateurDaoImpl;
-
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
-
 
 
 public class CheckForm {
@@ -18,22 +16,23 @@ public class CheckForm {
 
     public static CheckFormResult checkAndSave(HttpServletRequest req, String className, EntityRepository dao){
         Class classBean = null;
-        Map<String,String> listErreur = null;
+        Map<String,String> listErreurs = null;
         Entitie bean = null;
         try {
             classBean = Class.forName(className);
             bean = (Entitie) classBean.newInstance();
             bean.hydrate(req);
-            listErreur = bean.checkErreurs(dao, req);
-            if (listErreur.isEmpty()) {
+            listErreurs = bean.checkErreurs(dao, req);
+            if (listErreurs.isEmpty()) {
                 dao.save(bean, req);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         CheckFormResult result = new CheckFormResult();
-        result.entitie = bean;
-        result.listErreur = listErreur;
+        result.setEntitie(bean);
+        result.setListErreurs(listErreurs);
+        result.setResultat(checkResultListErreurs(listErreurs));
         return result;
     }
 
@@ -49,5 +48,12 @@ public class CheckForm {
         return listErreur;
     }
 
-
+    private static String checkResultListErreurs(Map<String, String> listErreurs) {
+        String resultat;
+        if (listErreurs.isEmpty()) {
+            return resultat = "L'enregistrement a été effectuée";
+        } else {
+            return resultat = "L'enregistrement a échoué";
+        }
+    }
 }

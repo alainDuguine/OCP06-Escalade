@@ -11,11 +11,11 @@
 <section class="mainDiv" id="mainDivCenter">
     <div id="inscriptionDiv">
         <h1>Formulaire d'inscription :</h1>
-        <p class="${empty listErreur ? 'succesSuscribe' : 'echecSuscribe'}">${resultat}</p>
+        <p class="${empty listErreurs ? 'succesSuscribe' : 'echecSuscribe'}">${resultat}</p>
         <form method="post" action="saveUser.do">
             <div class="erreur">
                 <div></div>
-                <div>${listErreur['email']}</div>
+                <div>${listErreurs['email']}</div>
             </div>
             <div class="inscriptionForm">
                 <label for="email">Adresse e-mail :</label>
@@ -27,7 +27,7 @@
             </div>
             <div class="erreur">
                 <div></div>
-                <div>${listErreur['password']}</div>
+                <div>${listErreurs['password']}</div>
             </div>
             <div class="inscriptionForm">
                 <label for="confirmation">Confirmer mot de passe :</label>
@@ -35,7 +35,7 @@
             </div>
             <div class="erreur">
                 <div></div>
-                <div>${listErreur['nom']}</div>
+                <div>${listErreurs['nom']}</div>
             </div>
             <div class="inscriptionForm">
                 <label for="nom">Nom :</label>
@@ -43,7 +43,7 @@
             </div>
             <div class="erreur">
                 <div></div>
-                <div>${listErreur['prenom']}</div>
+                <div>${listErreurs['prenom']}</div>
             </div>
             <div class="inscriptionForm">
                 <label for="prenom">Prénom :</label>

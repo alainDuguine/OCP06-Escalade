@@ -1,7 +1,6 @@
 package com.alain.dao.entities;
 
 import com.alain.dao.contract.EntityRepository;
-import com.alain.dao.impl.SecteurDaoImpl;
 import com.alain.dao.impl.SpotDaoImpl;
 import com.alain.metier.Utilities;
 
@@ -27,6 +26,8 @@ public class Spot extends Entitie implements Serializable {
     private Long id;
     private String nom;
     private String adresse;
+    private String departement;
+    private String ville;
     @Column (length = 2000)
     private String description;
     private Boolean officiel = false;
@@ -34,10 +35,10 @@ public class Spot extends Entitie implements Serializable {
     // Associations
     @ManyToOne
     private Utilisateur utilisateur;
-    @ManyToOne
-    private Departement departement;
-    @ManyToOne
-    private Ville ville;
+//    @ManyToOne
+//    private Departement departement;
+//    @ManyToOne
+//    private Ville ville;
 
     @OneToMany (mappedBy ="spot")
     private List<Secteur> secteurs;
@@ -100,13 +101,13 @@ public class Spot extends Entitie implements Serializable {
         this.description = description;
     }
 
-    public Ville getVille() {
-        return ville;
-    }
-
-    public void setVille(Ville ville) {
-        this.ville = ville;
-    }
+    //    public Ville getVille() {
+//        return ville;
+//    }
+//
+//    public void setVille(Ville ville) {
+//        this.ville = ville;
+//    }
 
     public Utilisateur getUtilisateur() {
         return utilisateur;
@@ -165,20 +166,35 @@ public class Spot extends Entitie implements Serializable {
         photos.add((PhotoSpot) photo);
     }
 
-    public Departement getDepartement() {
+    public String getDepartement() {
         return departement;
     }
 
-    public void setDepartement(Departement departement) {
+    public void setDepartement(String departement) {
         this.departement = departement;
     }
+
+    public String getVille() {
+        return ville;
+    }
+
+    public void setVille(String ville) {
+        this.ville = ville;
+    }
+//    public Departement getDepartement() {
+//        return departement;
+//    }
+//
+//    public void setDepartement(Departement departement) {
+//        this.departement = departement;
+//    }
 
     @Override
     public void hydrate(HttpServletRequest req) {
         this.setNom(Utilities.getValeurChamp(req, CHAMP_NOM));
         this.setAdresse(Utilities.getValeurChamp(req, CHAMP_ADRESSE));
-//        this.setDepartement(Utilities.getValeurChamp(req, CHAMP_DEPARTEMENT));
-//        this.setVille(Utilities.getValeurChamp(req, CHAMP_VILLE));
+        this.setDepartement(Utilities.getValeurChamp(req, CHAMP_DEPARTEMENT));
+        this.setVille(Utilities.getValeurChamp(req, CHAMP_VILLE));
         this.setDescription(Utilities.getValeurChamp(req, CHAMP_DESCRIPTION));
 //        if (!req.getParameter("photos").isEmpty()){
 //            try {
@@ -208,9 +224,9 @@ public class Spot extends Entitie implements Serializable {
         if (!Utilities.isEmpty(this.adresse)) {
             listErreur.put(CHAMP_ADRESSE, "Veuillez entrer l'adresse du spot");
         }
-//        if (!Utilities.isEmpty(this.ville)) {
-//            listErreur.put(CHAMP_VILLE, "Veuillez entrer la ville du spot");
-//        }
+        if (!Utilities.isEmpty(this.ville)) {
+            listErreur.put(CHAMP_VILLE, "Veuillez entrer la ville du spot");
+        }
         if (!Utilities.isEmpty(this.description) || this.description.length() < 10) {
             listErreur.put(CHAMP_DESCRIPTION, "Veuillez entrer une description d'au moins 50 caractères");
         }else if (this.description.length() > 2000){

@@ -233,7 +233,7 @@ public class Utilisateur extends Entitie implements Serializable{
                 '}';
     }
 
-    public Map<String, String> checkErreurs(EntityRepository dao) {
+    public Map<String, String> checkErreurs(EntityRepository dao, HttpServletRequest req) {
         Map<String, String> listErreur = new HashMap<String, String>();
 
         if (!Utilities.checkMail(this.email)) {

@@ -69,50 +69,55 @@ public class Servlet extends HttpServlet {
         if (path.equals("/saveUser.do")){
             utilisateurDaoImpl = new UtilisateurDaoImpl();
             CheckFormResult result = CheckForm.checkAndSave(req, "com.alain.dao.entities.Utilisateur", utilisateurDaoImpl);
-            Map<String,String> listErreur = result.listErreur;
-            if (listErreur.isEmpty()){
+            Map<String,String> listErreurs = result.getListErreurs();
+            if (listErreurs.isEmpty()){
                 resultat = "Enregistrement réussi";
                 req.setAttribute("resultat", resultat);
-                this.getServletContext().getRequestDispatcher("/inscription.do").forward(req, resp);
+                this.getServletContext().getRequestDispatcher("/WEB-INF/inscription.jsp").forward(req, resp);
             }else{
                 resultat = "L'enregistrement a échoué";
                 req.setAttribute("resultat", resultat);
-                req.setAttribute("listErreur", listErreur);
+                req.setAttribute("listErreurs", listErreurs);
                 this.getServletContext().getRequestDispatcher("/WEB-INF/inscription.jsp").forward(req, resp);
             }
         }
         else if (path.equals("/connexion.do")){
             utilisateurDaoImpl = new UtilisateurDaoImpl();
-            Map<String,String> listErreur = CheckForm.checkConnect(req, utilisateurDaoImpl);
-            if (listErreur.isEmpty()) {
+            Map<String,String> listErreurs = CheckForm.checkConnect(req, utilisateurDaoImpl);
+            if (listErreurs.isEmpty()) {
                 resultat = "Connexion réussie";
             }else{
                 resultat = "Connexion échouée";
-                req.setAttribute("listErreur", listErreur);
+                req.setAttribute("listErreurs", listErreurs);
             }
             req.setAttribute("resultat", resultat);
             this.getServletContext().getRequestDispatcher("/WEB-INF/connexion.jsp").forward(req, resp);
         }
         else if (path.equals("/saveSpot.do")){
-            SpotDaoImpl spotDaoImpl;
-            spotDaoImpl = new SpotDaoImpl();
-            Map<String, String> listErreur = null;
+            SpotDaoImpl spotDaoImpl = new SpotDaoImpl();
+            CheckFormResult resultForm = null;
             if(req.getParameter("photo").isEmpty()){
-                listErreur = CheckForm.checkAndSave(req, "com.alain.dao.entities.Spot", spotDaoImpl).listErreur;
+               resultForm = CheckForm.checkAndSave(req, "com.alain.dao.entities.Spot", spotDaoImpl);
             }else{
-//                listErreur = CheckFormUpload.checkAndUpload(req, "com.alain.dao.entities.Spot", spotDaoImpl);
+//                CheckFormResult result = CheckFormUpload.checkAndUpload(req, "com.alain.dao.entities.Spot", spotDaoImpl);
             }
-            if (listErreur.isEmpty()){
+            req.setAttribute("form", resultForm);
+            if (resultForm.getListErreurs().isEmpty()){
                 resp.sendRedirect("/dashboard.do");
             }else{
-                resultat = "L'enregistrement a échoué";
-                req.setAttribute("resultat", resultat);
-                req.setAttribute("listErreur", listErreur);
+                this.getServletContext().getRequestDispatcher("/WEB-INF/ajoutSpot.jsp").forward(req, resp);
             }
         }else if (path.equals("/saveSecteur.do")){
             SecteurDaoImpl secteurDaoImpl = new SecteurDaoImpl();
-            Map<String,String> listErreur = null;
-            listErreur = secteurDaoImpl.doSave(req);
+            CheckFormResult resultForm = CheckForm.checkAndSave(req, "com.alain.dao.entities.Secteur", secteurDaoImpl);
+            req.setAttribute("form", resultForm);
+            if (!resultForm.getListErreurs().isEmpty()) {
+                req.setAttribute("idSpot", req.getParameter("idSpot"));
+                this.getServletContext().getRequestDispatcher("/WEB-INF/ajoutSecteur.jsp").forward(req, resp);
+            }else {
+                resp.sendRedirect("/dashboard.do");
+
+            }
         }
     }
 }
