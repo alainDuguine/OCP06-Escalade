@@ -16,8 +16,7 @@ public class CheckForm {
 
     protected Map<String,String> listErreur = null;
 
-    // Est ce vraiment pertinent parceque fonctionne juste pour spot et utilisateur
-    public static CheckFormResult checkAndSave(HttpServletRequest req, String className, EntityRepository dao, Long id){
+    public static CheckFormResult checkAndSave(HttpServletRequest req, String className, EntityRepository dao){
         Class classBean = null;
         Map<String,String> listErreur = null;
         Entitie bean = null;
@@ -25,9 +24,9 @@ public class CheckForm {
             classBean = Class.forName(className);
             bean = (Entitie) classBean.newInstance();
             bean.hydrate(req);
-            listErreur = bean.checkErreurs(dao);
+            listErreur = bean.checkErreurs(dao, req);
             if (listErreur.isEmpty()) {
-                dao.save(bean, id);
+                dao.save(bean, req);
             }
         } catch (Exception e) {
             e.printStackTrace();

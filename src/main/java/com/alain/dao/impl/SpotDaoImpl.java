@@ -2,10 +2,12 @@ package com.alain.dao.impl;
 
 import com.alain.EntityManagerUtil;
 import com.alain.dao.contract.EntityRepository;
+import com.alain.dao.entities.Secteur;
 import com.alain.dao.entities.Spot;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 public class SpotDaoImpl extends EntityManagerUtil implements EntityRepository<Spot> {
@@ -13,7 +15,7 @@ public class SpotDaoImpl extends EntityManagerUtil implements EntityRepository<S
     EntityManager entityManager = EntityManagerUtil.getEntityManager();
 
     @Override
-    public Spot save(Spot spot, Long id) {
+    public Spot save(Spot spot, HttpServletRequest req) {
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
         entityManager.persist(spot);
@@ -48,4 +50,10 @@ public class SpotDaoImpl extends EntityManagerUtil implements EntityRepository<S
         return spot;
     }
 
+    public List<Spot> findSpotInDepartement(String nomSpot, String departement) {
+        Query query = entityManager.createQuery("select s from Spot s where s.nom= :nom and s.departement= :departement");
+        query.setParameter("nom", nomSpot );
+        query.setParameter("departement", departement);
+        return query.getResultList();
+    }
 }

@@ -1,6 +1,7 @@
 package com.alain.dao.entities;
 
 import com.alain.dao.contract.EntityRepository;
+import com.alain.dao.impl.SecteurDaoImpl;
 import com.alain.dao.impl.SpotDaoImpl;
 import com.alain.metier.Utilities;
 
@@ -115,11 +116,14 @@ public class Secteur extends Entitie implements Serializable {
     }
 
     @Override
-    public Map<String, String> checkErreurs(EntityRepository dao) {
+    public Map<String, String> checkErreurs(EntityRepository dao, HttpServletRequest req) {
         Map<String, String> listErreur = new HashMap<String, String>();
 
         if (!Utilities.isEmpty(this.nom)) {
             listErreur.put("nom", "Veuillez entrer le nom du secteur");
+        }
+        if (!checkSecteurExist((SecteurDaoImpl)dao, req).isEmpty()){
+            listErreur.put("nom", "Un secteur du même nom existe déjà pour ce spot");
         }
         if (!Utilities.isEmpty(this.description) || this.description.length() < 10) {
             listErreur.put("nom", "Veuillez entrer une description d'au moins 50 caractères");
@@ -127,6 +131,11 @@ public class Secteur extends Entitie implements Serializable {
             listErreur.put("description", "Veuillez entrer une description de maximum 2000 caractères.");
         }
         return listErreur;
+    }
+
+    public List<Secteur> checkSecteurExist(SecteurDaoImpl dao, HttpServletRequest req){
+        List<Secteur> secteurs;
+        return secteurs = dao.findSecteurInSpot(this.nom, Long.parseLong(req.getParameter("idSpot")));
     }
 }
 

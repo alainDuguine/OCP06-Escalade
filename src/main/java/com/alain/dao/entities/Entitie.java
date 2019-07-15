@@ -7,5 +7,5 @@ import java.util.Map;
 
 public abstract class Entitie {
     public abstract void hydrate(HttpServletRequest req);
-    public abstract Map<String, String> checkErreurs(EntityRepository dao);
+    public abstract Map<String, String> checkErreurs(EntityRepository dao, HttpServletRequest req);
 }

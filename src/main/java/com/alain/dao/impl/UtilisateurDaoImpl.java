@@ -6,13 +6,14 @@ import com.alain.dao.entities.Utilisateur;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 public class UtilisateurDaoImpl implements EntityRepository<Utilisateur>{
 
     EntityManager entityManager = EntityManagerUtil.getEntityManager();
 
-    public Utilisateur save(Utilisateur utilisateur, Long id) {
+    public Utilisateur save(Utilisateur utilisateur, HttpServletRequest req) {
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
         entityManager.persist(utilisateur);

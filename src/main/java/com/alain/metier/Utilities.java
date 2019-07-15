@@ -1,18 +1,10 @@
 package com.alain.metier;
 
-import com.alain.dao.contract.EntityRepository;
-import com.alain.dao.entities.Photo;
-
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.Part;
-import java.io.*;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.SecureRandom;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 

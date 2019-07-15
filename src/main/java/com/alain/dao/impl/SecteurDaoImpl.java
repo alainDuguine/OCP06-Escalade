@@ -7,19 +7,20 @@ import com.alain.dao.entities.Spot;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.Query;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 public class SecteurDaoImpl extends EntityManagerUtil implements EntityRepository<Secteur> {
 
     EntityManager entityManager = EntityManagerUtil.getEntityManager();
 
-    @Override
-    public Secteur save(Secteur secteur, Long idSpot) {
+    public Secteur save(Secteur secteur, HttpServletRequest req) {
         EntityTransaction transaction = entityManager.getTransaction();
 
         transaction.begin();
         SpotDaoImpl spotDao = new SpotDaoImpl();
-        Spot spot = spotDao.findOne(idSpot);
+        Spot spot = spotDao.findOne(Long.parseLong(req.getParameter("idSpot")));
         // Création des associations bidirectionelles
         secteur.setSpot(spot);
         entityManager.merge(spot);
@@ -45,8 +46,15 @@ public class SecteurDaoImpl extends EntityManagerUtil implements EntityRepositor
     }
 
     @Override
-    public Secteur findOne(Long id) {
+    public Secteur findOne( Long id) {
         return null;
+    }
+
+    public List<Secteur> findSecteurInSpot(String nomSecteur, Long idSpot) {
+        Query query = entityManager.createQuery("select s from Secteur s where s.nom= :nom and s.spot.id= :idSpot");
+        query.setParameter("nom", nomSecteur);
+        query.setParameter("idSpot", idSpot);
+        return query.getResultList();
     }
 
 }

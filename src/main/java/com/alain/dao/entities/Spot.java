@@ -1,6 +1,8 @@
 package com.alain.dao.entities;
 
 import com.alain.dao.contract.EntityRepository;
+import com.alain.dao.impl.SecteurDaoImpl;
+import com.alain.dao.impl.SpotDaoImpl;
 import com.alain.metier.Utilities;
 
 import javax.persistence.*;
@@ -194,11 +196,14 @@ public class Spot extends Entitie implements Serializable {
     }
 
     @Override
-    public Map<String, String> checkErreurs(EntityRepository dao) {
+    public Map<String, String> checkErreurs(EntityRepository dao, HttpServletRequest req) {
         Map<String, String> listErreur = new HashMap<String, String>();
 
         if (!Utilities.isEmpty(this.nom)) {
             listErreur.put(CHAMP_NOM, "Veuillez entrer le nom du spot");
+        }
+        if (!checkSpotExist((SpotDaoImpl)dao, req).isEmpty()){
+            listErreur.put(CHAMP_NOM, "Un spot du même nom existe déjà dans ce département");
         }
         if (!Utilities.isEmpty(this.adresse)) {
             listErreur.put(CHAMP_ADRESSE, "Veuillez entrer l'adresse du spot");
@@ -212,5 +217,10 @@ public class Spot extends Entitie implements Serializable {
             listErreur.put(CHAMP_DESCRIPTION, "Veuillez entrer une description de maximum 2000 caractères.");
         }
         return listErreur;
+    }
+
+    private List<Spot> checkSpotExist(SpotDaoImpl dao, HttpServletRequest req) {
+        List<Spot> spots;
+        return spots = dao.findSpotInDepartement(this.nom, req.getParameter(CHAMP_DEPARTEMENT));
     }
 }

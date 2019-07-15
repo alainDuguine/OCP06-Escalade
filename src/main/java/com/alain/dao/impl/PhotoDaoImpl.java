@@ -4,12 +4,13 @@ import com.alain.EntityManagerUtil;
 import com.alain.dao.contract.EntityRepository;
 import com.alain.dao.entities.Photo;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 public class PhotoDaoImpl extends EntityManagerUtil implements EntityRepository<Photo> {
 
     @Override
-    public Photo save(Photo photo, Long id) {
+    public Photo save(Photo photo, HttpServletRequest req) {
         return null;
     }
 
