@@ -20,7 +20,6 @@ import java.util.Map;
 
 
 public class Servlet extends HttpServlet {
-    private UtilisateurDaoImpl utilisateurDaoImpl;
 
     private String resultat;
 
@@ -67,6 +66,7 @@ public class Servlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String path = req.getServletPath();
         if (path.equals("/saveUser.do")){
+            UtilisateurDaoImpl utilisateurDaoImpl;
             utilisateurDaoImpl = new UtilisateurDaoImpl();
             CheckFormResult result = CheckForm.checkAndSave(req, "com.alain.dao.entities.Utilisateur", utilisateurDaoImpl);
             Map<String,String> listErreurs = result.getListErreurs();
@@ -82,6 +82,7 @@ public class Servlet extends HttpServlet {
             }
         }
         else if (path.equals("/connexion.do")){
+            UtilisateurDaoImpl utilisateurDaoImpl;
             utilisateurDaoImpl = new UtilisateurDaoImpl();
             Map<String,String> listErreurs = CheckForm.checkConnect(req, utilisateurDaoImpl);
             if (listErreurs.isEmpty()) {

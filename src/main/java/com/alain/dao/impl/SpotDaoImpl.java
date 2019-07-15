@@ -2,7 +2,6 @@ package com.alain.dao.impl;
 
 import com.alain.EntityManagerUtil;
 import com.alain.dao.contract.EntityRepository;
-import com.alain.dao.entities.Secteur;
 import com.alain.dao.entities.Spot;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
@@ -40,14 +39,12 @@ public class SpotDaoImpl extends EntityManagerUtil implements EntityRepository<S
     @Override
     public List<Spot> findAll() {
         Query query = entityManager.createQuery("select spot from Spot spot");
-        List <Spot> listSpots = query.getResultList();
-        return listSpots;
+        return query.getResultList();
     }
 
     @Override
     public Spot findOne(Long id) {
-        Spot spot = entityManager.find(Spot.class, id);
-        return spot;
+        return entityManager.find(Spot.class, id);
     }
 
     public List<Spot> findSpotInDepartement(String nomSpot, String departement) {

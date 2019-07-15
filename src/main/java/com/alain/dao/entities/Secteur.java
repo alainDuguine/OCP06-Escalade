@@ -2,7 +2,6 @@ package com.alain.dao.entities;
 
 import com.alain.dao.contract.EntityRepository;
 import com.alain.dao.impl.SecteurDaoImpl;
-import com.alain.dao.impl.SpotDaoImpl;
 import com.alain.metier.Utilities;
 
 import javax.persistence.*;
@@ -119,7 +118,7 @@ public class Secteur extends Entitie implements Serializable {
     public Map<String, String> checkErreurs(EntityRepository dao, HttpServletRequest req) {
         Map<String, String> listErreur = new HashMap<String, String>();
 
-        if (!Utilities.isEmpty(this.nom)) {
+        if (Utilities.isEmpty(this.nom)) {
             listErreur.put("nom", "Veuillez entrer le nom du secteur");
         }
         try {
@@ -129,7 +128,7 @@ public class Secteur extends Entitie implements Serializable {
         } catch (Exception e) {
             listErreur.put("nom", "Le spot auquel vous voulez ajouter un secteur n'existe pas.");
         }
-        if (!Utilities.isEmpty(this.description) || this.description.length() < 10) {
+        if (Utilities.isEmpty(this.description) || this.description.length() < 10) {
             listErreur.put("description", "Veuillez entrer une description d'au moins 50 caractères");
         }else if (this.description.length() > 2000){
             listErreur.put("description", "Veuillez entrer une description de maximum 2000 caractères.");

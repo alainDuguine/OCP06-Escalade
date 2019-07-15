@@ -15,7 +15,7 @@ public class CheckForm {
     protected Map<String,String> listErreur = null;
 
     public static CheckFormResult checkAndSave(HttpServletRequest req, String className, EntityRepository dao){
-        Class classBean = null;
+        Class classBean;
         Map<String,String> listErreurs = null;
         Entitie bean = null;
         try {

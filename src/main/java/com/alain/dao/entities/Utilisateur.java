@@ -244,10 +244,10 @@ public class Utilisateur extends Entitie implements Serializable{
         if (!Utilities.checkPassword(motDePasse, confirmation)) {
             listErreur.put(CHAMP_PASS, "Les mots de passes ne correspondent pas");
         }
-        if (!Utilities.isEmpty(nom)) {
+        if (Utilities.isEmpty(nom)) {
             listErreur.put(CHAMP_NOM,"Veuillez saisir un nom");
         }
-        if (!Utilities.isEmpty(prenom)) {
+        if (Utilities.isEmpty(prenom)) {
             listErreur.put(CHAMP_PRENOM, "Veuillez saisir un prénom");
         }
         return listErreur;

@@ -215,19 +215,19 @@ public class Spot extends Entitie implements Serializable {
     public Map<String, String> checkErreurs(EntityRepository dao, HttpServletRequest req) {
         Map<String, String> listErreur = new HashMap<String, String>();
 
-        if (!Utilities.isEmpty(this.nom)) {
+        if (Utilities.isEmpty(this.nom)) {
             listErreur.put(CHAMP_NOM, "Veuillez entrer le nom du spot");
         }
         if (!checkSpotExist((SpotDaoImpl)dao, req).isEmpty()){
             listErreur.put(CHAMP_NOM, "Un spot du même nom existe déjà dans ce département");
         }
-        if (!Utilities.isEmpty(this.adresse)) {
+        if (Utilities.isEmpty(this.adresse)) {
             listErreur.put(CHAMP_ADRESSE, "Veuillez entrer l'adresse du spot");
         }
-        if (!Utilities.isEmpty(this.ville)) {
+        if (Utilities.isEmpty(this.ville)) {
             listErreur.put(CHAMP_VILLE, "Veuillez entrer la ville du spot");
         }
-        if (!Utilities.isEmpty(this.description) || this.description.length() < 10) {
+        if (Utilities.isEmpty(this.description) || this.description.length() < 10) {
             listErreur.put(CHAMP_DESCRIPTION, "Veuillez entrer une description d'au moins 50 caractères");
         }else if (this.description.length() > 2000){
             listErreur.put(CHAMP_DESCRIPTION, "Veuillez entrer une description de maximum 2000 caractères.");
