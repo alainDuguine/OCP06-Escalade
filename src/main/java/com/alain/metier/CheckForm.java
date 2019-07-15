@@ -1,6 +1,5 @@
 package com.alain.metier;
 
-
 import com.alain.dao.contract.EntityRepository;
 import com.alain.dao.entities.Entitie;
 import com.alain.dao.entities.Utilisateur;
@@ -12,46 +11,66 @@ import java.util.Map;
 
 public class CheckForm {
 
-    protected Map<String,String> listErreur = null;
+    private Entitie entitie;
+    private Map<String,String> listErreurs = new HashMap<>();
+    private String resultat;
 
-    public static CheckFormResult checkAndSave(HttpServletRequest req, String className, EntityRepository dao){
+    public Entitie getEntitie() {
+        return entitie;
+    }
+
+    public void setEntitie(Entitie entitie) {
+        this.entitie = entitie;
+    }
+
+    public Map<String, String> getListErreurs() {
+        return listErreurs;
+    }
+
+    public void setListErreurs(Map<String, String> listErreurs) {
+        this.listErreurs = listErreurs;
+    }
+
+    public String getResultat() {
+        return resultat;
+    }
+
+    public void setResultat(String resultat) {
+        this.resultat = resultat;
+    }
+
+    public void checkAndSave(HttpServletRequest req, String className, EntityRepository dao){
         Class classBean;
-        Map<String,String> listErreurs = null;
-        Entitie bean = null;
+        Entitie bean=null;
         try {
             classBean = Class.forName(className);
             bean = (Entitie) classBean.newInstance();
             bean.hydrate(req);
-            listErreurs = bean.checkErreurs(dao, req);
-            if (listErreurs.isEmpty()) {
+            this.listErreurs = bean.checkErreurs(dao, req);
+            if (this.listErreurs.isEmpty()) {
                 dao.save(bean, req);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        CheckFormResult result = new CheckFormResult();
-        result.setEntitie(bean);
-        result.setListErreurs(listErreurs);
-        result.setResultat(checkResultListErreurs(listErreurs));
-        return result;
+        this.setEntitie(bean);
+        this.setResultat(checkResultListErreurs(this.listErreurs));
     }
 
-    public static Map<String,String> checkConnect(HttpServletRequest req, UtilisateurDaoImpl dao){
-        Utilisateur user = dao.findByEmail(req.getParameter("email"));
+    public void checkConnect(HttpServletRequest req, UtilisateurDaoImpl dao){
+        this.entitie = dao.findByEmail(req.getParameter("email"));
         String password = req.getParameter("password");
-        Map<String,String> listErreur = new HashMap<>();
-        if (user == null){
-            listErreur.put(user.CHAMP_EMAIL,"Cet email n'existe pas dans notre base");
-        }else if (!user.checkPassword(password)){
-            listErreur.put(user.CHAMP_PASS,"Le mot de passe et l'email ne correspondent pas");
+        if (this.entitie == null){
+            this.listErreurs.put(((Utilisateur) this.entitie).CHAMP_EMAIL,"Cet email n'existe pas dans notre base");
+        }else if (!((Utilisateur) this.entitie).checkPassword(password)){
+            this.listErreurs.put(((Utilisateur) this.entitie).CHAMP_PASS,"Le mot de passe et l'email ne correspondent pas");
         }
-        return listErreur;
+        this.setResultat(checkResultListErreurs(this.listErreurs));
     }
 
-    private static String checkResultListErreurs(Map<String, String> listErreurs) {
-        String resultat;
+    private String checkResultListErreurs(Map<String, String> listErreurs) {
         if (listErreurs.isEmpty()) {
-            return resultat = "L'enregistrement a été effectuée";
+            return resultat  = "L'enregistrement a été effectuée";
         } else {
             return resultat = "L'enregistrement a échoué";
         }

@@ -11,11 +11,11 @@
 <section class="mainDiv" id="mainDivCenter">
     <div id="inscriptionDiv">
         <h1>Connexion :</h1>
-        <p class="${empty listErreurs ? 'successConnect' : 'echecConnect'}">${resultat}</p>
+        <p class="${empty form.listErreurs ? 'successConnect' : 'echecConnect'}">${form.resultat}</p>
         <form method="post" action="connexion.do">
             <div class="erreur">
                 <div></div>
-                <div>${listErreurs['email']}</div>
+                <div>${form.listErreurs['email']}</div>
             </div>
             <div class="connexionForm">
                 <label for="email">Adresse e-mail :</label>
@@ -23,7 +23,7 @@
             </div>
             <div class="erreur">
                 <div></div>
-                <div>${listErreurs['password']}</div>
+                <div>${form.listErreurs['password']}</div>
             </div>
             <div class="connexionForm">
                 <label for="password">Mot de passe :</label>

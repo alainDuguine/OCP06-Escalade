@@ -55,9 +55,8 @@
                 <input type="text" name="ville" id="ville" required="required" value="<c:out value="${param.ville}"/>">
             </div>
 
-            <div class="erreur">
-                <div></div>
-                <div>${form.listErreurs['description']}</div>
+            <div  class="erreur">
+                <div id="erreurDescription">${form.listErreurs['description']}</div>
             </div>
             <div class="inscriptionForm">
                 <label for="description">Description :</label>

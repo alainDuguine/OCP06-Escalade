@@ -10,8 +10,8 @@
 <%@ include file= "header.jsp"%>
 <section class="mainDiv" id="mainDivCenter">
     <div id="inscriptionDiv">
-        <div class="banner">
-            <div class="menu">
+        <div id="bannerResult">
+            <div id="menuResult">
                 <p class="menu-button"><a href="dashboard.do">Mes Spots</a></p>
                 <p class="menu-button"><a href="ajoutSpot.do">Ajouter un spot</a></p>
             </div>

@@ -24,8 +24,7 @@
             </div>
 
             <div class="erreur">
-                <div></div>
-                <div>${form.listErreurs['description']}</div>
+                <div class="erreurDescription">${form.listErreurs['description']}</div>
             </div>
             <div class="inscriptionForm">
                 <label for="description">Description :</label>
