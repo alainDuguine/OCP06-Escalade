@@ -92,9 +92,7 @@ public class Servlet extends HttpServlet {
         }else if (path.equals("/saveSecteur.do")){
             SecteurDaoImpl secteurDaoImpl = new SecteurDaoImpl();
             CheckForm form = new CheckForm();
-            String idSpot = req.getParameter("idSpot");
             form.checkAndSave(req, "com.alain.dao.entities.Secteur", secteurDaoImpl);
-
             req.setAttribute("form", form);
             if (form.getListErreurs().isEmpty()) {
                 resp.sendRedirect("/dashboard.do");
