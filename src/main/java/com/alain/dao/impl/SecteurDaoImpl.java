@@ -23,9 +23,11 @@ public class SecteurDaoImpl extends EntityManagerUtil implements EntityRepositor
         Spot spot = spotDao.findOne(Long.parseLong(req.getParameter("idSpot")));
         // Création des associations bidirectionelles
         secteur.setSpot(spot);
-        entityManager.merge(spot);
+//        entityManager.merge(spot);
         entityManager.persist(secteur);
         transaction.commit();
+
+        List<Secteur> liste = spot.getSecteurs();
 
         return secteur;
     }
@@ -52,11 +54,9 @@ public class SecteurDaoImpl extends EntityManagerUtil implements EntityRepositor
 
     public List<Secteur> findSecteurInSpot(String nomSecteur, Long idSpot) throws Exception {
         Query query = null;
-        try {
-            query = entityManager.createQuery("select s from Secteur s where s.nom= :nom and s.spot.id= :idSpot");
-            query.setParameter("nom", nomSecteur);
-            query.setParameter("idSpot", idSpot);
-        } catch (Exception e){};
+        query = entityManager.createQuery("select s from Secteur s where s.nom= :nom and s.spot.id= :idSpot");
+        query.setParameter("nom", nomSecteur);
+        query.setParameter("idSpot", idSpot);
         return query.getResultList();
     }
 

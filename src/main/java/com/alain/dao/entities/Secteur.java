@@ -137,8 +137,8 @@ public class Secteur extends Entitie implements Serializable {
     }
 
     public List<Secteur> checkSecteurExist(SecteurDaoImpl dao, HttpServletRequest req) throws Exception {
-        List<Secteur> secteurs;
-        return secteurs = dao.findSecteurInSpot(this.nom, Long.parseLong(req.getParameter("idSpot")));
+        List<Secteur> secteurs = dao.findSecteurInSpot(this.nom, Long.parseLong(req.getParameter("idSpot")));
+        return secteurs;
     }
 }
 

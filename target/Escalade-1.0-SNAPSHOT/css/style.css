@@ -59,6 +59,19 @@ header{
     box-shadow: 3px 3px 3px #000;
 }
 
+#bannerResult{
+    margin-right: 0;
+    border-top: 1px solid #a88680;
+    border-bottom: 1px solid #a88680;
+}
+
+#menuResult{
+    display: flex;
+    flex-direction: row;
+    flex-basis: 100%;
+    height: 3em;
+}
+
 .menu-button{
     margin:0;
     padding: 0;
@@ -281,6 +294,11 @@ header{
     text-align: center;
     padding-right : 2em;
     margin-right: 3em;
+}
+
+#erreurDescription{
+    width: 100%;
+    text-align: center;
 }
 
 .successConnect, .succesSuscribe{

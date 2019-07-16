@@ -23,6 +23,7 @@ public class Servlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
         EntityManagerUtil entityManagerUtil = new EntityManagerUtil();
+        // todo charger fichier departement et villes
     }
 
     @Override
@@ -46,8 +47,6 @@ public class Servlet extends HttpServlet {
             this.getServletContext().getRequestDispatcher("/WEB-INF/ajoutSpot.jsp").forward(req, resp);
         }
         else if(path.equals("/ajoutSecteur.do")){
-            Long idSpot = Long.parseLong(req.getParameter("idSpot"));
-            req.setAttribute("idSpot", idSpot);
             this.getServletContext().getRequestDispatcher("/WEB-INF/ajoutSecteur.jsp").forward(req,resp);
         }
         else if(path.equals("/dashboard.do")) {
@@ -63,16 +62,14 @@ public class Servlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String path = req.getServletPath();
         if (path.equals("/saveUser.do")){
-            UtilisateurDaoImpl utilisateurDaoImpl;
-            utilisateurDaoImpl = new UtilisateurDaoImpl();
+            UtilisateurDaoImpl utilisateurDaoImpl = new UtilisateurDaoImpl();
             CheckForm form = new CheckForm();
             form.checkAndSave(req, "com.alain.dao.entities.Utilisateur", utilisateurDaoImpl);
             req.setAttribute("form", form);
             this.getServletContext().getRequestDispatcher("/WEB-INF/inscription.jsp").forward(req, resp);
         }
         else if (path.equals("/connexion.do")){
-            UtilisateurDaoImpl utilisateurDaoImpl;
-            utilisateurDaoImpl = new UtilisateurDaoImpl();
+            UtilisateurDaoImpl utilisateurDaoImpl = new UtilisateurDaoImpl();
             CheckForm form = new CheckForm();
             form.checkConnect(req, utilisateurDaoImpl);
             req.setAttribute("form", form);
@@ -95,7 +92,9 @@ public class Servlet extends HttpServlet {
         }else if (path.equals("/saveSecteur.do")){
             SecteurDaoImpl secteurDaoImpl = new SecteurDaoImpl();
             CheckForm form = new CheckForm();
+            String idSpot = req.getParameter("idSpot");
             form.checkAndSave(req, "com.alain.dao.entities.Secteur", secteurDaoImpl);
+
             req.setAttribute("form", form);
             if (form.getListErreurs().isEmpty()) {
                 resp.sendRedirect("/dashboard.do");

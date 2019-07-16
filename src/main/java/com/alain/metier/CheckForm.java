@@ -61,9 +61,9 @@ public class CheckForm {
         this.entitie = dao.findByEmail(req.getParameter("email"));
         String password = req.getParameter("password");
         if (this.entitie == null){
-            this.listErreurs.put(((Utilisateur) this.entitie).CHAMP_EMAIL,"Cet email n'existe pas dans notre base");
+            this.listErreurs.put(Utilisateur.CHAMP_EMAIL,"Cet email n'existe pas dans notre base");
         }else if (!((Utilisateur) this.entitie).checkPassword(password)){
-            this.listErreurs.put(((Utilisateur) this.entitie).CHAMP_PASS,"Le mot de passe et l'email ne correspondent pas");
+            this.listErreurs.put(Utilisateur.CHAMP_PASS,"Le mot de passe et l'email ne correspondent pas");
         }
         this.setResultat(checkResultListErreurs(this.listErreurs));
     }
