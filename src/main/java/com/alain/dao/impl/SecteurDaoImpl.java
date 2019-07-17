@@ -25,7 +25,6 @@ public class SecteurDaoImpl extends EntityManagerUtil implements EntityRepositor
         secteur.setSpot(spot);
         entityManager.persist(secteur);
         transaction.commit();
-        List<Secteur> liste = spot.getSecteurs();
         return secteur;
     }
 

@@ -1,5 +1,6 @@
 package com.alain.dao.entities;
 
+
 import javax.persistence.*;
 import javax.servlet.http.Part;
 import java.io.*;
@@ -8,9 +9,10 @@ import java.time.format.DateTimeFormatter;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-public class Photo implements Serializable {
+public class Photo implements Serializable{
     private static final String CHEMIN = "D:\\fichiers\\";
     private static final int TAILLE_TAMPON = 10240;
+    public static final String CHAMP_PHOTO = "photo";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,7 +48,11 @@ public class Photo implements Serializable {
         return erreur;
     }
 
-    public void uploadPhoto(Part part, int index){
+    public void setErreur(String erreur) {
+        this.erreur = erreur;
+    }
+
+    public String uploadPhoto(Part part, int index){
         try {
             this.setNom(createPhotoName(part, index));
             this.contenu = part.getInputStream();
@@ -67,6 +73,7 @@ public class Photo implements Serializable {
                 this.erreur = "Erreur lors de l'écriture du fichier sur le disque";
             }
         }
+        return erreur;
     }
 
     private String createPhotoName (Part part, int index) {
@@ -116,5 +123,4 @@ public class Photo implements Serializable {
             }
         }
     }
-
 }

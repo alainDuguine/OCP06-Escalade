@@ -4,9 +4,7 @@ package com.alain.web;
 import com.alain.EntityManagerUtil;
 import com.alain.dao.entities.Spot;
 import com.alain.dao.entities.Utilisateur;
-import com.alain.dao.impl.SecteurDaoImpl;
-import com.alain.dao.impl.SpotDaoImpl;
-import com.alain.dao.impl.UtilisateurDaoImpl;
+import com.alain.dao.impl.*;
 import com.alain.metier.CheckForm;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -76,13 +74,19 @@ public class Servlet extends HttpServlet {
             this.getServletContext().getRequestDispatcher("/WEB-INF/connexion.jsp").forward(req, resp);
         }
         else if (path.equals("/saveSpot.do")){
-            SpotDaoImpl spotDaoImpl = new SpotDaoImpl();
+            SpotDaoImpl spotDao = new SpotDaoImpl();
+            PhotoSpotDaoImpl photoSpotDao = new PhotoSpotDaoImpl();
             CheckForm form = new CheckForm();
-            form.checkAndSave(req, "com.alain.dao.entities.Spot", spotDaoImpl);
-            req.setAttribute("form", form);
+            form.checkAndSave(req, "com.alain.dao.entities.Spot", spotDao);
+            if (form.getListErreurs().isEmpty()) {
+                Long idSpot = ((Spot) form.getEntitie()).getId();
+                req.setAttribute("idSpot", idSpot);
+                form.checkAndSavePhoto(req, "com.alain.dao.entities.PhotoSpot", photoSpotDao);
+                req.setAttribute("form", form);
+            }
             if (form.getListErreurs().isEmpty()){
                 resp.sendRedirect("/dashboard.do");
-            }else{
+            } else {
                 this.getServletContext().getRequestDispatcher("/WEB-INF/ajoutSpot.jsp").forward(req, resp);
             }
         }else if (path.equals("/saveSecteur.do")){

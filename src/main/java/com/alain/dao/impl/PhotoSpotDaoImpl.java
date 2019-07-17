@@ -2,34 +2,35 @@ package com.alain.dao.impl;
 
 import com.alain.EntityManagerUtil;
 import com.alain.dao.contract.EntityRepository;
-import com.alain.dao.entities.Photo;
 import com.alain.dao.entities.PhotoSpot;
 import com.alain.dao.entities.Spot;
+
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
-public class PhotoDaoImpl extends EntityManagerUtil implements EntityRepository<Photo> {
+public class PhotoSpotDaoImpl implements EntityRepository<PhotoSpot> {
 
     EntityManager entityManager = EntityManagerUtil.getEntityManager();
 
     @Override
-    public Photo save(Photo photo, HttpServletRequest req) {
+    public PhotoSpot save(PhotoSpot photoSpot, HttpServletRequest req) {
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
         SpotDaoImpl spotDao = new SpotDaoImpl();
-        Spot spot = spotDao.findOne(Long.parseLong(req.getParameter("idSpot")));
+        Long idSpot = (Long) req.getAttribute("idSpot");
+        Spot spot = spotDao.findOne(idSpot);
         // Création des associations bidirectionelles
-        spot.addPhoto((PhotoSpot)photo);
-        entityManager.persist(photo);
+        spot.addPhoto(photoSpot);
+        entityManager.persist(photoSpot);
         transaction.commit();
-        return photo;
+        return photoSpot;
     }
 
     @Override
-    public Photo update(Photo photo) {
+    public PhotoSpot update(PhotoSpot photoSpot) {
         return null;
     }
 
@@ -44,9 +45,8 @@ public class PhotoDaoImpl extends EntityManagerUtil implements EntityRepository<
     }
 
     @Override
-    public Photo findOne(Long id) {
+    public PhotoSpot findOne(Long id) {
         return null;
     }
-
 
 }

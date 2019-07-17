@@ -2,10 +2,16 @@ package com.alain.metier;
 
 import com.alain.dao.contract.EntityRepository;
 import com.alain.dao.entities.Entitie;
+import com.alain.dao.entities.Photo;
 import com.alain.dao.entities.Utilisateur;
 import com.alain.dao.impl.UtilisateurDaoImpl;
+
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.Part;
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -57,6 +63,40 @@ public class CheckForm {
         this.setResultat(checkResultListErreurs(this.listErreurs));
     }
 
+    public void checkAndSavePhoto(HttpServletRequest req, String className, EntityRepository dao){
+        Class classBean;
+        Photo photo = null;
+        String erreurPhoto = null;
+        try {
+            List<Part> parts = (List<Part>) req.getParts();
+            for (Part part : parts){
+                if ((part.getName().equals("photo"))) {
+                    classBean = Class.forName(className);
+                    photo = (Photo) classBean.newInstance();
+                    photo.uploadPhoto(part, parts.indexOf(part));
+                    if (photo.getErreur() == null) {
+                        //Ajoute les associations bidirectionelles
+                        dao.save(photo, req);
+                    }else{
+                        erreurPhoto = photo.getErreur();
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (ServletException e) {
+            erreurPhoto += "/nLes fichiers ne doivent pas excéder une taille de 4 Mo";
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        this.listErreurs.put("photo", erreurPhoto);
+    }
+
+
     public void checkConnect(HttpServletRequest req, UtilisateurDaoImpl dao){
         this.entitie = dao.findByEmail(req.getParameter("email"));
         String password = req.getParameter("password");
@@ -75,4 +115,5 @@ public class CheckForm {
             return resultat = "L'enregistrement a échoué";
         }
     }
+
 }

@@ -23,7 +23,6 @@ public class Spot extends Entitie implements Serializable {
     public static final String CHAMP_VILLE = "ville";
     public static final String CHAMP_DEPARTEMENT = "departement";
     public static final String CHAMP_DESCRIPTION = "description";
-    public static final String CHAMP_PHOTO = "photo";
 
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
@@ -223,23 +222,7 @@ public class Spot extends Entitie implements Serializable {
         }else if (this.description.length() > 2000){
             listErreur.put(CHAMP_DESCRIPTION, "Veuillez entrer une description de maximum 2000 caractères.");
         }
-        try {
-            List<Part> parts = (List<Part>) req.getParts();
-            for (Part part : parts){
-                if ((part.getName().equals(CHAMP_PHOTO)) && (listErreur.size() == 0)) {
-                    PhotoDaoImpl photoDao = new PhotoDaoImpl();
-                    PhotoSpot photo = new PhotoSpot();
-                    photo.uploadPhoto(part, parts.indexOf(part));
-                    if (photo.getErreur() == null) {
-                        //Ajoute les associations bidirectionelles
-                        this.addPhoto(photo);
-//                        photoDao.save(photo, req);
-                    }
-                }
-            }
-        }catch (Exception e){
-                listErreur.put(CHAMP_PHOTO, "Erreur lors de l'écriture, ou un des fichiers est corrompu.");
-        }
+
         return listErreur;
     }
 
