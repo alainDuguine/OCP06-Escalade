@@ -18,4 +18,6 @@
 //
 //    @OneToMany
 //    private List<Spot> spots;
+//    @OneToMany (mappedBy = "villes")
+//    private List<Ville> villes;
 //}

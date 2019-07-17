@@ -13,6 +13,9 @@
         <h1>Ajouter un spot d'escalade :</h1>
         <p class="${empty form.listErreurs ? 'successConnect' : 'echecConnect'}">${form.resultat}</p>
         <form method="post" action="saveSecteur.do">
+            <div class="erreur">
+                <div class="erreurDescription">${form.listErreurs['server']}</div>
+            </div>
             <input type="text" name="idSpot" id="idSpot" hidden="hidden" value="<c:out value="${param.idSpot}"/>">
             <div class="erreur">
                 <div></div>

@@ -78,11 +78,7 @@ public class Servlet extends HttpServlet {
         else if (path.equals("/saveSpot.do")){
             SpotDaoImpl spotDaoImpl = new SpotDaoImpl();
             CheckForm form = new CheckForm();
-            if(req.getParameter("photo").isEmpty()){
-               form.checkAndSave(req, "com.alain.dao.entities.Spot", spotDaoImpl);
-            }else{
-//                CheckForm form = CheckForm.checkAndUpload(req, "com.alain.dao.entities.Spot", spotDaoImpl);
-            }
+            form.checkAndSave(req, "com.alain.dao.entities.Spot", spotDaoImpl);
             req.setAttribute("form", form);
             if (form.getListErreurs().isEmpty()){
                 resp.sendRedirect("/dashboard.do");

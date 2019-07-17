@@ -51,7 +51,7 @@ public class CheckForm {
                 dao.save(bean, req);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+           listErreurs.put("server", "Une erreur système est apparue, merci de réessayer plus tard");
         }
         this.setEntitie(bean);
         this.setResultat(checkResultListErreurs(this.listErreurs));

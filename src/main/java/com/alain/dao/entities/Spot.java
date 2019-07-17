@@ -1,18 +1,22 @@
 package com.alain.dao.entities;
 
 import com.alain.dao.contract.EntityRepository;
+import com.alain.dao.impl.PhotoDaoImpl;
 import com.alain.dao.impl.SpotDaoImpl;
 import com.alain.metier.Utilities;
-
 import javax.persistence.*;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.Part;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Entity
 @Table
+@MultipartConfig
 public class Spot extends Entitie implements Serializable {
     public static final String CHAMP_NOM = "nom";
     public static final String CHAMP_ADRESSE = "adresse";
@@ -45,7 +49,7 @@ public class Spot extends Entitie implements Serializable {
     @OneToMany (mappedBy = "spot")
     private List<CommentaireSpot> commentaires;
     @OneToMany (mappedBy = "spot")
-    private List<PhotoSpot> photos;
+    private List<PhotoSpot> photos = new ArrayList<>();
     @OneToMany(mappedBy = "spot")
     private List<ComplementSpot> topo;
     @ManyToMany (mappedBy = "spot")
@@ -161,9 +165,9 @@ public class Spot extends Entitie implements Serializable {
         this.photos = photos;
     }
 
-    public void addPhoto(Photo photo){
-        ((PhotoSpot) photo).setSpot(this);
-        photos.add((PhotoSpot) photo);
+    public void addPhoto(PhotoSpot photo){
+        photo.setSpot(this);
+        this.photos.add(photo);
     }
 
     public String getDepartement() {
@@ -196,20 +200,7 @@ public class Spot extends Entitie implements Serializable {
         this.setDepartement(Utilities.getValeurChamp(req, CHAMP_DEPARTEMENT));
         this.setVille(Utilities.getValeurChamp(req, CHAMP_VILLE));
         this.setDescription(Utilities.getValeurChamp(req, CHAMP_DESCRIPTION));
-//        if (!req.getParameter("photos").isEmpty()){
-//            try {
-//                ArrayList<Part> photos = (ArrayList<Part>) req.getParts();
-//                for (Part photo : photos){
-//                    PhotoSpot photoSpot =  new PhotoSpot();
-//                    photoSpot.setSpot(this);
-//                    photoSpot.setNomUpload(photo);
-//                }
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//        }
-//        this.addPhotos(Utilities.getValeurChamp(req, CHAMP_PHOTO));
-    }
+}
 
     @Override
     public Map<String, String> checkErreurs(EntityRepository dao, HttpServletRequest req) {
@@ -231,6 +222,23 @@ public class Spot extends Entitie implements Serializable {
             listErreur.put(CHAMP_DESCRIPTION, "Veuillez entrer une description d'au moins 50 caractères");
         }else if (this.description.length() > 2000){
             listErreur.put(CHAMP_DESCRIPTION, "Veuillez entrer une description de maximum 2000 caractères.");
+        }
+        try {
+            List<Part> parts = (List<Part>) req.getParts();
+            for (Part part : parts){
+                if ((part.getName().equals(CHAMP_PHOTO)) && (listErreur.size() == 0)) {
+                    PhotoDaoImpl photoDao = new PhotoDaoImpl();
+                    PhotoSpot photo = new PhotoSpot();
+                    photo.uploadPhoto(part, parts.indexOf(part));
+                    if (photo.getErreur() == null) {
+                        //Ajoute les associations bidirectionelles
+                        this.addPhoto(photo);
+//                        photoDao.save(photo, req);
+                    }
+                }
+            }
+        }catch (Exception e){
+                listErreur.put(CHAMP_PHOTO, "Erreur lors de l'écriture, ou un des fichiers est corrompu.");
         }
         return listErreur;
     }

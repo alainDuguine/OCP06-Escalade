@@ -38,11 +38,6 @@ public class Secteur extends Entitie implements Serializable {
     public Secteur() {
     }
 
-    public Secteur(String nom, String description) {
-        this.nom = nom;
-        this.description = description;
-    }
-
     public Long getId() {
         return id;
     }

@@ -1,11 +1,19 @@
 package com.alain.metier;
 
+import com.alain.dao.entities.Photo;
+import com.alain.dao.entities.PhotoSpot;
+
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.Part;
+import java.io.IOException;
+import java.io.InputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.SecureRandom;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Utilities {

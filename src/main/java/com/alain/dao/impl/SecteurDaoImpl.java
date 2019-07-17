@@ -23,12 +23,9 @@ public class SecteurDaoImpl extends EntityManagerUtil implements EntityRepositor
         Spot spot = spotDao.findOne(Long.parseLong(req.getParameter("idSpot")));
         // Création des associations bidirectionelles
         secteur.setSpot(spot);
-//        entityManager.merge(spot);
         entityManager.persist(secteur);
         transaction.commit();
-
         List<Secteur> liste = spot.getSecteurs();
-
         return secteur;
     }
 

@@ -12,7 +12,10 @@
     <div id="inscriptionDiv">
         <h1>Ajouter un spot d'escalade :</h1>
         <p class="${empty form.listErreurs ? 'successConnect' : 'echecConnect'}">${form.resultat}</p>
-        <form method="post" action="saveSpot.do">
+        <form method="post" action="saveSpot.do" enctype="multipart/form-data">
+            <div class="erreur">
+                <div class="erreurDescription">${form.listErreurs['server']}</div>
+            </div>
             <div class="erreur">
                 <div></div>
                 <div>${form.listErreurs['nom']}</div>
