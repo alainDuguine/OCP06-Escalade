@@ -56,67 +56,11 @@ public class Voie {
         this.nom = nom;
     }
 
-    public String getCotation() {
-        return cotation;
-    }
-
-    public void setCotation(String cotation) {
-        this.cotation = cotation;
-    }
-
-    public double getAltitude() {
-        return altitude;
-    }
-
-    public void setAltitude(double altitude) {
-        this.altitude = altitude;
-    }
-
-    public int getNbLongueurs() {
-        return nbLongueurs;
-    }
-
-    public void setNbLongueurs(int nbLongueurs) {
-        this.nbLongueurs = nbLongueurs;
-    }
-
-    public String getCommentaire() {
-        return description;
-    }
-
-    public void setCommentaire(String commentaire) {
-        this.description = commentaire;
-    }
-
-    public Utilisateur getUtilisateur() {
-        return utilisateur;
-    }
-
-    public void setUtilisateur(Utilisateur utilisateur) {
-        this.utilisateur = utilisateur;
-    }
-
     public Secteur getSecteur() {
         return secteur;
     }
 
     public void setSecteur(Secteur secteur) {
         this.secteur = secteur;
-    }
-
-    public List<CommentaireVoie> getCommentaires() {
-        return commentaires;
-    }
-
-    public void setCommentaires(List<CommentaireVoie> commentaires) {
-        this.commentaires = commentaires;
-    }
-
-    public List<ComplementVoie> getComplements() {
-        return complements;
-    }
-
-    public void setComplements(List<ComplementVoie> complements) {
-        this.complements = complements;
     }
 }

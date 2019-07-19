@@ -12,12 +12,4 @@ public class CommentaireVoie extends Commentaire{
 
     public CommentaireVoie() {
     }
-
-    public Voie getVoie() {
-        return voie;
-    }
-
-    public void setVoie(Voie voie) {
-        this.voie = voie;
-    }
 }

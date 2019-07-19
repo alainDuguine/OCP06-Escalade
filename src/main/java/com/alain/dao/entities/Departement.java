@@ -27,28 +27,12 @@ public class Departement implements Serializable {
         this.villes = villes;
     }
 
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
     public String getNom() {
         return nom;
     }
 
     public void setNom(String nom) {
         this.nom = nom;
-    }
-
-    public List<Ville> getVilles() {
-        return villes;
-    }
-
-    public void setVilles(List<Ville> villes) {
-        this.villes = villes;
     }
 
     public void addSpot(Spot spot) {

@@ -12,12 +12,4 @@ public class ComplementVoie extends Complement {
 
     public ComplementVoie() {
     }
-
-    public Voie getVoie() {
-        return voie;
-    }
-
-    public void setVoie(Voie voie) {
-        this.voie = voie;
-    }
 }

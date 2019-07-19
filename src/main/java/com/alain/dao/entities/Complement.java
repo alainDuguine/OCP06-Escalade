@@ -25,27 +25,4 @@ public class Complement implements Serializable {
         this.id = id;
     }
 
-    public Date getDateHeure() {
-        return dateHeure;
-    }
-
-    public void setDateHeure(Date dateHeure) {
-        this.dateHeure = dateHeure;
-    }
-
-    public String getContenu() {
-        return contenu;
-    }
-
-    public void setContenu(String contenu) {
-        this.contenu = contenu;
-    }
-
-    public Utilisateur getUtilisateur() {
-        return utilisateur;
-    }
-
-    public void setUtilisateur(Utilisateur utilisateur) {
-        this.utilisateur = utilisateur;
-    }
 }

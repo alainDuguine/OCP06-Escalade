@@ -53,20 +53,8 @@ public class Secteur extends Entitie implements Serializable {
         this.nom = nom;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public Utilisateur getUtilisateur() {
-        return utilisateur;
-    }
-
-    public void setUtilisateur(Utilisateur utilisateur) {
-        this.utilisateur = utilisateur;
     }
 
     public Spot getSpot() {
@@ -78,30 +66,6 @@ public class Secteur extends Entitie implements Serializable {
         spot.addSecteur(this);
     }
 
-    public List<Voie> getVoies() {
-        return voies;
-    }
-
-    public void setVoies(List<Voie> voies) {
-        this.voies = voies;
-    }
-
-    public List<CommentaireSecteur> getCommentaires() {
-        return commentaires;
-    }
-
-    public void setCommentaires(List<CommentaireSecteur> commentaires) {
-        this.commentaires = commentaires;
-    }
-
-    public List<ComplementSecteur> getComplements() {
-        return complements;
-    }
-
-    public void setComplements(List<ComplementSecteur> complements) {
-        this.complements = complements;
-    }
-
     @Override
     public void hydrate(HttpServletRequest req) {
         this.setNom(Utilities.getValeurChamp(req, "nom"));
@@ -110,7 +74,7 @@ public class Secteur extends Entitie implements Serializable {
 
     @Override
     public Map<String, String> checkErreurs(EntityRepository dao, HttpServletRequest req) {
-        Map<String, String> listErreur = new HashMap<String, String>();
+        Map<String, String> listErreur = new HashMap<>();
 
         if (Utilities.isEmpty(this.nom)) {
             listErreur.put("nom", "Veuillez entrer le nom du secteur");
@@ -130,9 +94,8 @@ public class Secteur extends Entitie implements Serializable {
         return listErreur;
     }
 
-    public List<Secteur> checkSecteurExist(SecteurDaoImpl dao, HttpServletRequest req) throws Exception {
-        List<Secteur> secteurs = dao.findSecteurInSpot(this.nom, Long.parseLong(req.getParameter("idSpot")));
-        return secteurs;
+    private List<Secteur> checkSecteurExist(SecteurDaoImpl dao, HttpServletRequest req) throws Exception {
+        return dao.findSecteurInSpot(this.nom, Long.parseLong(req.getParameter("idSpot")));
     }
 }
 

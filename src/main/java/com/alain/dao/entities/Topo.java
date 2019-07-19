@@ -50,46 +50,6 @@ public class Topo implements Serializable {
         this.nom = nom;
     }
 
-    public Date getDateEdition() {
-        return dateEdition;
-    }
-
-    public void setDateEdition(Date dateEdition) {
-        this.dateEdition = dateEdition;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Boolean getDisponible() {
-        return disponible;
-    }
-
-    public void setDisponible(Boolean disponible) {
-        this.disponible = disponible;
-    }
-
-    public Utilisateur getUtilisateur() {
-        return utilisateur;
-    }
-
-    public void setUtilisateur(Utilisateur utilisateur) {
-        this.utilisateur = utilisateur;
-    }
-
-    public List<Utilisateur> getEmpruntUtilisateurs() {
-        return empruntUtilisateurs;
-    }
-
-    public void setEmpruntUtilisateurs(List<Utilisateur> empruntUtilisateurs) {
-        this.empruntUtilisateurs = empruntUtilisateurs;
-    }
-
     public List<Spot> getSpot() {
         return spot;
     }

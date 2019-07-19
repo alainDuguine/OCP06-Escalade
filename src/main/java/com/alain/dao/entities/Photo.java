@@ -49,10 +49,6 @@ public class Photo implements Serializable{
         return erreur;
     }
 
-    public void setErreur(String erreur) {
-        this.erreur = erreur;
-    }
-
     public void uploadPhoto(Part part, int index){
         try {
             this.setNom(createPhotoName(part, index));
@@ -97,8 +93,7 @@ public class Photo implements Serializable{
 
     private static String formatDate(LocalDateTime now) {
         DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
-        String formattedDate = now.format(myFormatObj);
-        return formattedDate;
+        return now.format(myFormatObj);
     }
 
     private void ecrireFichier(InputStream contenu, String nomPhoto, String chemin) throws Exception{

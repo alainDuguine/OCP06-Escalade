@@ -16,11 +16,11 @@ import java.util.Map;
 @Table
 @MultipartConfig
 public class Spot extends Entitie implements Serializable {
-    public static final String CHAMP_NOM = "nom";
-    public static final String CHAMP_ADRESSE = "adresse";
-    public static final String CHAMP_VILLE = "ville";
-    public static final String CHAMP_DEPARTEMENT = "departement";
-    public static final String CHAMP_DESCRIPTION = "description";
+    private static final String CHAMP_NOM = "nom";
+    private static final String CHAMP_ADRESSE = "adresse";
+    private static final String CHAMP_VILLE = "ville";
+    private static final String CHAMP_DEPARTEMENT = "departement";
+    private static final String CHAMP_DESCRIPTION = "description";
 
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
@@ -76,88 +76,16 @@ public class Spot extends Entitie implements Serializable {
         this.nom = nom;
     }
 
-    public String getAdresse() {
-        return adresse;
-    }
-
     public void setAdresse(String adresse) {
         this.adresse = adresse;
-    }
-
-    public Boolean getOfficiel() {
-        return officiel;
-    }
-
-    public void setOfficiel(Boolean officiel) {
-        this.officiel = officiel;
-    }
-
-    public String getDescription() {
-        return description;
     }
 
     public void setDescription(String description) {
         this.description = description;
     }
 
-    //    public Ville getVille() {
-//        return ville;
-//    }
-//
-//    public void setVille(Ville ville) {
-//        this.ville = ville;
-//    }
-
-    public Utilisateur getUtilisateur() {
-        return utilisateur;
-    }
-
-    public void setUtilisateur(Utilisateur utilisateur) {
-        this.utilisateur = utilisateur;
-    }
-
-    public List<Secteur> getSecteurs() {
-        return secteurs;
-    }
-
-    public void setSecteurs(List<Secteur> secteurs) {
-        this.secteurs = secteurs;
-    }
-
     public void addSecteur(Secteur secteur){
         this.secteurs.add(secteur);
-    }
-
-    public List<CommentaireSpot> getCommentaires() {
-        return commentaires;
-    }
-
-    public void setCommentaires(List<CommentaireSpot> commentaires) {
-        this.commentaires = commentaires;
-    }
-
-    public List<ComplementSpot> getTopo() {
-        return topo;
-    }
-
-    public void setTopo(List<ComplementSpot> topo) {
-        this.topo = topo;
-    }
-
-    public List<Topo> getTopos() {
-        return topos;
-    }
-
-    public void setTopos(List<Topo> topos) {
-        this.topos = topos;
-    }
-
-    public List<PhotoSpot> getPhotos() {
-        return photos;
-    }
-
-    public void setPhotos(List<PhotoSpot> photos) {
-        this.photos = photos;
     }
 
     public void addPhoto(PhotoSpot photo){
@@ -165,17 +93,9 @@ public class Spot extends Entitie implements Serializable {
         this.photos.add(photo);
     }
 
-    public Departement getDepartement() {
-        return departement;
-    }
-
     public void setDepartement(Departement departement) {
         this.departement = departement;
         departement.addSpot(this);
-    }
-
-    public Ville getVille() {
-        return ville;
     }
 
     public void setVille(Ville ville) {
@@ -192,7 +112,7 @@ public class Spot extends Entitie implements Serializable {
 
     @Override
     public Map<String, String> checkErreurs(EntityRepository dao, HttpServletRequest req) {
-        Map<String, String> listErreur = new HashMap<String, String>();
+        Map<String, String> listErreur = new HashMap<>();
 
         if (Utilities.isEmpty(this.nom)) {
             listErreur.put(CHAMP_NOM, "Veuillez entrer le nom du spot");
@@ -208,12 +128,10 @@ public class Spot extends Entitie implements Serializable {
         }else if (this.description.length() > 2000){
             listErreur.put(CHAMP_DESCRIPTION, "Veuillez entrer une description de maximum 2000 caractères.");
         }
-
         return listErreur;
     }
 
     private List<Spot> checkSpotExist(SpotDaoImpl dao, HttpServletRequest req) {
-        List<Spot> spots;
-        return spots = dao.findSpotInDepartement(this.nom, req.getParameter(CHAMP_DEPARTEMENT));
+        return dao.findSpotInDepartement(this.nom, req.getParameter(CHAMP_DEPARTEMENT));
     }
 }

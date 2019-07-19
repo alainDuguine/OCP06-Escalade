@@ -5,7 +5,6 @@ import com.alain.dao.entities.Entitie;
 import com.alain.dao.entities.Photo;
 import com.alain.dao.entities.Utilisateur;
 import com.alain.dao.impl.UtilisateurDaoImpl;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.Part;
@@ -33,14 +32,6 @@ public class CheckForm {
         return listErreurs;
     }
 
-    public void setListErreurs(Map<String, String> listErreurs) {
-        this.listErreurs = listErreurs;
-    }
-
-    public String getResultat() {
-        return resultat;
-    }
-
     public void setResultat(String resultat) {
         this.resultat = resultat;
     }
@@ -64,7 +55,7 @@ public class CheckForm {
 
     public void checkAndSavePhoto(HttpServletRequest req, String className, EntityRepository dao){
         Class classBean;
-        Photo photo = null;
+        Photo photo;
         String erreurPhoto = null;
         try {
             List<Part> parts = (List<Part>) req.getParts();
@@ -81,30 +72,23 @@ public class CheckForm {
                     }
                 }
             }
-        } catch (IOException e) {
+        } catch (IOException | IllegalAccessException | InstantiationException | ClassNotFoundException e) {
             e.printStackTrace();
         } catch (ServletException e) {
             erreurPhoto += "/nLes fichiers ne doivent pas excéder une taille de 4 Mo";
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
         }
         if (erreurPhoto != null){
             this.listErreurs.put("photo", erreurPhoto);
         }
     }
 
-
     public void checkConnect(HttpServletRequest req, UtilisateurDaoImpl dao){
         this.entitie = dao.findByEmail(req.getParameter("email"));
         String password = req.getParameter("password");
         if (this.entitie == null){
-            this.listErreurs.put(Utilisateur.CHAMP_EMAIL,"Cet email n'existe pas dans notre base");
+            this.listErreurs.put(Utilisateur.getChampEmail(),"Cet email n'existe pas dans notre base");
         }else if (!((Utilisateur) this.entitie).checkPassword(password)){
-            this.listErreurs.put(Utilisateur.CHAMP_PASS,"Le mot de passe et l'email ne correspondent pas");
+            this.listErreurs.put(Utilisateur.getChampPass(),"Le mot de passe et l'email ne correspondent pas");
         }
         this.setResultat(checkResultListErreurs(this.listErreurs));
     }

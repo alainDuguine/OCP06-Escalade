@@ -4,8 +4,6 @@ import com.alain.EntityManagerUtil;
 import com.alain.dao.contract.EntityRepository;
 import com.alain.dao.entities.PhotoSpot;
 import com.alain.dao.entities.Spot;
-
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.servlet.http.HttpServletRequest;
@@ -13,7 +11,7 @@ import java.util.List;
 
 public class PhotoSpotDaoImpl implements EntityRepository<PhotoSpot> {
 
-    EntityManager entityManager = EntityManagerUtil.getEntityManager();
+    private EntityManager entityManager = EntityManagerUtil.getEntityManager();
 
     @Override
     public PhotoSpot save(PhotoSpot photoSpot, HttpServletRequest req) {

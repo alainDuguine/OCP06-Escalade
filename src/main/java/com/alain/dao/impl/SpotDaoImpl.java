@@ -5,7 +5,6 @@ import com.alain.dao.contract.EntityRepository;
 import com.alain.dao.entities.Departement;
 import com.alain.dao.entities.Spot;
 import com.alain.dao.entities.Ville;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
@@ -14,7 +13,7 @@ import java.util.List;
 
 public class SpotDaoImpl implements EntityRepository<Spot> {
 
-    EntityManager entityManager = EntityManagerUtil.getEntityManager();
+    private EntityManager entityManager = EntityManagerUtil.getEntityManager();
 
     @Override
     public Spot save(Spot spot, HttpServletRequest req) {

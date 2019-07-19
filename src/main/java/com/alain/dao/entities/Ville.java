@@ -43,14 +43,6 @@ public class Ville implements Serializable {
         this.nom = nom;
     }
 
-    public Departement getDepartement() {
-        return departement;
-    }
-
-    public void setDepartement(Departement departement) {
-        this.departement = departement;
-    }
-
     public void addSpot(Spot spot) {
         this.spots.add(spot);
     }

@@ -4,7 +4,6 @@ import com.alain.EntityManagerUtil;
 import com.alain.dao.contract.EntityRepository;
 import com.alain.dao.entities.Secteur;
 import com.alain.dao.entities.Spot;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
@@ -13,11 +12,10 @@ import java.util.List;
 
 public class SecteurDaoImpl extends EntityManagerUtil implements EntityRepository<Secteur> {
 
-    EntityManager entityManager = EntityManagerUtil.getEntityManager();
+    private EntityManager entityManager = EntityManagerUtil.getEntityManager();
 
     public Secteur save(Secteur secteur, HttpServletRequest req) {
         EntityTransaction transaction = entityManager.getTransaction();
-
         transaction.begin();
         SpotDaoImpl spotDao = new SpotDaoImpl();
         Spot spot = spotDao.findOne(Long.parseLong(req.getParameter("idSpot")));
@@ -48,9 +46,8 @@ public class SecteurDaoImpl extends EntityManagerUtil implements EntityRepositor
         return null;
     }
 
-    public List<Secteur> findSecteurInSpot(String nomSecteur, Long idSpot) throws Exception {
-        Query query = null;
-        query = entityManager.createQuery("select s from Secteur s where s.nom= :nom and s.spot.id= :idSpot");
+    public List<Secteur> findSecteurInSpot(String nomSecteur, Long idSpot){
+        Query query = entityManager.createQuery("select s from Secteur s where s.nom= :nom and s.spot.id= :idSpot");
         query.setParameter("nom", nomSecteur);
         query.setParameter("idSpot", idSpot);
         return query.getResultList();

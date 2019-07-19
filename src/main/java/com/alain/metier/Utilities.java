@@ -1,19 +1,11 @@
 package com.alain.metier;
 
-import com.alain.dao.entities.Photo;
-import com.alain.dao.entities.PhotoSpot;
-
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.Part;
-import java.io.IOException;
-import java.io.InputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.SecureRandom;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class Utilities {
@@ -24,7 +16,7 @@ public class Utilities {
     private static final Long TAILLE_PHOTO_MAX = 2000000L; // 2,5Mo
     private static final Long TOTAL_PHOTO_MAX = 250000000L; // 25Mo
 
-    public Map<String,String> erreurs = new HashMap<String, String>();
+    public Map<String,String> erreurs = new HashMap<>();
 
     public static boolean checkMail(String email){
         if ( email != null ) {
@@ -87,12 +79,11 @@ public class Utilities {
         SecureRandom sr = null;
         try {
             sr = SecureRandom.getInstance("SHA1PRNG", "SUN");
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (NoSuchProviderException e) {
+        } catch (NoSuchAlgorithmException | NoSuchProviderException e) {
             e.printStackTrace();
         }
         byte[] salt = new byte[16];
+        assert sr != null;
         sr.nextBytes(salt);
         return salt;
     }
