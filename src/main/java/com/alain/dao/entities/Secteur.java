@@ -3,7 +3,6 @@ package com.alain.dao.entities;
 import com.alain.dao.contract.EntityRepository;
 import com.alain.dao.impl.SecteurDaoImpl;
 import com.alain.metier.Utilities;
-
 import javax.persistence.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;

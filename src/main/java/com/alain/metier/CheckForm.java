@@ -60,7 +60,6 @@ public class CheckForm {
            listErreurs.put("server", "Une erreur système est apparue, merci de réessayer plus tard");
         }
         this.setEntitie(bean);
-        this.setResultat(checkResultListErreurs(this.listErreurs));
     }
 
     public void checkAndSavePhoto(HttpServletRequest req, String className, EntityRepository dao){
@@ -84,16 +83,18 @@ public class CheckForm {
             }
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
         } catch (ServletException e) {
             erreurPhoto += "/nLes fichiers ne doivent pas excéder une taille de 4 Mo";
         } catch (IllegalAccessException e) {
             e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-        this.listErreurs.put("photo", erreurPhoto);
+        if (erreurPhoto != null){
+            this.listErreurs.put("photo", erreurPhoto);
+        }
     }
 
 
@@ -108,7 +109,7 @@ public class CheckForm {
         this.setResultat(checkResultListErreurs(this.listErreurs));
     }
 
-    private String checkResultListErreurs(Map<String, String> listErreurs) {
+    public String checkResultListErreurs(Map<String, String> listErreurs) {
         if (listErreurs.isEmpty()) {
             return resultat  = "L'enregistrement a été effectuée";
         } else {

@@ -14,7 +14,7 @@
         <p class="${empty form.listErreurs ? 'successConnect' : 'echecConnect'}">${form.resultat}</p>
         <form method="post" action="saveSpot.do" enctype="multipart/form-data">
             <div class="erreur">
-                <div class="erreurDescription">${form.listErreurs['server']}</div>
+                <div class="erreurSingleCol">${form.listErreurs['server']}</div>
             </div>
             <div class="erreur">
                 <div></div>
@@ -22,7 +22,7 @@
             </div>
             <div class="inscriptionForm">
                 <label for="nom">Nom du spot :</label>
-                <input type="text" name="nom" id="nom" required="required" value="<c:out value="${param.nom}"/>">
+                <input type="text" name="nom" id="nom" required="required" value="${form.entitie.nom}">
             </div>
 
             <div class="erreur">
@@ -36,16 +36,11 @@
 
             <div class="inscriptionForm">
                 <label for="departement">Département :</label>
-
-                <!-- todo - Ajouter JS pour récupérer valeur select si requête échouée-->
-
-                <select name="departement" id="departement" required="required" valeur="<c:out value="${param.departement}"/>">
+                <select name="departement" id="departement" required="required">
                     <option value="">Choisissez un département</option>
-                    <option value="Ain">Ain</option>
-                    <option value="Aisne">Aisne</option>
-                    <option value="Allier">Ain</option>
-                    <option value=" Alpes-de-Haute-Provence">Alpes-de-Haute-Provence</option>
-                    <option value="Hautes-Alpes">Hautes-Alpes</option>
+                    <c:forEach items="${departements}" var="departement">
+                        <option value="${departement.code}">${departement.code} - ${departement.nom}</option>
+                    </c:forEach>
                 </select>
             </div>
 
@@ -55,11 +50,16 @@
             </div>
             <div class="inscriptionForm">
                 <label for="ville">Ville :</label>
-                <input type="text" name="ville" id="ville" required="required" value="<c:out value="${param.ville}"/>">
+                <select name="ville" id="ville" required="required">
+                    <option value="">Choisissez une ville</option>
+                    <c:forEach items="${villes}" var="ville">
+                        <option value="${ville.id}">${ville.nom}</option>
+                    </c:forEach>
+                </select>
             </div>
 
             <div  class="erreur">
-                <div id="erreurDescription">${form.listErreurs['description']}</div>
+                <div class="erreurSingleCol">${form.listErreurs['description']}</div>
             </div>
             <div class="inscriptionForm">
                 <label for="description">Description :</label>
@@ -84,5 +84,30 @@
     </div>
 </section>
 <%@include file="social.jsp"%>
+<script src="https://code.jquery.com/jquery-3.4.1.js"
+        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+        crossorigin="anonymous">
+
+</script>
+<script>
+    $(document).ready(function(){
+        $('#departement').change(function() {
+            var choixDep = $('#departement').val();
+            $.getJSON("choixDepartement.do",{codeDep: choixDep},
+                function (data) {
+                    $("#ville").empty();
+                    var option = "<option value=''>Choisissez une ville</option>";
+                    $("#ville").append(option);
+                    $.each( data, function( key, val) {
+                        var valToString = val.toString();
+                        var valToArray = valToString.split(",");
+                        var option = "<option value="+valToArray[0]+">"+valToArray[1]+"</option>";
+                        $("#ville").append(option);
+                    });
+                }
+            );
+        });
+    });
+</script>
 </body>
 </html>

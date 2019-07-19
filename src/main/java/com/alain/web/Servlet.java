@@ -1,22 +1,23 @@
 package com.alain.web;
 
-
 import com.alain.EntityManagerUtil;
+import com.alain.dao.entities.Departement;
 import com.alain.dao.entities.Spot;
 import com.alain.dao.entities.Utilisateur;
+import com.alain.dao.entities.Ville;
 import com.alain.dao.impl.*;
 import com.alain.metier.CheckForm;
+import com.google.gson.Gson;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 
 
 public class Servlet extends HttpServlet {
-
-    private String resultat;
 
     @Override
     public void init() throws ServletException {
@@ -41,18 +42,32 @@ public class Servlet extends HttpServlet {
         else if(path.equals("/connexion.do")){
             this.getServletContext().getRequestDispatcher("/WEB-INF/connexion.jsp").forward(req, resp);
         }
-        else if(path.equals("/ajoutSpot.do")) {
+        else if(path.equals("/ajoutSpot.do") || path.equals("/saveSpot.do")) {
+            DepartementDaoImpl departementDao = new DepartementDaoImpl();
+            List<Departement> departements = departementDao.findAll();
+            req.setAttribute("departements", departements);
             this.getServletContext().getRequestDispatcher("/WEB-INF/ajoutSpot.jsp").forward(req, resp);
         }
         else if(path.equals("/ajoutSecteur.do")){
             this.getServletContext().getRequestDispatcher("/WEB-INF/ajoutSecteur.jsp").forward(req,resp);
         }
-        else if(path.equals("/dashboard.do")) {
-            SpotDaoImpl spotDaoImpl;
-            spotDaoImpl = new SpotDaoImpl();
+        else if(path.equals("/dashboard.do")){
+            SpotDaoImpl spotDaoImpl = new SpotDaoImpl();
             List<Spot> listSpots = spotDaoImpl.findAll();
             req.setAttribute("spots", listSpots);
             this.getServletContext().getRequestDispatcher("/WEB-INF/dashboard.jsp").forward(req, resp);
+        }
+        else if (path.equals("/choixDepartement.do")){
+            Gson gson = new Gson();
+            VilleDaoImpl dao = new VilleDaoImpl();
+            String codeDep = req.getParameter("codeDep");
+            List<Ville> villes = dao.findAllInDep(codeDep);
+            String villesJsonString = gson.toJson(villes);
+            PrintWriter out = resp.getWriter();
+            resp.setContentType("application/json");
+            resp.setCharacterEncoding("UTF-8");
+            out.print(villesJsonString);
+            out.flush();
         }
     }
 
@@ -82,11 +97,13 @@ public class Servlet extends HttpServlet {
                 Long idSpot = ((Spot) form.getEntitie()).getId();
                 req.setAttribute("idSpot", idSpot);
                 form.checkAndSavePhoto(req, "com.alain.dao.entities.PhotoSpot", photoSpotDao);
-                req.setAttribute("form", form);
             }
+            form.setResultat(form.checkResultListErreurs(form.getListErreurs()));
+            req.setAttribute("form", form);
             if (form.getListErreurs().isEmpty()){
                 resp.sendRedirect("/dashboard.do");
             } else {
+                doGet(req,resp);
                 this.getServletContext().getRequestDispatcher("/WEB-INF/ajoutSpot.jsp").forward(req, resp);
             }
         }else if (path.equals("/saveSecteur.do")){

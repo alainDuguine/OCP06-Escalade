@@ -296,7 +296,7 @@ header{
     margin-right: 3em;
 }
 
-#erreurDescription{
+.erreurSingleCol{
     width: 100%;
     text-align: center;
 }

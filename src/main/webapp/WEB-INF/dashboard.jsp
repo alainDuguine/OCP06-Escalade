@@ -17,6 +17,7 @@
             </div>
         </div>
         <div id="resultatDiv">
+            <p class="successConnect">${form.resultat}</p>
             <table>
                 <tr>
                     <th>Nom Spot</th><th>Adresse</th><th>Ville</th><th>Département</th>
@@ -25,8 +26,8 @@
                     <tr>
                         <td>${spot.nom}</td>
                         <td>${spot.adresse}</td>
-                        <td>${spot.ville}</td>
-                        <td>${spot.departement}</td>
+                        <td>${spot.ville.nom}</td>
+                        <td>${spot.departement.nom}</td>
                         <td><a href="ajoutSecteur.do?idSpot=${spot.id}">Ajouter un secteur</a></td>
                         <td><a onclick="return confirm('Etes vous sûr de vouloir supprimer cet enregistrement');" href="supprimer.do?id=${p.id}">Supprimer</a></td>
                     </tr>

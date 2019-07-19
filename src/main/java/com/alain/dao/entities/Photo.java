@@ -10,6 +10,7 @@ import java.time.format.DateTimeFormatter;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Photo implements Serializable{
+    // todo fichier properties
     private static final String CHEMIN = "D:\\fichiers\\";
     private static final int TAILLE_TAMPON = 10240;
     public static final String CHAMP_PHOTO = "photo";
@@ -52,7 +53,7 @@ public class Photo implements Serializable{
         this.erreur = erreur;
     }
 
-    public String uploadPhoto(Part part, int index){
+    public void uploadPhoto(Part part, int index){
         try {
             this.setNom(createPhotoName(part, index));
             this.contenu = part.getInputStream();
@@ -73,7 +74,6 @@ public class Photo implements Serializable{
                 this.erreur = "Erreur lors de l'écriture du fichier sur le disque";
             }
         }
-        return erreur;
     }
 
     private String createPhotoName (Part part, int index) {
@@ -82,7 +82,7 @@ public class Photo implements Serializable{
         String nomGenere;
         extension = getExtension(part);
         dateTime = formatDate(LocalDateTime.now());
-        nomGenere = dateTime + "." + extension;
+        nomGenere = dateTime + index + "." + extension;
         return nomGenere;
     }
 
