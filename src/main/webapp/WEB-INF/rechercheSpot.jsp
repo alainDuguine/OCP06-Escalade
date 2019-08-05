@@ -44,60 +44,44 @@
                 <thead>
                     <tr>
                         <th>Nom Spot</th>
-                        <th>Région</th>
                         <th>Département</th>
                         <th>Ville</th>
                         <th>Cotation mini</th>
                         <th>Cotation max</th>
                         <th>Nb Voies</th>
-                        <th>Officiel<br>"Les amis de l'escalade"</th>
+                        <th>Officiel</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Ablon</td>
-                        <td>Auvergne-Rhône-Alpes</td>
-                        <td>Haute-Savoie</td>
-                        <td>Ablon</td>
-                        <td>4b</td>
-                        <td>8b</td>
-                        <td>400</td>
-                        <td>Non</td>
+                <c:forEach items="${spots}" var="spot">
+                    <tr class="item">
+                        <c:set var="idSpot" value="${spot.id}"/>
+                        <td><a href="display.do?idSpot=${spot.id}"><c:out value="${spot.nom}"/></a></td>
+                        <td><c:out value="${spot.departement.nom}"/></td>
+                        <td><c:out value="${spot.ville.nom}"/></td>
+                        <td>Not Implementated</td>
+                        <td>Not Implementated</td>
+                        <td>Not Implementated</td>
+                        <c:choose>
+                            <c:when test="${spot.officiel == true}"><td><c:out value="Oui"/></td></c:when>
+                            <c:otherwise><td><c:out value="Non"/></td></c:otherwise>
+                        </c:choose>
                     </tr>
-                    <tr>
-                        <td>Ailefroide</td>
-                        <td>Provence-Alpes-Côte d'Azur</td>
-                        <td>Hautes-Alpes</td>
-                        <td>L'Argentière la Bessée</td>
-                        <td>3a</td>
-                        <td>8a</td>
-                        <td>500</td>
-                        <td>Oui</td>
-                    </tr>
-                    <tr>
-                        <td>Bavella</td>
-                        <td>Corse</td>
-                        <td>Corse-du-Sud</td>
-                        <td>Col de Bavella</td>
-                        <td>3c</td>
-                        <td>8b</td>
-                        <td>200</td>
-                        <td>Non</td>
-                    </tr>
-                    <tr>
-                        <td>Céüse</td>
-                        <td>Provence-Alpes-Côte d'Azur</td>
-                        <td>Hautes-Alpes</td>
-                        <td>Col des Guérins</td>
-                        <td>5a</td>
-                        <td>9a</td>
-                        <td>400</td>
-                        <td>Oui</td>
-                    </tr>
+                </c:forEach>
                 </tbody>
             </table>
         </div>
     </section>
     <%@include file="social.jsp"%>
+<script>
+    $(document).ready(function(){
+        $(".item").click(function(){
+            var href = $(this).find("a").attr("href");
+            if (href){
+                window.location = href;
+            }
+        });
+    });
+</script>
 </body>
 </html>

@@ -37,6 +37,9 @@ public class Servlet extends HttpServlet {
             this.getServletContext().getRequestDispatcher("/WEB-INF/inscription.jsp").forward(req, resp);
         }
         else if (path.equals("/rechercheSpot.do")){
+            SpotDaoImpl spotDao = new SpotDaoImpl();
+            List<Spot> spots = spotDao.findAll();
+            req.setAttribute("spots", spots);
             this.getServletContext().getRequestDispatcher("/WEB-INF/rechercheSpot.jsp").forward(req, resp);
         }
         else if(path.equals("/connexion.do")){
@@ -68,6 +71,12 @@ public class Servlet extends HttpServlet {
             resp.setCharacterEncoding("UTF-8");
             out.print(villesJsonString);
             out.flush();
+        }
+        else if (path.equals("/display.do")){
+            SpotDaoImpl spotDao = new SpotDaoImpl();
+            Spot spot = spotDao.findOne(Long.parseLong(req.getParameter("idSpot")));
+            req.setAttribute("spot",spot);
+            this.getServletContext().getRequestDispatcher("/WEB-INF/display.jsp").forward(req, resp);
         }
     }
 

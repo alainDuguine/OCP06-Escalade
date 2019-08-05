@@ -24,10 +24,10 @@
                 </tr>
                 <c:forEach items="${spots}" var="spot">
                     <tr>
-                        <td>${spot.nom}</td>
-                        <td>${spot.adresse}</td>
-                        <td>${spot.ville.nom}</td>
-                        <td>${spot.departement.nom}</td>
+                        <td><c:out value="${spot.nom}"/></td>
+                        <td><c:out value="${spot.adresse}"/></td>
+                        <td><c:out value="${spot.ville.nom}"/></td>
+                        <td><c:out value="${spot.departement.nom}"/></td>
                         <td><a href="ajoutSecteur.do?idSpot=${spot.id}">Ajouter un secteur</a></td>
                         <td><a onclick="return confirm('Etes vous sûr de vouloir supprimer cet enregistrement');" href="supprimer.do?id=${p.id}">Supprimer</a></td>
                     </tr>

@@ -26,28 +26,22 @@ public class Photo implements Serializable{
     @Transient
     private InputStream contenu;
 
+    /* ********************************************************************************************
+     **** CONSTRUCTORS      ************************************************************************
+     *********************************************************************************************** */
+
     public Photo() {
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getNom() {
-        return nom;
-    }
-
-    public void setNom(String nom) {
+    public Photo(String nom, String erreur, InputStream contenu) {
         this.nom = nom;
+        this.erreur = erreur;
+        this.contenu = contenu;
     }
 
-    public String getErreur() {
-        return erreur;
-    }
+    /* ********************************************************************************************
+     **** METHODS           ************************************************************************
+     ******************************************************************************************** */
 
     public void uploadPhoto(Part part, int index){
         try {
@@ -117,5 +111,42 @@ public class Photo implements Serializable{
             }catch (IOException ignore){
             }
         }
+    }
+
+    /* ***********************************************************************************************
+     **** GETTERS & SETTERS ************************************************************************
+     *********************************************************************************************** */
+
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public String getErreur() {
+        return erreur;
+    }
+
+    public void setErreur(String erreur) {
+        this.erreur = erreur;
+    }
+
+    public InputStream getContenu() {
+        return contenu;
+    }
+
+    public void setContenu(InputStream contenu) {
+        this.contenu = contenu;
     }
 }

@@ -17,8 +17,53 @@ public class Complement implements Serializable {
     @ManyToOne
     private Utilisateur utilisateur;
 
+    /* ********************************************************************************************
+     **** CONSTRUCTORS      ************************************************************************
+     *********************************************************************************************** */
+
+    public Complement() {
+    }
+
+    public Complement(Date dateHeure, String contenu, Utilisateur utilisateur) {
+        this.dateHeure = dateHeure;
+        this.contenu = contenu;
+        this.utilisateur = utilisateur;
+    }
+
+    /* ********************************************************************************************
+     **** METHODS           ************************************************************************
+     ******************************************************************************************** */
+
+    /* ***********************************************************************************************
+     **** GETTERS & SETTERS ************************************************************************
+     *********************************************************************************************** */
+
     public Long getId() {
         return id;
+    }
+
+    public Date getDateHeure() {
+        return dateHeure;
+    }
+
+    public void setDateHeure(Date dateHeure) {
+        this.dateHeure = dateHeure;
+    }
+
+    public String getContenu() {
+        return contenu;
+    }
+
+    public void setContenu(String contenu) {
+        this.contenu = contenu;
+    }
+
+    public Utilisateur getUtilisateur() {
+        return utilisateur;
+    }
+
+    public void setUtilisateur(Utilisateur utilisateur) {
+        this.utilisateur = utilisateur;
     }
 
     public void setId(Long id) {

@@ -29,6 +29,10 @@ public class Voie {
     @OneToMany (mappedBy = "voie")
     private List<PhotoVoie> photos;
 
+    /* ********************************************************************************************
+     **** CONSTRUCTORS      ************************************************************************
+     *********************************************************************************************** */
+
     public Voie() {
     }
 
@@ -39,6 +43,14 @@ public class Voie {
         this.nbLongueurs = nbLongueurs;
         this.description = commentaire;
     }
+
+    /* ********************************************************************************************
+     **** METHODS           ************************************************************************
+     ******************************************************************************************** */
+
+    /* ***********************************************************************************************
+     **** GETTERS & SETTERS ************************************************************************
+     *********************************************************************************************** */
 
     public Long getId() {
         return id;
@@ -62,5 +74,69 @@ public class Voie {
 
     public void setSecteur(Secteur secteur) {
         this.secteur = secteur;
+    }
+
+    public String getCotation() {
+        return cotation;
+    }
+
+    public void setCotation(String cotation) {
+        this.cotation = cotation;
+    }
+
+    public double getAltitude() {
+        return altitude;
+    }
+
+    public void setAltitude(double altitude) {
+        this.altitude = altitude;
+    }
+
+    public int getNbLongueurs() {
+        return nbLongueurs;
+    }
+
+    public void setNbLongueurs(int nbLongueurs) {
+        this.nbLongueurs = nbLongueurs;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Utilisateur getUtilisateur() {
+        return utilisateur;
+    }
+
+    public void setUtilisateur(Utilisateur utilisateur) {
+        this.utilisateur = utilisateur;
+    }
+
+    public List<CommentaireVoie> getCommentaires() {
+        return commentaires;
+    }
+
+    public void setCommentaires(List<CommentaireVoie> commentaires) {
+        this.commentaires = commentaires;
+    }
+
+    public List<ComplementVoie> getComplements() {
+        return complements;
+    }
+
+    public void setComplements(List<ComplementVoie> complements) {
+        this.complements = complements;
+    }
+
+    public List<PhotoVoie> getPhotos() {
+        return photos;
+    }
+
+    public void setPhotos(List<PhotoVoie> photos) {
+        this.photos = photos;
     }
 }

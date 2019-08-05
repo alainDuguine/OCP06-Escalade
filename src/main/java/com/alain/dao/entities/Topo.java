@@ -24,6 +24,10 @@ public class Topo implements Serializable {
     @ManyToMany
     private List<Spot> spot;
 
+    /* ********************************************************************************************
+     **** CONSTRUCTORS      ************************************************************************
+     *********************************************************************************************** */
+
     public Topo() {
     }
 
@@ -33,6 +37,14 @@ public class Topo implements Serializable {
         this.description = description;
         this.disponible = disponible;
     }
+
+    /* ********************************************************************************************
+     **** METHODS           ************************************************************************
+     ******************************************************************************************** */
+
+    /* ***********************************************************************************************
+     **** GETTERS & SETTERS ************************************************************************
+     *********************************************************************************************** */
 
     public Long getId() {
         return id;
@@ -56,5 +68,45 @@ public class Topo implements Serializable {
 
     public void setSpot(List<Spot> spot) {
         this.spot = spot;
+    }
+
+    public Date getDateEdition() {
+        return dateEdition;
+    }
+
+    public void setDateEdition(Date dateEdition) {
+        this.dateEdition = dateEdition;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Boolean getDisponible() {
+        return disponible;
+    }
+
+    public void setDisponible(Boolean disponible) {
+        this.disponible = disponible;
+    }
+
+    public Utilisateur getUtilisateur() {
+        return utilisateur;
+    }
+
+    public void setUtilisateur(Utilisateur utilisateur) {
+        this.utilisateur = utilisateur;
+    }
+
+    public List<Utilisateur> getEmpruntUtilisateurs() {
+        return empruntUtilisateurs;
+    }
+
+    public void setEmpruntUtilisateurs(List<Utilisateur> empruntUtilisateurs) {
+        this.empruntUtilisateurs = empruntUtilisateurs;
     }
 }

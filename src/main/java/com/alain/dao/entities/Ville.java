@@ -19,6 +19,10 @@ public class Ville implements Serializable {
     @OneToMany (mappedBy = "ville")
     private List<Spot> spots;
 
+    /* ********************************************************************************************
+     **** CONSTRUCTORS      ************************************************************************
+     *********************************************************************************************** */
+
     public Ville() {
     }
 
@@ -26,6 +30,14 @@ public class Ville implements Serializable {
         this.nom = nom;
         this.departement = departement;
     }
+
+    /* ********************************************************************************************
+     **** METHODS           ************************************************************************
+     ******************************************************************************************** */
+
+    /* ***********************************************************************************************
+     **** GETTERS & SETTERS ************************************************************************
+     *********************************************************************************************** */
 
     public Long getId() {
         return id;
@@ -45,5 +57,21 @@ public class Ville implements Serializable {
 
     public void addSpot(Spot spot) {
         this.spots.add(spot);
+    }
+
+    public Departement getDepartement() {
+        return departement;
+    }
+
+    public void setDepartement(Departement departement) {
+        this.departement = departement;
+    }
+
+    public List<Spot> getSpots() {
+        return spots;
+    }
+
+    public void setSpots(List<Spot> spots) {
+        this.spots = spots;
     }
 }

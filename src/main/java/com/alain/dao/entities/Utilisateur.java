@@ -34,6 +34,10 @@ public class Utilisateur extends Entitie implements Serializable{
     private String prenom;
     private boolean admin = false;
 
+    /* ********************************************************************************************
+     **** CONSTRUCTORS      ************************************************************************
+     *********************************************************************************************** */
+
     public Utilisateur() {
     }
 
@@ -67,6 +71,63 @@ public class Utilisateur extends Entitie implements Serializable{
 
     @ManyToMany (mappedBy = "empruntUtilisateurs")
     private List<Topo> empruntsTopos;
+
+    @Override
+    public String toString() {
+        return "Utilisateur{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", motDePasse='" + motDePasse + '\'' +
+                ", nom='" + nom + '\'' +
+                ", prenom='" + prenom + '\'' +
+                ", admin='" + admin + '\'' +
+                '}';
+    }
+
+
+    /* ********************************************************************************************
+     **** METHODS           ************************************************************************
+     ******************************************************************************************** */
+    public Map<String, String> checkErreurs(EntityRepository dao, HttpServletRequest req) {
+        Map<String, String> listErreur = new HashMap<>();
+
+        if (!Utilities.checkMail(this.email)) {
+            listErreur.put(CHAMP_EMAIL, "Veuillez saisir un email valide");
+        }else if(((UtilisateurDaoImpl)dao).findByEmail(this.email) != null){
+            listErreur.put(CHAMP_EMAIL, "Cet e-mail est déjà enregistré");
+        }
+        if (!Utilities.checkPassword(motDePasse, confirmation)) {
+            listErreur.put(CHAMP_PASS, "Les mots de passes ne correspondent pas");
+        }
+        if (Utilities.isEmpty(nom)) {
+            listErreur.put(CHAMP_NOM,"Veuillez saisir un nom");
+        }
+        if (Utilities.isEmpty(prenom)) {
+            listErreur.put(CHAMP_PRENOM, "Veuillez saisir un prénom");
+        }
+        return listErreur;
+    }
+
+    // Valorise les variables Utilisateurs depuis la requête http
+
+    public void hydrate(HttpServletRequest req) {
+        this.setEmail(Utilities.getValeurChamp(req, CHAMP_EMAIL));
+        this.setMotDePasse(Utilities.getValeurChamp(req, CHAMP_PASS));
+        this.setConfirmation(Utilities.getValeurChamp(req, CHAMP_CONF));
+        this.setNom(Utilities.getValeurChamp(req, CHAMP_NOM));
+        this.setPrenom(Utilities.getValeurChamp(req, CHAMP_PRENOM));
+        this.setSalt(Utilities.getSalt());
+        this.setEncryptedPassword(Utilities.getSecurePassword(this.getMotDePasse(),this.getSalt()));
+    }
+    public boolean checkPassword(String password){
+        String testedPassword = Utilities.getSecurePassword(password, this.getSalt());
+        return encryptedPassword.equals(testedPassword);
+    }
+
+
+    /* ***********************************************************************************************
+     **** GETTERS & SETTERS ************************************************************************
+     *********************************************************************************************** */
 
     public Long getId() {
         return id;
@@ -124,52 +185,115 @@ public class Utilisateur extends Entitie implements Serializable{
         return CHAMP_PASS;
     }
 
-    @Override
-    public String toString() {
-        return "Utilisateur{" +
-                "id=" + id +
-                ", email='" + email + '\'' +
-                ", motDePasse='" + motDePasse + '\'' +
-                ", nom='" + nom + '\'' +
-                ", prenom='" + prenom + '\'' +
-                ", admin='" + admin + '\'' +
-                '}';
+    public String getEmail() {
+        return email;
     }
 
-    public Map<String, String> checkErreurs(EntityRepository dao, HttpServletRequest req) {
-        Map<String, String> listErreur = new HashMap<>();
-
-        if (!Utilities.checkMail(this.email)) {
-            listErreur.put(CHAMP_EMAIL, "Veuillez saisir un email valide");
-        }else if(((UtilisateurDaoImpl)dao).findByEmail(this.email) != null){
-            listErreur.put(CHAMP_EMAIL, "Cet e-mail est déjà enregistré");
-        }
-        if (!Utilities.checkPassword(motDePasse, confirmation)) {
-            listErreur.put(CHAMP_PASS, "Les mots de passes ne correspondent pas");
-        }
-        if (Utilities.isEmpty(nom)) {
-            listErreur.put(CHAMP_NOM,"Veuillez saisir un nom");
-        }
-        if (Utilities.isEmpty(prenom)) {
-            listErreur.put(CHAMP_PRENOM, "Veuillez saisir un prénom");
-        }
-        return listErreur;
+    public String getConfirmation() {
+        return confirmation;
     }
 
-    // Valorise les variables Utilisateurs depuis la requête http
-    public void hydrate(HttpServletRequest req) {
-        this.setEmail(Utilities.getValeurChamp(req, CHAMP_EMAIL));
-        this.setMotDePasse(Utilities.getValeurChamp(req, CHAMP_PASS));
-        this.setConfirmation(Utilities.getValeurChamp(req, CHAMP_CONF));
-        this.setNom(Utilities.getValeurChamp(req, CHAMP_NOM));
-        this.setPrenom(Utilities.getValeurChamp(req, CHAMP_PRENOM));
-        this.setSalt(Utilities.getSalt());
-        this.setEncryptedPassword(Utilities.getSecurePassword(this.getMotDePasse(),this.getSalt()));
+    public String getEncryptedPassword() {
+        return encryptedPassword;
     }
 
-    public boolean checkPassword(String password){
-        String testedPassword = Utilities.getSecurePassword(password, this.getSalt());
-        return encryptedPassword.equals(testedPassword);
+    public String getPrenom() {
+        return prenom;
     }
 
+    public boolean isAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(boolean admin) {
+        this.admin = admin;
+    }
+
+    public List<Spot> getSpots() {
+        return spots;
+    }
+
+    public void setSpots(List<Spot> spots) {
+        this.spots = spots;
+    }
+
+    public List<Secteur> getSecteurs() {
+        return secteurs;
+    }
+
+    public void setSecteurs(List<Secteur> secteurs) {
+        this.secteurs = secteurs;
+    }
+
+    public List<Voie> getVoies() {
+        return voies;
+    }
+
+    public void setVoies(List<Voie> voies) {
+        this.voies = voies;
+    }
+
+    public List<CommentaireSpot> getCommentaireSpots() {
+        return commentaireSpots;
+    }
+
+    public void setCommentaireSpots(List<CommentaireSpot> commentaireSpots) {
+        this.commentaireSpots = commentaireSpots;
+    }
+
+    public List<CommentaireSecteur> getCommentaireSecteurs() {
+        return commentaireSecteurs;
+    }
+
+    public void setCommentaireSecteurs(List<CommentaireSecteur> commentaireSecteurs) {
+        this.commentaireSecteurs = commentaireSecteurs;
+    }
+
+    public List<CommentaireVoie> getCommentaireVoies() {
+        return commentaireVoies;
+    }
+
+    public void setCommentaireVoies(List<CommentaireVoie> commentaireVoies) {
+        this.commentaireVoies = commentaireVoies;
+    }
+
+    public List<ComplementSpot> getComplementSpots() {
+        return complementSpots;
+    }
+
+    public void setComplementSpots(List<ComplementSpot> complementSpots) {
+        this.complementSpots = complementSpots;
+    }
+
+    public List<ComplementSecteur> getComplementSecteurs() {
+        return complementSecteurs;
+    }
+
+    public void setComplementSecteurs(List<ComplementSecteur> complementSecteurs) {
+        this.complementSecteurs = complementSecteurs;
+    }
+
+    public List<ComplementVoie> getComplementVoies() {
+        return complementVoies;
+    }
+
+    public void setComplementVoies(List<ComplementVoie> complementVoies) {
+        this.complementVoies = complementVoies;
+    }
+
+    public List<Topo> getTopos() {
+        return topos;
+    }
+
+    public void setTopos(List<Topo> topos) {
+        this.topos = topos;
+    }
+
+    public List<Topo> getEmpruntsTopos() {
+        return empruntsTopos;
+    }
+
+    public void setEmpruntsTopos(List<Topo> empruntsTopos) {
+        this.empruntsTopos = empruntsTopos;
+    }
 }
