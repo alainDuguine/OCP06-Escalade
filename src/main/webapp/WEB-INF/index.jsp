@@ -27,7 +27,5 @@
         Nullam luctus erat quis nisl feugiat dapibus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. </p>
     </section>
     <%@include file="social.jsp"%>
-    <script src="http://code.jquery.com/jquery.min.js"></script>
-    <script src="../js/jq-hello.js"></script>
   </body>
 </html>

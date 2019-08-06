@@ -1,0 +1,35 @@
+
+.gallery{
+    display: flex;
+    max-width: 95%;
+    height: 13em;
+    margin: 50px auto;
+    padding: 0;
+    background-color: rgba(255,255,255,0.75);
+    border: 2px solid #a88680;
+    border-radius: 6px;
+    box-shadow: 0px 3px 3px #000;
+    overflow: hidden;
+}
+
+#scroller{
+    margin: 0px;
+    padding: 0.5em;
+    display: flex;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    align-items: center;
+}
+
+.gallery img{
+    transition: 0.8s;
+    padding: 3px;
+    margin: 7px;
+    height: 10em;
+    box-shadow: 0px 0px 3px #000;
+}
+
+.gallery img:hover{
+    filter: grayscale(100%);
+    transform: scale(1.1);
+}
