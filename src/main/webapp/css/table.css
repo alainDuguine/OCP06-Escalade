@@ -1,0 +1,39 @@
+/*=========================================================================================*/
+/*===== Mise en forme tableaux ============================================================*/
+/*=========================================================================================*/
+
+table{
+    border-collapse: collapse;
+    border: 2px solid #a88680;
+    margin: 1em auto;
+    font-size: 1.1em;
+}
+
+table a{
+    text-decoration: none;
+    color: black;
+}
+
+thead{
+    text-align: center;
+    font-size: 0.9em;
+    border: 2px solid #a88680;
+}
+
+th,td{
+    border:1px solid rgb(173,173,173);
+    padding: 0.5em;
+}
+
+tbody{
+    font-size: 0.7em;
+    padding: 0.5em;
+}
+
+tbody tr:nth-child(odd){
+    background-color: rgba(128,142,168,0.5);
+}
+
+tbody tr:hover{
+    background-color: #a8808e;
+}

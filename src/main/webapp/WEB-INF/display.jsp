@@ -4,17 +4,17 @@
     <meta charset="UTF-8">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <%@ include file="includeCss.jsp"%>
     <link rel="stylesheet" type="text/css" href="../css/gallery.css">
+    <link rel="stylesheet" type="text/css" href="../css/displaySpot.css">
     <link rel="stylesheet" type="text/css" href="../css/lightbox.min.css">
-    <link rel="stylesheet" type="text/css" href="../css/style.css">
     <link href="https://fonts.googleapis.com/css?family=Merienda&display=swap" rel="stylesheet">
-    <script type="text/javascript" src="../js/lightbox-plus-jquery.min.js"></script>
     <title>Spot : ${spot.nom}</title>
 </head>
 <body>
 <%@ include file= "header.jsp"%>
-<section class="description">
-    <div id="resultatDiv">
+<section class="mainDiv" id="displayDiv">
+    <div class="descriptionDiv">
         <h1>${spot.nom}</h1>
         <h3>${spot.description}</h3>
     </div>
@@ -41,6 +41,8 @@
         </div>
 </section>
 <%@include file="social.jsp"%>
+
+<script type="text/javascript" src="../js/lightbox-plus-jquery.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
 </body>
 </html>

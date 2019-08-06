@@ -3,13 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <title>Rechercher un spot</title>
-    <link rel="stylesheet" type="text/css" href="../css/style.css">
+    <%@ include file="includeCss.jsp"%>
+    <link rel="stylesheet" type="text/css" href="../css/table.css">
+    <link rel="stylesheet" type="text/css" href="../css/form.css">
+    <link rel="stylesheet" type="text/css" href="../css/recherche.css">
     <link href="https://fonts.googleapis.com/css?family=Merienda&display=swap" rel="stylesheet">
 </head>
 <body>
     <%@ include file= "header.jsp"%>
     <section class="mainDiv">
-        <div id="rechercheDiv">
+        <div class="formDiv">
             <h1>Rechercher un spot</h1>
             <form method="post">
                 <div class="rechercheForm">
@@ -20,14 +23,17 @@
                     <br>
                 </div>
                 <div class="rechercheForm">
-                    <select name="region">
-                        <option value="">Région</option>
+                    <select class="optionBigger" name="departement">
+                        <option value="">Département</option>
                     </select>
-                    <select name="departement">
-                        <option>Département</option>
+                    <select class="optionBigger" name="ville">
+                        <option>Ville</option>
                     </select>
-                    <select name="cotation">
-                        <option>Cotation</option>
+                    <select name="cotationMin">
+                        <option>Cotation Min</option>
+                    </select>
+                    <select name="cotationMax">
+                        <option>Cotation Max</option>
                     </select>
                     <select name="voies">
                         <option>Nb Voies</option>
@@ -39,7 +45,7 @@
                 </div>
             </form>
         </div>
-        <div id="resultatDiv">
+        <div class="resultatDiv">
             <table class="tableauResult">
                 <thead>
                     <tr>

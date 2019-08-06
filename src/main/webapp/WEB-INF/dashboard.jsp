@@ -3,20 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <title>Tableau de bord</title>
-    <link rel="stylesheet" type="text/css" href="../css/style.css">
+    <%@ include file="includeCss.jsp"%>
     <link href="https://fonts.googleapis.com/css?family=Merienda&display=swap" rel="stylesheet">
 </head>
 <body>
 <%@ include file= "header.jsp"%>
-<section class="mainDiv" id="mainDivCenter">
-    <div id="inscriptionDiv">
+<section class="mainDiv">
+    <div class="formDiv">
         <div id="bannerResult">
             <div id="menuResult">
                 <p class="menu-button"><a href="dashboard.do">Mes Spots</a></p>
                 <p class="menu-button"><a href="ajoutSpot.do">Ajouter un spot</a></p>
             </div>
         </div>
-        <div id="resultatDiv">
+        <div class="resultatDiv">
             <p class="successConnect">${form.resultat}</p>
             <table>
                 <tr>

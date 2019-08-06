@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Ajouter un Spot</title>
-    <link rel="stylesheet" type="text/css" href="../css/style.css">
+    <%@ include file="includeCss.jsp"%>
     <link href="https://fonts.googleapis.com/css?family=Merienda&display=swap" rel="stylesheet">
 </head>
 <body>
 <%@ include file= "header.jsp"%>
-<section class="mainDiv" id="mainDivCenter">
-    <div id="inscriptionDiv">
+<section class="mainDiv">
+    <div class="formDiv">
         <h1>Ajouter un spot d'escalade :</h1>
         <p class="${empty form.listErreurs ? 'successConnect' : 'echecConnect'}">${form.resultat}</p>
         <form method="post" action="saveSpot.do" enctype="multipart/form-data">

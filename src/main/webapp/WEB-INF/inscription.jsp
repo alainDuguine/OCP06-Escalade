@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Inscription</title>
-    <link rel="stylesheet" type="text/css" href="../css/style.css">
+    <%@ include file="includeCss.jsp"%>
     <link href="https://fonts.googleapis.com/css?family=Merienda&display=swap" rel="stylesheet">
 </head>
 <body>
 <%@ include file= "header.jsp"%>
 <section class="mainDiv" id="mainDivCenter">
-    <div id="inscriptionDiv">
+    <div class="formDiv">
         <h1>Formulaire d'inscription :</h1>
         <p class="${empty form.listErreurs ? 'succesSuscribe' : 'echecSuscribe'}">${form.resultat}</p>
         <form method="post" action="saveUser.do">

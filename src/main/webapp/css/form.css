@@ -1,0 +1,91 @@
+/*=========================================================================================*/
+/*===== Mise en forme éléments formulaire =================================================*/
+/*=========================================================================================*/
+
+.rechercheForm, .inscriptionForm, .connexionForm{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 0.5em;
+    padding: 0;
+}
+
+.rechercheForm input[type=text], .rechercheForm select{
+    height: 2.5em;
+    margin: 0.5em;
+    border-radius: 5px;
+    padding: 0;
+}
+
+.rechercheForm input[type=text]{
+    flex-grow: 2;
+}
+
+.inscriptionForm input, .connexionForm input, .inscriptionForm select{
+    width: 50%;
+    height: 2.5em;
+    margin: 0 0.5em;
+    border-radius: 5px;
+    padding: 0;
+}
+
+.rechercheForm input[type=text]:focus, .rechercheForm select:focus, .inscriptionForm input[type=text]:focus,
+.inscriptionForm textarea:focus, .rechercheForm select:focus, .connexionForm input[type=text], .connexionForm select:focus{
+    border: 2px solid #a88680;
+}
+
+.bouton{
+    margin: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+input[type=submit]{
+    margin: 1em 0.5em;
+    display: block;
+    align-self: center;
+    background-color: #a88680;
+    border: 1px solid rgb(173,173,173);
+    border-radius: 2px;
+    width: 8em;
+    line-height: 2.5em;
+    box-shadow: 0 0 2px #000;
+    font-family: 'Merienda', 'Open Sans', sans-serif;
+    font-size: 0.9em;
+}
+
+input[type=submit]:hover{
+    background-color: #a8808e;
+    box-shadow: 0 0 4px #000;
+    border: 1px solid rgb(128,128,128);
+    font-weight: 700;
+}
+
+.inscriptionForm:invalid{
+    box-shadow: 0 0 5px 1px red
+}
+
+#officiel{
+    padding: 0.5em;
+    margin: 0.5em;
+    align-self: center;
+}
+
+.rechercheForm label, .inscriptionForm label, .connexionForm label, .connexionLabel{
+    font-size: 0.8em;
+    align-self: center;
+    margin-left: 0;
+}
+
+.optionBigger{
+    flex-grow: 2;
+}
+
+textarea{
+    height: 8em;
+    width: 80%;
+    margin: 0 0.5em;
+    border-radius: 5px;
+    padding: 0;
+}

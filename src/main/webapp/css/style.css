@@ -10,55 +10,6 @@ body{
     padding: 0;
 }
 
-/*=========================================================================================*/
-/*===== Définition du Header ==============================================================*/
-/*=========================================================================================*/
-
-header{
-    display:flex;
-    flex-direction: row;
-}
-
-#menu{
-    display: flex;
-    flex-direction: row;
-}
-#user{
-    display: flex;
-    flex-direction: row;
-}
-
-
-/* Mise en forme du logo */
-
-#logo{
-    background-color: white;
-    width: 305px;
-    border: 1px solid #a88680;
-    border-bottom: 2px solid #a88680;
-    border-bottom-right-radius: 12px;
-    border-bottom-left-radius: 12px;
-    box-shadow: 3px 3px 3px #000;
-}
-
-/* Définition de la bannière qui englobera tous les boutons du menu */
-/* Définition de l'aspect des boutons du menu*/
-/* Définition du hover*/
-
-#banner{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    background-color: rgba(255,255,255,0.5);
-    flex-basis: 100%;
-    height: 3em;
-    margin-right: 0;
-    border-top: 1px solid #a88680;
-    border-bottom: 1px solid #a88680;
-    border-bottom-right-radius: 12px;
-    box-shadow: 3px 3px 3px #000;
-}
-
 #bannerResult{
     margin-right: 0;
     border-top: 1px solid #a88680;
@@ -72,195 +23,59 @@ header{
     height: 3em;
 }
 
-.menu-button{
-    margin:0;
-    padding: 0;
-    background-color: white;
-    padding-left: 0.5em;
-    padding-right: 0.5em;
-    border-bottom: 1px solid #a88680;
-    border-right: 1px solid #a88680;
-    border-left: 1px solid #a88680;
-    text-align: center;
-    display:flex;
-    justify-content: center;
-    align-items: center;
-    font-weight: 700;
-}
-
-#menu a{
-    line-height: 3em; /*Centrage vertical des menus et extension de la zone cliquable*/
-    padding-right: 0.5em;
-    padding-left: 0.5em;
-    color:black;
-    text-decoration: none;
-}
-
-#user a{
-    padding-top: 0.3em;
-    padding-right: 0.5em;
-    padding-left: 0.5em;
-}
-
-.menu-button:hover{
-    background-color: rgba(128,142,168,0.5);
-}
-
-/* Mise en forme supplémentaire pour différencier #menu et #users */
-
-/* Mise en forme supplémentaire pour les derniers éléments #menu et #users */
-
-#menu p:last-of-type{
-    border-right: 2px solid #a88680;
-}
-
-#user p:last-of-type{
-    border-bottom-right-radius: 12px;
-}
-
-/* -----------------------------------------------------------------------------------------*/
-
-
 /*=========================================================================================*/
-/*===== Mise en forme description =========================================================*/
+/*===== Mise en forme conteneur principal =================================================*/
 /*=========================================================================================*/
 
-.description{
+.mainDiv{
+    position: relative;
+    top: 10em;
     background-color: rgba(255,255,255,0.7);
-    border: 1px solid #a88680;
+    border: 2px solid #a88680;
     border-radius: 12px;
     box-shadow: 3px 3px 3px #000;
     width: 70%;
-    height: 35em;
     margin: 1.5em auto;
     padding-left: 1em;
     padding-right: 1em;
-    overflow-y: scroll;
-    overflow-x: hidden;
     word-wrap: break-word;
     text-align: justify;
+    display: flex;
+    flex-direction: column;
 }
 
 
-.description h1{
+.mainDiv h1{
     text-decoration: underline;
     text-align: center;
 }
 
 /*=========================================================================================*/
-/*===== Bandeau Réseau Social via sprite===================================================*/
+/*===== Conteneurs Formulaires, résultats et descriptions==================================*/
 /*=========================================================================================*/
 
-#fb, #tw, #lk{
-    width: 50px;
-    height: 50px;
-    position: absolute;
-    display:block;
-    border: 1px solid white;
-    border-radius: 10px;
-    box-shadow: 0 0 2px #666;
-    margin : 5px;
-}
-
-#fb:hover,#tw:hover,#lk:hover{
-    background-color: rgba(100,100,100,0.8);
-    box-shadow: 0 0 10px #222;
-}
-
-.social{
-    background-color: rgba(255,255,255,0.75);
-    border: 2px solid #a88680;
-    width: 172px;
-    height: 62px;
-    margin: 1.5em;
-    padding: 0;
-    position:absolute;
-    bottom: 0;
-    right: 0;
-    box-shadow: 0 0 3px #000;
-}
-
-#fb{
-    background-position: 0 0;
-    background-image: url("../img/social.png");
-}
-
-#tw{
-    background-image: url("../img/social.png");
-    background-position: -50px 0;
-    left:55px;
-}
-
-#lk{
-    background-image: url("../img/social.png");
-    background-position: -100px -50px;
-    left:110px;
-}
-
-/*=========================================================================================*/
-/*===== Mise en forme div form recherche ==================================================*/
-/*=========================================================================================*/
-
-.mainDiv{
-    border: 1px solid #a88680;
-    border-radius: 12px;
-    background-color: rgba(255,255,255,0.50);
-    margin-top: 1.5em;
-    margin-left: 2em;
-    padding: 1em;
-    width: 60%;
-    display: flex;
-    flex-direction: column;
-}
-
-#mainDivCenter{
-    margin-top: 4em;
-    margin-left: auto;
-    margin-right: auto;
-    align-self: center;
-}
-
-#rechercheSpot form{
-    display: flex;
-    flex-direction: column;
-}
-
-#rechercheDiv, #resultatDiv{
-    margin:0;
-    padding: 0;
+.formDiv, .resultatDiv, .descriptionDiv{
+    margin: 1em auto;
     background-color: rgba(255,255,255,0.75);
     border: 2px solid #a88680;
     box-shadow: 3px 3px 3px #000;
     padding-right: 1em;
     padding-left: 1em;
     padding-bottom: 0.5em;
-    text-align: left;
     border-radius: 6px;
 }
 
-#rechercheDiv{
-    width: 50%;
+.formDiv{
+    width: 70%;
 }
 
-#resultatDiv{
-    margin-left: auto;
-    margin-right: auto;
-    margin-top:1em;
-    width: 95%;
-    height: 20em;
-    overflow-y: scroll;
-    overflow-x: hidden;
-    word-wrap: break-word;
-    text-align: justify;
+.resultatDiv{
+    width: 90%;
 }
 
-.rechercheForm, .inscriptionForm, .connexionForm{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    margin: 0.5em;
-    padding: 0;
-}
+/*=========================================================================================*/
+/*===== Mise en forme div form recherche ==================================================*/
+/*=========================================================================================*/
 
 #rechercheDiv h1, #inscriptionDiv h1{
     text-decoration: underline;
@@ -275,13 +90,10 @@ header{
 #inscriptionDiv{
     width: 70%;
     margin:auto;
-    padding: 0;
+    padding: 0.5em 1em;
     background-color: rgba(255,255,255,0.75);
     border: 2px solid #a88680;
     box-shadow: 3px 3px 3px #000;
-    padding-right: 1em;
-    padding-left: 1em;
-    padding-bottom: 0.5em;
     text-align: left;
     border-radius: 6px;
 }
@@ -321,116 +133,4 @@ header{
 .erreur >  div{
     width: 50%;
     text-align: center;
-}
-
-/*=========================================================================================*/
-/*===== Mise en forme éléments formulaire =================================================*/
-/*=========================================================================================*/
-
-.rechercheForm input, .rechercheForm select{
-    width: 12em;
-    height: 2em;
-    margin: 0 0.5em;
-    border-radius: 5px;
-    padding: 0;
-}
-
-.inscriptionForm input, .connexionForm input, .inscriptionForm select{
-    width: 50%;
-    height: 2.5em;
-    margin: 0 0.5em;
-    border-radius: 5px;
-    padding: 0;
-}
-
-.rechercheForm input[type=text]:focus, .rechercheForm select:focus, .inscriptionForm input[type=text]:focus,
-.inscriptionForm textarea:focus, .rechercheForm select:focus, .connexionForm input[type=text], .connexionForm select:focus{
-    border: 2px solid #a88680;
-}
-
-.bouton{
-    margin: auto;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-}
-
-input[type=submit]{
-    margin: 1em;
-    display: block;
-    align-self: center;
-    background-color: #a88680;
-    border: 1px solid rgb(173,173,173);
-    border-radius: 2px;
-    width: 8em;
-    line-height: 2.5em;
-    margin-top:0.5em;
-    margin-bottom: 0.5em;
-    box-shadow: 0 0 2px #000;
-    font-family: 'Merienda', 'Open Sans', sans-serif;
-    font-size: 0.9em;
-}
-
-input[type=submit]:hover{
-    background-color: #a8808e;
-    box-shadow: 0 0 4px #000;
-    border: 1px solid rgb(128,128,128);
-    font-weight: 700;
-}
-
-.inscriptionForm:invalid{
-    box-shadow: 0 0 5px 1px red
-}
-
-#officiel{
-    width:auto;
-    align-self: center;
-}
-
-.rechercheForm label, .inscriptionForm label, .connexionForm label, .connexionLabel{
-    font-size: 0.8em;
-    align-self: center;
-    margin-left: 0;
-}
-
-textarea{
-    height: 8em;
-    width: 80%;
-    margin: 0 0.5em;
-    border-radius: 5px;
-    padding: 0;
-}
-
-/*=========================================================================================*/
-/*===== Mise en forme tableaux ============================================================*/
-/*=========================================================================================*/
-
-table{
-    border-collapse: collapse;
-    border: 2px solid #a88680;
-    margin: 1em;
-}
-
-thead{
-    text-align: center;
-    font-size: 0.9em;
-    border: 2px solid #a88680;
-}
-
-th,td{
-    border:1px solid rgb(173,173,173);
-    padding: 0.5em;
-}
-
-tbody{
-    font-size: 0.7em;
-    padding: 0.5em;
-}
-
-tbody tr:nth-child(odd){
-    background-color: rgba(128,142,168,0.5);
-}
-
-tbody tr:hover{
-    background-color: #a8808e;
 }
