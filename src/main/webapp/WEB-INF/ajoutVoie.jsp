@@ -11,24 +11,38 @@
 <%@ include file= "header.jsp"%>
 <section class="mainDiv">
     <div class="formDiv">
-        <h1>Ajouter un secteur au spot - ${spot.nom} :</h1>
+        <h1>Ajouter une voie au secteur ${secteur.nom} du spot - ${spot.nom} :</h1>
         <p class="${empty form.listErreurs ? 'success' : 'echec'}">${form.resultat}</p>
-        <form method="post" action="saveSecteur.do" enctype="multipart/form-data">
+        <form method="post" action="saveVoie.do" enctype="multipart/form-data">
             <div class="erreur">
                 <div class="erreurDescription">${form.listErreurs['server']}</div>
             </div>
             <input type="text" name="idSpot" id="idSpot" hidden="hidden" value="<c:out value="${param.idSpot}"/>">
+            <input type="text" name="idSecteur" id="idSecteur" hidden="hidden" value="<c:out value="${param.idSecteur}"/>">
             <div class="erreur">
                 <div></div>
                 <div>${form.listErreurs['nom']}</div>
             </div>
             <div class="inscriptionForm">
-                <label for="nom">Nom du secteur :</label>
+                <label for="nom">Nom de la voie :</label>
                 <input type="text" name="nom" id="nom" required="required" value="<c:out value="${param.nom}"/>">
             </div>
 
             <div class="erreur">
-                <div>${form.listErreurs['description']}</div>
+                <div class="erreurDescription">${form.listErreurs['description']}</div>
+            </div>
+            <div class="inscriptionForm">
+                <label for="cotation">Cotation :</label>
+                <select name="cotation" id="cotation" required="required">
+                    <option value="">Choisissez une cotation</option>
+                    <c:forEach items="${cotations}" var="cotation">
+                        <option value="${cotation.id}">${cotation.code}</option>
+                    </c:forEach>
+                </select>
+            </div>
+
+            <div class="erreur">
+                <div class="erreurDescription">${form.listErreurs['description']}</div>
             </div>
             <div class="inscriptionForm">
                 <label for="description">Description :</label>
@@ -36,6 +50,7 @@
             </div>
 
             <div class="erreur">
+                <div></div>
                 <div>${form.listErreurs['photo']}</div>
             </div>
             <div class="inscriptionForm">

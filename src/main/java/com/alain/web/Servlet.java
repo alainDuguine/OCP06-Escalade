@@ -131,7 +131,7 @@ public class Servlet extends HttpServlet {
             if (form.getListErreurs().isEmpty()) {
                 Long idSecteur = ((Secteur) form.getEntitie()).getId();
                 req.setAttribute("idSecteur", idSecteur);
-                form.checkAndSavePhoto(req, "com.alain.dao.entities.PhotoSpot", photoSecteurDao);
+                form.checkAndSavePhoto(req, "com.alain.dao.entities.PhotoSecteur", photoSecteurDao);
             }
             form.setResultat(form.checkResultListErreurs(form.getListErreurs()));
             req.setAttribute("form", form);

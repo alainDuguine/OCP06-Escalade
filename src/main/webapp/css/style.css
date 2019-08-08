@@ -104,14 +104,9 @@ body{
     line-height: 1em;
     font-size: 0.7em;
     color: red;
-    text-align: center;
+    justify-content: center;
     padding-right : 2em;
     margin-right: 3em;
-}
-
-.erreurSingleCol{
-    width: 100%;
-    text-align: center;
 }
 
 .success{

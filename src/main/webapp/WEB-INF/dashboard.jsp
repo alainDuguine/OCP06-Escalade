@@ -18,7 +18,7 @@
             </div>
         </div>
         <div class="resultatDiv">
-            <p class="success">${form.resultat}</p>
+            <p class="${empty form.listErreurs ? 'success' : 'echec'}">${form.resultat}</p>
             <table>
                 <tr>
                     <th>Nom Spot</th><th>Adresse</th><th>Ville</th><th>Département</th>

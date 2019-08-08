@@ -59,8 +59,8 @@
                 </select>
             </div>
 
-            <div  class="erreur">
-                <div class="erreurSingleCol">${form.listErreurs['description']}</div>
+            <div class="erreur">
+                <div>${form.listErreurs['description']}</div>
             </div>
             <div class="inscriptionForm">
                 <label for="description">Description :</label>

@@ -65,7 +65,7 @@ public class CheckForm {
         try {
             List<Part> parts = (List<Part>) req.getParts();
             for (Part part : parts){
-                if ((part.getName().equals("photo"))) {
+                if ((part.getName().equals("photo")) && (!part.getSubmittedFileName().isEmpty())) {
                     classBean = Class.forName(className);
                     photo = (Photo) classBean.newInstance();
                     photo.uploadPhoto(part, parts.indexOf(part));
