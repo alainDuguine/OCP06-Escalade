@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Ajouter un Spot</title>
+    <title>Ajouter un Secteur</title>
     <%@ include file="includeCss.jsp"%>
     <link rel="stylesheet" type="text/css" href="../css/form.css">
     <link href="https://fonts.googleapis.com/css?family=Merienda&display=swap" rel="stylesheet">

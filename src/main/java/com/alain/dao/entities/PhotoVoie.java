@@ -6,7 +6,7 @@ import java.io.InputStream;
 @Entity
 @Table
 @PrimaryKeyJoinColumn(name = "id")
-class PhotoVoie extends Photo {
+public class PhotoVoie extends Photo {
 
     @ManyToOne
     private Voie voie;

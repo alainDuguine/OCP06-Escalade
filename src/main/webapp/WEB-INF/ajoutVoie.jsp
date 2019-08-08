@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Ajouter un Spot</title>
+    <title>Ajouter une Voie</title>
     <%@ include file="includeCss.jsp"%>
     <link rel="stylesheet" type="text/css" href="../css/form.css">
     <link href="https://fonts.googleapis.com/css?family=Merienda&display=swap" rel="stylesheet">
@@ -11,7 +11,7 @@
 <%@ include file= "header.jsp"%>
 <section class="mainDiv">
     <div class="formDiv">
-        <h1>Ajouter une voie au secteur ${secteur.nom} du spot - ${spot.nom} :</h1>
+        <h1>Ajouter une voie au secteur - ${secteur.nom} du spot - ${secteur.spot.nom} :</h1>
         <p class="${empty form.listErreurs ? 'success' : 'echec'}">${form.resultat}</p>
         <form method="post" action="saveVoie.do" enctype="multipart/form-data">
             <div class="erreur">
@@ -39,6 +39,22 @@
                         <option value="${cotation.id}">${cotation.code}</option>
                     </c:forEach>
                 </select>
+            </div>
+
+            <div class="erreur">
+                <div class="erreurAltitude">${form.listErreurs['altitude']}</div>
+            </div>
+            <div class="inscriptionForm">
+                <label for="altitude">Altitude :</label>
+                <input type="number" step="5" min="0" name="altitude" id="altitude">
+            </div>
+
+            <div class="erreur">
+                <div class="erreurLongueur">${form.listErreurs['longueur']}</div>
+            </div>
+            <div class="inscriptionForm">
+                <label for="longueur">Nombre de longueurs :</label>
+                <input type="number" step="1" min="0" name="longueur" id="longueur">
             </div>
 
             <div class="erreur">

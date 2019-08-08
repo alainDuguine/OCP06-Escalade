@@ -1,11 +1,17 @@
 package com.alain.dao.entities;
 
+import com.alain.dao.contract.EntityRepository;
+
 import javax.persistence.*;
+import javax.servlet.http.HttpServletRequest;
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Entity
 @Table
-public class Voie {
+public class Voie extends Entitie implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -73,6 +79,15 @@ public class Voie {
 
     public void setSecteur(Secteur secteur) {
         this.secteur = secteur;
+        secteur.addVoie(this);
+    }
+
+    public void addPhoto(PhotoVoie photo) {
+        photo.setVoie(this);
+        if (this.photos.isEmpty()){
+            this.photos = new ArrayList<>();
+        }
+        this.photos.add(photo);
     }
 
     public Cotation getCotation() {
@@ -137,5 +152,15 @@ public class Voie {
 
     public void setPhotos(List<PhotoVoie> photos) {
         this.photos = photos;
+    }
+
+    @Override
+    public void hydrate(HttpServletRequest req) {
+
+    }
+
+    @Override
+    public Map<String, String> checkErreurs(EntityRepository dao, HttpServletRequest req) {
+        return null;
     }
 }

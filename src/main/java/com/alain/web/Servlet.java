@@ -54,12 +54,13 @@ public class Servlet extends HttpServlet {
             req.setAttribute("spot", spot);
             this.getServletContext().getRequestDispatcher("/WEB-INF/ajoutSecteur.jsp").forward(req,resp);
         }
-        else if(path.equals("/ajoutVoie.do")){
+        else if(path.equals("/ajoutVoie.do") || path.equals("/saveVoie.do")){
             SecteurDaoImpl secteurDao = new SecteurDaoImpl();
             Secteur secteur = secteurDao.findOne(Long.parseLong(req.getParameter("idSecteur")));
             CotationDaoImpl cotationDao = new CotationDaoImpl();
             List<Cotation> cotations = cotationDao.findAll();
             req.setAttribute("cotations", cotations);
+            req.setAttribute("secteur", secteur);
             this.getServletContext().getRequestDispatcher("/WEB-INF/ajoutVoie.jsp").forward(req, resp);
         }
         else if(path.equals("/dashboard.do")){
@@ -141,6 +142,25 @@ public class Servlet extends HttpServlet {
                 doGet(req,resp);
                 this.getServletContext().getRequestDispatcher("/WEB-INF/ajoutSecteur.jsp").forward(req, resp);
             }
+        }else if (path.equals("/saveVoie.do")){
+            VoieDaoImpl voieDao = new VoieDaoImpl();
+            PhotoVoieDaoImpl photoVoieDao = new PhotoVoieDaoImpl();
+            CheckForm form = new CheckForm();
+            form.checkAndSave(req, "com.alain.dao.entities.Voie", voieDao);
+            if (form.getListErreurs().isEmpty()){
+                Long idVoie = ((Voie) form.getEntitie()).getId();
+                req.setAttribute("idVoie", idVoie);
+                form.checkAndSavePhoto(req, "com.alain.dao.entities.PhotoVoie", photoVoieDao);
+            }
+            form.setResultat(form.checkResultListErreurs(form.getListErreurs()));
+            req.setAttribute("form", form);
+            if (form.getListErreurs().isEmpty()){
+                resp.sendRedirect("/dashboard.do");
+            }else{
+                doGet(req,resp);
+                this.getServletContext().getRequestDispatcher("/WEB-INF/ajoutVoie.jsp").forward(req,resp);
+            }
+
         }
     }
 }

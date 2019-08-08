@@ -172,5 +172,12 @@ public class Secteur extends Entitie implements Serializable {
         }
         this.photos.add(photo);
     }
+
+    public void addVoie(Voie voie) {
+        if (this.voies.isEmpty()){
+            this.voies = new ArrayList<>();
+        }
+        this.voies.add(voie);
+    }
 }
 
