@@ -6,6 +6,7 @@ import com.alain.metier.Utilities;
 import javax.persistence.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,7 +33,7 @@ public class Secteur extends Entitie implements Serializable {
     @OneToMany (mappedBy = "secteur")
     private List<ComplementSecteur> complements;
     @OneToMany (mappedBy = "secteur")
-    private List<PhotoSecteur> photos;
+    private List<PhotoSecteur> photos = new ArrayList<>();
 
     /* ********************************************************************************************
      **** CONSTRUCTORS      ************************************************************************
@@ -49,7 +50,6 @@ public class Secteur extends Entitie implements Serializable {
         this.voies = voies;
         this.commentaires = commentaires;
         this.complements = complements;
-        this.photos = photos;
     }
 
     /* ********************************************************************************************
@@ -167,6 +167,9 @@ public class Secteur extends Entitie implements Serializable {
 
     public void addPhoto(PhotoSecteur photo){
         photo.setSecteur(this);
+        if (this.photos.isEmpty()){
+            this.photos = new ArrayList<>();
+        }
         this.photos.add(photo);
     }
 }

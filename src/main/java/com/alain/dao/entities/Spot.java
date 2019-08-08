@@ -44,7 +44,7 @@ public class Spot extends Entitie implements Serializable {
     @OneToMany (mappedBy = "spot")
     private List<CommentaireSpot> commentaires;
     @OneToMany (mappedBy = "spot")
-    private List<PhotoSpot> photos = new ArrayList<>();
+    private List<PhotoSpot> photos;
     @OneToMany(mappedBy = "spot")
     private List<ComplementSpot> topo;
     @ManyToMany (mappedBy = "spot")
@@ -134,6 +134,9 @@ public class Spot extends Entitie implements Serializable {
 
     public void addPhoto(PhotoSpot photo){
         photo.setSpot(this);
+        if (this.photos.isEmpty()){
+            this.photos = new ArrayList<>();
+        }
         this.photos.add(photo);
     }
 

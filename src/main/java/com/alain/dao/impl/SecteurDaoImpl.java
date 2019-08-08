@@ -43,7 +43,7 @@ public class SecteurDaoImpl extends EntityManagerUtil implements EntityRepositor
 
     @Override
     public Secteur findOne( Long id) {
-        return null;
+        return entityManager.find(Secteur.class, id);
     }
 
     public List<Secteur> findSecteurInSpot(String nomSecteur, Long idSpot){

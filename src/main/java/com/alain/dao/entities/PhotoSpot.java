@@ -1,5 +1,4 @@
 package com.alain.dao.entities;
-
 import javax.persistence.*;
 import java.io.InputStream;
 
