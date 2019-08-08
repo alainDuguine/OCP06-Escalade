@@ -23,8 +23,11 @@
                     <br>
                 </div>
                 <div class="rechercheForm">
-                    <select class="optionBigger" name="departement">
-                        <option value="">Département</option>
+                    <select class="optionBigger" name="departement" id="departement" required="required">
+                        <option value="">Choisissez un département</option>
+                        <c:forEach items="${departements}" var="departement">
+                            <option value="${departement.code}">${departement.code} - ${departement.nom}</option>
+                        </c:forEach>
                     </select>
                     <select class="optionBigger" name="ville">
                         <option>Ville</option>

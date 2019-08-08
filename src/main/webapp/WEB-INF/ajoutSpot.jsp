@@ -12,7 +12,7 @@
 <section class="mainDiv">
     <div class="formDiv">
         <h1>Ajouter un spot d'escalade :</h1>
-        <p class="${empty form.listErreurs ? 'successConnect' : 'echecConnect'}">${form.resultat}</p>
+        <p class="${empty form.listErreurs ? 'success' : 'echec'}">${form.resultat}</p>
         <form method="post" action="saveSpot.do" enctype="multipart/form-data">
             <div class="erreur">
                 <div class="erreurSingleCol">${form.listErreurs['server']}</div>

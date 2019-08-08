@@ -36,6 +36,10 @@ public class CheckForm {
         this.resultat = resultat;
     }
 
+    public String getResultat() {
+        return resultat;
+    }
+
     public void checkAndSave(HttpServletRequest req, String className, EntityRepository dao){
         Class classBean;
         Entitie bean=null;
@@ -48,6 +52,7 @@ public class CheckForm {
                 dao.save(bean, req);
             }
         } catch (Exception e) {
+            e.printStackTrace();
            listErreurs.put("server", "Une erreur système est apparue, merci de réessayer plus tard");
         }
         this.setEntitie(bean);

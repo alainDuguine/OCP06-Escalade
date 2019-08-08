@@ -12,7 +12,7 @@
 <section class="mainDiv">
     <div class="formDiv">
         <h1>Ajouter un secteur au spot - ${spot.nom} :</h1>
-        <p class="${empty form.listErreurs ? 'successConnect' : 'echecConnect'}">${form.resultat}</p>
+        <p class="${empty form.listErreurs ? 'success' : 'echec'}">${form.resultat}</p>
         <form method="post" action="saveSecteur.do">
             <div class="erreur">
                 <div class="erreurDescription">${form.listErreurs['server']}</div>

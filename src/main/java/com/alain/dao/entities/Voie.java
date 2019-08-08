@@ -10,8 +10,6 @@ public class Voie {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nom;
-    @Column (length = 2)
-    private String cotation;
     private double altitude;
     private int nbLongueurs;
     private String description;
@@ -21,6 +19,8 @@ public class Voie {
     private Utilisateur utilisateur;
     @ManyToOne
     private Secteur secteur;
+    @ManyToOne
+    private Cotation cotation;
 
     @OneToMany (mappedBy = "voie")
     private List<CommentaireVoie> commentaires;
@@ -36,9 +36,8 @@ public class Voie {
     public Voie() {
     }
 
-    public Voie(String nom, String cotation, double altitude, int nbLongueurs, String commentaire) {
+    public Voie(String nom, double altitude, int nbLongueurs, String commentaire) {
         this.nom = nom;
-        this.cotation = cotation;
         this.altitude = altitude;
         this.nbLongueurs = nbLongueurs;
         this.description = commentaire;
@@ -76,11 +75,11 @@ public class Voie {
         this.secteur = secteur;
     }
 
-    public String getCotation() {
+    public Cotation getCotation() {
         return cotation;
     }
 
-    public void setCotation(String cotation) {
+    public void setCotation(Cotation cotation) {
         this.cotation = cotation;
     }
 

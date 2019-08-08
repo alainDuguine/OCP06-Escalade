@@ -164,5 +164,10 @@ public class Secteur extends Entitie implements Serializable {
         this.spot = spot;
         spot.addSecteur(this);
     }
+
+    public void addPhoto(PhotoSecteur photo){
+        photo.setSecteur(this);
+        this.photos.add(photo);
+    }
 }
 

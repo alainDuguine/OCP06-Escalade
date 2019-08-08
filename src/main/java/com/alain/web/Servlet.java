@@ -1,10 +1,7 @@
 package com.alain.web;
 
 import com.alain.EntityManagerUtil;
-import com.alain.dao.entities.Departement;
-import com.alain.dao.entities.Spot;
-import com.alain.dao.entities.Utilisateur;
-import com.alain.dao.entities.Ville;
+import com.alain.dao.entities.*;
 import com.alain.dao.impl.*;
 import com.alain.metier.CheckForm;
 import com.google.gson.Gson;
@@ -51,15 +48,23 @@ public class Servlet extends HttpServlet {
             req.setAttribute("departements", departements);
             this.getServletContext().getRequestDispatcher("/WEB-INF/ajoutSpot.jsp").forward(req, resp);
         }
-        else if(path.equals("/ajoutSecteur.do")){
+        else if(path.equals("/ajoutSecteur.do") || path.equals("/saveSecteur.do")){
             SpotDaoImpl spotDao = new SpotDaoImpl();
             Spot spot = spotDao.findOne(Long.parseLong(req.getParameter("idSpot")));
             req.setAttribute("spot", spot);
             this.getServletContext().getRequestDispatcher("/WEB-INF/ajoutSecteur.jsp").forward(req,resp);
         }
+        else if(path.equals("/ajoutVoie.do")){
+            SecteurDaoImpl secteurDao = new SecteurDaoImpl();
+            Secteur secteur = secteurDao.findOne(Long.parseLong(req.getParameter("idSecteur")));
+            CotationDaoImpl cotationDao = new CotationDaoImpl();
+            List<Cotation> cotations = cotationDao.findAll();
+            req.setAttribute("cotations", cotations);
+            this.getServletContext().getRequestDispatcher("/WEB-INF/ajoutVoie.jsp").forward(req, resp);
+        }
         else if(path.equals("/dashboard.do")){
-            SpotDaoImpl spotDaoImpl = new SpotDaoImpl();
-            List<Spot> listSpots = spotDaoImpl.findAll();
+            SpotDaoImpl spotDao = new SpotDaoImpl();
+            List<Spot> listSpots = spotDao.findAll();
             req.setAttribute("spots", listSpots);
             this.getServletContext().getRequestDispatcher("/WEB-INF/dashboard.jsp").forward(req, resp);
         }
@@ -119,14 +124,21 @@ public class Servlet extends HttpServlet {
                 this.getServletContext().getRequestDispatcher("/WEB-INF/ajoutSpot.jsp").forward(req, resp);
             }
         }else if (path.equals("/saveSecteur.do")){
-            SecteurDaoImpl secteurDaoImpl = new SecteurDaoImpl();
+            SecteurDaoImpl secteurDao = new SecteurDaoImpl();
+            PhotoSecteurDaoImpl photoSecteurDao = new PhotoSecteurDaoImpl();
             CheckForm form = new CheckForm();
-            form.checkAndSave(req, "com.alain.dao.entities.Secteur", secteurDaoImpl);
+            form.checkAndSave(req, "com.alain.dao.entities.Secteur", secteurDao);
+            if (form.getListErreurs().isEmpty()) {
+                Long idSecteur = ((Secteur) form.getEntitie()).getId();
+                req.setAttribute("idSecteur", idSecteur);
+                form.checkAndSavePhoto(req, "com.alain.dao.entities.PhotoSpot", photoSecteurDao);
+            }
+            form.setResultat(form.checkResultListErreurs(form.getListErreurs()));
             req.setAttribute("form", form);
             if (form.getListErreurs().isEmpty()) {
                 resp.sendRedirect("/dashboard.do");
             }else {
-                req.setAttribute("idSpot", req.getParameter("idSpot"));
+                doGet(req,resp);
                 this.getServletContext().getRequestDispatcher("/WEB-INF/ajoutSecteur.jsp").forward(req, resp);
             }
         }

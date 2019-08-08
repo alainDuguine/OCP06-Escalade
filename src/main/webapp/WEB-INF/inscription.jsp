@@ -12,7 +12,7 @@
 <section class="mainDiv">
     <div class="formDiv">
         <h1>Formulaire d'inscription :</h1>
-        <p class="${empty form.listErreurs ? 'succesSuscribe' : 'echecSuscribe'}">${form.resultat}</p>
+        <p class="${empty form.listErreurs ? 'succes' : 'echec'}">${form.resultat}</p>
         <form method="post" action="saveUser.do">
             <div class="erreur">
                 <div></div>
