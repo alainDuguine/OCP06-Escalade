@@ -9,10 +9,16 @@ public class EntityManagerUtil{
     private static EntityManagerFactory entityManagerFactory;
     private static EntityManager entityManager;
 
-    static{
-        entityManagerFactory = Persistence.createEntityManagerFactory( "DB_ESCALADE" );
-        entityManager = entityManagerFactory.createEntityManager();
+    static {
+        try {
+            entityManagerFactory = Persistence.createEntityManagerFactory("DB_ESCALADE");
+            entityManager = entityManagerFactory.createEntityManager();
+        }catch (Exception e){
+            e.getMessage();
+            e.printStackTrace();
+        }
     }
+
 
     public EntityManagerFactory getEntityManagerFactory() {
         return entityManagerFactory;

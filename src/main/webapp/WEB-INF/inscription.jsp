@@ -4,11 +4,12 @@
     <meta charset="UTF-8">
     <title>Inscription</title>
     <%@ include file="includeCss.jsp"%>
+    <link rel="stylesheet" type="text/css" href="../css/form.css">
     <link href="https://fonts.googleapis.com/css?family=Merienda&display=swap" rel="stylesheet">
 </head>
 <body>
 <%@ include file= "header.jsp"%>
-<section class="mainDiv" id="mainDivCenter">
+<section class="mainDiv">
     <div class="formDiv">
         <h1>Formulaire d'inscription :</h1>
         <p class="${empty form.listErreurs ? 'succesSuscribe' : 'echecSuscribe'}">${form.resultat}</p>

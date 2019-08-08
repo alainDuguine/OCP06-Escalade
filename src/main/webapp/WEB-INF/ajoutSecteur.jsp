@@ -4,13 +4,14 @@
     <meta charset="UTF-8">
     <title>Ajouter un Spot</title>
     <%@ include file="includeCss.jsp"%>
+    <link rel="stylesheet" type="text/css" href="../css/form.css">
     <link href="https://fonts.googleapis.com/css?family=Merienda&display=swap" rel="stylesheet">
 </head>
 <body>
 <%@ include file= "header.jsp"%>
 <section class="mainDiv">
     <div class="formDiv">
-        <h1>Ajouter un spot d'escalade :</h1>
+        <h1>Ajouter un secteur au spot - ${spot.nom} :</h1>
         <p class="${empty form.listErreurs ? 'successConnect' : 'echecConnect'}">${form.resultat}</p>
         <form method="post" action="saveSecteur.do">
             <div class="erreur">

@@ -52,6 +52,9 @@ public class Servlet extends HttpServlet {
             this.getServletContext().getRequestDispatcher("/WEB-INF/ajoutSpot.jsp").forward(req, resp);
         }
         else if(path.equals("/ajoutSecteur.do")){
+            SpotDaoImpl spotDao = new SpotDaoImpl();
+            Spot spot = spotDao.findOne(Long.parseLong(req.getParameter("idSpot")));
+            req.setAttribute("spot", spot);
             this.getServletContext().getRequestDispatcher("/WEB-INF/ajoutSecteur.jsp").forward(req,resp);
         }
         else if(path.equals("/dashboard.do")){
