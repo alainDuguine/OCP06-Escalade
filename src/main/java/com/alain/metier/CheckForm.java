@@ -18,7 +18,8 @@ public class CheckForm {
 
     private Entitie entitie;
     private Map<String,String> listErreurs = new HashMap<>();
-    private String resultat;
+//    private String resultat;
+    private boolean resultat;
 
     public Entitie getEntitie() {
         return entitie;
@@ -32,12 +33,20 @@ public class CheckForm {
         return listErreurs;
     }
 
-    public void setResultat(String resultat) {
-        this.resultat = resultat;
+//    public void setResultat(String resultat) {
+//        this.resultat = resultat;
+//    }
+//
+//    public String getResultat() {
+//        return resultat;
+//    }
+
+    public boolean isResultat() {
+        return resultat;
     }
 
-    public String getResultat() {
-        return resultat;
+    public void setResultat(boolean resultat) {
+        this.resultat = resultat;
     }
 
     public void checkAndSave(HttpServletRequest req, String className, EntityRepository dao){
@@ -98,12 +107,8 @@ public class CheckForm {
         this.setResultat(checkResultListErreurs(this.listErreurs));
     }
 
-    public String checkResultListErreurs(Map<String, String> listErreurs) {
-        if (listErreurs.isEmpty()) {
-            return resultat  = "L'enregistrement a été effectuée";
-        } else {
-            return resultat = "L'enregistrement a échoué";
-        }
+    public boolean checkResultListErreurs(Map<String, String> listErreurs) {
+        return listErreurs.isEmpty();
     }
 
 }

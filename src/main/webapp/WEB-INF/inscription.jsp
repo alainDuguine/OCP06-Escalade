@@ -12,7 +12,11 @@
 <section class="mainDiv">
     <div class="formDiv">
         <h1>Formulaire d'inscription :</h1>
-        <p class="${empty form.listErreurs ? 'succes' : 'echec'}">${form.resultat}</p>
+        <c:if test="${not empty form.resultat}">
+            <p class="${form.resultat ? 'success' : 'echec'}">
+                <c:out value="${form.resultat ? 'Inscription effectuée' : 'Inscription échouée'}"/>
+            </p>
+        </c:if>
         <form method="post" action="saveUser.do">
             <div class="erreur">
                 <div></div>

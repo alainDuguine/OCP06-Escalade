@@ -12,7 +12,11 @@
 <section class="mainDiv">
     <div class="formDiv">
         <h1>Ajouter un secteur au spot - ${spot.nom} :</h1>
-        <p class="${empty form.listErreurs ? 'success' : 'echec'}">${form.resultat}</p>
+        <c:if test="${not empty form.resultat}">
+            <p class="${form.resultat ? 'success' : 'echec'}">
+                <c:out value="${form.resultat ? 'Enregistrement effectué' : 'Enregistrement échoué'}"/>
+            </p>
+        </c:if>
         <form method="post" action="saveSecteur.do" enctype="multipart/form-data">
             <div class="erreur">
                 <div class="erreurDescription">${form.listErreurs['server']}</div>

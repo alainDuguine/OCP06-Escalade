@@ -12,7 +12,11 @@
 <section class="mainDiv">
     <div class="formDiv">
         <h1>Connexion :</h1>
-        <p class="${empty form.listErreurs ? 'success' : 'echec'}">${form.resultat}</p>
+        <c:if test="${not empty form.resultat}">
+            <p class="${form.resultat ? 'success' : 'echec'}">
+                <c:out value="${form.resultat ? 'Connexion réussie' : 'Connexion échouée'}"/>
+            </p>
+        </c:if>
         <form method="post" action="connexion.do">
             <div class="erreur">
                 <div></div>

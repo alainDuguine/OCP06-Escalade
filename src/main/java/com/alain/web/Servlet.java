@@ -26,6 +26,7 @@ public class Servlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         String path = req.getServletPath();
+        boolean result;
         if(path.equals("/index.do")) {
             this.getServletContext().getRequestDispatcher("/WEB-INF/index.jsp").forward(req, resp);
         }
@@ -42,7 +43,7 @@ public class Servlet extends HttpServlet {
         else if(path.equals("/connexion.do")){
             this.getServletContext().getRequestDispatcher("/WEB-INF/connexion.jsp").forward(req, resp);
         }
-        else if(path.equals("/ajoutSpot.do") || path.equals("/saveSpot.do")) {
+        else if(path.equals("/ajoutSpot.do") || path.equals("/saveSpot.do")){
             DepartementDaoImpl departementDao = new DepartementDaoImpl();
             List<Departement> departements = departementDao.findAll();
             req.setAttribute("departements", departements);
@@ -119,10 +120,12 @@ public class Servlet extends HttpServlet {
             form.setResultat(form.checkResultListErreurs(form.getListErreurs()));
             req.setAttribute("form", form);
             if (form.getListErreurs().isEmpty()){
+                // Comment avoir à la fois la requête sql pour récupérer tous les spots
+                // Et l'objet form.resultat ? Peut être faire la requête avec Ajax ?
+//                resp.sendRedirect("/dashboard.do");
                 resp.sendRedirect("/dashboard.do");
             } else {
                 doGet(req,resp);
-                this.getServletContext().getRequestDispatcher("/WEB-INF/ajoutSpot.jsp").forward(req, resp);
             }
         }else if (path.equals("/saveSecteur.do")){
             SecteurDaoImpl secteurDao = new SecteurDaoImpl();
@@ -140,7 +143,6 @@ public class Servlet extends HttpServlet {
                 resp.sendRedirect("/dashboard.do");
             }else {
                 doGet(req,resp);
-                this.getServletContext().getRequestDispatcher("/WEB-INF/ajoutSecteur.jsp").forward(req, resp);
             }
         }else if (path.equals("/saveVoie.do")){
             VoieDaoImpl voieDao = new VoieDaoImpl();
@@ -158,9 +160,7 @@ public class Servlet extends HttpServlet {
                 resp.sendRedirect("/dashboard.do");
             }else{
                 doGet(req,resp);
-                this.getServletContext().getRequestDispatcher("/WEB-INF/ajoutVoie.jsp").forward(req,resp);
             }
-
         }
     }
 }

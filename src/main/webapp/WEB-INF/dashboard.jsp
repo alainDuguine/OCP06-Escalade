@@ -15,7 +15,11 @@
             <p class="menu-button"><a href="ajoutSpot.do">Ajouter un spot</a></p>
         </div>
         <div class="resultatDiv">
-            <p class="${empty form.listErreurs ? 'success' : 'echec'}">${form.resultat}</p>
+            <c:if test="${not empty form.resultat}">
+                <p class="${form.resultat ? 'success' : 'echec'}">
+                    <c:out value="${form.resultat ? 'Enregistrement effectué' : 'Enregistrement échoué'}"/>
+                </p>
+            </c:if>
             <table>
                 <tr>
                     <th>Nom Spot</th><th>Adresse</th><th>Ville</th><th>Département</th>
