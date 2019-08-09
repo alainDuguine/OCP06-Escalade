@@ -26,9 +26,10 @@ public class Ville implements Serializable {
     public Ville() {
     }
 
-    public Ville(String nom, Departement departement) {
+    public Ville(String nom, Departement departement, List<Spot> spots) {
         this.nom = nom;
         this.departement = departement;
+        this.spots = spots;
     }
 
     /* ********************************************************************************************

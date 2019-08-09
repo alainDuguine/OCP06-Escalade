@@ -10,12 +10,9 @@
 <body>
 <%@ include file= "header.jsp"%>
 <section class="mainDiv">
-    <div class="resultatDiv">
-        <div id="bannerResult">
-            <div id="menuResult">
-                <p class="menu-button"><a href="dashboard.do">Mes Spots</a></p>
-                <p class="menu-button"><a href="ajoutSpot.do">Ajouter un spot</a></p>
-            </div>
+        <div class="menuDashboard">
+            <p class="menu-button"><a href="dashboard.do">Mes Spots</a></p>
+            <p class="menu-button"><a href="ajoutSpot.do">Ajouter un spot</a></p>
         </div>
         <div class="resultatDiv">
             <p class="${empty form.listErreurs ? 'success' : 'echec'}">${form.resultat}</p>

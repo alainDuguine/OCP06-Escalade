@@ -1,22 +1,32 @@
 package com.alain.dao.entities;
 
 import com.alain.dao.contract.EntityRepository;
-
+import com.alain.dao.impl.VoieDaoImpl;
+import com.alain.metier.Utilities;
 import javax.persistence.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Entity
 @Table
 public class Voie extends Entitie implements Serializable {
+    private static final String CHAMP_NOM = "nom";
+    private static final String CHAMP_COTATION = "cotation";
+    private static final String CHAMP_ALTITUDE = "altitude";
+    private static final String CHAMP_LONGUEUR = "longueur";
+    private static final String CHAMP_DESCRIPTION = "description";
+
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nom;
-    private double altitude;
+    private int altitude;
     private int nbLongueurs;
     private String description;
 
@@ -29,11 +39,11 @@ public class Voie extends Entitie implements Serializable {
     private Cotation cotation;
 
     @OneToMany (mappedBy = "voie")
-    private List<CommentaireVoie> commentaires;
+    private List<CommentaireVoie> commentaires = new ArrayList<>();
     @OneToMany (mappedBy = "voie")
-    private List<ComplementVoie> complements;
+    private List<ComplementVoie> complements = new ArrayList<>();
     @OneToMany (mappedBy = "voie")
-    private List<PhotoVoie> photos;
+    private List<PhotoVoie> photos = new ArrayList<>();
 
     /* ********************************************************************************************
      **** CONSTRUCTORS      ************************************************************************
@@ -42,16 +52,52 @@ public class Voie extends Entitie implements Serializable {
     public Voie() {
     }
 
-    public Voie(String nom, double altitude, int nbLongueurs, String commentaire) {
+    public Voie(String nom, int altitude, int nbLongueurs, String description, Utilisateur utilisateur, Secteur secteur, Cotation cotation, List<CommentaireVoie> commentaires, List<ComplementVoie> complements, List<PhotoVoie> photos) {
         this.nom = nom;
         this.altitude = altitude;
         this.nbLongueurs = nbLongueurs;
-        this.description = commentaire;
+        this.description = description;
+        this.utilisateur = utilisateur;
+        this.secteur = secteur;
+        this.cotation = cotation;
+        this.commentaires = commentaires;
+        this.complements = complements;
+        this.photos = photos;
     }
-
     /* ********************************************************************************************
      **** METHODS           ************************************************************************
      ******************************************************************************************** */
+
+
+    @Override
+    public void hydrate(HttpServletRequest req) {
+        this.setNom(Utilities.getValeurChamp(req, CHAMP_NOM));
+        this.setAltitude(Integer.parseInt(req.getParameter(CHAMP_ALTITUDE)));
+        this.setNbLongueurs(Integer.parseInt(req.getParameter(CHAMP_LONGUEUR)));
+        this.setDescription(Utilities.getValeurChamp(req, CHAMP_DESCRIPTION));
+    }
+
+    @Override
+    public Map<String, String> checkErreurs(EntityRepository dao, HttpServletRequest req) {
+        Map<String, String> listErreur = new HashMap<>();
+
+        if (Utilities.isEmpty(this.nom)) {
+            listErreur.put(CHAMP_NOM, "Veuillez entrer le nom du spot");
+        }
+        if (!checkVoieExist((VoieDaoImpl)dao, req).isEmpty()){
+            listErreur.put(CHAMP_NOM, "Une voie du même nom existe déjà pour ce secteur");
+        }
+        if (Utilities.isEmpty(this.description) || this.description.length() < 10) {
+            listErreur.put(CHAMP_DESCRIPTION, "Veuillez entrer une description d'au moins 50 caractères");
+        }else if (this.description.length() > 2000){
+            listErreur.put(CHAMP_DESCRIPTION, "Veuillez entrer une description de maximum 2000 caractères.");
+        }
+        return listErreur;
+    }
+
+    private List<Voie> checkVoieExist(VoieDaoImpl dao, HttpServletRequest req){
+        return dao.findVoieInSecteur(this.nom, Long.parseLong(req.getParameter("idSecteur")));
+    }
 
     /* ***********************************************************************************************
      **** GETTERS & SETTERS ************************************************************************
@@ -84,9 +130,6 @@ public class Voie extends Entitie implements Serializable {
 
     public void addPhoto(PhotoVoie photo) {
         photo.setVoie(this);
-        if (this.photos.isEmpty()){
-            this.photos = new ArrayList<>();
-        }
         this.photos.add(photo);
     }
 
@@ -102,7 +145,7 @@ public class Voie extends Entitie implements Serializable {
         return altitude;
     }
 
-    public void setAltitude(double altitude) {
+    public void setAltitude(int altitude) {
         this.altitude = altitude;
     }
 
@@ -154,13 +197,4 @@ public class Voie extends Entitie implements Serializable {
         this.photos = photos;
     }
 
-    @Override
-    public void hydrate(HttpServletRequest req) {
-
-    }
-
-    @Override
-    public Map<String, String> checkErreurs(EntityRepository dao, HttpServletRequest req) {
-        return null;
-    }
 }

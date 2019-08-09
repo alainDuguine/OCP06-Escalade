@@ -23,7 +23,7 @@ public class VoieDaoImpl implements EntityRepository<Voie> {
         Secteur secteur = secteurDao.findOne(Long.parseLong(req.getParameter("idSecteur")));
         // Création des associations bidirectionelles
         voie.setSecteur(secteur);
-        entityManager.persist(secteur);
+        entityManager.persist(voie);
         transaction.commit();
         return voie;
     }
@@ -48,7 +48,7 @@ public class VoieDaoImpl implements EntityRepository<Voie> {
         return entityManager.find(Voie.class, id);
     }
 
-    public List<Secteur> findVoieInSecteur(String nomVoie, Long idSecteur){
+    public List<Voie> findVoieInSecteur(String nomVoie, Long idSecteur){
         Query query = entityManager.createQuery("select v from Voie v where v.nom= :nom and v.secteur.id= :idSecteur");
         query.setParameter("nom", nomVoie);
         query.setParameter("idSecteur", idSecteur);

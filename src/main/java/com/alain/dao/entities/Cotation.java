@@ -2,6 +2,7 @@ package com.alain.dao.entities;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -15,7 +16,7 @@ public class Cotation implements Serializable {
     private String code;
 
     @OneToMany (mappedBy = "cotation")
-    private List<Voie> voies;
+    private List<Voie> voies = new ArrayList<>();
 
     /* ********************************************************************************************
      **** CONSTRUCTORS      ************************************************************************
@@ -60,5 +61,9 @@ public class Cotation implements Serializable {
 
     public void setVoies(List<Voie> voies) {
         this.voies = voies;
+    }
+
+    public void addVoies(Voie voie){
+        this.voies.add(voie);
     }
 }

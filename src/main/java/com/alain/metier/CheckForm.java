@@ -80,7 +80,7 @@ public class CheckForm {
         } catch (IOException | IllegalAccessException | InstantiationException | ClassNotFoundException e) {
             e.printStackTrace();
         } catch (ServletException e) {
-            erreurPhoto += "/nLes fichiers ne doivent pas excéder une taille de 4 Mo";
+            erreurPhoto += "Les fichiers ne doivent pas excéder une taille de 4 Mo";
         }
         if (erreurPhoto != null){
             this.listErreurs.put("photo", erreurPhoto);

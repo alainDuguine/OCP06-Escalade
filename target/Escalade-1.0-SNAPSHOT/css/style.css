@@ -10,18 +10,18 @@ body{
     padding: 0;
 }
 
-#bannerResult{
-    margin-right: 0;
-    border-top: 1px solid #a88680;
-    border-bottom: 1px solid #a88680;
-}
+/*#bannerResult{*/
+/*    margin-right: 0;*/
+/*    border-top: 1px solid #a88680;*/
+/*    border-bottom: 1px solid #a88680;*/
+/*}*/
 
-#menuResult{
-    display: flex;
-    flex-direction: row;
-    flex-basis: 100%;
-    height: 3em;
-}
+/*#menuResult{*/
+/*    display: flex;*/
+/*    flex-direction: row;*/
+/*    flex-basis: 100%;*/
+/*    height: 3em;*/
+/*}*/
 
 /*=========================================================================================*/
 /*===== Mise en forme conteneur principal =================================================*/
@@ -76,27 +76,6 @@ body{
 /*=========================================================================================*/
 /*===== Mise en forme div form recherche ==================================================*/
 /*=========================================================================================*/
-
-/*#rechercheDiv h1, #inscriptionDiv h1{*/
-/*    text-decoration: underline;*/
-/*    padding-left: 0.2em;*/
-/*    font-size:1.2em;*/
-/*    padding-top: 0.5em;*/
-/*    padding-bottom: 0.5em;*/
-/*    margin-top: 0;*/
-/*    margin-bottom: 0;*/
-/*}*/
-
-/*#inscriptionDiv{*/
-/*    width: 70%;*/
-/*    margin:auto;*/
-/*    padding: 0.5em 1em;*/
-/*    background-color: rgba(255,255,255,0.75);*/
-/*    border: 2px solid #a88680;*/
-/*    box-shadow: 3px 3px 3px #000;*/
-/*    text-align: left;*/
-/*    border-radius: 6px;*/
-/*}*/
 
 .erreur{
     display: flex;

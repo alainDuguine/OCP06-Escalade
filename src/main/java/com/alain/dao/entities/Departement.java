@@ -2,6 +2,7 @@ package com.alain.dao.entities;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -14,9 +15,9 @@ public class Departement implements Serializable {
 
 
     @OneToMany (mappedBy = "departement")
-    private List<Ville> villes;
+    private List<Ville> villes = new ArrayList<>();
     @OneToMany (mappedBy = "departement")
-    private List<Spot> spots;
+    private List<Spot> spots = new ArrayList<>();
 
     /* ********************************************************************************************
      **** CONSTRUCTORS      ************************************************************************
@@ -25,10 +26,11 @@ public class Departement implements Serializable {
     public Departement() {
     }
 
-    public Departement(String code, String nom, List<Ville> villes) {
+    public Departement(String code, String nom, List<Ville> villes, List<Spot> spots) {
         this.code = code;
         this.nom = nom;
         this.villes = villes;
+        this.spots = spots;
     }
 
     /* ********************************************************************************************

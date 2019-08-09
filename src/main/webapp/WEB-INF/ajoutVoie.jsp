@@ -28,9 +28,6 @@
                 <input type="text" name="nom" id="nom" required="required" value="<c:out value="${param.nom}"/>">
             </div>
 
-            <div class="erreur">
-                <div class="erreurDescription">${form.listErreurs['description']}</div>
-            </div>
             <div class="inscriptionForm">
                 <label for="cotation">Cotation :</label>
                 <select name="cotation" id="cotation" required="required">
@@ -41,17 +38,11 @@
                 </select>
             </div>
 
-            <div class="erreur">
-                <div class="erreurAltitude">${form.listErreurs['altitude']}</div>
-            </div>
             <div class="inscriptionForm">
                 <label for="altitude">Altitude :</label>
                 <input type="number" step="5" min="0" name="altitude" id="altitude">
             </div>
 
-            <div class="erreur">
-                <div class="erreurLongueur">${form.listErreurs['longueur']}</div>
-            </div>
             <div class="inscriptionForm">
                 <label for="longueur">Nombre de longueurs :</label>
                 <input type="number" step="1" min="0" name="longueur" id="longueur">

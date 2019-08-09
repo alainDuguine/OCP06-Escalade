@@ -40,15 +40,15 @@ public class Spot extends Entitie implements Serializable {
     private Ville ville;
 
     @OneToMany (mappedBy ="spot")
-    private List<Secteur> secteurs;
+    private List<Secteur> secteurs = new ArrayList<>();
     @OneToMany (mappedBy = "spot")
-    private List<CommentaireSpot> commentaires;
+    private List<CommentaireSpot> commentaires = new ArrayList<>();
     @OneToMany (mappedBy = "spot")
-    private List<PhotoSpot> photos;
+    private List<PhotoSpot> photos = new ArrayList<>();
     @OneToMany(mappedBy = "spot")
-    private List<ComplementSpot> topo;
+    private List<ComplementSpot> complements = new ArrayList<>();
     @ManyToMany (mappedBy = "spot")
-    private List<Topo> topos;
+    private List<Topo> topos = new ArrayList<>();
 
     /* ***********************************************************************************************
        **** CONSTRUCTORS      ************************************************************************
@@ -57,11 +57,19 @@ public class Spot extends Entitie implements Serializable {
     public Spot() {
     }
 
-    public Spot(String nom, String adresse, String description, Boolean officiel) {
+    public Spot(String nom, String adresse, String description, Boolean officiel, Utilisateur utilisateur, Departement departement, Ville ville, List<Secteur> secteurs, List<CommentaireSpot> commentaires, List<PhotoSpot> photos, List<ComplementSpot> complements, List<Topo> topos) {
         this.nom = nom;
         this.adresse = adresse;
         this.description = description;
-        this.officiel = false;
+        this.officiel = officiel;
+        this.utilisateur = utilisateur;
+        this.departement = departement;
+        this.ville = ville;
+        this.secteurs = secteurs;
+        this.commentaires = commentaires;
+        this.photos = photos;
+        this.complements = complements;
+        this.topos = topos;
     }
 
     /* ***********************************************************************************************
@@ -134,9 +142,6 @@ public class Spot extends Entitie implements Serializable {
 
     public void addPhoto(PhotoSpot photo){
         photo.setSpot(this);
-        if (this.photos.isEmpty()){
-            this.photos = new ArrayList<>();
-        }
         this.photos.add(photo);
     }
 
@@ -202,12 +207,12 @@ public class Spot extends Entitie implements Serializable {
         this.photos = photos;
     }
 
-    public List<ComplementSpot> getTopo() {
-        return topo;
+    public List<ComplementSpot> getComplements() {
+        return complements;
     }
 
-    public void setTopo(List<ComplementSpot> topo) {
-        this.topo = topo;
+    public void setComplements(List<ComplementSpot> complements) {
+        this.complements = complements;
     }
 
     public List<Topo> getTopos() {

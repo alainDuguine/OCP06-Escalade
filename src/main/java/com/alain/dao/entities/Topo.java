@@ -2,6 +2,7 @@ package com.alain.dao.entities;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -19,10 +20,11 @@ public class Topo implements Serializable {
     // Associations
     @ManyToOne
     private Utilisateur utilisateur;
+
     @ManyToMany
-    private List<Utilisateur> empruntUtilisateurs;
+    private List<Utilisateur> empruntUtilisateurs = new ArrayList<>();
     @ManyToMany
-    private List<Spot> spot;
+    private List<Spot> spot = new ArrayList<>();
 
     /* ********************************************************************************************
      **** CONSTRUCTORS      ************************************************************************

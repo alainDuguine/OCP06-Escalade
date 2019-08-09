@@ -6,6 +6,7 @@ import com.alain.metier.Utilities;
 import javax.persistence.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,11 +35,55 @@ public class Utilisateur extends Entitie implements Serializable{
     private String prenom;
     private boolean admin = false;
 
+    @OneToMany (mappedBy = "utilisateur")
+    private List<Spot> spots = new ArrayList<>();
+    @OneToMany (mappedBy = "utilisateur")
+    private List<Secteur> secteurs = new ArrayList<>();
+    @OneToMany (mappedBy = "utilisateur")
+    private List<Voie> voies = new ArrayList<>();
+    @OneToMany (mappedBy = "utilisateur")
+    private List<CommentaireSpot> commentaireSpots = new ArrayList<>();
+    @OneToMany (mappedBy = "utilisateur")
+    private List<CommentaireSecteur> commentaireSecteurs = new ArrayList<>();
+    @OneToMany (mappedBy = "utilisateur")
+    private List<CommentaireVoie> commentaireVoies = new ArrayList<>();
+    @OneToMany (mappedBy = "utilisateur")
+    private List<ComplementSpot> complementSpots = new ArrayList<>();
+    @OneToMany (mappedBy = "utilisateur")
+    private List<ComplementSecteur> complementSecteurs = new ArrayList<>();
+    @OneToMany (mappedBy = "utilisateur")
+    private List<ComplementVoie> complementVoies = new ArrayList<>();
+    @OneToMany (mappedBy = "utilisateur")
+    private List<Topo> topos = new ArrayList<>();
+
+    @ManyToMany (mappedBy = "empruntUtilisateurs")
+    private List<Topo> empruntsTopos = new ArrayList<>();
+
     /* ********************************************************************************************
      **** CONSTRUCTORS      ************************************************************************
      *********************************************************************************************** */
 
     public Utilisateur() {
+    }
+
+    public Utilisateur(String email, String confirmation, String motDePasse, String nom, String prenom, boolean admin, List<Spot> spots, List<Secteur> secteurs, List<Voie> voies, List<CommentaireSpot> commentaireSpots, List<CommentaireSecteur> commentaireSecteurs, List<CommentaireVoie> commentaireVoies, List<ComplementSpot> complementSpots, List<ComplementSecteur> complementSecteurs, List<ComplementVoie> complementVoies, List<Topo> topos, List<Topo> empruntsTopos) {
+        this.email = email;
+        this.confirmation = confirmation;
+        this.motDePasse = motDePasse;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.admin = admin;
+        this.spots = spots;
+        this.secteurs = secteurs;
+        this.voies = voies;
+        this.commentaireSpots = commentaireSpots;
+        this.commentaireSecteurs = commentaireSecteurs;
+        this.commentaireVoies = commentaireVoies;
+        this.complementSpots = complementSpots;
+        this.complementSecteurs = complementSecteurs;
+        this.complementVoies = complementVoies;
+        this.topos = topos;
+        this.empruntsTopos = empruntsTopos;
     }
 
     public Utilisateur(String email, String encryptedPassword, String nom, String prenom) {
@@ -47,30 +92,6 @@ public class Utilisateur extends Entitie implements Serializable{
         this.nom = nom;
         this.prenom = prenom;
     }
-
-    @OneToMany (mappedBy = "utilisateur")
-    private List<Spot> spots;
-    @OneToMany (mappedBy = "utilisateur")
-    private List<Secteur> secteurs;
-    @OneToMany (mappedBy = "utilisateur")
-    private List<Voie> voies;
-    @OneToMany (mappedBy = "utilisateur")
-    private List<CommentaireSpot> commentaireSpots;
-    @OneToMany (mappedBy = "utilisateur")
-    private List<CommentaireSecteur> commentaireSecteurs;
-    @OneToMany (mappedBy = "utilisateur")
-    private List<CommentaireVoie> commentaireVoies;
-    @OneToMany (mappedBy = "utilisateur")
-    private List<ComplementSpot> complementSpots;
-    @OneToMany (mappedBy = "utilisateur")
-    private List<ComplementSecteur> complementSecteurs;
-    @OneToMany (mappedBy = "utilisateur")
-    private List<ComplementVoie> complementVoies;
-    @OneToMany (mappedBy = "utilisateur")
-    private List<Topo> topos;
-
-    @ManyToMany (mappedBy = "empruntUtilisateurs")
-    private List<Topo> empruntsTopos;
 
     @Override
     public String toString() {

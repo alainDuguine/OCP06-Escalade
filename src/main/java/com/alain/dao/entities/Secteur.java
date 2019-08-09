@@ -14,6 +14,10 @@ import java.util.Map;
 @Entity
 @Table
 public class Secteur extends Entitie implements Serializable {
+    private static final String CHAMP_NOM = "nom";
+    private static final String CHAMP_DESCRIPTION = "description";
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -27,11 +31,11 @@ public class Secteur extends Entitie implements Serializable {
     private Spot spot;
 
     @OneToMany (mappedBy = "secteur")
-    private List<Voie> voies;
+    private List<Voie> voies = new ArrayList<>();
     @OneToMany (mappedBy = "secteur")
-    private List<CommentaireSecteur> commentaires;
+    private List<CommentaireSecteur> commentaires = new ArrayList<>();
     @OneToMany (mappedBy = "secteur")
-    private List<ComplementSecteur> complements;
+    private List<ComplementSecteur> complements = new ArrayList<>();
     @OneToMany (mappedBy = "secteur")
     private List<PhotoSecteur> photos = new ArrayList<>();
 
@@ -50,6 +54,7 @@ public class Secteur extends Entitie implements Serializable {
         this.voies = voies;
         this.commentaires = commentaires;
         this.complements = complements;
+        this.photos = photos;
     }
 
     /* ********************************************************************************************
@@ -58,8 +63,8 @@ public class Secteur extends Entitie implements Serializable {
 
     @Override
     public void hydrate(HttpServletRequest req) {
-        this.setNom(Utilities.getValeurChamp(req, "nom"));
-        this.setDescription(Utilities.getValeurChamp(req, "description"));
+        this.setNom(Utilities.getValeurChamp(req, CHAMP_NOM));
+        this.setDescription(Utilities.getValeurChamp(req, CHAMP_DESCRIPTION));
     }
 
     @Override
@@ -67,19 +72,19 @@ public class Secteur extends Entitie implements Serializable {
         Map<String, String> listErreur = new HashMap<>();
 
         if (Utilities.isEmpty(this.nom)) {
-            listErreur.put("nom", "Veuillez entrer le nom du secteur");
+            listErreur.put(CHAMP_NOM, "Veuillez entrer le nom du secteur");
         }
         try {
             if (!checkSecteurExist((SecteurDaoImpl)dao, req).isEmpty()){
-                listErreur.put("nom", "Un secteur du même nom existe déjà pour ce spot");
+                listErreur.put(CHAMP_NOM, "Un secteur du même nom existe déjà pour ce spot");
             }
         } catch (Exception e) {
-            listErreur.put("nom", "Le spot auquel vous voulez ajouter un secteur n'existe pas.");
+            listErreur.put(CHAMP_NOM, "Le spot auquel vous voulez ajouter un secteur n'existe pas.");
         }
         if (Utilities.isEmpty(this.description) || this.description.length() < 10) {
-            listErreur.put("description", "Veuillez entrer une description d'au moins 50 caractères");
+            listErreur.put(CHAMP_DESCRIPTION, "Veuillez entrer une description d'au moins 50 caractères");
         }else if (this.description.length() > 2000){
-            listErreur.put("description", "Veuillez entrer une description de maximum 2000 caractères.");
+            listErreur.put(CHAMP_DESCRIPTION, "Veuillez entrer une description de maximum 2000 caractères.");
         }
         return listErreur;
     }
@@ -167,16 +172,10 @@ public class Secteur extends Entitie implements Serializable {
 
     public void addPhoto(PhotoSecteur photo){
         photo.setSecteur(this);
-        if (this.photos.isEmpty()){
-            this.photos = new ArrayList<>();
-        }
         this.photos.add(photo);
     }
 
     public void addVoie(Voie voie) {
-        if (this.voies.isEmpty()){
-            this.voies = new ArrayList<>();
-        }
         this.voies.add(voie);
     }
 }
