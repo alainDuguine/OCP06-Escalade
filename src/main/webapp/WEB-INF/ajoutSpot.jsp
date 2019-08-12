@@ -92,7 +92,6 @@
 <script src="https://code.jquery.com/jquery-3.4.1.js"
         integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
         crossorigin="anonymous">
-
 </script>
 <script>
     $(document).ready(function(){
@@ -103,10 +102,8 @@
                     $("#ville").empty();
                     var option = "<option value=''>Choisissez une ville</option>";
                     $("#ville").append(option);
-                    $.each( data, function( key, val) {
-                        var valToString = val.toString();
-                        var valToArray = valToString.split(",");
-                        var option = "<option value="+valToArray[0]+">"+valToArray[1]+"</option>";
+                    $.each( data, function(key, val) {
+                        var option = "<option value="+key+">"+val+"</option>";
                         $("#ville").append(option);
                     });
                 }

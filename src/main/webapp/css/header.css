@@ -54,10 +54,8 @@ header{
 
 .menu-button{
     margin:0;
-    padding: 0;
+    padding: 0 0.5em;
     background-color: white;
-    padding-left: 0.5em;
-    padding-right: 0.5em;
     border-bottom: 1px solid #a88680;
     border-right: 1px solid #a88680;
     border-left: 1px solid #a88680;

@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -75,7 +76,11 @@ public class Servlet extends HttpServlet {
             VilleDaoImpl dao = new VilleDaoImpl();
             String codeDep = req.getParameter("codeDep");
             List<Ville> villes = dao.findAllInDep(codeDep);
-            String villesJsonString = gson.toJson(villes);
+            HashMap<Long, String> villesMap = new HashMap<>();
+            for (Ville ville : villes){
+                villesMap.put(ville.getId(), ville.getNom());
+            }
+            String villesJsonString = gson.toJson(villesMap);
             PrintWriter out = resp.getWriter();
             resp.setContentType("application/json");
             resp.setCharacterEncoding("UTF-8");
@@ -123,7 +128,7 @@ public class Servlet extends HttpServlet {
                 // Comment avoir à la fois la requête sql pour récupérer tous les spots
                 // Et l'objet form.resultat ? Peut être faire la requête avec Ajax ?
 //                resp.sendRedirect("/dashboard.do");
-                resp.sendRedirect("/dashboard.do");
+                resp.sendRedirect("/dashboard.do?resultat=true");
             } else {
                 doGet(req,resp);
             }

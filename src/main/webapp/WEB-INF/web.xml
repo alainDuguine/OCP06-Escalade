@@ -14,11 +14,19 @@
                 <file-size-threshold>10485776</file-size-threshold>
             </multipart-config>
         </servlet>
-    
         <servlet-mapping>
             <servlet-name>index</servlet-name>
             <url-pattern>*.do</url-pattern>
         </servlet-mapping>
+
+        <filter>
+            <filter-name>CharacterSetFilter</filter-name>
+            <filter-class>com.alain.web.CharacterSetFilter</filter-class>
+        </filter>
+        <filter-mapping>
+            <filter-name>CharacterSetFilter</filter-name>
+            <url-pattern>*.*</url-pattern>
+        </filter-mapping>
 
     <jsp-config>
         <jsp-property-group>

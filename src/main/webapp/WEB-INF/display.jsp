@@ -8,6 +8,7 @@
     <link rel="stylesheet" type="text/css" href="../css/gallery.css">
     <link rel="stylesheet" type="text/css" href="../css/displaySpot.css">
     <link rel="stylesheet" type="text/css" href="../css/lightbox.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/treeview.css">
     <link href="https://fonts.googleapis.com/css?family=Merienda&display=swap" rel="stylesheet">
     <title>Spot : ${spot.nom}</title>
 </head>
@@ -40,28 +41,79 @@
         </div>
     </div>
     <div class="dataSpot">
-        <div>
-            <h3>Secteurs:</h3>
+        <ul class="navTree">
             <c:forEach items="${spot.secteurs}" var="secteur">
-                <p>${secteur.nom} - ${secteur.description}</p>
-                <h4>Photos :</h4>
-                <c:forEach items="${secteur.photos}" var="photo">
-                    <p>${photo.nom}</p>
-                </c:forEach>
-                <h4>Voies :</h4>
-                <c:forEach items="${secteur.voies}" var="voie">
-                    <p>Nom : ${voie.nom}</p>
-                    <p>Cotation : ${voie.cotation.code}</p>
-                    <p>Altitude :${voie.altitude}</p>
-                </c:forEach>
+                <li class="secteurTree"><input type="checkbox" id="${secteur.id}" hidden="hidden"/><label for="${secteur.id}">Secteur : ${secteur.nom}</label>
+                    <ul>
+                        <c:forEach items="${secteur.voies}" var="voie">
+                            <li class="voieTree"><input type="checkbox" id="${voie.id}" hidden="hidden"/><label for="${voie.id}">Voie : ${voie.nom}</label></li>
+                        </c:forEach>
+                    </ul>
+                </li>
             </c:forEach>
-        </div>
+        </ul>
     </div>
 
+
+    <div class="container">
+        <ul id="treeview">
+            <li class="parent"><a>North America</a>
+                <ul>
+                    <li class="parent"><a>USA</a>
+                        <ul>
+                            <li><a>Alabama</a></li>
+                            <li><a>New York</a></li>
+                        </ul>
+                    </li>
+                    <li><a>Canada</a></li>
+                </ul>
+            </li>
+            <li class="parent"><a>Asia</a>
+                <ul>
+                    <li class="parent"><a>China</a>
+                        <ul>
+                            <li><a>Guangdong</a></li>
+                        </ul>
+                    </li>
+                    <li class="parent"><a>India</a>
+                        <ul>
+                            <li class="parent"><a>Uttar Pradesh</a>
+                                <ul>
+                                    <li><a>Lucknow</a></li>
+                                    <li><a>Kanpur</a></li>
+                                </ul>
+                            </li>
+                            <li class="parent"><a>Gujarat</a>
+                                <ul>
+                                    <li><a>Surat</a></li>
+                                    <li><a>Ahmedabad</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
 </section>
 <%@include file="social.jsp"%>
 
 <script type="text/javascript" src="../js/lightbox-plus-jquery.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+<%--<script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>--%>
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<script>
+    $(document).ready(function(){
+        $("#treeview li").click(function (e){
+            $("a").removeClass("selected");
+            $(this).children("a").addClass("selected");
+            e.stopPropagation();
+            $(this).find(">ul").toggle("slow");
+            if ($(this).hasClass("close"))
+                $(this).removeClass("close");
+            else
+                $(this).addClass("close");
+        });
+    });
+</script>
 </body>
 </html>

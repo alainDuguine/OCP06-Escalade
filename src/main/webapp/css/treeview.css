@@ -1,0 +1,46 @@
+.container{
+    background-color: white;
+    border: 2px solid #a88680;
+    max-width: 250px;
+    border-radius: 12px;
+}
+
+#treeview, #treeview ul {
+    list-style: none;
+    padding:0.5em;
+}
+
+#treeview li{
+    position: relative;
+    cursor: pointer;
+}
+
+#treeview a{
+    text-decoration: none;
+    color: black;
+}
+
+#treeview a:hover, .selected{
+    background-color: rgba(128,142,168,0.5);
+    border: 1px solid #a88680;
+    border-radius: 6px;
+    padding-left : 2px;
+    padding-right: 2px;
+}
+
+#treeview .parent::before{
+    padding-left: 25px;
+    background-repeat: no-repeat;
+    background-position: -25px top;
+    background-image: url("../img/plus-minus.png");
+    content: "";
+    height: 25px;
+}
+
+#treeview .close::before{
+    background-position: 0 top;
+}
+
+#treeview .parent > ul {
+    display: none;
+}
