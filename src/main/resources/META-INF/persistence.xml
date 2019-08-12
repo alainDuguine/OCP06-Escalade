@@ -1,4 +1,4 @@
-
+<?xml version="1.0" encoding="UTF-8"?>
 <persistence xmlns="http://java.sun.com/xml/ns/persistence"
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
@@ -13,9 +13,10 @@
             <property name="javax.persistence.jdbc.password" value="admin" />
             <property name="hibernate.connection.useUnicode" value="true" />
             <property name="hibernate.connection.characterEncoding" value="UTF-8" />
+            <property name="hibernate.connection.charSet" value="UTF-8"/>
             <property name="hibernate.show_sql" value="true" />
-            <property name="hibernate.hbm2ddl.auto" value="create" />
-            <property name="javax.persistence.sql-load-script-source" value="META-INF/data.sql"/>
+<!--            <property name="hibernate.hbm2ddl.auto" value="create" />-->
+<!--            <property name="javax.persistence.sql-load-script-source" value="META-INF/data.sql"/>-->
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL95Dialect"/>
             <property name="hibernate.connection.autocommit" value="true" />
         </properties>

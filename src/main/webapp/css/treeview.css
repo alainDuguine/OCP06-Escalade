@@ -1,26 +1,31 @@
-.container{
+.treeview{
     background-color: white;
+    padding:0;
     border: 2px solid #a88680;
-    max-width: 250px;
+    max-width: 15em;
     border-radius: 12px;
-}
-
-#treeview, #treeview ul {
+    margin: 0.5em;
     list-style: none;
-    padding:0.5em;
 }
 
-#treeview li{
+.treeview ul {
+    list-style: none;
+    padding: 0.5em 1em;
+    margin: 0;
+}
+
+.treeview li{
     position: relative;
     cursor: pointer;
 }
 
-#treeview a{
+.treeview a{
     text-decoration: none;
     color: black;
+    font-size: 0.9em;
 }
 
-#treeview a:hover, .selected{
+.treeview a:hover, .selected{
     background-color: rgba(128,142,168,0.5);
     border: 1px solid #a88680;
     border-radius: 6px;
@@ -28,7 +33,7 @@
     padding-right: 2px;
 }
 
-#treeview .parent::before{
+.treeview .parent::before{
     padding-left: 25px;
     background-repeat: no-repeat;
     background-position: -25px top;
@@ -37,10 +42,17 @@
     height: 25px;
 }
 
-#treeview .close::before{
+.treeview .close::before{
     background-position: 0 top;
 }
 
-#treeview .parent > ul {
+.treeview .parent > ul {
     display: none;
+}
+
+#ajoutSecteur, #ajoutVoie{
+    text-decoration: underline;
+    color:crimson;
+    font-size: 0.6em;
+    font-style: italic;
 }

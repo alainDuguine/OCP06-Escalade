@@ -1,3 +1,21 @@
+#displaySpot{
+    display: flex;
+}
+
 #displayDiv{
-    width:55%;
+    position:absolute;
+    left: 19em;
+    right: 1em;
+}
+
+#navDiv{
+    position: fixed;
+    top: 10em;
+    margin: 1.5em 0.8em;
+    background-color: rgba(255,255,255,0.7);
+    border: 2px solid #a88680;
+    border-radius: 12px;
+    box-shadow: 3px 3px 3px #000;
+    width: 17em;
+    padding: 0.5em;
 }
