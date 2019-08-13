@@ -12,7 +12,7 @@
     overflow: hidden;
 }
 
-#scroller{
+.scroller{
     margin: 0px;
     padding: 0.5em;
     display: flex;

@@ -44,7 +44,7 @@
 
             <div class="inscriptionForm">
                 <label for="altitude">Altitude :</label>
-                <input type="number" step="5" min="0" name="altitude" id="altitude">
+                <input type="number" step="1" min="0" name="altitude" id="altitude">
             </div>
 
             <div class="inscriptionForm">

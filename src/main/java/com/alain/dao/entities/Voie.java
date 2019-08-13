@@ -28,6 +28,7 @@ public class Voie extends Entitie implements Serializable {
     private String nom;
     private int altitude;
     private int nbLongueurs;
+    @Column (length = 2000)
     private String description;
 
     // Associations

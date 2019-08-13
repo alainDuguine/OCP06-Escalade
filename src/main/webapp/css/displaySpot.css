@@ -6,7 +6,6 @@
     top: 4em;
     left: 20em;
     margin:1em;
-    max-height: 40em;
 }
 
 #navDiv{
@@ -23,4 +22,18 @@
 
 .descriptionDiv{
     width: 80%;
+}
+
+h5{
+    text-align: center;
+    font-style: italic;
+    padding: 0;
+    margin: 0;
+}
+
+.ancre{
+    display: block;
+    height: 4em;
+    margin-top: -4em;
+    visibility: hidden;
 }

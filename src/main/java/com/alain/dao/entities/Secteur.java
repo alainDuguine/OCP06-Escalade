@@ -22,6 +22,7 @@ public class Secteur extends Entitie implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nom;
+    @Column (length = 2000)
     private String description;
 
     // Associations

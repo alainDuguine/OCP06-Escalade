@@ -19,13 +19,13 @@
     <section id="navDiv">
         <div class="treeviewDiv">
             <ul class="treeview">
-                <li class="parent"><a class="treeElement">${spot.nom}</a>
+                <li class="parent"><a class="treeElement" href="#${spot.nom}">${spot.nom}</a>
                     <ul>
                         <c:forEach items="${spot.secteurs}" var="secteur">
-                            <li><a class="treeElement">Secteur : ${secteur.nom}</a>
+                            <li><a class="treeElement" href="#${secteur.nom}">Secteur : ${secteur.nom}</a>
                                 <ul>
                                     <c:forEach items="${secteur.voies}" var="voie">
-                                        <li><a class="treeElement">Voie : ${voie.nom}</a></li>
+                                        <li><a class="treeElement" href="#${voie.nom}">Voie : ${voie.nom}</a></li>
                                     </c:forEach>
                                     <li><a id="ajoutVoie" href="ajoutVoie.do?idSecteur=${secteur.id}">Ajouter une voie</a></li>
                                 </ul>
@@ -38,13 +38,15 @@
         </div>
     </section>
     <section class="mainDiv" id="displayDiv">
+        <span class="ancre" id="${spot.nom}"></span>
         <div class="descriptionDiv">
-            <h1>${spot.nom} - ${spot.departement.nom} - ${spot.ville.nom}</h1>
+            <h1>${spot.nom}</h1>
+            <h5>${spot.departement.nom} - ${spot.ville.nom}</h5>
             <h3>Description :</h3>
             <p>${spot.description}</p>
         </div>
         <div class="gallery">
-            <div id="scroller">
+            <div class="scroller">
 <%--                <c:forEach items="${spot.photos}" var="photo">--%>
 <%--                    <a href="${chemin}${photo.nom}" data-lightbox="mygallery"><img src="${chemin}${photo.nom}"/></a>--%>
 <%--                </c:forEach>--%>
@@ -67,11 +69,52 @@
                 <a href="../img/woman-2594934_1920.jpg" data-lightbox="mygallery"><img src="../img/woman-2594934_1920.jpg"></a>
             </div>
         </div>
-<%--        <a id="ajoutSecteur" href="ajoutSecteur.do?idSpot=${spot.id}">Ajouter un secteur</a>--%>
-<%--        <a id="ajoutVoie" href="ajoutVoie.do?idSecteur=${secteur.id}">Ajouter une voie</a>--%>
+        <c:forEach items="${spot.secteurs}" var="secteur">
+            <span class="ancre" id="${secteur.nom}"></span>
+            <div class="descriptionDiv"  id="${secteur.nom}">
+                <h1>Secteur - ${secteur.nom}</h1>
+                <h3>Description :</h3>
+                <p>${secteur.description}</p>
+                <div class="gallery">
+                    <div class="scroller">
+                            <%--                <c:forEach items="${secteur.photos}" var="photo">--%>
+                            <%--                    <a href="${chemin}${photo.nom}" data-lightbox="mygallery"><img src="${chemin}${photo.nom}"/></a>--%>
+                            <%--                </c:forEach>--%>
+                        <a href="../img/adventure-1807524_1920.jpg" data-lightbox="mygallery"><img src="../img/adventure-1807524_1920.jpg"></a>
+                        <a href="../img/climb-2805903_1920.jpg" data-lightbox="mygallery"><img src="../img/climb-2805903_1920.jpg"></a>
+                        <a href="../img/climber-299018_1920.jpg" data-lightbox="mygallery"><img src="../img/climber-299018_1920.jpg"></a>
+                    </div>
+                </div>
+                <c:forEach items="${secteur.voies}" var="voie">
+                    <hr>
+                    <span class="ancre" id="${voie.nom}"></span>
+                    <div>
+                        <h1>Voie - ${voie.nom}</h1>
+                        <p>Cotation : ${voie.cotation}</p>
+                        <p>Altitude : ${voie.altitude}</p>
+                        <p>Nombre de longueurs : ${voie.nbLongueurs}</p>
+                        <h3>Description :</h3>
+                        <p>${voie.description}</p>
+                        <div class="gallery">
+                            <div class="scroller">
+                                    <%--                <c:forEach items="${voie.photos}" var="photo">--%>
+                                    <%--                    <a href="${chemin}${photo.nom}" data-lightbox="mygallery"><img src="${chemin}${photo.nom}"/></a>--%>
+                                    <%--                </c:forEach>--%>
+                                <a href="../img/adventure-1807524_1920.jpg" data-lightbox="mygallery"><img src="../img/adventure-1807524_1920.jpg"></a>
+                                <a href="../img/climb-2805903_1920.jpg" data-lightbox="mygallery"><img src="../img/climb-2805903_1920.jpg"></a>
+                                <a href="../img/climber-299018_1920.jpg" data-lightbox="mygallery"><img src="../img/climber-299018_1920.jpg"></a>
+                            </div>
+                        </div>
+                    </div>
+                </c:forEach>
+            </div>
+        </c:forEach>
+    </section>
+    <section class="commentaire">
+
     </section>
 </section>
-<%@include file="social.jsp"%>
+<%--<%@include file="social.jsp"%>--%>
 
 <script type="text/javascript" src="../js/lightbox-plus-jquery.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>

@@ -96,14 +96,6 @@
 <script>
     $(document).ready(function(){
 
-        function sortByName(array,key){
-            return array.sort(function (a,b){
-                var x= a[key];
-                var y= b[key];
-                return ((x < y) ? -1 : ((x > y) ? 1 : 0));
-            });
-        }
-
         $('#departement').change(function() {
             var choixDep = $('#departement').val();
             $.getJSON("choixDepartement.do",{codeDep: choixDep},
