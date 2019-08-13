@@ -27,12 +27,12 @@
                                     <c:forEach items="${secteur.voies}" var="voie">
                                         <li><a class="treeElement">Voie : ${voie.nom}</a></li>
                                     </c:forEach>
+                                    <li><a id="ajoutVoie" href="ajoutVoie.do?idSecteur=${secteur.id}">Ajouter une voie</a></li>
                                 </ul>
-                                <a id="ajoutVoie" href="ajoutVoie.do?idSecteur=${secteur.id}">Ajouter une voie</a>
                             </li>
                         </c:forEach>
+                            <li><a id="ajoutSecteur" href="ajoutSecteur.do?idSpot=${spot.id}">Ajouter un secteur</a></li>
                     </ul>
-                    <a id="ajoutSecteur" href="ajoutSecteur.do?idSpot=${spot.id}">Ajouter un secteur</a>
                 </li>
             </ul>
         </div>
@@ -40,7 +40,8 @@
     <section class="mainDiv" id="displayDiv">
         <div class="descriptionDiv">
             <h1>${spot.nom} - ${spot.departement.nom} - ${spot.ville.nom}</h1>
-            <h3>${spot.description}</h3>
+            <h3>Description :</h3>
+            <p>${spot.description}</p>
         </div>
         <div class="gallery">
             <div id="scroller">
@@ -66,22 +67,18 @@
                 <a href="../img/woman-2594934_1920.jpg" data-lightbox="mygallery"><img src="../img/woman-2594934_1920.jpg"></a>
             </div>
         </div>
+<%--        <a id="ajoutSecteur" href="ajoutSecteur.do?idSpot=${spot.id}">Ajouter un secteur</a>--%>
+<%--        <a id="ajoutVoie" href="ajoutVoie.do?idSecteur=${secteur.id}">Ajouter une voie</a>--%>
     </section>
 </section>
 <%@include file="social.jsp"%>
 
 <script type="text/javascript" src="../js/lightbox-plus-jquery.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
-<%--<script src="https://code.jquery.com/jquery-3.4.1.js"></script>--%>
 <script>
     $(document).ready(function(){
 
         $(".treeview li:has(li)").addClass("parent");
-        $('.treeview ul').each(function() {
-            var $this = $(this);
-            if($this.html().replace(/\s|&nbsp;/g, '').length == 0)
-                $this.remove();
-        });
 
         $(".treeview li").click(function (e){
             $(".treeElement").removeClass("selected");

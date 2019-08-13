@@ -95,6 +95,15 @@
 </script>
 <script>
     $(document).ready(function(){
+
+        function sortByName(array,key){
+            return array.sort(function (a,b){
+                var x= a[key];
+                var y= b[key];
+                return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+            });
+        }
+
         $('#departement').change(function() {
             var choixDep = $('#departement').val();
             $.getJSON("choixDepartement.do",{codeDep: choixDep},
@@ -103,7 +112,9 @@
                     var option = "<option value=''>Choisissez une ville</option>";
                     $("#ville").append(option);
                     $.each( data, function(key, val) {
-                        var option = "<option value="+key+">"+val+"</option>";
+                        var valToString = val.toString();
+                        var valToArray = valToString.split(",");
+                        var option = "<option value=" + valToArray[0] + ">" + valToArray[1] + "</option>";
                         $("#ville").append(option);
                     });
                 }

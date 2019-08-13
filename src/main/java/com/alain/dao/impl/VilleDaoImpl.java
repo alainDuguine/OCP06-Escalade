@@ -13,7 +13,7 @@ public class VilleDaoImpl implements EntityRepository<Ville> {
     private EntityManager entityManager = EntityManagerUtil.getEntityManager();
 
     public List<Ville> findAllInDep(String codeDep){
-        Query query = entityManager.createQuery("select v from Ville v where v.departement.code= :x order by v.nom");
+        Query query = entityManager.createQuery("select v.id, v.nom from Ville v where v.departement.code= :x order by v.nom");
         query.setParameter("x", codeDep);
         return query.getResultList();
     }

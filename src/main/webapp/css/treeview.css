@@ -1,28 +1,36 @@
 .treeview{
     background-color: white;
-    padding:0;
+    padding:0.5em;
     border: 2px solid #a88680;
-    max-width: 15em;
     border-radius: 12px;
-    margin: 0.5em;
+    margin: 0.5em 0.5em;
     list-style: none;
+    line-height: normal;
+}
+
+.treeviewDiv{
+    margin: 0;
+    padding: 0;
+    width:100%;
 }
 
 .treeview ul {
     list-style: none;
-    padding: 0.5em 1em;
+    padding: 0em 1em;
     margin: 0;
 }
 
 .treeview li{
     position: relative;
     cursor: pointer;
+    padding: 0em;
+    margin:0em;
 }
 
 .treeview a{
     text-decoration: none;
     color: black;
-    font-size: 0.9em;
+    font-size: 0.8em;
 }
 
 .treeview a:hover, .selected{
@@ -51,8 +59,10 @@
 }
 
 #ajoutSecteur, #ajoutVoie{
-    text-decoration: underline;
-    color:crimson;
     font-size: 0.6em;
-    font-style: italic;
+    color: #0000ee;
+}
+
+#ajoutSecteur:visited, #ajoutVoie:visited{
+    color: #0000ee;
 }

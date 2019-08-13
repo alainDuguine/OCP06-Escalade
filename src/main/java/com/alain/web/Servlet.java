@@ -20,14 +20,12 @@ public class Servlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
         EntityManagerUtil entityManagerUtil = new EntityManagerUtil();
-        // todo charger fichier departement et villes
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         String path = req.getServletPath();
-        boolean result;
         if(path.equals("/index.do")) {
             this.getServletContext().getRequestDispatcher("/WEB-INF/index.jsp").forward(req, resp);
         }
@@ -76,11 +74,11 @@ public class Servlet extends HttpServlet {
             VilleDaoImpl dao = new VilleDaoImpl();
             String codeDep = req.getParameter("codeDep");
             List<Ville> villes = dao.findAllInDep(codeDep);
-            HashMap<Long, String> villesMap = new HashMap<>();
-            for (Ville ville : villes){
-                villesMap.put(ville.getId(), ville.getNom());
-            }
-            String villesJsonString = gson.toJson(villesMap);
+//            HashMap<Long, String> villesMap = new HashMap<>();
+//            for (Ville ville : villes){
+//                villesMap.put(ville.getId(), ville.getNom());
+//            }
+            String villesJsonString = gson.toJson(villes);
             PrintWriter out = resp.getWriter();
             resp.setContentType("application/json");
             resp.setCharacterEncoding("UTF-8");
@@ -125,7 +123,7 @@ public class Servlet extends HttpServlet {
             form.setResultat(form.checkResultListErreurs(form.getListErreurs()));
             req.setAttribute("form", form);
             if (form.getListErreurs().isEmpty()){
-                // Comment avoir à la fois la requête sql pour récupérer tous les spots
+                // todo Comment avoir à la fois la requête sql pour récupérer tous les spots
                 // Et l'objet form.resultat ? Peut être faire la requête avec Ajax ?
 //                resp.sendRedirect("/dashboard.do");
                 resp.sendRedirect("/dashboard.do?resultat=true");
