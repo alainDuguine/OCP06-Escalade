@@ -44,7 +44,7 @@
                 <select name="departement" id="departement" required="required">
                     <option value="">Choisissez un département</option>
                     <c:forEach items="${departements}" var="departement">
-                        <option value="${departement.code}">${departement.code} - ${departement.nom}</option>
+                        <option value="${departement.code}">${departement.code} - <c:out value="${departement.nom}"/></option>
                     </c:forEach>
                 </select>
             </div>
@@ -58,7 +58,7 @@
                 <select name="ville" id="ville" required="required">
                     <option value="">Choisissez une ville</option>
                     <c:forEach items="${villes}" var="ville">
-                        <option value="${ville.id}">${ville.nom}</option>
+                        <option value="${ville.id}"><c:out value="${ville.nom}"/></option>
                     </c:forEach>
                 </select>
             </div>

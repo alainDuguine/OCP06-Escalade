@@ -10,7 +10,7 @@
     <link rel="stylesheet" type="text/css" href="../css/lightbox.min.css">
     <link rel="stylesheet" type="text/css" href="../css/treeview.css">
     <link href="https://fonts.googleapis.com/css?family=Merienda&display=swap" rel="stylesheet">
-    <title>Spot : ${spot.nom}</title>
+    <title>Spot : <c:out value="${spot.nom}"/></title>
 </head>
 <body>
 <c:set var="chemin">file:///D:/fichiers/</c:set>
@@ -19,13 +19,13 @@
     <section id="navDiv">
         <div class="treeviewDiv">
             <ul class="treeview">
-                <li class="parent"><a class="treeElement" href="#${spot.nom}">${spot.nom}</a>
+                <li class="parent"><a class="treeElement" href="#${spot.nom}"><c:out value="${spot.nom}"/></a>
                     <ul>
                         <c:forEach items="${spot.secteurs}" var="secteur">
-                            <li><a class="treeElement" href="#${secteur.nom}">Secteur : ${secteur.nom}</a>
+                            <li><a class="treeElement" href="#${secteur.nom}">Secteur : <c:out value="${secteur.nom}"/></a>
                                 <ul>
                                     <c:forEach items="${secteur.voies}" var="voie">
-                                        <li><a class="treeElement" href="#${voie.nom}">Voie : ${voie.nom}</a></li>
+                                        <li><a class="treeElement" href="#${voie.nom}">Voie : <c:out value="${voie.nom}"/></a></li>
                                     </c:forEach>
                                     <li><a id="ajoutVoie" href="ajoutVoie.do?idSecteur=${secteur.id}">Ajouter une voie</a></li>
                                 </ul>
@@ -40,10 +40,10 @@
     <section class="mainDiv" id="displayDiv">
         <span class="ancre" id="${spot.nom}"></span>
         <div class="descriptionDiv">
-            <h1>${spot.nom}</h1>
-            <h5>${spot.departement.nom} - ${spot.ville.nom}</h5>
+            <h1><c:out value="${spot.nom}"/></h1>
+            <h5><c:out value="${spot.departement.nom}"/> - <c:out value="${spot.ville.nom}"/></h5>
             <h3>Description :</h3>
-            <p>${spot.description}</p>
+            <p><c:out value="${spot.description}"/></p>
         </div>
         <div class="gallery">
             <div class="scroller">
@@ -71,10 +71,10 @@
         </div>
         <c:forEach items="${spot.secteurs}" var="secteur">
             <span class="ancre" id="${secteur.nom}"></span>
-            <div class="descriptionDiv"  id="${secteur.nom}">
-                <h1>Secteur - ${secteur.nom}</h1>
+            <div class="descriptionDiv">
+                <h1>Secteur - <c:out value="${secteur.nom}"/></h1>
                 <h3>Description :</h3>
-                <p>${secteur.description}</p>
+                <p><c:out value="${secteur.description}"/></p>
                 <div class="gallery">
                     <div class="scroller">
                             <%--                <c:forEach items="${secteur.photos}" var="photo">--%>
@@ -89,12 +89,12 @@
                     <hr>
                     <span class="ancre" id="${voie.nom}"></span>
                     <div>
-                        <h1>Voie - ${voie.nom}</h1>
-                        <p>Cotation : ${voie.cotation}</p>
-                        <p>Altitude : ${voie.altitude}</p>
-                        <p>Nombre de longueurs : ${voie.nbLongueurs}</p>
+                        <h1>Voie - <c:out value="${voie.nom}"/></h1>
+                        <p>Cotation : <c:out value="${voie.cotation}"/></p>
+                        <p>Altitude : <c:out value="${voie.altitude}"/></p>
+                        <p>Nombre de longueurs : <c:out value="${voie.nbLongueurs}"/></p>
                         <h3>Description :</h3>
-                        <p>${voie.description}</p>
+                        <p><c:out value="${voie.description}"/></p>
                         <div class="gallery">
                             <div class="scroller">
                                     <%--                <c:forEach items="${voie.photos}" var="photo">--%>

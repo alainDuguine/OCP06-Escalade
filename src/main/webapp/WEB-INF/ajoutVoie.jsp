@@ -11,7 +11,7 @@
 <%@ include file= "header.jsp"%>
 <section class="mainDiv">
     <div class="formDiv">
-        <h1>Ajouter une voie au secteur - ${secteur.nom} du spot - ${secteur.spot.nom} :</h1>
+        <h1>Ajouter une voie - <c:out value="${secteur.nom}"/> - <c:out value="${secteur.spot.nom}"/></h1>
         <c:if test="${not empty form.resultat}">
             <p class="${form.resultat ? 'success' : 'echec'}">
                 <c:out value="${form.resultat ? 'Enregistrement effectué' : 'Enregistrement échoué'}"/>

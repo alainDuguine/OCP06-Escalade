@@ -64,6 +64,9 @@ public class Servlet extends HttpServlet {
             this.getServletContext().getRequestDispatcher("/WEB-INF/ajoutVoie.jsp").forward(req, resp);
         }
         else if(path.equals("/dashboard.do")){
+            if (resp.containsHeader("resultat")){
+                req.setAttribute("resultat",true);
+            }
             SpotDaoImpl spotDao = new SpotDaoImpl();
             List<Spot> listSpots = spotDao.findAll();
             req.setAttribute("spots", listSpots);
@@ -125,8 +128,9 @@ public class Servlet extends HttpServlet {
             if (form.getListErreurs().isEmpty()){
                 // todo Comment avoir à la fois la requête sql pour récupérer tous les spots
                 // Et l'objet form.resultat ? Peut être faire la requête avec Ajax ?
-//                resp.sendRedirect("/dashboard.do");
-                resp.sendRedirect("/dashboard.do?resultat=true");
+//                resp.sendRedirect("/dashboard.do");1
+                resp.setHeader("resultat","true");
+                resp.sendRedirect("/dashboard.do");
             } else {
                 doGet(req,resp);
             }
