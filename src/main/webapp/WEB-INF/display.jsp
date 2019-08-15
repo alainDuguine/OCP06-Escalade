@@ -32,6 +32,7 @@
                             </li>
                         </c:forEach>
                             <li><a id="ajoutSecteur" href="ajoutSecteur.do?idSpot=${spot.id}">Ajouter un secteur</a></li>
+                        <li><a class="treeElement" href="#commentaireAncre">Commentaires :</a></li>
                     </ul>
                 </li>
             </ul>
@@ -90,7 +91,7 @@
                     <span class="ancre" id="${voie.nom}"></span>
                     <div>
                         <h1>Voie - <c:out value="${voie.nom}"/></h1>
-                        <p>Cotation : <c:out value="${voie.cotation}"/></p>
+                        <p>Cotation : <c:out value="${voie.cotation.code}"/></p>
                         <p>Altitude : <c:out value="${voie.altitude}"/></p>
                         <p>Nombre de longueurs : <c:out value="${voie.nbLongueurs}"/></p>
                         <h3>Description :</h3>
@@ -109,10 +110,26 @@
                 </c:forEach>
             </div>
         </c:forEach>
+        <div class="descriptionDiv">
+            <div class="commentaireForm">
+                <span class="ancre" id="commentaireAncre"></span>
+                <form>
+                    <label for="commentaire">Ajoutez un commentaire public :</label><br>
+                    <input type="text" name="commentaire" id="commentaire" required/>
+                    <input type="submit" id="submitCommentaire"value="Ajouter un commentaire">
+                </form>
+            </div>
+            <div class="commentaireDisplay">
+                <c:forEach items="${spot.commentaires}" var="commentaire">
+                    <p class="commentaire"><c:out value="${commentaire.utilisateur.nom} ${commentaire.utilisateur.prenom}"/> le ${commentaire.dateFormat}
+                    <br/><c:out value="${commentaire.contenu}"/></p>
+                </c:forEach>
+            </div>
+        </div>
     </section>
-    <section class="commentaire">
 
-    </section>
+
+
 </section>
 <%--<%@include file="social.jsp"%>--%>
 
@@ -133,6 +150,23 @@
             else
                 $(this).addClass("close");
         });
+
+        $("#submitCommentaire").click(function(e){
+            e.preventDefault();
+            var commentaire = ($("#commentaire").val());
+            var idSpot = ${spot.id};
+            if (commentaire.length > 280){
+                alert("Un commentaire peut au maximum contenir 280 caractères");
+            }else if (commentaire.length == 0) {
+                alert("Vous ne pouvez pas publier un commentaire vide")
+            }else{
+                $.post("saveCommentaire.do", {contenu: commentaire, idSpot: idSpot},
+                    function (data) {
+                    $(".commentaire").first().before("<p class=\"commentaire\"> le "
+                        + data.dateFormat +"<br/>"+ data.contenu +"</p>");
+                });
+            }
+        })
     });
 </script>
 </body>

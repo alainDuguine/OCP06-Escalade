@@ -2,6 +2,7 @@ package com.alain.dao.impl;
 
 import com.alain.EntityManagerUtil;
 import com.alain.dao.contract.EntityRepository;
+import com.alain.dao.entities.Cotation;
 import com.alain.dao.entities.Secteur;
 import com.alain.dao.entities.Voie;
 
@@ -21,8 +22,11 @@ public class VoieDaoImpl implements EntityRepository<Voie> {
         transaction.begin();
         SecteurDaoImpl secteurDao = new SecteurDaoImpl();
         Secteur secteur = secteurDao.findOne(Long.parseLong(req.getParameter("idSecteur")));
+        CotationDaoImpl cotationDao = new CotationDaoImpl();
+        Cotation cotation = cotationDao.findOne(Long.parseLong(req.getParameter("cotation")));
         // Création des associations bidirectionelles
         voie.setSecteur(secteur);
+        voie.setCotation(cotation);
         entityManager.persist(voie);
         transaction.commit();
         return voie;

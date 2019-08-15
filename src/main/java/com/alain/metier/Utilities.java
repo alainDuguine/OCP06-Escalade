@@ -5,6 +5,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.SecureRandom;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -86,6 +87,20 @@ public class Utilities {
         assert sr != null;
         sr.nextBytes(salt);
         return salt;
+    }
+
+    public static String dateStringFr(LocalDateTime date){
+        String dateFormat;
+        String[] moisFr = {"Janvier", "Février", "Mars", "Avril", "Mai","Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"};
+        return dateFormat = date.getDayOfMonth() + " " + moisFr[date.getMonthValue()-1] + " " + date.getYear() + " - " + getFullHour(date) + ":" + getFullMinute(date);
+    }
+
+    private static String getFullHour(LocalDateTime date) {
+        return (date.getHour()<10?"0":"") + date.getHour();
+    }
+
+    private static String getFullMinute(LocalDateTime date) {
+        return (date.getMinute()<10?"0":"") + date.getMinute();
     }
 
 }

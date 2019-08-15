@@ -23,7 +23,7 @@ public class CommentaireVoie extends Commentaire{
     }
 
     public CommentaireVoie(Date dateHeure, String contenu, Utilisateur utilisateur, Voie voie) {
-        super(dateHeure, contenu, utilisateur);
+//        super(dateHeure, contenu, utilisateur);
         this.voie = voie;
     }
 

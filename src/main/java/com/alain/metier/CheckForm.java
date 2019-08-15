@@ -110,5 +110,4 @@ public class CheckForm {
     public boolean checkResultListErreurs(Map<String, String> listErreurs) {
         return listErreurs.isEmpty();
     }
-
 }

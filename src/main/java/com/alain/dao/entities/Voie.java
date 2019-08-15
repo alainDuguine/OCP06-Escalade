@@ -36,7 +36,7 @@ public class Voie extends Entitie implements Serializable {
     private Utilisateur utilisateur;
     @ManyToOne
     private Secteur secteur;
-    @ManyToOne
+    @ManyToOne(fetch=FetchType.EAGER)
     private Cotation cotation;
 
     @OneToMany (mappedBy = "voie")
@@ -66,7 +66,7 @@ public class Voie extends Entitie implements Serializable {
         this.photos = photos;
     }
     /* ********************************************************************************************
-     **** METHODS           ************************************************************************
+     **** METHODS          ************************************************************************
      ******************************************************************************************** */
 
 
@@ -140,6 +140,7 @@ public class Voie extends Entitie implements Serializable {
 
     public void setCotation(Cotation cotation) {
         this.cotation = cotation;
+        cotation.addVoies(this);
     }
 
     public double getAltitude() {

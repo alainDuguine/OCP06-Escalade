@@ -1,5 +1,7 @@
 package com.alain.dao.entities;
 
+import com.google.gson.annotations.Expose;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -8,7 +10,9 @@ import java.util.Date;
 @PrimaryKeyJoinColumn(name="id")
 public class CommentaireSpot extends Commentaire {
 
-    @ManyToOne
+
+    @Expose(serialize = false, deserialize = false)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Spot spot;
 
     /* ********************************************************************************************
@@ -23,19 +27,15 @@ public class CommentaireSpot extends Commentaire {
         this.spot = spot;
     }
 
-    public CommentaireSpot(Date dateHeure, String contenu, Utilisateur utilisateur, Spot spot) {
-        super(dateHeure, contenu, utilisateur);
-        this.spot = spot;
-    }
 
     /* ********************************************************************************************
-     **** METHODS           ************************************************************************
+     **** METHODS          ************************************************************************
      ******************************************************************************************** */
 
 
-    /* ***********************************************************************************************
+    /* *********************************************************************************************
      **** GETTERS & SETTERS ************************************************************************
-     *********************************************************************************************** */
+     ******************************************************************************************** */
 
     public Spot getSpot() {
         return spot;

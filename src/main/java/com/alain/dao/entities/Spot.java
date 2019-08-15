@@ -227,4 +227,8 @@ public class Spot extends Entitie implements Serializable {
         return ville;
     }
 
+    public void addCommentaire(CommentaireSpot commentaire) {
+        this.commentaires.add(commentaire);
+        commentaire.setSpot(this);
+    }
 }

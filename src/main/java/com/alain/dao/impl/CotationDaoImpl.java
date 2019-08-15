@@ -36,6 +36,6 @@ public class CotationDaoImpl implements EntityRepository<Cotation> {
 
     @Override
     public Cotation findOne(Long id) {
-        return null;
+        return entityManager.find(Cotation.class, id);
     }
 }

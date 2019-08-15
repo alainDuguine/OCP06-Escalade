@@ -5,15 +5,15 @@ import com.alain.dao.entities.*;
 import com.alain.dao.impl.*;
 import com.alain.metier.CheckForm;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.HashMap;
 import java.util.List;
-
 
 public class Servlet extends HttpServlet {
 
@@ -57,11 +57,15 @@ public class Servlet extends HttpServlet {
         else if(path.equals("/ajoutVoie.do") || path.equals("/saveVoie.do")){
             SecteurDaoImpl secteurDao = new SecteurDaoImpl();
             Secteur secteur = secteurDao.findOne(Long.parseLong(req.getParameter("idSecteur")));
-            CotationDaoImpl cotationDao = new CotationDaoImpl();
-            List<Cotation> cotations = cotationDao.findAll();
-            req.setAttribute("cotations", cotations);
-            req.setAttribute("secteur", secteur);
-            this.getServletContext().getRequestDispatcher("/WEB-INF/ajoutVoie.jsp").forward(req, resp);
+            if (secteur != null) {
+                CotationDaoImpl cotationDao = new CotationDaoImpl();
+                List<Cotation> cotations = cotationDao.findAll();
+                req.setAttribute("cotations", cotations);
+                req.setAttribute("secteur", secteur);
+                this.getServletContext().getRequestDispatcher("/WEB-INF/ajoutVoie.jsp").forward(req, resp);
+            }else{
+                this.getServletContext().getRequestDispatcher("/WEB-INF/erreur.jsp").forward(req, resp);
+            }
         }
         else if(path.equals("/dashboard.do")){
             if (resp.containsHeader("resultat")){
@@ -91,8 +95,14 @@ public class Servlet extends HttpServlet {
         else if (path.equals("/display.do")){
             SpotDaoImpl spotDao = new SpotDaoImpl();
             Spot spot = spotDao.findOne(Long.parseLong(req.getParameter("idSpot")));
-            req.setAttribute("spot",spot);
-            this.getServletContext().getRequestDispatcher("/WEB-INF/display.jsp").forward(req, resp);
+            if (spot != null) {
+                CommentaireSpotDaoImpl commentaireSpotDao =new CommentaireSpotDaoImpl();
+                spot.setCommentaires(commentaireSpotDao.findAllInSpot(spot.getId()));
+                req.setAttribute("spot", spot);
+                this.getServletContext().getRequestDispatcher("/WEB-INF/display.jsp").forward(req, resp);
+            }else {
+                this.getServletContext().getRequestDispatcher("/WEB-INF/erreur.jsp").forward(req, resp);
+            }
         }
     }
 
@@ -125,7 +135,7 @@ public class Servlet extends HttpServlet {
             }
             form.setResultat(form.checkResultListErreurs(form.getListErreurs()));
             req.setAttribute("form", form);
-            if (form.getListErreurs().isEmpty()){
+            if (form.isResultat()){
                 // todo Comment avoir à la fois la requête sql pour récupérer tous les spots
                 // Et l'objet form.resultat ? Peut être faire la requête avec Ajax ?
 //                resp.sendRedirect("/dashboard.do");1
@@ -146,8 +156,8 @@ public class Servlet extends HttpServlet {
             }
             form.setResultat(form.checkResultListErreurs(form.getListErreurs()));
             req.setAttribute("form", form);
-            if (form.getListErreurs().isEmpty()) {
-                resp.sendRedirect("/dashboard.do");
+            if (form.isResultat()) {
+                resp.sendRedirect("/display.do?idSpot="+req.getParameter("idSpot"));
             }else {
                 doGet(req,resp);
             }
@@ -163,10 +173,36 @@ public class Servlet extends HttpServlet {
             }
             form.setResultat(form.checkResultListErreurs(form.getListErreurs()));
             req.setAttribute("form", form);
-            if (form.getListErreurs().isEmpty()){
-                resp.sendRedirect("/dashboard.do");
+            if (form.isResultat()){
+                Long idSpot = ((Voie) form.getEntitie()).getSecteur().getSpot().getId();
+                String nomSecteur = ((Voie) form.getEntitie()).getSecteur().getNom();
+                req.setAttribute("idSpot",idSpot);
+                resp.sendRedirect("/display.do?idSpot="+idSpot+"#"+nomSecteur);
             }else{
                 doGet(req,resp);
+            }
+        }else if (path.equals("/saveCommentaire.do")){
+            Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+            CommentaireSpotDaoImpl commentaireDao = new CommentaireSpotDaoImpl();
+            String idSpot = req.getParameter("idSpot");
+            CheckForm form = new CheckForm();
+            form.checkAndSave(req, "com.alain.dao.entities.CommentaireSpot", commentaireDao);
+            form.setResultat(form.checkResultListErreurs(form.getListErreurs()));
+            if (form.isResultat()){
+                resp.setContentType("application/json");
+                resp.setCharacterEncoding("UTF-8");
+                CommentaireSpot commentaire = (CommentaireSpot) form.getEntitie();
+                String json = gson.toJson(commentaire);
+                PrintWriter out = resp.getWriter();
+                out.print(json);
+                out.flush();
+            }else{
+                resp.setContentType("application/json");
+                resp.setCharacterEncoding("UTF-8");
+                String erreurJsonString = gson.toJson(form.getListErreurs());
+                PrintWriter out = resp.getWriter();
+                out.print("erreurJsonString");
+                out.flush();
             }
         }
     }
