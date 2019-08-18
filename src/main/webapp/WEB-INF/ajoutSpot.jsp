@@ -27,7 +27,7 @@
             </div>
             <div class="inscriptionForm">
                 <label for="nom">Nom du spot :</label>
-                <input type="text" name="nom" id="nom" required="required" value="${form.entitie.nom}">
+                <input type="text" name="nom" id="nom" maxlength="50" required="required" value="${form.entitie.nom}">
             </div>
 
             <div class="erreur">

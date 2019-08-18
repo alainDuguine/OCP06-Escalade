@@ -55,9 +55,9 @@ public class Commentaire extends Entitie implements Serializable {
         Map<String, String> listErreur = new HashMap<>();
 
         if (Utilities.isEmpty(this.contenu)) {
-            listErreur.put(CHAMP_CONTENU, "Le commentaire est vide");
-        }else if (this.contenu.length() > 280){
-            listErreur.put(CHAMP_CONTENU, "Un commentaire peut au maximum contenir 280 caractères");
+            listErreur.put("erreur", "Le commentaire est vide");
+        }else if (this.contenu.length() > 255){
+            listErreur.put("erreur", "Un commentaire peut au maximum contenir 255 caractères");
         }
         return listErreur;
     }

@@ -44,7 +44,7 @@
             </div>
             <div class="inscriptionForm">
                 <label for="nom">Nom :</label>
-                <input type="nom" name="nom" id="nom" placeholder="Ex : Dupont" required="required" value="<c:out value="${param.nom}"/>">
+                <input type="nom" name="nom" id="nom" maxlength="50" placeholder="Ex : Dupont" required="required" value="<c:out value="${param.nom}"/>">
             </div>
             <div class="erreur">
                 <div></div>
@@ -52,7 +52,7 @@
             </div>
             <div class="inscriptionForm">
                 <label for="prenom">Prénom :</label>
-                <input type="prenom" name="prenom" id="prenom" placeholder="Ex : Jean" required="required" value="<c:out value="${param.prenom}"/>">
+                <input type="prenom" name="prenom" id="prenom" maxlength="50" placeholder="Ex : Jean" required="required" value="<c:out value="${param.prenom}"/>">
             </div>
             <div class="bouton">
                 <input type="submit" value="Enregistrer">

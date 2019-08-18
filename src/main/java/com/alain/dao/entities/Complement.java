@@ -11,6 +11,7 @@ public class Complement implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Date dateHeure;
+    @Column (length = 2000)
     private String contenu;
 
     // Associations

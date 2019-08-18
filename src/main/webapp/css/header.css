@@ -9,6 +9,7 @@ header{
     top: 0;
     width: 100%;
     z-index: 1000;
+    height: 2em;
 }
 
 #menu{
@@ -31,6 +32,7 @@ header{
     border-bottom-right-radius: 12px;
     border-bottom-left-radius: 12px;
     box-shadow: 3px 3px 3px #000;
+    height: 180px;
 }
 
 /* Définition de la bannière qui englobera tous les boutons du menu */

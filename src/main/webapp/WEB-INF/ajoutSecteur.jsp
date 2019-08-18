@@ -28,7 +28,7 @@
             </div>
             <div class="inscriptionForm">
                 <label for="nom">Nom du secteur :</label>
-                <input type="text" name="nom" id="nom" required="required" value="<c:out value="${param.nom}"/>">
+                <input type="text" name="nom" id="nom" maxlength="50" required="required" value="<c:out value="${param.nom}"/>">
             </div>
 
             <div class="erreur">
@@ -36,7 +36,7 @@
             </div>
             <div class="inscriptionForm">
                 <label for="description">Description :</label>
-                <textarea name="description" id="description" required="required" ><c:out value="${param.description}"/></textarea>
+                <textarea name="description" id="description" maxlength="2000" required="required" ><c:out value="${param.description}"/></textarea>
             </div>
 
             <div class="erreur">

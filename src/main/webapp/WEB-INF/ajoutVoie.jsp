@@ -29,7 +29,7 @@
             </div>
             <div class="inscriptionForm">
                 <label for="nom">Nom de la voie :</label>
-                <input type="text" name="nom" id="nom" required="required" value="<c:out value="${param.nom}"/>">
+                <input type="text" name="nom" id="nom" maxlength="50" required="required" value="<c:out value="${param.nom}"/>">
             </div>
 
             <div class="inscriptionForm">

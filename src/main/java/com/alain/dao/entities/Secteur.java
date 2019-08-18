@@ -21,6 +21,7 @@ public class Secteur extends Entitie implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column (length=50)
     private String nom;
     @Column (length = 2000)
     private String description;

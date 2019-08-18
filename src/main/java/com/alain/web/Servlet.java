@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Servlet extends HttpServlet {
@@ -82,6 +83,7 @@ public class Servlet extends HttpServlet {
             String codeDep = req.getParameter("codeDep");
             List<Ville> villes = dao.findAllInDep(codeDep);
 //            HashMap<Long, String> villesMap = new HashMap<>();
+//            ArrayList<Ville> villesArray = (ArrayList<Ville>) dao.findAllInDep(codeDep);
 //            for (Ville ville : villes){
 //                villesMap.put(ville.getId(), ville.getNom());
 //            }
@@ -199,9 +201,9 @@ public class Servlet extends HttpServlet {
             }else{
                 resp.setContentType("application/json");
                 resp.setCharacterEncoding("UTF-8");
-                String erreurJsonString = gson.toJson(form.getListErreurs());
+                String erreurJson = gson.toJson(form.getListErreurs());
                 PrintWriter out = resp.getWriter();
-                out.print("erreurJsonString");
+                out.print(erreurJson);
                 out.flush();
             }
         }

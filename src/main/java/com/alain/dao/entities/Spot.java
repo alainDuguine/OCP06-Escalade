@@ -25,6 +25,7 @@ public class Spot extends Entitie implements Serializable {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column (length=50)
     private String nom;
     private String adresse;
     @Column (length = 2000)

@@ -13,7 +13,7 @@
     <title>Spot : <c:out value="${spot.nom}"/></title>
 </head>
 <body>
-<c:set var="chemin">file:///D:/fichiers/</c:set>
+<c:set var="chemin">/Images/</c:set>
 <%@ include file= "header.jsp"%>
 <section id="displaySpot">
     <section id="navDiv">
@@ -48,26 +48,26 @@
         </div>
         <div class="gallery">
             <div class="scroller">
-<%--                <c:forEach items="${spot.photos}" var="photo">--%>
-<%--                    <a href="${chemin}${photo.nom}" data-lightbox="mygallery"><img src="${chemin}${photo.nom}"/></a>--%>
-<%--                </c:forEach>--%>
-                <a href="../img/adventure-1807524_1920.jpg" data-lightbox="mygallery"><img src="../img/adventure-1807524_1920.jpg"></a>
-                <a href="../img/climb-2805903_1920.jpg" data-lightbox="mygallery"><img src="../img/climb-2805903_1920.jpg"></a>
-                <a href="../img/climber-299018_1920.jpg" data-lightbox="mygallery"><img src="../img/climber-299018_1920.jpg"></a>
-                <a href="../img/climber-984380_1920.jpg" data-lightbox="mygallery"><img src="../img/climber-984380_1920.jpg"></a>
-                <a href="../img/climbing-1761386_1920.jpg" data-lightbox="mygallery"><img src="../img/climbing-1761386_1920.jpg"></a>
-                <a href="../img/mountain-806915_1920.jpg" data-lightbox="mygallery"><img src="../img/mountain-806915_1920.jpg"></a>
-                <a href="../img/mountain-918637_1920.jpg" data-lightbox="mygallery"><img src="../img/mountain-918637_1920.jpg"></a>
-                <a href="../img/mountain-climber-2427191_1920.jpg" data-lightbox="mygallery"><img src="../img/mountain-climber-2427191_1920.jpg"></a>
-                <a href="../img/mountain-climbing-802099_1920.jpg" data-lightbox="mygallery"><img src="../img/mountain-climbing-802099_1920.jpg"></a>
-                <a href="../img/mountaineer-2100050_1920.jpg" data-lightbox="mygallery"><img src="../img/mountaineer-2100050_1920.jpg"></a>
-                <a href="../img/mountaineering-895659_1920.jpg" data-lightbox="mygallery"><img src="../img/mountaineering-895659_1920.jpg"></a>
-                <a href="../img/person-1245959_1920.jpg" data-lightbox="mygallery"><img src="../img/person-1245959_1920.jpg"></a>
-                <a href="../img/rock-climbing-403487_1920.jpg" data-lightbox="mygallery"><img src="../img/rock-climbing-403487_1920.jpg"></a>
-                <a href="../img/rock-climbing-1283693_1920.jpg" data-lightbox="mygallery"><img src="../img/rock-climbing-1283693_1920.jpg"></a>
-                <a href="../img/saxon-switzerland-539418_1920.jpg" data-lightbox="mygallery"><img src="../img/saxon-switzerland-539418_1920.jpg"></a>
-                <a href="../img/summit-1209168_1920.jpg" data-lightbox="mygallery"><img src="../img/summit-1209168_1920.jpg"></a>
-                <a href="../img/woman-2594934_1920.jpg" data-lightbox="mygallery"><img src="../img/woman-2594934_1920.jpg"></a>
+                <c:forEach items="${spot.photos}" var="photo">
+                    <a href="${chemin}${photo.nom}" data-lightbox="mygallery"><img src="${chemin}${photo.nom}"/></a>
+                </c:forEach>
+<%--                <a href="../img/adventure-1807524_1920.jpg" data-lightbox="mygallery"><img src="../img/adventure-1807524_1920.jpg"></a>--%>
+<%--                <a href="../img/climb-2805903_1920.jpg" data-lightbox="mygallery"><img src="../img/climb-2805903_1920.jpg"></a>--%>
+<%--                <a href="../img/climber-299018_1920.jpg" data-lightbox="mygallery"><img src="../img/climber-299018_1920.jpg"></a>--%>
+<%--                <a href="../img/climber-984380_1920.jpg" data-lightbox="mygallery"><img src="../img/climber-984380_1920.jpg"></a>--%>
+<%--                <a href="../img/climbing-1761386_1920.jpg" data-lightbox="mygallery"><img src="../img/climbing-1761386_1920.jpg"></a>--%>
+<%--                <a href="../img/mountain-806915_1920.jpg" data-lightbox="mygallery"><img src="../img/mountain-806915_1920.jpg"></a>--%>
+<%--                <a href="../img/mountain-918637_1920.jpg" data-lightbox="mygallery"><img src="../img/mountain-918637_1920.jpg"></a>--%>
+<%--                <a href="../img/mountain-climber-2427191_1920.jpg" data-lightbox="mygallery"><img src="../img/mountain-climber-2427191_1920.jpg"></a>--%>
+<%--                <a href="../img/mountain-climbing-802099_1920.jpg" data-lightbox="mygallery"><img src="../img/mountain-climbing-802099_1920.jpg"></a>--%>
+<%--                <a href="../img/mountaineer-2100050_1920.jpg" data-lightbox="mygallery"><img src="../img/mountaineer-2100050_1920.jpg"></a>--%>
+<%--                <a href="../img/mountaineering-895659_1920.jpg" data-lightbox="mygallery"><img src="../img/mountaineering-895659_1920.jpg"></a>--%>
+<%--                <a href="../img/person-1245959_1920.jpg" data-lightbox="mygallery"><img src="../img/person-1245959_1920.jpg"></a>--%>
+<%--                <a href="../img/rock-climbing-403487_1920.jpg" data-lightbox="mygallery"><img src="../img/rock-climbing-403487_1920.jpg"></a>--%>
+<%--                <a href="../img/rock-climbing-1283693_1920.jpg" data-lightbox="mygallery"><img src="../img/rock-climbing-1283693_1920.jpg"></a>--%>
+<%--                <a href="../img/saxon-switzerland-539418_1920.jpg" data-lightbox="mygallery"><img src="../img/saxon-switzerland-539418_1920.jpg"></a>--%>
+<%--                <a href="../img/summit-1209168_1920.jpg" data-lightbox="mygallery"><img src="../img/summit-1209168_1920.jpg"></a>--%>
+<%--                <a href="../img/woman-2594934_1920.jpg" data-lightbox="mygallery"><img src="../img/woman-2594934_1920.jpg"></a>--%>
             </div>
         </div>
         <c:forEach items="${spot.secteurs}" var="secteur">
@@ -111,27 +111,22 @@
             </div>
         </c:forEach>
         <div class="descriptionDiv">
+            <span class="ancre" id="commentaireAncre">ancre</span>
             <div class="commentaireForm">
-                <span class="ancre" id="commentaireAncre"></span>
-                <form>
-                    <label for="commentaire">Ajoutez un commentaire public :</label><br>
-                    <input type="text" name="commentaire" id="commentaire" required/>
-                    <input type="submit" id="submitCommentaire"value="Ajouter un commentaire">
-                </form>
+                <label for="commentaireInput" id="labelCommentaire">Ajouter un commentaire public :</label>
+                <textarea name="commentaire" id="commentaireInput" ></textarea>
+                <input type="button" id="submitCommentaire" value="Ajouter un commentaire">
             </div>
+            <hr/>
             <div class="commentaireDisplay">
-                <c:forEach items="${spot.commentaires}" var="commentaire">
-                    <p class="commentaire"><c:out value="${commentaire.utilisateur.nom} ${commentaire.utilisateur.prenom}"/> le ${commentaire.dateFormat}
-                    <br/><c:out value="${commentaire.contenu}"/></p>
+                <c:forEach items="${spot.commentaires}" var="commentaireInput">
+                    <p class="commentaire"><c:out value="${commentaireInput.utilisateur.nom} ${commentaireInput.utilisateur.prenom}"/> le ${commentaireInput.dateFormat}
+                    <br/><c:out value="${commentaireInput.contenu}"/></p><hr/>
                 </c:forEach>
             </div>
         </div>
     </section>
-
-
-
 </section>
-<%--<%@include file="social.jsp"%>--%>
 
 <script type="text/javascript" src="../js/lightbox-plus-jquery.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
@@ -153,7 +148,7 @@
 
         $("#submitCommentaire").click(function(e){
             e.preventDefault();
-            var commentaire = ($("#commentaire").val());
+            var commentaire = ($("#commentaireInput").val());
             var idSpot = ${spot.id};
             if (commentaire.length > 280){
                 alert("Un commentaire peut au maximum contenir 280 caractères");
@@ -162,9 +157,19 @@
             }else{
                 $.post("saveCommentaire.do", {contenu: commentaire, idSpot: idSpot},
                     function (data) {
-                    $(".commentaire").first().before("<p class=\"commentaire\"> le "
-                        + data.dateFormat +"<br/>"+ data.contenu +"</p>");
-                });
+                        if (!data.hasOwnProperty('erreur')) {
+                            $("#commentaireInput").val('');
+                            if ($(".commentaire").length) {
+                                $(".commentaire").first().before("<p class=\"commentaire\"> le "
+                                    + data.dateFormat + "<br/>" + data.contenu + "</p><hr/>");
+                            } else {
+                                $(".commentaireDisplay").append("<p class=\"commentaire\"> le "
+                                    + data.dateFormat + "<br/>" + data.contenu + "</p><hr/>");
+                            }
+                        }else{
+                            alert(data.erreur);
+                        }
+                    });
             }
         })
     });
