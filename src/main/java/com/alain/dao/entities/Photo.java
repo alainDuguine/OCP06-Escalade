@@ -71,6 +71,9 @@ public class Photo implements Serializable{
         String extension;
         String nomGenere;
         extension = getExtension(part);
+        if ((!extension.equals("jpg")) && (!extension.equals("png")) && (!extension.equals("jpeg"))){
+            this.erreur = "Les fichiers doivent être au format jpg ou png";
+        }
         dateTime = formatDate(LocalDateTime.now());
         nomGenere = dateTime + index + "." + extension;
         return nomGenere;

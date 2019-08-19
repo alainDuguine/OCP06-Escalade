@@ -14,7 +14,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 public class Servlet extends HttpServlet {
 
@@ -141,7 +143,6 @@ public class Servlet extends HttpServlet {
                 // todo Comment avoir à la fois la requête sql pour récupérer tous les spots
                 // Et l'objet form.resultat ? Peut être faire la requête avec Ajax ?
 //                resp.sendRedirect("/dashboard.do");1
-                resp.setHeader("resultat","true");
                 resp.sendRedirect("/dashboard.do");
             } else {
                 doGet(req,resp);

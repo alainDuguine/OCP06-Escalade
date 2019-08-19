@@ -13,7 +13,7 @@
     <title>Spot : <c:out value="${spot.nom}"/></title>
 </head>
 <body>
-<c:set var="chemin">/Images/</c:set>
+<c:set var="chemin">/images/</c:set>
 <%@ include file= "header.jsp"%>
 <section id="displaySpot">
     <section id="navDiv">
@@ -41,51 +41,37 @@
     <section class="mainDiv" id="displayDiv">
         <span class="ancre" id="${spot.nom}"></span>
         <div class="descriptionDiv">
-            <h1><c:out value="${spot.nom}"/></h1>
+            <h1>Spot - <c:out value="${spot.nom}"/></h1>
             <h5><c:out value="${spot.departement.nom}"/> - <c:out value="${spot.ville.nom}"/></h5>
             <h3>Description :</h3>
             <p><c:out value="${spot.description}"/></p>
+            <c:if test="${!empty spot.photos}">
+                <div class="gallery">
+                    <div class="scroller">
+                        <c:forEach items="${spot.photos}" var="photo">
+                            <a href="${chemin}${photo.nom}" data-lightbox="gallerySpot"><img src="${chemin}${photo.nom}"/></a>
+                        </c:forEach>
+
+                    </div>
+                </div>
+            </c:if>
         </div>
-        <div class="gallery">
-            <div class="scroller">
-                <c:forEach items="${spot.photos}" var="photo">
-                    <a href="${chemin}${photo.nom}" data-lightbox="mygallery"><img src="${chemin}${photo.nom}"/></a>
-                </c:forEach>
-<%--                <a href="../img/adventure-1807524_1920.jpg" data-lightbox="mygallery"><img src="../img/adventure-1807524_1920.jpg"></a>--%>
-<%--                <a href="../img/climb-2805903_1920.jpg" data-lightbox="mygallery"><img src="../img/climb-2805903_1920.jpg"></a>--%>
-<%--                <a href="../img/climber-299018_1920.jpg" data-lightbox="mygallery"><img src="../img/climber-299018_1920.jpg"></a>--%>
-<%--                <a href="../img/climber-984380_1920.jpg" data-lightbox="mygallery"><img src="../img/climber-984380_1920.jpg"></a>--%>
-<%--                <a href="../img/climbing-1761386_1920.jpg" data-lightbox="mygallery"><img src="../img/climbing-1761386_1920.jpg"></a>--%>
-<%--                <a href="../img/mountain-806915_1920.jpg" data-lightbox="mygallery"><img src="../img/mountain-806915_1920.jpg"></a>--%>
-<%--                <a href="../img/mountain-918637_1920.jpg" data-lightbox="mygallery"><img src="../img/mountain-918637_1920.jpg"></a>--%>
-<%--                <a href="../img/mountain-climber-2427191_1920.jpg" data-lightbox="mygallery"><img src="../img/mountain-climber-2427191_1920.jpg"></a>--%>
-<%--                <a href="../img/mountain-climbing-802099_1920.jpg" data-lightbox="mygallery"><img src="../img/mountain-climbing-802099_1920.jpg"></a>--%>
-<%--                <a href="../img/mountaineer-2100050_1920.jpg" data-lightbox="mygallery"><img src="../img/mountaineer-2100050_1920.jpg"></a>--%>
-<%--                <a href="../img/mountaineering-895659_1920.jpg" data-lightbox="mygallery"><img src="../img/mountaineering-895659_1920.jpg"></a>--%>
-<%--                <a href="../img/person-1245959_1920.jpg" data-lightbox="mygallery"><img src="../img/person-1245959_1920.jpg"></a>--%>
-<%--                <a href="../img/rock-climbing-403487_1920.jpg" data-lightbox="mygallery"><img src="../img/rock-climbing-403487_1920.jpg"></a>--%>
-<%--                <a href="../img/rock-climbing-1283693_1920.jpg" data-lightbox="mygallery"><img src="../img/rock-climbing-1283693_1920.jpg"></a>--%>
-<%--                <a href="../img/saxon-switzerland-539418_1920.jpg" data-lightbox="mygallery"><img src="../img/saxon-switzerland-539418_1920.jpg"></a>--%>
-<%--                <a href="../img/summit-1209168_1920.jpg" data-lightbox="mygallery"><img src="../img/summit-1209168_1920.jpg"></a>--%>
-<%--                <a href="../img/woman-2594934_1920.jpg" data-lightbox="mygallery"><img src="../img/woman-2594934_1920.jpg"></a>--%>
-            </div>
-        </div>
+
         <c:forEach items="${spot.secteurs}" var="secteur">
             <span class="ancre" id="${secteur.nom}"></span>
             <div class="descriptionDiv">
                 <h1>Secteur - <c:out value="${secteur.nom}"/></h1>
                 <h3>Description :</h3>
                 <p><c:out value="${secteur.description}"/></p>
-                <div class="gallery">
-                    <div class="scroller">
-                            <%--                <c:forEach items="${secteur.photos}" var="photo">--%>
-                            <%--                    <a href="${chemin}${photo.nom}" data-lightbox="mygallery"><img src="${chemin}${photo.nom}"/></a>--%>
-                            <%--                </c:forEach>--%>
-                        <a href="../img/adventure-1807524_1920.jpg" data-lightbox="mygallery"><img src="../img/adventure-1807524_1920.jpg"></a>
-                        <a href="../img/climb-2805903_1920.jpg" data-lightbox="mygallery"><img src="../img/climb-2805903_1920.jpg"></a>
-                        <a href="../img/climber-299018_1920.jpg" data-lightbox="mygallery"><img src="../img/climber-299018_1920.jpg"></a>
+                <c:if test="${!empty secteur.photos}">
+                    <div class="gallery">
+                        <div class="scroller">
+                            <c:forEach items="${secteur.photos}" var="photo">
+                                <a href="${chemin}${photo.nom}" data-lightbox="gallerySecteur"><img src="${chemin}${photo.nom}"/></a>
+                            </c:forEach>
+                        </div>
                     </div>
-                </div>
+                </c:if>
                 <c:forEach items="${secteur.voies}" var="voie">
                     <hr>
                     <span class="ancre" id="${voie.nom}"></span>
@@ -96,16 +82,15 @@
                         <p>Nombre de longueurs : <c:out value="${voie.nbLongueurs}"/></p>
                         <h3>Description :</h3>
                         <p><c:out value="${voie.description}"/></p>
-                        <div class="gallery">
-                            <div class="scroller">
-                                    <%--                <c:forEach items="${voie.photos}" var="photo">--%>
-                                    <%--                    <a href="${chemin}${photo.nom}" data-lightbox="mygallery"><img src="${chemin}${photo.nom}"/></a>--%>
-                                    <%--                </c:forEach>--%>
-                                <a href="../img/adventure-1807524_1920.jpg" data-lightbox="mygallery"><img src="../img/adventure-1807524_1920.jpg"></a>
-                                <a href="../img/climb-2805903_1920.jpg" data-lightbox="mygallery"><img src="../img/climb-2805903_1920.jpg"></a>
-                                <a href="../img/climber-299018_1920.jpg" data-lightbox="mygallery"><img src="../img/climber-299018_1920.jpg"></a>
+                        <c:if test="${!empty voie.photos}">
+                            <div class="gallery">
+                                <div class="scroller">
+                                    <c:forEach items="${voie.photos}" var="photo">
+                                        <a href="${chemin}${photo.nom}" data-lightbox="galleryVoies"><img src="${chemin}${photo.nom}"/></a>
+                                    </c:forEach>
+                                </div>
                             </div>
-                        </div>
+                        </c:if>
                     </div>
                 </c:forEach>
             </div>

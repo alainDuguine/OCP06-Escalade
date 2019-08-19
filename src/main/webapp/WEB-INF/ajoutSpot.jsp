@@ -73,11 +73,10 @@
 
 
             <div class="erreur">
-                <div></div>
                 <div>${form.listErreurs['photo']}</div>
             </div>
             <div class="inscriptionForm">
-                <label for="photo">Ajouter des photos :</label>
+                <label for="photo" id="labelPhoto">Ajouter des photos (format jpeg, png) :<br> (Taille max par fichier : 5 Mo, taille totale max : 50 Mo): <br><span id="taillePhoto"></span></label>
                 <input type="file" id="photo" name="photo" multiple="multiple" accept="image/jpg, image/png"/>
             </div>
 
@@ -93,6 +92,7 @@
         integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
         crossorigin="anonymous">
 </script>
+<script src="../js/checkPhotos.js"></script>
 <script>
     $(document).ready(function(){
 
