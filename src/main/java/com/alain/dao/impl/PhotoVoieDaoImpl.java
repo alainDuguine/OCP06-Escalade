@@ -17,14 +17,20 @@ public class PhotoVoieDaoImpl implements EntityRepository<PhotoVoie> {
     @Override
     public PhotoVoie save(PhotoVoie photoVoie, HttpServletRequest req) {
         EntityTransaction transaction = entityManager.getTransaction();
-        transaction.begin();
-        VoieDaoImpl voieDao = new VoieDaoImpl();
-        Long idVoie = (Long) req.getAttribute("idVoie");
-        Voie voie = voieDao.findOne(idVoie);
-        // Création des associations bidirectionelles
-        voie.addPhoto(photoVoie);
-        entityManager.persist(photoVoie);
-        transaction.commit();
+        try{
+            transaction.begin();
+            VoieDaoImpl voieDao = new VoieDaoImpl();
+            Long idVoie = (Long) req.getAttribute("idVoie");
+            Voie voie = voieDao.findOne(idVoie);
+            // Création des associations bidirectionelles
+            voie.addPhoto(photoVoie);
+            entityManager.persist(photoVoie);
+            transaction.commit();
+        }catch (Exception e){
+            if (transaction != null)
+                transaction.rollback();
+            e.printStackTrace();
+        }
         return photoVoie;
     }
 

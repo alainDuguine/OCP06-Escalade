@@ -62,13 +62,28 @@
                     </tr>
                 </thead>
                 <tbody>
-                <c:forEach items="${spots}" var="spot">
+<%--                <c:forEach items="${spots}" var="spot">--%>
+<%--                    <tr class="item">--%>
+<%--                        <c:set var="idSpot" value="${spot.id}"/>--%>
+<%--                        <td><a href="display.do?idSpot=${spot.id}"><c:out value="${spot.nom}"/></a></td>--%>
+<%--                        <td><c:out value="${spot.departement.nom}"/></td>--%>
+<%--                        <td><c:out value="${spot.ville.nom}"/></td>--%>
+<%--                        <td>Not Implementated</td>--%>
+<%--                        <td>Not Implementated</td>--%>
+<%--                        <td>Not Implementated</td>--%>
+<%--                        <c:choose>--%>
+<%--                            <c:when test="${spot.officiel == true}"><td><c:out value="Oui"/></td></c:when>--%>
+<%--                            <c:otherwise><td><c:out value="Non"/></td></c:otherwise>--%>
+<%--                        </c:choose>--%>
+<%--                    </tr>--%>
+<%--                </c:forEach>--%>
+                    <c:forEach items="${spots}" var="spot">
                     <tr class="item">
-                        <c:set var="idSpot" value="${spot.id}"/>
-                        <td><a href="display.do?idSpot=${spot.id}"><c:out value="${spot.nom}"/></a></td>
+                        <c:set var="idSpot" value="${spot.spot.id}"/>
+                        <td><a href="display.do?idSpot=${spot.spot.id}"><c:out value="${spot.spot.nom}"/></a></td>
                         <td><c:out value="${spot.departement.nom}"/></td>
                         <td><c:out value="${spot.ville.nom}"/></td>
-                        <td>Not Implementated</td>
+                        <td><c:out value="${}"></td>
                         <td>Not Implementated</td>
                         <td>Not Implementated</td>
                         <c:choose>

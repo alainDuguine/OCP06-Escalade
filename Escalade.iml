@@ -23,7 +23,9 @@
         <datasource-mapping>
           <factory-entry name="DB_ESCALADE" value="dd71715d-43f3-4265-886f-7f10eaf3353b" />
         </datasource-mapping>
-        <naming-strategy-map />
+        <naming-strategy-map>
+          <unit-entry name="DB_ESCALADE" />
+        </naming-strategy-map>
         <deploymentDescriptor name="persistence.xml" url="file://$MODULE_DIR$/src/main/resources/META-INF/persistence.xml" />
       </configuration>
     </facet>

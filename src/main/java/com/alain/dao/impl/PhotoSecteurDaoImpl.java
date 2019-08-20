@@ -16,16 +16,22 @@ public class PhotoSecteurDaoImpl implements EntityRepository<PhotoSecteur> {
     @Override
     public PhotoSecteur save(PhotoSecteur photoSecteur, HttpServletRequest req) {
         EntityTransaction transaction = entityManager.getTransaction();
-        transaction.begin();
-        SecteurDaoImpl secteurDao = new SecteurDaoImpl();
-        Long idSecteur = (Long) req.getAttribute("idSecteur");
-        Secteur secteur = secteurDao.findOne(idSecteur);
-        // Création des associations bidirectionelles
-        secteur.addPhoto(photoSecteur);
-        entityManager.persist(photoSecteur);
-        transaction.commit();
-        return photoSecteur;
-    }
+        try{
+            transaction.begin();
+            SecteurDaoImpl secteurDao = new SecteurDaoImpl();
+            Long idSecteur = (Long) req.getAttribute("idSecteur");
+            Secteur secteur = secteurDao.findOne(idSecteur);
+            // Création des associations bidirectionelles
+            secteur.addPhoto(photoSecteur);
+            entityManager.persist(photoSecteur);
+            transaction.commit();
+        }catch (Exception e){
+            if (transaction != null)
+                transaction.rollback();
+            e.printStackTrace();
+        }
+            return photoSecteur;
+        }
 
     @Override
     public PhotoSecteur update(PhotoSecteur photoSecteur) {

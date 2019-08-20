@@ -16,13 +16,19 @@ public class SecteurDaoImpl extends EntityManagerUtil implements EntityRepositor
 
     public Secteur save(Secteur secteur, HttpServletRequest req) {
         EntityTransaction transaction = entityManager.getTransaction();
-        transaction.begin();
-        SpotDaoImpl spotDao = new SpotDaoImpl();
-        Spot spot = spotDao.findOne(Long.parseLong(req.getParameter("idSpot")));
-        // Création des associations bidirectionelles
-        secteur.setSpot(spot);
-        entityManager.persist(secteur);
-        transaction.commit();
+        try{
+            transaction.begin();
+            SpotDaoImpl spotDao = new SpotDaoImpl();
+            Spot spot = spotDao.findOne(Long.parseLong(req.getParameter("idSpot")));
+            // Création des associations bidirectionelles
+            secteur.setSpot(spot);
+            entityManager.persist(secteur);
+            transaction.commit();
+        }catch (Exception e){
+            if (transaction != null)
+                transaction.rollback();
+            e.printStackTrace();
+        }
         return secteur;
     }
 

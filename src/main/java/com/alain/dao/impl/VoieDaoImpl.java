@@ -19,16 +19,22 @@ public class VoieDaoImpl implements EntityRepository<Voie> {
     @Override
     public Voie save(Voie voie, HttpServletRequest req) {
         EntityTransaction transaction = entityManager.getTransaction();
-        transaction.begin();
-        SecteurDaoImpl secteurDao = new SecteurDaoImpl();
-        Secteur secteur = secteurDao.findOne(Long.parseLong(req.getParameter("idSecteur")));
-        CotationDaoImpl cotationDao = new CotationDaoImpl();
-        Cotation cotation = cotationDao.findOne(Long.parseLong(req.getParameter("cotation")));
-        // Création des associations bidirectionelles
-        voie.setSecteur(secteur);
-        voie.setCotation(cotation);
-        entityManager.persist(voie);
-        transaction.commit();
+        try {
+            transaction.begin();
+            SecteurDaoImpl secteurDao = new SecteurDaoImpl();
+            Secteur secteur = secteurDao.findOne(Long.parseLong(req.getParameter("idSecteur")));
+            CotationDaoImpl cotationDao = new CotationDaoImpl();
+            Cotation cotation = cotationDao.findOne(Long.parseLong(req.getParameter("cotation")));
+            // Création des associations bidirectionelles
+            voie.setSecteur(secteur);
+            voie.setCotation(cotation);
+            entityManager.persist(voie);
+            transaction.commit();
+        }catch (Exception e){
+            if (transaction != null)
+                transaction.rollback();
+            e.printStackTrace();
+        }
         return voie;
     }
 

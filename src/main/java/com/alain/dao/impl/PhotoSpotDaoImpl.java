@@ -16,14 +16,20 @@ public class PhotoSpotDaoImpl implements EntityRepository<PhotoSpot> {
     @Override
     public PhotoSpot save(PhotoSpot photoSpot, HttpServletRequest req) {
         EntityTransaction transaction = entityManager.getTransaction();
-        transaction.begin();
-        SpotDaoImpl spotDao = new SpotDaoImpl();
-        Long idSpot = (Long) req.getAttribute("idSpot");
-        Spot spot = spotDao.findOne(idSpot);
-        // Création des associations bidirectionelles
-        spot.addPhoto(photoSpot);
-        entityManager.persist(photoSpot);
-        transaction.commit();
+        try{
+            transaction.begin();
+            SpotDaoImpl spotDao = new SpotDaoImpl();
+            Long idSpot = (Long) req.getAttribute("idSpot");
+            Spot spot = spotDao.findOne(idSpot);
+            // Création des associations bidirectionelles
+            spot.addPhoto(photoSpot);
+            entityManager.persist(photoSpot);
+            transaction.commit();
+        }catch (Exception e){
+            if (transaction != null)
+                transaction.rollback();
+            e.printStackTrace();
+        }
         return photoSpot;
     }
 

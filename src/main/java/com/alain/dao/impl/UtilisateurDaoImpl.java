@@ -15,9 +15,15 @@ public class UtilisateurDaoImpl implements EntityRepository<Utilisateur>{
 
     public Utilisateur save(Utilisateur utilisateur, HttpServletRequest req) {
         EntityTransaction transaction = entityManager.getTransaction();
-        transaction.begin();
-        entityManager.persist(utilisateur);
-        transaction.commit();
+        try {
+            transaction.begin();
+            entityManager.persist(utilisateur);
+            transaction.commit();
+        } catch (Exception e){
+            if (transaction != null)
+                transaction.rollback();
+            e.printStackTrace();
+        }
         return utilisateur;
     }
 

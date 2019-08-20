@@ -18,14 +18,20 @@ public class CommentaireSpotDaoImpl implements EntityRepository<CommentaireSpot>
     @Override
     public CommentaireSpot save(CommentaireSpot commentaire, HttpServletRequest req) {
         EntityTransaction transaction = entityManager.getTransaction();
-        transaction.begin();
-        SpotDaoImpl spotDao = new SpotDaoImpl();
-        Long idSpot = Long.parseLong(req.getParameter("idSpot"));
-        Spot spot = spotDao.findOne(idSpot);
-        // Création des associations bidirectionelles
-        spot.addCommentaire(commentaire);
-        entityManager.persist(commentaire);
-        transaction.commit();
+        try {
+            transaction.begin();
+            SpotDaoImpl spotDao = new SpotDaoImpl();
+            Long idSpot = Long.parseLong(req.getParameter("idSpot"));
+            Spot spot = spotDao.findOne(idSpot);
+            // Création des associations bidirectionelles
+            spot.addCommentaire(commentaire);
+            entityManager.persist(commentaire);
+            transaction.commit();
+        }catch (Exception e){
+            if (transaction != null)
+                transaction.rollback();
+            e.printStackTrace();
+        }
         return commentaire;
     }
 

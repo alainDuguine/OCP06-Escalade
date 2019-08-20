@@ -15,9 +15,9 @@
             <p class="menu-button"><a href="ajoutSpot.do">Ajouter un spot</a></p>
         </div>
         <div class="resultatDiv">
-            <c:if test="${not empty resultat}">
-                <p class="${resultat ? 'success' : 'echec'}">
-                    <c:out value="${resultat ? 'Enregistrement effectué' : 'Enregistrement échoué'}"/>
+            <c:if test="${not empty param.resultat}">
+                <p class="${param.resultat ? 'succes' : 'echec'}">
+                    <c:out value="${param.resultat ? 'Enregistrement effectué' : ''}"/>
                 </p>
             </c:if>
             <table>

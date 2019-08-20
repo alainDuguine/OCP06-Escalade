@@ -6,17 +6,13 @@ import com.alain.dao.impl.*;
 import com.alain.metier.CheckForm;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 public class Servlet extends HttpServlet {
 
@@ -38,7 +34,7 @@ public class Servlet extends HttpServlet {
         }
         else if (path.equals("/rechercheSpot.do")){
             SpotDaoImpl spotDao = new SpotDaoImpl();
-            List<Spot> spots = spotDao.findAll();
+            List spots = spotDao.findAllForResearch();
             req.setAttribute("spots", spots);
             this.getServletContext().getRequestDispatcher("/WEB-INF/rechercheSpot.jsp").forward(req, resp);
         }
@@ -84,11 +80,6 @@ public class Servlet extends HttpServlet {
             VilleDaoImpl dao = new VilleDaoImpl();
             String codeDep = req.getParameter("codeDep");
             List<Ville> villes = dao.findAllInDep(codeDep);
-//            HashMap<Long, String> villesMap = new HashMap<>();
-//            ArrayList<Ville> villesArray = (ArrayList<Ville>) dao.findAllInDep(codeDep);
-//            for (Ville ville : villes){
-//                villesMap.put(ville.getId(), ville.getNom());
-//            }
             String villesJsonString = gson.toJson(villes);
             PrintWriter out = resp.getWriter();
             resp.setContentType("application/json");
@@ -140,10 +131,7 @@ public class Servlet extends HttpServlet {
             form.setResultat(form.checkResultListErreurs(form.getListErreurs()));
             req.setAttribute("form", form);
             if (form.isResultat()){
-                // todo Comment avoir à la fois la requête sql pour récupérer tous les spots
-                // Et l'objet form.resultat ? Peut être faire la requête avec Ajax ?
-//                resp.sendRedirect("/dashboard.do");1
-                resp.sendRedirect("/dashboard.do");
+                resp.sendRedirect("/dashboard.do?resultat=true");
             } else {
                 doGet(req,resp);
             }
