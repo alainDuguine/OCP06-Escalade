@@ -17,7 +17,6 @@
             <form method="post">
                 <div class="rechercheForm">
                     <input type="text" name="nomSpot" id="nomSpot" placeholder="Nom du spot"/>
-                    <input type="text" name="nomSecteur" id="nomSecteur" placeholder="Nom du secteur"/>
                     <input type="checkbox" name="officiel" id="officiel"/>
                     <label for="officiel">Officiel "Les amis de l'escalade"</label>
                     <br>
@@ -25,8 +24,8 @@
                 <div class="rechercheForm">
                     <select class="optionBigger" name="departement" id="departement" required="required">
                         <option value="">Choisissez un département</option>
-                        <c:forEach items="${departements}" var="departement">
-                            <option value="${departement.code}">${departement.code} - ${departement.nom}</option>
+                        <c:forEach items="${listDepartement}" var="departement">
+                            <option value="${departement.key}">${departement.key} - ${departement.value}</option>
                         </c:forEach>
                     </select>
                     <select class="optionBigger" name="ville">
@@ -66,7 +65,7 @@
                     <tr class="item">
                         <c:set var="idSpot" value="${spot.id}"/>
                         <td><a href="display.do?idSpot=${spot.id}"><c:out value="${spot.nom}"/></a></td>
-                        <td><c:out value="${spot.departement}"/></td>
+                        <td><c:out value="${spot.departementCode} - ${spot.departementNom}"/></td>
                         <td><c:out value="${spot.ville}"/></td>
                         <td><c:out value="${spot.minCotation}"/></td>
                         <td><c:out value="${spot.maxCotation}"/></td>
@@ -85,12 +84,12 @@
     <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
 <script>
     $(document).ready(function(){
-        $(".item").click(function(){
-            var href = $(this).find("a").attr("href");
-            if (href){
-                window.location = href;
-            }
-        });
+        // $(".item").click(function(){
+        //     var href = $(this).find("a").attr("href");
+        //     if (href){
+        //         window.location = href;
+        //     }
+        // });
     });
 </script>
 </body>

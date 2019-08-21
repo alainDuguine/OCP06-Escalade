@@ -71,12 +71,13 @@ public class SpotDaoImpl implements EntityRepository<Spot> {
     }
 
     public List<SpotResearchDto> findAllForResearch(){
-        Query query = entityManager.createQuery("select new com.alain.metier.SpotResearchDto(spot.id, spot.nom, spot.departement.nom, spot.ville.nom, spot.secteurs.size, min(cotations.code), max(cotations.code), spot.officiel)" +
+        Query query = entityManager.createQuery("select new com.alain.metier.SpotResearchDto(spot.id, spot.nom, spot.departement.code, spot.departement.nom, spot.ville.nom, spot.secteurs.size, min(cotations.code), max(cotations.code), spot.officiel)" +
                 "        FROM Spot spot\n" +
                 "        left join spot.secteurs secteurs\n" +
                 "        left join secteurs.voies voies\n" +
                 "        left join voies.cotation cotations\n" +
-                "        group by spot.id, spot.departement.nom, spot.ville.nom");
+                "        group by spot.id, spot.departement.nom, spot.ville.nom" +
+                "        order by spot.nom");
         return query.getResultList();
     }
 }

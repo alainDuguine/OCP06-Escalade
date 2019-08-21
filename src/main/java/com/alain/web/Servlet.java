@@ -5,6 +5,7 @@ import com.alain.dao.entities.*;
 import com.alain.dao.impl.*;
 import com.alain.metier.CheckForm;
 import com.alain.metier.SpotResearchDto;
+import com.alain.metier.Utilities;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import javax.servlet.ServletException;
@@ -13,8 +14,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class Servlet extends HttpServlet {
 
@@ -37,7 +39,8 @@ public class Servlet extends HttpServlet {
         else if (path.equals("/rechercheSpot.do")){
             SpotDaoImpl spotDao = new SpotDaoImpl();
             List<SpotResearchDto> spots = spotDao.findAllForResearch();
-//            SpotResearchDto spots = new SpotResearchDto(1L, "kbkbhk", "kkuhkhku", "uhuhuh", 4,"3b", "5c", false);
+            TreeMap<String, String> listDepartementSort = Utilities.getDepartementsSortedFromList(spots);
+            req.setAttribute("listDepartement", listDepartementSort);
             req.setAttribute("spots", spots);
             this.getServletContext().getRequestDispatcher("/WEB-INF/rechercheSpot.jsp").forward(req, resp);
         }
