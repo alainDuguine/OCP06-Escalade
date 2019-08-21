@@ -28,8 +28,8 @@
                             <option value="${departement.key}">${departement.key} - ${departement.value}</option>
                         </c:forEach>
                     </select>
-                    <select class="optionBigger" name="ville">
-                        <option>Ville</option>
+                    <select class="optionBigger" name="ville" id="ville">
+                        <option>Choisissez une ville</option>
                     </select>
                     <select name="cotationMin">
                         <option>Cotation Min</option>
@@ -84,12 +84,30 @@
     <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
 <script>
     $(document).ready(function(){
-        // $(".item").click(function(){
-        //     var href = $(this).find("a").attr("href");
-        //     if (href){
-        //         window.location = href;
-        //     }
-        // });
+
+        //Rend chaque ligne du tableau de résultat entièrement cliquable
+        $(".item").click(function(){
+            var href = $(this).find("a").attr("href");
+            if (href){
+                window.location = href;
+            }
+        });
+
+        $('#departement').change(function() {
+            var choixDep = $('#departement').val();
+            $.getJSON("choixVille.do",{codeDep: choixDep},
+                function (data) {
+                    $("#ville").empty();
+                    var option = "<option value=''>Choisissez une ville</option>";
+                    $("#ville").append(option);
+                    $.each(data, function(key, val) {
+                        var option = "<option value=" + key + ">" + val + "</option>";
+                        $("#ville").append(option);
+                    });
+                }
+            );
+
+        });
     });
 </script>
 </body>

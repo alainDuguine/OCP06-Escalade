@@ -23,7 +23,7 @@ public class Utilities {
      * @param spotResearchDtoList liste des objets à partir desquels extraire et trier les departementsd
      * @return le treemap créé
      */
-    public static TreeMap<String, String> getDepartementsSortedFromList(List<SpotResearchDto> spotResearchDtoList){
+    public static TreeMap<String, String> getDepartementSortedFromList(List<SpotResearchDto> spotResearchDtoList){
         TreeMap<String, String> departementsMap = new TreeMap<>();
         // Injection de la liste dans un treeMap
         for (SpotResearchDto spot : spotResearchDtoList){

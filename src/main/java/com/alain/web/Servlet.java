@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
-import java.util.Map;
 import java.util.TreeMap;
 
 public class Servlet extends HttpServlet {
@@ -31,35 +30,29 @@ public class Servlet extends HttpServlet {
         String path = req.getServletPath();
         if(path.equals("/index.do")) {
             this.getServletContext().getRequestDispatcher("/WEB-INF/index.jsp").forward(req, resp);
-        }
-        else if(path.equals("/inscription.do")){
+        } else if(path.equals("/inscription.do")){
             req.setAttribute("utilisateur", new Utilisateur());
             this.getServletContext().getRequestDispatcher("/WEB-INF/inscription.jsp").forward(req, resp);
-        }
-        else if (path.equals("/rechercheSpot.do")){
+        } else if (path.equals("/rechercheSpot.do")){
             SpotDaoImpl spotDao = new SpotDaoImpl();
             List<SpotResearchDto> spots = spotDao.findAllForResearch();
-            TreeMap<String, String> listDepartementSort = Utilities.getDepartementsSortedFromList(spots);
+            TreeMap<String, String> listDepartementSort = Utilities.getDepartementSortedFromList(spots);
             req.setAttribute("listDepartement", listDepartementSort);
             req.setAttribute("spots", spots);
             this.getServletContext().getRequestDispatcher("/WEB-INF/rechercheSpot.jsp").forward(req, resp);
-        }
-        else if(path.equals("/connexion.do")){
+        } else if(path.equals("/connexion.do")){
             this.getServletContext().getRequestDispatcher("/WEB-INF/connexion.jsp").forward(req, resp);
-        }
-        else if(path.equals("/ajoutSpot.do") || path.equals("/saveSpot.do")){
+        } else if(path.equals("/ajoutSpot.do") || path.equals("/saveSpot.do")){
             DepartementDaoImpl departementDao = new DepartementDaoImpl();
             List<Departement> departements = departementDao.findAll();
             req.setAttribute("departements", departements);
             this.getServletContext().getRequestDispatcher("/WEB-INF/ajoutSpot.jsp").forward(req, resp);
-        }
-        else if(path.equals("/ajoutSecteur.do") || path.equals("/saveSecteur.do")){
+        } else if(path.equals("/ajoutSecteur.do") || path.equals("/saveSecteur.do")){
             SpotDaoImpl spotDao = new SpotDaoImpl();
             Spot spot = spotDao.findOne(Long.parseLong(req.getParameter("idSpot")));
             req.setAttribute("spot", spot);
             this.getServletContext().getRequestDispatcher("/WEB-INF/ajoutSecteur.jsp").forward(req,resp);
-        }
-        else if(path.equals("/ajoutVoie.do") || path.equals("/saveVoie.do")){
+        } else if(path.equals("/ajoutVoie.do") || path.equals("/saveVoie.do")){
             SecteurDaoImpl secteurDao = new SecteurDaoImpl();
             Secteur secteur = secteurDao.findOne(Long.parseLong(req.getParameter("idSecteur")));
             if (secteur != null) {
@@ -71,8 +64,7 @@ public class Servlet extends HttpServlet {
             }else{
                 this.getServletContext().getRequestDispatcher("/WEB-INF/erreur.jsp").forward(req, resp);
             }
-        }
-        else if(path.equals("/dashboard.do")){
+        } else if(path.equals("/dashboard.do")){
             if (resp.containsHeader("resultat")){
                 req.setAttribute("resultat",true);
             }
@@ -80,8 +72,7 @@ public class Servlet extends HttpServlet {
             List<Spot> listSpots = spotDao.findAll();
             req.setAttribute("spots", listSpots);
             this.getServletContext().getRequestDispatcher("/WEB-INF/dashboard.jsp").forward(req, resp);
-        }
-        else if (path.equals("/choixDepartement.do")){
+        } else if (path.equals("/choixDepartement.do")) {
             Gson gson = new Gson();
             VilleDaoImpl dao = new VilleDaoImpl();
             String codeDep = req.getParameter("codeDep");
@@ -92,8 +83,18 @@ public class Servlet extends HttpServlet {
             resp.setCharacterEncoding("UTF-8");
             out.print(villesJsonString);
             out.flush();
-        }
-        else if (path.equals("/display.do")){
+        } else if (path.equals("/choixVille.do")){
+            Gson gson = new Gson();
+            SpotDaoImpl spotDao = new SpotDaoImpl();
+            String codeDep = req.getParameter("codeDep");
+            List<String> villes = spotDao.findVilleInDepHavingSpot(codeDep);
+            String villesJsonString = gson.toJson(villes);
+            PrintWriter out = resp.getWriter();
+            resp.setContentType("application/json");
+            resp.setCharacterEncoding("UTF-8");
+            out.print(villesJsonString);
+            out.flush();
+        } else if (path.equals("/display.do")){
             SpotDaoImpl spotDao = new SpotDaoImpl();
             Spot spot = spotDao.findOne(Long.parseLong(req.getParameter("idSpot")));
             if (spot != null) {

@@ -80,4 +80,15 @@ public class SpotDaoImpl implements EntityRepository<Spot> {
                 "        order by spot.nom");
         return query.getResultList();
     }
+
+    /**
+     * retourne le nom des villes des spots présents dans le département (pour chargement dans la list déroulante du formulaire de recherche
+     * @param codeDep code du département
+     * @return liste des noms de ville
+     */
+    public List<String> findVilleInDepHavingSpot(String codeDep) {
+        Query query = entityManager.createQuery("select spot.ville.nom from Spot spot where spot.departement.code= :codeDep ORDER BY spot.ville.nom ASC ");
+        query.setParameter("codeDep", codeDep);
+        return query.getResultList();
+    }
 }
