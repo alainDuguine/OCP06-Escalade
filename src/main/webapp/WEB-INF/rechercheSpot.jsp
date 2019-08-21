@@ -16,9 +16,9 @@
             <h1>Rechercher un spot</h1>
             <form method="post">
                 <div class="rechercheForm">
-                    <input type="text" name="nomSpot" id="nomSpot" placeholder="Nom du spot">
-                    <input type="text" name="nomSecteur" id="nomSecteur" placeholder="Nom du secteur">
-                    <input type="checkbox" name="officiel" id="officiel">
+                    <input type="text" name="nomSpot" id="nomSpot" placeholder="Nom du spot"/>
+                    <input type="text" name="nomSecteur" id="nomSecteur" placeholder="Nom du secteur"/>
+                    <input type="checkbox" name="officiel" id="officiel"/>
                     <label for="officiel">Officiel "Les amis de l'escalade"</label>
                     <br>
                 </div>
@@ -62,30 +62,15 @@
                     </tr>
                 </thead>
                 <tbody>
-<%--                <c:forEach items="${spots}" var="spot">--%>
-<%--                    <tr class="item">--%>
-<%--                        <c:set var="idSpot" value="${spot.id}"/>--%>
-<%--                        <td><a href="display.do?idSpot=${spot.id}"><c:out value="${spot.nom}"/></a></td>--%>
-<%--                        <td><c:out value="${spot.departement.nom}"/></td>--%>
-<%--                        <td><c:out value="${spot.ville.nom}"/></td>--%>
-<%--                        <td>Not Implementated</td>--%>
-<%--                        <td>Not Implementated</td>--%>
-<%--                        <td>Not Implementated</td>--%>
-<%--                        <c:choose>--%>
-<%--                            <c:when test="${spot.officiel == true}"><td><c:out value="Oui"/></td></c:when>--%>
-<%--                            <c:otherwise><td><c:out value="Non"/></td></c:otherwise>--%>
-<%--                        </c:choose>--%>
-<%--                    </tr>--%>
-<%--                </c:forEach>--%>
-                    <c:forEach items="${spots}" var="spot">
+                <c:forEach items="${spots}" var="spot">
                     <tr class="item">
-                        <c:set var="idSpot" value="${spot.spot.id}"/>
-                        <td><a href="display.do?idSpot=${spot.spot.id}"><c:out value="${spot.spot.nom}"/></a></td>
-                        <td><c:out value="${spot.departement.nom}"/></td>
-                        <td><c:out value="${spot.ville.nom}"/></td>
-                        <td><c:out value="${}"></td>
-                        <td>Not Implementated</td>
-                        <td>Not Implementated</td>
+                        <c:set var="idSpot" value="${spot.id}"/>
+                        <td><a href="display.do?idSpot=${spot.id}"><c:out value="${spot.nom}"/></a></td>
+                        <td><c:out value="${spot.departement}"/></td>
+                        <td><c:out value="${spot.ville}"/></td>
+                        <td><c:out value="${spot.minCotation}"/></td>
+                        <td><c:out value="${spot.maxCotation}"/></td>
+                        <td><c:out value="${spot.nbSecteur}"/></td>
                         <c:choose>
                             <c:when test="${spot.officiel == true}"><td><c:out value="Oui"/></td></c:when>
                             <c:otherwise><td><c:out value="Non"/></td></c:otherwise>

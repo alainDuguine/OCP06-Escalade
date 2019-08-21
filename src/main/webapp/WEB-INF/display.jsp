@@ -51,7 +51,6 @@
                         <c:forEach items="${spot.photos}" var="photo">
                             <a href="${chemin}${photo.nom}" data-lightbox="gallerySpot"><img src="${chemin}${photo.nom}"/></a>
                         </c:forEach>
-
                     </div>
                 </div>
             </c:if>

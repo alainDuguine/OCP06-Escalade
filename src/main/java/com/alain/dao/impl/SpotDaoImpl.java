@@ -5,6 +5,8 @@ import com.alain.dao.contract.EntityRepository;
 import com.alain.dao.entities.Departement;
 import com.alain.dao.entities.Spot;
 import com.alain.dao.entities.Ville;
+import com.alain.metier.SpotResearchDto;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
@@ -68,13 +70,13 @@ public class SpotDaoImpl implements EntityRepository<Spot> {
         return query.getResultList();
     }
 
-    public List findAllForResearch(){
-        Query query = entityManager.createQuery("select spot, spot.departement.nom, spot.ville.nom, spot.secteurs.size AS nbSecteurs, min(cotations.code), max(cotations.code)\n" +
-                "FROM Spot spot\n" +
-                "left join spot.secteurs secteurs\n" +
-                "left join secteurs.voies voies\n" +
-                "left join voies.cotation cotations\n" +
-                "group by spot.id, spot.departement.nom, spot.ville.nom");
+    public List<SpotResearchDto> findAllForResearch(){
+        Query query = entityManager.createQuery("select new com.alain.metier.SpotResearchDto(spot.id, spot.nom, spot.departement.nom, spot.ville.nom, spot.secteurs.size, min(cotations.code), max(cotations.code), spot.officiel)" +
+                "        FROM Spot spot\n" +
+                "        left join spot.secteurs secteurs\n" +
+                "        left join secteurs.voies voies\n" +
+                "        left join voies.cotation cotations\n" +
+                "        group by spot.id, spot.departement.nom, spot.ville.nom");
         return query.getResultList();
     }
 }
