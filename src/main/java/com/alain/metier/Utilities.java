@@ -118,4 +118,31 @@ public class Utilities {
         return (date.getMinute()<10?"0":"") + date.getMinute();
     }
 
+    /**
+     * créé une map contenant les paramètres de la requête dynamique, à partir de l'objet HttpServletRequest
+     * @param req
+     * @return
+     */
+    public static Map<String, Object> getParameterMapFromReq(HttpServletRequest req) {
+        Map<String, Object> paramMap = new HashMap<>();
+        String[] paramList = {"nomSpot", "officiel", "departement", "ville", "cotationMin", "cotationMax", "secteurMin", "secteurMax"};
+        for (String param : paramList) {
+            if (param.equals("secteurMin") || param.equals("secteurMax")) {
+                if (req.getParameter(param) != "") {
+                    paramMap.put(param, Integer.parseInt(req.getParameter(param)));
+                } else {
+                    paramMap.put(param, null);
+                }
+            }else if (param.equals("officiel")) {
+                if (req.getParameter(param) != null) {
+                    paramMap.put(param, true);
+                } else {
+                    paramMap.put(param, false);
+                }
+            } else {
+                paramMap.put(param, req.getParameter(param));
+            }
+        }
+        return paramMap;
+    }
 }

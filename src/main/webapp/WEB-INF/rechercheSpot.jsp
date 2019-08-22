@@ -14,7 +14,7 @@
     <section class="mainDiv">
         <div class="formDiv">
             <h1>Rechercher un spot</h1>
-            <form method="post">
+            <form method="post" action="rechercheSpot.do">
                 <div class="rechercheForm">
                     <input type="text" name="nomSpot" id="nomSpot" placeholder="Nom du spot"/>
                     <input type="checkbox" name="officiel" id="officiel"/>
@@ -31,19 +31,26 @@
                     <select class="optionBigger" name="ville" id="ville">
                         <option>Choisissez une ville</option>
                     </select>
+                </div>
+                <div class="rechercheForm">
                     <select name="cotationMin">
-                        <option>Cotation Min</option>
+                        <option value="">Cotation Min</option>
+                        <c:forEach items="${cotations}" var="cotation">
+                            <option value="${cotation.code}">${cotation.code}</option>
+                        </c:forEach>
                     </select>
                     <select name="cotationMax">
-                        <option>Cotation Max</option>
+                        <option value="">Cotation Max</option>
+                        <c:forEach items="${cotations}" var="cotation">
+                            <option value="${cotation.code}">${cotation.code}</option>
+                        </c:forEach>
                     </select>
-                    <select name="voies">
-                        <option>Nb Voies</option>
-                    </select>
+                    <input type="number" step="1" min="0" name="secteurMin" id="secteurMin" placeholder="nb min Secteurs">
+                    <input type="number" step="1" min="0" name="secteurMax" id="secteurMax" placeholder="nb max Secteurs">
                 </div>
                 <div class="bouton">
                     <input type="submit" value="Rechercher">
-                    <input type="submit" value="Réinitialiser">
+                    <input type="reset" value="Réinitialiser">
                 </div>
             </form>
         </div>
@@ -56,7 +63,7 @@
                         <th>Ville</th>
                         <th>Cotation mini</th>
                         <th>Cotation max</th>
-                        <th>Nb Voies</th>
+                        <th>Nb Secteurs</th>
                         <th>Officiel</th>
                     </tr>
                 </thead>
@@ -101,7 +108,7 @@
                     var option = "<option value=''>Choisissez une ville</option>";
                     $("#ville").append(option);
                     $.each(data, function(key, val) {
-                        var option = "<option value=" + key + ">" + val + "</option>";
+                        var option = "<option value=" + val + ">" + val + "</option>";
                         $("#ville").append(option);
                     });
                 }

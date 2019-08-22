@@ -5,7 +5,7 @@
     <div id="banner">
         <nav id="menu">
             <p class="menu-button"><a href="index.do">Accueil</a></p>
-            <p class="menu-button"><a href="rechercheSpot.do">Les Spots</a></p>
+            <p class="menu-button"><a href="listeSpot.do">Les Spots</a></p>
             <p class="menu-button"><a href="">Les Topos</a></p>
             <p class="menu-button"><a href="">Apprendre</a></p>
             <p class="menu-button"><a href="">Liens</a></p>

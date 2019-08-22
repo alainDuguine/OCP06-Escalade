@@ -10,11 +10,15 @@
     padding: 0;
 }
 
-.rechercheForm input[type=text], .rechercheForm select{
+.rechercheForm input[type=text], .rechercheForm select, input[type=number]{
     height: 2.5em;
     margin: 0.5em;
     border-radius: 5px;
     padding: 0;
+}
+
+.rechercheForm input[type=number], input[type=select]{
+    flex-grow: 1;
 }
 
 .rechercheForm input[type=text]{
@@ -41,7 +45,7 @@
     justify-content: center;
 }
 
-input[type=submit]{
+input[type=submit], input[type=reset]{
     margin: 1em 0.5em;
     display: block;
     align-self: center;

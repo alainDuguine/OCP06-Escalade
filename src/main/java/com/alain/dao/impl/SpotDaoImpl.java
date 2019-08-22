@@ -11,7 +11,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 public class SpotDaoImpl implements EntityRepository<Spot> {
 
@@ -78,6 +81,35 @@ public class SpotDaoImpl implements EntityRepository<Spot> {
                 "        left join voies.cotation cotations\n" +
                 "        group by spot.id, spot.departement.nom, spot.ville.nom" +
                 "        order by spot.nom");
+        return query.getResultList();
+    }
+
+    public List<SpotResearchDto> findSpotPersonalResearch(Map<String, Object> paramReq){
+        String[] paramList = {"nomSpot", "officiel", "departement", "ville", "cotationMin", "cotationMax", "secteurMin", "secteurMax"};
+        String[] reqParamList = {"spot.nom", "spot.officiel", "spot.departement.nom", "spot.ville.nom", "cotationMin", "cotationMax", "spot.secteur.size", "spot.secteur.size"};
+        Map <String, Object> paramInReq = new HashMap<>();
+
+//        StringBuffer builtQuery = new StringBuffer("select new com.alain.metier.SpotResearchDto(spot.id, spot.nom, spot.departement.code, spot.departement.nom, spot.ville.nom, spot.secteurs.size, min(cotations.code) as cotationMin, max(cotations.code) as cotationMax, spot.officiel FROM Spot spot left join spot.secteurs secteurs left join secteurs.voies voies left join voies.cotation cotations");
+        StringBuilder builtQuery = new StringBuilder("Select spot From Spot spot");
+        boolean first = true;
+
+        for (int i=0; i<paramList.length; i++){
+            if (paramReq.get(paramList[i]) != null) {
+                builtQuery.append(first ? " where " : " and ");
+                builtQuery.append(reqParamList[i] + "= :" + paramList[i]);
+                paramInReq.put(paramList[i], paramReq.get(paramList[i]));
+                first = false;
+            }
+        }
+
+        Query query = entityManager.createQuery(builtQuery.toString());
+
+        Iterator<String> iter = paramInReq.keySet().iterator();
+        while (iter.hasNext()){
+            String name = iter.next();
+            Object value = paramInReq.get(name);
+            query.setParameter(name, value);
+        }
         return query.getResultList();
     }
 
