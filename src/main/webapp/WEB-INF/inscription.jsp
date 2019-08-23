@@ -13,8 +13,8 @@
     <div class="formDiv">
         <h1>Formulaire d'inscription :</h1>
         <c:if test="${not empty form.resultat}">
-            <p class="${form.resultat ? 'success' : 'echec'}">
-                <c:out value="${form.resultat ? 'Inscription effectuée' : 'Inscription échouée'}"/>
+            <p class="${form.resultat ? 'succes' : 'echec'}">
+                <c:out value="${form.resultat ? 'Inscription effectuée vous pouvez maintenant vous connecter !' : 'Inscription échouée'}"/>
             </p>
         </c:if>
         <form method="post" action="saveUser.do">
@@ -40,11 +40,15 @@
             </div>
             <div class="erreur">
                 <div></div>
-                <div>${form.listErreurs['nom']}</div>
+                <div>${form.listErreurs['username']}</div>
+            </div>
+            <div class="inscriptionForm">
+                <label for="username">Nom d'utilisateur :</label>
+                <input type="text" name="username" id="username" required="required" value="<c:out value="${param.username}"/>">
             </div>
             <div class="inscriptionForm">
                 <label for="nom">Nom :</label>
-                <input type="nom" name="nom" id="nom" maxlength="50" placeholder="Ex : Dupont" required="required" value="<c:out value="${param.nom}"/>">
+                <input type="nom" name="nom" id="nom" maxlength="50" placeholder="Ex : Dupont" value="<c:out value="${param.nom}"/>">
             </div>
             <div class="erreur">
                 <div></div>
@@ -52,7 +56,7 @@
             </div>
             <div class="inscriptionForm">
                 <label for="prenom">Prénom :</label>
-                <input type="prenom" name="prenom" id="prenom" maxlength="50" placeholder="Ex : Jean" required="required" value="<c:out value="${param.prenom}"/>">
+                <input type="prenom" name="prenom" id="prenom" maxlength="50" placeholder="Ex : Jean" value="<c:out value="${param.prenom}"/>">
             </div>
             <div class="bouton">
                 <input type="submit" value="Enregistrer">

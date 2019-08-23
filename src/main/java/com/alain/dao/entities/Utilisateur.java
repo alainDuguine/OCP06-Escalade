@@ -16,6 +16,7 @@ import java.util.Map;
 public class Utilisateur extends Entitie implements Serializable{
 
     private static final String CHAMP_EMAIL = "email";
+    private static final String CHAMP_USERNAME = "username";
     private static final String CHAMP_PASS = "password";
     private static final String CHAMP_CONF = "confirmation";
     private static final String CHAMP_NOM = "nom";
@@ -25,6 +26,7 @@ public class Utilisateur extends Entitie implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String email;
+    private String username;
     @Transient
     private String confirmation;
     @Transient
@@ -66,85 +68,49 @@ public class Utilisateur extends Entitie implements Serializable{
     public Utilisateur() {
     }
 
-    public Utilisateur(String email, String confirmation, String motDePasse, String nom, String prenom, boolean admin, List<Spot> spots, List<Secteur> secteurs, List<Voie> voies, List<CommentaireSpot> commentaireSpots, List<CommentaireSecteur> commentaireSecteurs, List<CommentaireVoie> commentaireVoies, List<ComplementSpot> complementSpots, List<ComplementSecteur> complementSecteurs, List<ComplementVoie> complementVoies, List<Topo> topos, List<Topo> empruntsTopos) {
+    public Utilisateur(String email, String username, String encryptedPassword) {
         this.email = email;
-        this.confirmation = confirmation;
-        this.motDePasse = motDePasse;
-        this.nom = nom;
-        this.prenom = prenom;
-        this.admin = admin;
-        this.spots = spots;
-        this.secteurs = secteurs;
-        this.voies = voies;
-        this.commentaireSpots = commentaireSpots;
-        this.commentaireSecteurs = commentaireSecteurs;
-        this.commentaireVoies = commentaireVoies;
-        this.complementSpots = complementSpots;
-        this.complementSecteurs = complementSecteurs;
-        this.complementVoies = complementVoies;
-        this.topos = topos;
-        this.empruntsTopos = empruntsTopos;
-    }
-
-    public Utilisateur(String email, String encryptedPassword, String nom, String prenom) {
-        this.email = email;
+        this.username = username;
         this.encryptedPassword = encryptedPassword;
-        this.nom = nom;
-        this.prenom = prenom;
     }
-
-    @Override
-    public String toString() {
-        return "Utilisateur{" +
-                "id=" + id +
-                ", email='" + email + '\'' +
-                ", motDePasse='" + motDePasse + '\'' +
-                ", nom='" + nom + '\'' +
-                ", prenom='" + prenom + '\'' +
-                ", admin='" + admin + '\'' +
-                '}';
-    }
-
 
     /* ********************************************************************************************
      **** METHODS           ************************************************************************
      ******************************************************************************************** */
-    public Map<String, String> checkErreurs(EntityRepository dao, HttpServletRequest req) {
-        Map<String, String> listErreur = new HashMap<>();
-
-        if (!Utilities.checkMail(this.email)) {
-            listErreur.put(CHAMP_EMAIL, "Veuillez saisir un email valide");
-        }else if(((UtilisateurDaoImpl)dao).findByEmail(this.email) != null){
-            listErreur.put(CHAMP_EMAIL, "Cet e-mail est déjà enregistré");
-        }
-        if (!Utilities.checkPassword(motDePasse, confirmation)) {
-            listErreur.put(CHAMP_PASS, "Les mots de passes ne correspondent pas");
-        }
-        if (Utilities.isEmpty(nom)) {
-            listErreur.put(CHAMP_NOM,"Veuillez saisir un nom");
-        }
-        if (Utilities.isEmpty(prenom)) {
-            listErreur.put(CHAMP_PRENOM, "Veuillez saisir un prénom");
-        }
-        return listErreur;
-    }
-
-    // Valorise les variables Utilisateurs depuis la requête http
 
     public void hydrate(HttpServletRequest req) {
         this.setEmail(Utilities.getValeurChamp(req, CHAMP_EMAIL));
         this.setMotDePasse(Utilities.getValeurChamp(req, CHAMP_PASS));
         this.setConfirmation(Utilities.getValeurChamp(req, CHAMP_CONF));
+        this.setUsername(Utilities.getValeurChamp(req, CHAMP_USERNAME));
         this.setNom(Utilities.getValeurChamp(req, CHAMP_NOM));
         this.setPrenom(Utilities.getValeurChamp(req, CHAMP_PRENOM));
         this.setSalt(Utilities.getSalt());
         this.setEncryptedPassword(Utilities.getSecurePassword(this.getMotDePasse(),this.getSalt()));
     }
+
+    public Map<String, String> checkErreurs(EntityRepository dao, HttpServletRequest req) {
+        Map<String, String> listErreur = new HashMap<>();
+
+        if (!Utilities.checkMail(this.email)) {
+            listErreur.put(CHAMP_EMAIL, "Veuillez saisir un email valide");
+        }else if(((UtilisateurDaoImpl)dao).findByEmail(this.email) != null) {
+            listErreur.put(CHAMP_EMAIL, "Cet e-mail est déjà enregistré");
+        }else if (this.username.length() < 2){
+            listErreur.put(CHAMP_USERNAME, "Le nom d'utilisateur doit être d'au moins deux caractères.");
+        }else if(((UtilisateurDaoImpl)dao).findByUsername(this.username) != null){
+            listErreur.put(CHAMP_USERNAME, "Ce nom d'utilisateur est déjà pris.");
+        }
+        if (!Utilities.checkPassword(motDePasse, confirmation)) {
+            listErreur.put(CHAMP_PASS, "Les mots de passes ne correspondent pas");
+        }
+        return listErreur;
+    }
+
     public boolean checkPassword(String password){
         String testedPassword = Utilities.getSecurePassword(password, this.getSalt());
         return encryptedPassword.equals(testedPassword);
     }
-
 
     /* ***********************************************************************************************
      **** GETTERS & SETTERS ************************************************************************
@@ -224,6 +190,14 @@ public class Utilisateur extends Entitie implements Serializable{
 
     public boolean isAdmin() {
         return admin;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public void setAdmin(boolean admin) {

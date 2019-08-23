@@ -18,36 +18,12 @@ public class CheckForm {
 
     private Entitie entitie;
     private Map<String,String> listErreurs = new HashMap<>();
-//    private String resultat;
     private boolean resultat;
 
-    public Entitie getEntitie() {
-        return entitie;
-    }
 
-    public void setEntitie(Entitie entitie) {
-        this.entitie = entitie;
-    }
-
-    public Map<String, String> getListErreurs() {
-        return listErreurs;
-    }
-
-//    public void setResultat(String resultat) {
-//        this.resultat = resultat;
-//    }
-//
-//    public String getResultat() {
-//        return resultat;
-//    }
-
-    public boolean isResultat() {
-        return resultat;
-    }
-
-    public void setResultat(boolean resultat) {
-        this.resultat = resultat;
-    }
+    /* ********************************************************************************************
+     **** METHODS           ***********************************************************************
+     ******************************************************************************************** */
 
     public void checkAndSave(HttpServletRequest req, String className, EntityRepository dao){
         Class classBean;
@@ -109,5 +85,29 @@ public class CheckForm {
 
     public boolean checkResultListErreurs(Map<String, String> listErreurs) {
         return listErreurs.isEmpty();
+    }
+
+    /* ***********************************************************************************************
+     **** GETTERS & SETTERS **************************************************************************
+     ************************************************************************************************/
+
+    public Entitie getEntitie() {
+        return entitie;
+    }
+
+    public void setEntitie(Entitie entitie) {
+        this.entitie = entitie;
+    }
+
+    public Map<String, String> getListErreurs() {
+        return listErreurs;
+    }
+
+    public boolean isResultat() {
+        return resultat;
+    }
+
+    public void setResultat(boolean resultat) {
+        this.resultat = resultat;
     }
 }

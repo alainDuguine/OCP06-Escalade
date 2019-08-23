@@ -12,6 +12,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -33,21 +34,7 @@ public class Servlet extends HttpServlet {
             this.getServletContext().getRequestDispatcher("/WEB-INF/index.jsp").forward(req, resp);
         }
         else if(path.equals("/inscription.do")){
-            req.setAttribute("utilisateur", new Utilisateur());
             this.getServletContext().getRequestDispatcher("/WEB-INF/inscription.jsp").forward(req, resp);
-        }
-        else if (path.equals("/listeSpot.do") || path.equals("/rechercheSpot.do")){
-            SpotDaoImpl spotDao = new SpotDaoImpl();
-            List<SpotResearchDto> spots = spotDao.findAllForResearch();
-            TreeMap<String, String> listDepartementSort = Utilities.getDepartementSortedFromList(spots);
-            CotationDaoImpl cotationDao = new CotationDaoImpl();
-            List<Cotation> cotations = cotationDao.findAll();
-            req.setAttribute("cotations", cotations);
-            req.setAttribute("listDepartement", listDepartementSort);
-            if (path.equals("/listeSpot.do")) {
-                req.setAttribute("spots", spots);
-            }
-            this.getServletContext().getRequestDispatcher("/WEB-INF/rechercheSpot.jsp").forward(req, resp);
         }
         else if(path.equals("/connexion.do")){
             this.getServletContext().getRequestDispatcher("/WEB-INF/connexion.jsp").forward(req, resp);
@@ -86,6 +73,31 @@ public class Servlet extends HttpServlet {
             req.setAttribute("spots", listSpots);
             this.getServletContext().getRequestDispatcher("/WEB-INF/dashboard.jsp").forward(req, resp);
         }
+        else if (path.equals("/listeSpot.do") || path.equals("/rechercheSpot.do")){
+            SpotDaoImpl spotDao = new SpotDaoImpl();
+            List<SpotResearchDto> spots = spotDao.findAllForResearch();
+            TreeMap<String, String> listDepartementSort = Utilities.getDepartementSortedFromList(spots);
+            CotationDaoImpl cotationDao = new CotationDaoImpl();
+            List<Cotation> cotations = cotationDao.findAll();
+            req.setAttribute("cotations", cotations);
+            req.setAttribute("listDepartement", listDepartementSort);
+            if (path.equals("/listeSpot.do")) {
+                req.setAttribute("spots", spots);
+            }
+            this.getServletContext().getRequestDispatcher("/WEB-INF/rechercheSpot.jsp").forward(req, resp);
+        }
+        else if (path.equals("/display.do")){
+            SpotDaoImpl spotDao = new SpotDaoImpl();
+            Spot spot = spotDao.findOne(Long.parseLong(req.getParameter("idSpot")));
+            if (spot != null) {
+                CommentaireSpotDaoImpl commentaireSpotDao =new CommentaireSpotDaoImpl();
+                spot.setCommentaires(commentaireSpotDao.findAllInSpot(spot.getId()));
+                req.setAttribute("spot", spot);
+                this.getServletContext().getRequestDispatcher("/WEB-INF/display.jsp").forward(req, resp);
+            }else {
+                this.getServletContext().getRequestDispatcher("/WEB-INF/erreur.jsp").forward(req, resp);
+            }
+        }
         else if (path.equals("/choixDepartement.do")) {
             Gson gson = new Gson();
             VilleDaoImpl dao = new VilleDaoImpl();
@@ -110,18 +122,6 @@ public class Servlet extends HttpServlet {
             out.print(villesJsonString);
             out.flush();
         }
-        else if (path.equals("/display.do")){
-            SpotDaoImpl spotDao = new SpotDaoImpl();
-            Spot spot = spotDao.findOne(Long.parseLong(req.getParameter("idSpot")));
-            if (spot != null) {
-                CommentaireSpotDaoImpl commentaireSpotDao =new CommentaireSpotDaoImpl();
-                spot.setCommentaires(commentaireSpotDao.findAllInSpot(spot.getId()));
-                req.setAttribute("spot", spot);
-                this.getServletContext().getRequestDispatcher("/WEB-INF/display.jsp").forward(req, resp);
-            }else {
-                this.getServletContext().getRequestDispatcher("/WEB-INF/erreur.jsp").forward(req, resp);
-            }
-        }
     }
 
     @Override
@@ -131,6 +131,7 @@ public class Servlet extends HttpServlet {
             UtilisateurDaoImpl utilisateurDaoImpl = new UtilisateurDaoImpl();
             CheckForm form = new CheckForm();
             form.checkAndSave(req, "com.alain.dao.entities.Utilisateur", utilisateurDaoImpl);
+            form.setResultat(form.checkResultListErreurs(form.getListErreurs()));
             req.setAttribute("form", form);
             this.getServletContext().getRequestDispatcher("/WEB-INF/inscription.jsp").forward(req, resp);
         }
@@ -139,7 +140,14 @@ public class Servlet extends HttpServlet {
             CheckForm form = new CheckForm();
             form.checkConnect(req, utilisateurDaoImpl);
             req.setAttribute("form", form);
-            this.getServletContext().getRequestDispatcher("/WEB-INF/connexion.jsp").forward(req, resp);
+            if (form.isResultat()){
+                HttpSession session = req.getSession();
+                String username = ((Utilisateur)form.getEntitie()).getUsername();
+                session.setAttribute("username",username);
+                this.getServletContext().getRequestDispatcher("/WEB-INF/dashboard.jsp").forward(req, resp);
+            }else {
+                this.getServletContext().getRequestDispatcher("/WEB-INF/connexion.jsp").forward(req, resp);
+            }
         }
         else if (path.equals("/saveSpot.do")){
             SpotDaoImpl spotDao = new SpotDaoImpl();

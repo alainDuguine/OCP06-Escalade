@@ -44,10 +44,21 @@ public class Utilities {
         return false;
     }
 
+    /**
+     * Vérifie si le string est vide
+     * @param string
+     * @return
+     */
     public static boolean isEmpty(String string){
         return (string == null && string.isEmpty());
     }
 
+    /**
+     * retourne le champ auquel on a enlevé les espaces superflus
+     * @param req
+     * @param champ
+     * @return
+     */
     public static String getValeurChamp(HttpServletRequest req, String champ) {
         String valeur = req.getParameter(champ);
         if ( valeur == null || valeur.isEmpty()){
@@ -96,6 +107,11 @@ public class Utilities {
         return salt;
     }
 
+    /**
+     * formate une variable LocalDateTime en français
+     * @param date
+     * @return
+     */
     public static String dateStringFr(LocalDateTime date){
         String dateFormat;
         String[] moisFr = {"Janvier", "Février", "Mars", "Avril", "Mai","Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"};
@@ -111,9 +127,10 @@ public class Utilities {
     }
 
     /**
-     * créé une map contenant les paramètres de la requête dynamique, à partir de l'objet HttpServletRequest
+     * Créé une map contenant les paramètres pour exécter requête dynamique, à partir de l'objet HttpServletRequest
+     * depuis le formulaire de recherche rechercheSpot.jsp
      * @param req
-     * @return
+     * @return une Map contenant le nom du paramètre et sa valeur
      */
     public static Map<String, Object> getParameterMapFromReq(HttpServletRequest req) {
         Map<String, Object> paramMap = new HashMap<>();

@@ -47,16 +47,22 @@ public class UtilisateurDaoImpl implements EntityRepository<Utilisateur>{
     }
 
     public Utilisateur findByEmail(String email) {
-        Utilisateur result;
-        Query query = entityManager.createQuery( "select u from Utilisateur u where u.email = :x");
-        query.setParameter("x", email);
+        Query query = entityManager.createQuery( "select u from Utilisateur u where u.email = :email");
+        query.setParameter("email", email);
         try {
-            result = (Utilisateur) query.getSingleResult();
-        }catch (Exception e) {
-            result = null;
+            return (Utilisateur) query.getSingleResult();
+        } catch (Exception e){
+            return null;
         }
-        return result;
     }
 
-
+    public Utilisateur findByUsername(String username) {
+        Query query = entityManager.createQuery("select u from Utilisateur u where u.username= :username");
+        query.setParameter("username", username );
+        try {
+            return (Utilisateur) query.getSingleResult();
+        } catch (Exception e){
+            return null;
+        }
+    }
 }
