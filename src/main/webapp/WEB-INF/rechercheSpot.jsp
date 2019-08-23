@@ -22,27 +22,27 @@
                     <br>
                 </div>
                 <div class="rechercheForm">
-                    <select class="optionBigger" name="departement" id="departement" required="required">
+                    <select class="optionBigger" name="departement" id="departement">
                         <option value="">Choisissez un département</option>
                         <c:forEach items="${listDepartement}" var="departement">
                             <option value="${departement.key}">${departement.key} - ${departement.value}</option>
                         </c:forEach>
                     </select>
                     <select class="optionBigger" name="ville" id="ville">
-                        <option>Choisissez une ville</option>
+                        <option value="">Choisissez une ville</option>
                     </select>
                 </div>
                 <div class="rechercheForm">
                     <select name="cotationMin">
                         <option value="">Cotation Min</option>
                         <c:forEach items="${cotations}" var="cotation">
-                            <option value="${cotation.code}">${cotation.code}</option>
+                            <option value="${cotation.id}">${cotation.code}</option>
                         </c:forEach>
                     </select>
                     <select name="cotationMax">
                         <option value="">Cotation Max</option>
                         <c:forEach items="${cotations}" var="cotation">
-                            <option value="${cotation.code}">${cotation.code}</option>
+                            <option value="${cotation.id}">${cotation.code}</option>
                         </c:forEach>
                     </select>
                     <input type="number" step="1" min="0" name="secteurMin" id="secteurMin" placeholder="nb min Secteurs">
@@ -74,8 +74,8 @@
                         <td><a href="display.do?idSpot=${spot.id}"><c:out value="${spot.nom}"/></a></td>
                         <td><c:out value="${spot.departementCode} - ${spot.departementNom}"/></td>
                         <td><c:out value="${spot.ville}"/></td>
-                        <td><c:out value="${spot.minCotation}"/></td>
-                        <td><c:out value="${spot.maxCotation}"/></td>
+                        <td><c:out value="${spot.minCotationCode}"/></td>
+                        <td><c:out value="${spot.maxCotationCode}"/></td>
                         <td><c:out value="${spot.nbSecteur}"/></td>
                         <c:choose>
                             <c:when test="${spot.officiel == true}"><td><c:out value="Oui"/></td></c:when>

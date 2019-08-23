@@ -1,9 +1,5 @@
 package com.alain.metier;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
 /**
  * Classe utilisée pour transférer les résultats de la requête (SpotDaoImpl) public List<SpotResearchDto> findAllForResearch()
  * qui renvoie une liste de spots avec des champs d'aggrégation
@@ -16,26 +12,32 @@ public class SpotResearchDto {
     private String departementNom;
     private String ville;
     private int nbSecteur;
-    private String minCotation;
-    private String maxCotation;
+    private Long minCotationId;
+    private Long maxCotationId;
+    private String minCotationCode;
+    private String maxCotationCode;
     private boolean officiel;
 
-    /* ********************************************************************************************
+    private static String[] cotationCode = {"3a", "3b", "3c", "4a", "4b", "4c", "5a", "5b", "5c", "6a", "6b", "6c", "7a", "7b", "7c", "8a", "8b", "8c", "9a", "9b", "9c"};
+
+    /* *********************************************************************************************
      **** CONSTRUCTORS      ************************************************************************
      *********************************************************************************************** */
 
     public SpotResearchDto() {
     }
 
-    public SpotResearchDto(Long id, String nom, String departementCode, String departementNom, String ville, int nbSecteur, String minCotation, String maxCotation, boolean officiel) {
+    public SpotResearchDto(Long id, String nom, String departementCode, String departementNom, String ville, int nbSecteur, Long minCotation, Long maxCotation, boolean officiel) {
         this.id = id;
         this.nom = nom;
         this.departementCode = departementCode;
         this.departementNom = departementNom;
         this.ville = ville;
         this.nbSecteur = nbSecteur;
-        this.minCotation = minCotation;
-        this.maxCotation = maxCotation;
+        this.minCotationId = minCotation;
+        this.maxCotationId = maxCotation;
+        this.setMinCotationCode(minCotation);
+        this.setMaxCotationCode(maxCotation);
         this.officiel = officiel;
     }
 
@@ -96,20 +98,44 @@ public class SpotResearchDto {
         this.nbSecteur = nbSecteur;
     }
 
-    public String getMinCotation() {
-        return minCotation;
+    public Long getMinCotationId() {
+        return minCotationId;
     }
 
-    public void setMinCotation(String minCotation) {
-        this.minCotation = minCotation;
+    public void setMinCotationId(Long minCotationId) {
+        this.minCotationId = minCotationId;
     }
 
-    public String getMaxCotation() {
-        return maxCotation;
+    public Long getMaxCotationId() {
+        return maxCotationId;
     }
 
-    public void setMaxCotation(String maxCotation) {
-        this.maxCotation = maxCotation;
+    public void setMaxCotationId(Long maxCotationId) {
+        this.maxCotationId = maxCotationId;
+    }
+
+    public String getMinCotationCode() {
+        return minCotationCode;
+    }
+
+    public void setMinCotationCode(Long minCotationId) {
+        if(minCotationId != null) {
+            this.minCotationCode =  cotationCode[minCotationId.intValue()-1];
+        }else{
+            this.minCotationCode = "";
+        }
+    }
+
+    public String getMaxCotationCode() {
+        return maxCotationCode;
+    }
+
+    public void setMaxCotationCode(Long maxCotationId) {
+        if(maxCotationId != null) {
+            this.maxCotationCode = cotationCode[maxCotationId.intValue()-1];
+        }else{
+            this.maxCotationCode = "";
+        }
     }
 
     public boolean isOfficiel() {

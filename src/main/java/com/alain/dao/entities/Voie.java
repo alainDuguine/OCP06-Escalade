@@ -74,8 +74,16 @@ public class Voie extends Entitie implements Serializable {
     @Override
     public void hydrate(HttpServletRequest req) {
         this.setNom(Utilities.getValeurChamp(req, CHAMP_NOM));
-        this.setAltitude(Integer.parseInt(req.getParameter(CHAMP_ALTITUDE)));
-        this.setNbLongueurs(Integer.parseInt(req.getParameter(CHAMP_LONGUEUR)));
+        if(!(req.getParameter((CHAMP_ALTITUDE)).isEmpty())) {
+            this.setAltitude(Integer.parseInt(req.getParameter(CHAMP_ALTITUDE)));
+        }else{
+            this.setAltitude(0);
+        }
+        if(!(req.getParameter((CHAMP_LONGUEUR)).isEmpty())) {
+            this.setNbLongueurs(Integer.parseInt(req.getParameter(CHAMP_LONGUEUR)));
+        }else{
+            this.setNbLongueurs(0);
+        }
         this.setDescription(Utilities.getValeurChamp(req, CHAMP_DESCRIPTION));
     }
 

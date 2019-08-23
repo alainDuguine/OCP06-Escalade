@@ -36,7 +36,7 @@ public class Servlet extends HttpServlet {
             req.setAttribute("utilisateur", new Utilisateur());
             this.getServletContext().getRequestDispatcher("/WEB-INF/inscription.jsp").forward(req, resp);
         }
-        else if (path.equals("/listeSpot.do")){
+        else if (path.equals("/listeSpot.do") || path.equals("/rechercheSpot.do")){
             SpotDaoImpl spotDao = new SpotDaoImpl();
             List<SpotResearchDto> spots = spotDao.findAllForResearch();
             TreeMap<String, String> listDepartementSort = Utilities.getDepartementSortedFromList(spots);
@@ -44,7 +44,9 @@ public class Servlet extends HttpServlet {
             List<Cotation> cotations = cotationDao.findAll();
             req.setAttribute("cotations", cotations);
             req.setAttribute("listDepartement", listDepartementSort);
-            req.setAttribute("spots", spots);
+            if (path.equals("/listeSpot.do")) {
+                req.setAttribute("spots", spots);
+            }
             this.getServletContext().getRequestDispatcher("/WEB-INF/rechercheSpot.jsp").forward(req, resp);
         }
         else if(path.equals("/connexion.do")){
@@ -219,11 +221,9 @@ public class Servlet extends HttpServlet {
         }else if (path.equals("/rechercheSpot.do")){
             SpotDaoImpl spotDao = new SpotDaoImpl();
             Map<String, Object> paramMap = Utilities.getParameterMapFromReq(req);
-//            List<SpotResearchDto> spots = spotDao.findSpotPersonalResearch(paramMap);
-//            TreeMap<String, String> listDepartementSort = Utilities.getDepartementSortedFromList(spots);
-//            req.setAttribute("listDepartement", listDepartementSort);
-//            req.setAttribute("spots", spots);
-//            this.getServletContext().getRequestDispatcher("/WEB-INF/rechercheSpot.jsp").forward(req, resp);
+            List<SpotResearchDto> spots = spotDao.findSpotPersonalResearch(paramMap);
+            req.setAttribute("spots", spots);
+            doGet(req, resp);
         }
     }
 }

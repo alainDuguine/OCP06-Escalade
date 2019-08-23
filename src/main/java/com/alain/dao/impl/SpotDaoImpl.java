@@ -73,8 +73,12 @@ public class SpotDaoImpl implements EntityRepository<Spot> {
         return query.getResultList();
     }
 
+    /**
+     * Retourne l'ensemble des spots existants sous la forme SpotResearchDto
+     * @return
+     */
     public List<SpotResearchDto> findAllForResearch(){
-        Query query = entityManager.createQuery("select new com.alain.metier.SpotResearchDto(spot.id, spot.nom, spot.departement.code, spot.departement.nom, spot.ville.nom, spot.secteurs.size, min(cotations.code), max(cotations.code), spot.officiel)" +
+        Query query = entityManager.createQuery("select new com.alain.metier.SpotResearchDto(spot.id, spot.nom, spot.departement.code, spot.departement.nom, spot.ville.nom, spot.secteurs.size, min(cotations.id), max(cotations.id), spot.officiel)" +
                 "        FROM Spot spot\n" +
                 "        left join spot.secteurs secteurs\n" +
                 "        left join secteurs.voies voies\n" +
@@ -84,26 +88,60 @@ public class SpotDaoImpl implements EntityRepository<Spot> {
         return query.getResultList();
     }
 
+    /**
+     * permet d'exécuter une requete personnnalisé via le formulaire de recherche rechercheSpot.do
+     * @param paramReq map des paramètres de la requête (générée par Utilities.getParameterMapFromReq(HttpServletRequest req))
+     * @return le resultSet de la requête sous forme d'objets SpotResearchDto
+     */
     public List<SpotResearchDto> findSpotPersonalResearch(Map<String, Object> paramReq){
+        List<SpotResearchDto> list = null;
+        // nom des paramètres
         String[] paramList = {"nomSpot", "officiel", "departement", "ville", "cotationMin", "cotationMax", "secteurMin", "secteurMax"};
-        String[] reqParamList = {"spot.nom", "spot.officiel", "spot.departement.nom", "spot.ville.nom", "cotationMin", "cotationMax", "spot.secteur.size", "spot.secteur.size"};
+        // nom des attributs dans la base de données
+        String[] AttributList = {"spot.nom", "spot.officiel", "spot.departement.code", "spot.ville.nom", "min(cotations.id)", "max(cotations.id)", "spot.secteurs.size", "spot.secteurs.size"};
+        // Map qui contiendra les paramètres à injecter (nom et valeur)
         Map <String, Object> paramInReq = new HashMap<>();
+        StringBuffer builtQuery = new StringBuffer("select new com.alain.metier.SpotResearchDto(spot.id, spot.nom, spot.departement.code, spot.departement.nom, spot.ville.nom, spot.secteurs.size, min(cotations.id), max(cotations.id), spot.officiel) FROM Spot spot left join spot.secteurs secteurs left join secteurs.voies voies left join voies.cotation cotations");
 
-//        StringBuffer builtQuery = new StringBuffer("select new com.alain.metier.SpotResearchDto(spot.id, spot.nom, spot.departement.code, spot.departement.nom, spot.ville.nom, spot.secteurs.size, min(cotations.code) as cotationMin, max(cotations.code) as cotationMax, spot.officiel FROM Spot spot left join spot.secteurs secteurs left join secteurs.voies voies left join voies.cotation cotations");
-        StringBuilder builtQuery = new StringBuilder("Select spot From Spot spot");
+        // Adding the WHERE clauses
         boolean first = true;
-
-        for (int i=0; i<paramList.length; i++){
-            if (paramReq.get(paramList[i]) != null) {
+        for (int i=0; i <= 3;i++) {
+            if ((paramReq.get(paramList[i]) != null) && !(paramReq.get(paramList[i]).equals(false)) && !(paramReq.get(paramList[i]).equals(""))) {
                 builtQuery.append(first ? " where " : " and ");
-                builtQuery.append(reqParamList[i] + "= :" + paramList[i]);
+                if (paramList[i].contains("nom")){
+                    builtQuery.append("lower(" + AttributList[i] + ") like lower(concat('%', :" + paramList[i]+", '%'))");
+                }else {
+                    builtQuery.append(AttributList[i] + " = :" + paramList[i]);
+                }
                 paramInReq.put(paramList[i], paramReq.get(paramList[i]));
                 first = false;
             }
         }
 
+        // Adding GROUP BY clause
+        builtQuery.append(" group by spot.id, spot.departement.nom, spot.ville.nom");
+
+        // Adding HAVING clauses
+        first = true;
+        for (int i = 4; i < paramList.length; i++ ){
+            if ((paramReq.get(paramList[i]) != null) && !(paramReq.get(paramList[i]).equals(""))) {
+                builtQuery.append(first ? " having " : " and ");
+                if (paramList[i].contains("Min")){
+                    builtQuery.append(AttributList[i] + " >= :" + paramList[i]);
+                }else{
+                    builtQuery.append(AttributList[i] + " <= :" + paramList[i]);
+                }
+                paramInReq.put(paramList[i], paramReq.get(paramList[i]));
+                first = false;
+            }
+        }
+
+        // Adding order by
+        builtQuery.append(" order by spot.nom");
+
         Query query = entityManager.createQuery(builtQuery.toString());
 
+        // Injecting parameters
         Iterator<String> iter = paramInReq.keySet().iterator();
         while (iter.hasNext()){
             String name = iter.next();
