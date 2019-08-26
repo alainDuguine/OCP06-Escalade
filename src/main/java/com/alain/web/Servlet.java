@@ -45,14 +45,14 @@ public class Servlet extends HttpServlet {
                 DepartementDaoImpl departementDao = new DepartementDaoImpl();
                 List<Departement> departements = departementDao.findAll();
                 req.setAttribute("departements", departements);
-                this.getServletContext().getRequestDispatcher("/WEB-INF/ajoutSpot.jsp").forward(req, resp);
+                this.getServletContext().getRequestDispatcher("/WEB-INF/restricted/ajoutSpot.jsp").forward(req, resp);
                 break;
             case "/ajoutSecteur.do":
             case "/saveSecteur.do": {
                 SpotDaoImpl spotDao = new SpotDaoImpl();
                 Spot spot = spotDao.findOne(Long.parseLong(req.getParameter("idSpot")));
                 req.setAttribute("spot", spot);
-                this.getServletContext().getRequestDispatcher("/WEB-INF/ajoutSecteur.jsp").forward(req, resp);
+                this.getServletContext().getRequestDispatcher("/WEB-INF/restricted/ajoutSecteur.jsp").forward(req, resp);
                 break;
             }
             case "/ajoutVoie.do":
@@ -64,7 +64,7 @@ public class Servlet extends HttpServlet {
                     List<Cotation> cotations = cotationDao.findAll();
                     req.setAttribute("cotations", cotations);
                     req.setAttribute("secteur", secteur);
-                    this.getServletContext().getRequestDispatcher("/WEB-INF/ajoutVoie.jsp").forward(req, resp);
+                    this.getServletContext().getRequestDispatcher("/WEB-INF/restricted/ajoutVoie.jsp").forward(req, resp);
                 } else {
                     this.getServletContext().getRequestDispatcher("/WEB-INF/erreur.jsp").forward(req, resp);
                 }
@@ -76,7 +76,7 @@ public class Servlet extends HttpServlet {
                 SpotDaoImpl spotDao = new SpotDaoImpl();
                 List<Spot> listSpots = spotDao.findAll();
                 req.setAttribute("spots", listSpots);
-                this.getServletContext().getRequestDispatcher("/WEB-INF/dashboard.jsp").forward(req, resp);
+                this.getServletContext().getRequestDispatcher("/WEB-INF/restricted/dashboard.jsp").forward(req, resp);
                 break;
             }
             case "/listeSpot.do":
@@ -164,7 +164,7 @@ public class Servlet extends HttpServlet {
                     HttpSession session = req.getSession();
                     String username = ((Utilisateur) form.getEntitie()).getUsername();
                     session.setAttribute("sessionUtilisateur", username);
-                    this.getServletContext().getRequestDispatcher("/WEB-INF/dashboard.jsp").forward(req, resp);
+                    this.getServletContext().getRequestDispatcher("/WEB-INF/restricted/dashboard.jsp").forward(req, resp);
                 } else {
                     this.getServletContext().getRequestDispatcher("/WEB-INF/connexion.jsp").forward(req, resp);
                 }

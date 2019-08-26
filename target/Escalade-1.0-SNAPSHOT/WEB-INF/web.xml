@@ -4,20 +4,20 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
 
-        <servlet>
-            <servlet-name>index</servlet-name>
-            <servlet-class>com.alain.web.Servlet</servlet-class>
-            <multipart-config>
-                <location>D:\fichiers</location>
-                <max-file-size>5242880</max-file-size>
-                <max-request-size>52428800</max-request-size>
-                <file-size-threshold>1048576</file-size-threshold>
-            </multipart-config>
-        </servlet>
-        <servlet-mapping>
-            <servlet-name>index</servlet-name>
-            <url-pattern>*.do</url-pattern>
-        </servlet-mapping>
+    <servlet>
+        <servlet-name>index</servlet-name>
+        <servlet-class>com.alain.web.Servlet</servlet-class>
+        <multipart-config>
+            <location>D:\fichiers</location>
+            <max-file-size>5242880</max-file-size>
+            <max-request-size>52428800</max-request-size>
+            <file-size-threshold>1048576</file-size-threshold>
+        </multipart-config>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>index</servlet-name>
+        <url-pattern>*.do</url-pattern>
+    </servlet-mapping>
 
     <jsp-config>
         <jsp-property-group>
@@ -26,4 +26,15 @@
             <include-prelude>/WEB-INF/taglibs.jsp</include-prelude>
         </jsp-property-group>
     </jsp-config>
+
+    <filter>
+        <filter-name>RestrictionFilter</filter-name>
+        <filter-class>com.alain.web.filters.RestrictionFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>RestrictionFilter</filter-name>
+        <url-pattern>/WEB-INF/restricted/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
+    </filter-mapping>
 </web-app>

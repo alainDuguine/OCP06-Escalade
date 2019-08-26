@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Tableau de bord</title>
-    <%@ include file="includeCss.jsp"%>
-    <link rel="stylesheet" type="text/css" href="../css/table.css">
+    <%@ include file="../includeCss.jsp"%>
+    <link rel="stylesheet" type="text/css" href="../../css/table.css">
     <link href="https://fonts.googleapis.com/css?family=Merienda&display=swap" rel="stylesheet">
 </head>
 <body>
-<%@ include file= "header.jsp"%>
+<%@ include file= "../header.jsp"%>
 <section class="mainDiv">
         <div class="menuDashboard">
             <p class="menu-button"><a href="dashboard.do">Mes Spots</a></p>

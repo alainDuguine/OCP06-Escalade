@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Ajouter un Secteur</title>
-    <%@ include file="includeCss.jsp"%>
-    <link rel="stylesheet" type="text/css" href="../css/form.css">
+    <%@ include file="../includeCss.jsp"%>
+    <link rel="stylesheet" type="text/css" href="../../css/form.css">
     <link href="https://fonts.googleapis.com/css?family=Merienda&display=swap" rel="stylesheet">
 </head>
 <body>
-<%@ include file= "header.jsp"%>
+<%@ include file= "../header.jsp"%>
 <section class="mainDiv">
     <div class="formDiv">
         <h1>Ajouter un secteur - <c:out value="${spot.nom}"/> :</h1>
@@ -54,11 +54,11 @@
         </form>
     </div>
 </section>
-<%@include file="social.jsp"%>
+<%@include file="../social.jsp"%>
 <script src="https://code.jquery.com/jquery-3.4.1.js"
         integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
         crossorigin="anonymous">
 </script>
-<script src="../js/checkPhotos.js"></script>
+<script src="../../js/checkPhotos.js"></script>
 </body>
 </html>

@@ -1,4 +1,4 @@
-package com.alain.web;
+package com.alain.web.filters;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -8,6 +8,7 @@ import java.io.IOException;
 
 public class RestrictionFilter implements Filter {
     public static final String ATT_SESSION_USER = "sessionUtilisateur";
+    public static final String ACCES_CONNEXION = "/WEB-INF/connexion.jsp";
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -22,7 +23,10 @@ public class RestrictionFilter implements Filter {
         HttpSession session = req.getSession();
 
         if (session.getAttribute(ATT_SESSION_USER) == null){
-           req.getRequestDispatcher("/WEB-INF/connexion.jsp").forward(req, resp);
+            req.getRequestDispatcher(ACCES_CONNEXION).forward(req, resp);
+        }else{
+            //Redirige vers le filtre suivant s'il existe
+            chain.doFilter(req,resp);
         }
     }
 
