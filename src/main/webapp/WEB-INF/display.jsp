@@ -95,13 +95,16 @@
             </div>
         </c:forEach>
         <div class="descriptionDiv">
+            <h1>Commentaires publics</h1>
             <span class="ancre" id="commentaireAncre">ancre</span>
-            <div class="commentaireForm">
-                <label for="commentaireInput" id="labelCommentaire">Ajouter un commentaire public :</label>
-                <textarea name="commentaire" id="commentaireInput" ></textarea>
-                <input type="button" id="submitCommentaire" value="Ajouter un commentaire">
-            </div>
-            <hr/>
+            <c:if test="${!empty sessionScope.sessionUtilisateur}">
+                <div class="commentaireForm">
+                    <label for="commentaireInput" id="labelCommentaire">Ajouter un commentaire public :</label>
+                    <textarea name="commentaire" id="commentaireInput" ></textarea>
+                    <input type="button" id="submitCommentaire" value="Ajouter un commentaire">
+                </div>
+                <hr/>
+            </c:if>
             <div class="commentaireDisplay">
                 <c:forEach items="${spot.commentaires}" var="commentaireInput">
                     <p class="commentaire"><c:out value="${commentaireInput.utilisateur.nom} ${commentaireInput.utilisateur.prenom}"/> le ${commentaireInput.dateFormat}
