@@ -6,6 +6,7 @@ import com.alain.dao.entities.Departement;
 import com.alain.dao.entities.Spot;
 import com.alain.dao.entities.Ville;
 import com.alain.metier.SpotResearchDto;
+import com.alain.metier.Utilities;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
@@ -95,8 +96,6 @@ public class SpotDaoImpl implements EntityRepository<Spot> {
      */
     public List<SpotResearchDto> findSpotPersonalResearch(Map<String, Object> paramReq){
         List<SpotResearchDto> list = null;
-        // nom des paramètres
-        String[] paramList = {"nomSpot", "officiel", "departement", "ville", "cotationMin", "cotationMax", "secteurMin", "secteurMax"};
         // nom des attributs dans la base de données
         String[] AttributList = {"spot.nom", "spot.officiel", "spot.departement.code", "spot.ville.nom", "min(cotations.id)", "max(cotations.id)", "spot.secteurs.size", "spot.secteurs.size"};
         // Map qui contiendra les paramètres à injecter (nom et valeur)
@@ -106,14 +105,14 @@ public class SpotDaoImpl implements EntityRepository<Spot> {
         // Adding the WHERE clauses
         boolean first = true;
         for (int i=0; i <= 3;i++) {
-            if ((paramReq.get(paramList[i]) != null) && !(paramReq.get(paramList[i]).equals(false)) && !(paramReq.get(paramList[i]).equals(""))) {
+            if ((paramReq.get(Utilities.paramList[i]) != null) && !(paramReq.get(Utilities.paramList[i]).equals(false)) && !(paramReq.get(Utilities.paramList[i]).equals(""))) {
                 builtQuery.append(first ? " where " : " and ");
-                if (paramList[i].contains("nom")){
-                    builtQuery.append("lower(" + AttributList[i] + ") like lower(concat('%', :" + paramList[i]+", '%'))");
+                if (Utilities.paramList[i].contains("nom")){
+                    builtQuery.append("lower(" + AttributList[i] + ") like lower(concat('%', :" + Utilities.paramList[i]+", '%'))");
                 }else {
-                    builtQuery.append(AttributList[i] + " = :" + paramList[i]);
+                    builtQuery.append(AttributList[i] + " = :" + Utilities.paramList[i]);
                 }
-                paramInReq.put(paramList[i], paramReq.get(paramList[i]));
+                paramInReq.put(Utilities.paramList[i], paramReq.get(Utilities.paramList[i]));
                 first = false;
             }
         }
@@ -123,15 +122,15 @@ public class SpotDaoImpl implements EntityRepository<Spot> {
 
         // Adding HAVING clauses
         first = true;
-        for (int i = 4; i < paramList.length; i++ ){
-            if ((paramReq.get(paramList[i]) != null) && !(paramReq.get(paramList[i]).equals(""))) {
+        for (int i = 4; i < Utilities.paramList.length; i++ ){
+            if ((paramReq.get(Utilities.paramList[i]) != null) && !(paramReq.get(Utilities.paramList[i]).equals(""))) {
                 builtQuery.append(first ? " having " : " and ");
-                if (paramList[i].contains("Min")){
-                    builtQuery.append(AttributList[i] + " >= :" + paramList[i]);
+                if (Utilities.paramList[i].contains("Min")){
+                    builtQuery.append(AttributList[i] + " >= :" + Utilities.paramList[i]);
                 }else{
-                    builtQuery.append(AttributList[i] + " <= :" + paramList[i]);
+                    builtQuery.append(AttributList[i] + " <= :" + Utilities.paramList[i]);
                 }
-                paramInReq.put(paramList[i], paramReq.get(paramList[i]));
+                paramInReq.put(Utilities.paramList[i], paramReq.get(Utilities.paramList[i]));
                 first = false;
             }
         }
