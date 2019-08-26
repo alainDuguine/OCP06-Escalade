@@ -16,8 +16,8 @@
         <c:choose>
             <c:when test="${empty sessionScope.username}">
                 <nav class="user">
-                    <p class="menu-button"><a href="connexion.do"><img src="../img/User.png" title="Se connecter" alt="Se connecter"/></a></p>
-                    <p class="menu-button"><a href="inscription.do"><img src="../img/addUser.png" title="Créer un compte" alt="Créer un compte"/></a></p>
+                    <p class="menu-button" id="userConnexion"><a href="connexion.do"><img src="../img/User.png" title="Se connecter" alt="Se connecter"/></a></p>
+                    <p class="menu-button" id="addUser"><a href="inscription.do"><img src="../img/addUser.png" title="Créer un compte" alt="Créer un compte"/></a></p>
                 </nav>
             </c:when>
             <c:otherwise>

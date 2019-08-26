@@ -12,7 +12,7 @@ public class Utilities {
 
     /**
      * Crée et trie une liste de départements à partir d'une liste d'objets SpotResearchDto
-     * @param spotResearchDtoList liste des objets à partir desquels extraire et trier les departementsd
+     * @param spotResearchDtoList liste des objets à partir desquels extraire et trier les departements
      * @return le treemap créé
      */
     public static TreeMap<String, String> getDepartementSortedFromList(List<SpotResearchDto> spotResearchDtoList){

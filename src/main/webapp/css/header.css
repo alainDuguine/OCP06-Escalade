@@ -63,6 +63,15 @@ header{
     border-collapse: collapse;
 }
 
+#userConnexion, #addUser{
+    padding: 0 0.5em;
+    justify-items: center;
+}
+
+#userConnexion img, #addUser img{
+    padding-top: 0.8em;
+}
+
 .menu a{
     line-height: 2em; /*Centrage vertical des menus et extension de la zone cliquable*/
     padding-right: 0.5em;
