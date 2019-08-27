@@ -61,7 +61,7 @@ public class Servlet extends HttpServlet {
                 break;
             }
             case "/ajoutVoie.do":
-            case "/saveVoie.do":
+            case "/saveVoie.do": {
                 SecteurDaoImpl secteurDao = new SecteurDaoImpl();
                 Secteur secteur = secteurDao.findOne(Long.parseLong(req.getParameter("idSecteur")));
                 if (secteur != null) {
@@ -74,13 +74,16 @@ public class Servlet extends HttpServlet {
                     this.getServletContext().getRequestDispatcher("/WEB-INF/erreur.jsp").forward(req, resp);
                 }
                 break;
+            }
+            case "/connexionForm.do":
             case "/dashboard.do": {
-                if (resp.containsHeader("resultat")) {
-                    req.setAttribute("resultat", true);
+                HttpSession session = req.getSession();
+                String username = (String) session.getAttribute("sessionUtilisateur");
+                if (username != null) {
+                    UtilisateurDaoImpl utilisateurDao = new UtilisateurDaoImpl();
+                    Utilisateur utilisateur = utilisateurDao.findByUsername(username);
+                    req.setAttribute("utilisateur", utilisateur);
                 }
-                SpotDaoImpl spotDao = new SpotDaoImpl();
-                List<Spot> listSpots = spotDao.findAll();
-                req.setAttribute("spots", listSpots);
                 this.getServletContext().getRequestDispatcher("/WEB-INF/restricted/dashboard.jsp").forward(req, resp);
                 break;
             }
@@ -160,7 +163,7 @@ public class Servlet extends HttpServlet {
                 this.getServletContext().getRequestDispatcher("/WEB-INF/inscription.jsp").forward(req, resp);
                 break;
             }
-            case "/connexion.do": {
+            case "/connexionForm.do": {
                 UtilisateurDaoImpl utilisateurDaoImpl = new UtilisateurDaoImpl();
                 CheckForm form = new CheckForm();
                 form.checkConnect(req, utilisateurDaoImpl);
@@ -174,7 +177,7 @@ public class Servlet extends HttpServlet {
                     HttpSession session = req.getSession();
                     String username = ((Utilisateur) form.getEntitie()).getUsername();
                     session.setAttribute("sessionUtilisateur", username);
-                    this.getServletContext().getRequestDispatcher("/WEB-INF/restricted/dashboard.jsp").forward(req, resp);
+                    doGet(req,resp);
                 } else {
                     this.getServletContext().getRequestDispatcher("/WEB-INF/connexion.jsp").forward(req, resp);
                 }

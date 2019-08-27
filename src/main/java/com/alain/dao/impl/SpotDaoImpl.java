@@ -62,7 +62,7 @@ public class SpotDaoImpl implements EntityRepository<Spot> {
 
     @Override
     public List<Spot> findAll() {
-        Query query = entityManager.createQuery("select spot  from Spot spot");
+        Query query = entityManager.createQuery("select spot from Spot spot");
         return query.getResultList();
     }
 

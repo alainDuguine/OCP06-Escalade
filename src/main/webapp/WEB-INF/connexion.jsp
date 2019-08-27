@@ -17,7 +17,7 @@
                 <c:out value="${form.resultat ? 'Connexion réussie' : 'Connexion échouée'}"/>
             </p>
         </c:if>
-        <form method="post" action="connexion.do">
+        <form method="post" action="connexionForm.do">
             <div class="erreur">
                 <div></div>
                 <div>${form.listErreurs['email']}</div>

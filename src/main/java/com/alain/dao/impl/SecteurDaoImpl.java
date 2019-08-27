@@ -44,7 +44,6 @@ public class SecteurDaoImpl extends EntityManagerUtil implements EntityRepositor
 
     @Override
     public void delete(Long id) {
-
     }
 
     @Override
