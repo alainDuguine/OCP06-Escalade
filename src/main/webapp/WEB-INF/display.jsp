@@ -7,13 +7,13 @@
     <%@ include file="includeCss.jsp"%>
     <link rel="stylesheet" type="text/css" href="../css/gallery.css">
     <link rel="stylesheet" type="text/css" href="../css/displaySpot.css">
-    <link rel="stylesheet" type="text/css" href="../css/lightbox.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/lightbox.css">
     <link rel="stylesheet" type="text/css" href="../css/treeview.css">
     <link href="https://fonts.googleapis.com/css?family=Merienda&display=swap" rel="stylesheet">
     <title>Spot : <c:out value="${spot.nom}"/></title>
 </head>
 <body>
-<c:set var="chemin">/images/</c:set>
+<c:set var="chemin">/imagesUsers/</c:set>
 <%@ include file= "header.jsp"%>
 <section id="displaySpot">
     <section id="navDiv">

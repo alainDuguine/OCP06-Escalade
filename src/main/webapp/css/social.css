@@ -33,17 +33,17 @@
 
 #fb{
     background-position: 0 0;
-    background-image: url("../img/social.png");
+    background-image: url("../images/social.png");
 }
 
 #tw{
-    background-image: url("../img/social.png");
+    background-image: url("../images/social.png");
     background-position: -50px 0;
     left:55px;
 }
 
 #lk{
-    background-image: url("../img/social.png");
+    background-image: url("../images/social.png");
     background-position: -100px -50px;
     left:110px;
 }

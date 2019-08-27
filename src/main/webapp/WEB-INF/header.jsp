@@ -1,6 +1,6 @@
 <header>
     <div id="logo">
-        <a href=""><img src="../img/logo.png" alt="Logo association" title="Notre association" id="img-logo"/></a>
+        <a href=""><img src="../images/logo.png" alt="Logo association" title="Notre association" id="img-logo"/></a>
     </div>
     <div id="banner">
         <nav class="menu">
@@ -16,14 +16,14 @@
         <c:choose>
             <c:when test="${empty sessionScope.sessionUtilisateur}">
                 <nav class="user">
-                    <p class="menu-button" id="userConnexion"><a href="connexion.do"><img src="../img/User.png" title="Se connecter" alt="Se connecter"/></a></p>
-                    <p class="menu-button" id="addUser"><a href="inscription.do"><img src="../img/addUser.png" title="Créer un compte" alt="Créer un compte"/></a></p>
+                    <p class="menu-button" id="userConnexion"><a href="connexion.do"><img src="../images/User.png" title="Se connecter" alt="Se connecter"/></a></p>
+                    <p class="menu-button" id="addUser"><a href="inscription.do"><img src="../images/addUser.png" title="Créer un compte" alt="Créer un compte"/></a></p>
                 </nav>
             </c:when>
             <c:otherwise>
                 <nav class="userDrop">
                     <div class="container">
-                        <p class="menu-button" id="userConnected"><a href="dashboard.do" id="username"><span><c:out value="${sessionScope.sessionUtilisateur}"/></span><img id="iconUser" src="../img/UserConnected.png" title="Tableau de bord" alt="Tableau de bord"/></a></p>
+                        <p class="menu-button" id="userConnected"><a href="dashboard.do" id="username"><span><c:out value="${sessionScope.sessionUtilisateur}"/></span><img id="iconUser" src="../images/UserConnected.png" title="Tableau de bord" alt="Tableau de bord"/></a></p>
                         <ul id="items">
                             <li><a href="dashboard.do">Tableau de bord</a></li>
                             <li><a href="deconnexion.do">Se déconnecter</a></li>
