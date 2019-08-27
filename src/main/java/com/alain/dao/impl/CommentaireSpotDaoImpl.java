@@ -4,6 +4,7 @@ import com.alain.EntityManagerUtil;
 import com.alain.dao.contract.EntityRepository;
 import com.alain.dao.entities.CommentaireSpot;
 import com.alain.dao.entities.Spot;
+import com.alain.dao.entities.Utilisateur;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
@@ -20,11 +21,14 @@ public class CommentaireSpotDaoImpl implements EntityRepository<CommentaireSpot>
         EntityTransaction transaction = entityManager.getTransaction();
         try {
             transaction.begin();
+            UtilisateurDaoImpl utilisateurDao = new UtilisateurDaoImpl();
+            Utilisateur utilisateur = utilisateurDao.findByUsername((String) req.getSession().getAttribute("sessionUtilisateur"));
             SpotDaoImpl spotDao = new SpotDaoImpl();
             Long idSpot = Long.parseLong(req.getParameter("idSpot"));
             Spot spot = spotDao.findOne(idSpot);
             // Création des associations bidirectionelles
             spot.addCommentaire(commentaire);
+            utilisateur.addCommentaireSpot(commentaire);
             entityManager.persist(commentaire);
             transaction.commit();
         }catch (Exception e){

@@ -133,6 +133,7 @@ public class Secteur extends Entitie implements Serializable {
 
     public void setUtilisateur(Utilisateur utilisateur) {
         this.utilisateur = utilisateur;
+        utilisateur.addSecteur(this);
     }
 
     public List<Voie> getVoies() {

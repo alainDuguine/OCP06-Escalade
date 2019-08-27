@@ -182,6 +182,7 @@ public class Voie extends Entitie implements Serializable {
 
     public void setUtilisateur(Utilisateur utilisateur) {
         this.utilisateur = utilisateur;
+        utilisateur.addVoie(this);
     }
 
     public List<CommentaireVoie> getCommentaires() {

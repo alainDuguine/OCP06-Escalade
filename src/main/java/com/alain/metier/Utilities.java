@@ -136,7 +136,6 @@ public class Utilities {
      */
     public static Map<String, Object> getParameterMapFromReq(HttpServletRequest req) {
         Map<String, Object> paramMap = new HashMap<>();
-//        String[] paramList = {"nomSpot", "officiel", "departement", "ville", "cotationMin", "cotationMax", "secteurMin", "secteurMax"};
         for (String param : paramList) {
             if (param.contains("Min") || param.contains("Max")) {
                 if (req.getParameter(param) != "") {

@@ -4,6 +4,7 @@ import com.alain.EntityManagerUtil;
 import com.alain.dao.contract.EntityRepository;
 import com.alain.dao.entities.Cotation;
 import com.alain.dao.entities.Secteur;
+import com.alain.dao.entities.Utilisateur;
 import com.alain.dao.entities.Voie;
 
 import javax.persistence.EntityManager;
@@ -21,6 +22,8 @@ public class VoieDaoImpl implements EntityRepository<Voie> {
         EntityTransaction transaction = entityManager.getTransaction();
         try {
             transaction.begin();
+            UtilisateurDaoImpl utilisateurDao = new UtilisateurDaoImpl();
+            Utilisateur utilisateur = utilisateurDao.findByUsername((String) req.getSession().getAttribute("sessionUtilisateur"));
             SecteurDaoImpl secteurDao = new SecteurDaoImpl();
             Secteur secteur = secteurDao.findOne(Long.parseLong(req.getParameter("idSecteur")));
             CotationDaoImpl cotationDao = new CotationDaoImpl();
@@ -28,6 +31,7 @@ public class VoieDaoImpl implements EntityRepository<Voie> {
             // Création des associations bidirectionelles
             voie.setSecteur(secteur);
             voie.setCotation(cotation);
+            voie.setUtilisateur(utilisateur);
             entityManager.persist(voie);
             transaction.commit();
         }catch (Exception e){

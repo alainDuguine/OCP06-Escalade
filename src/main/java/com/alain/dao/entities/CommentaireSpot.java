@@ -44,6 +44,4 @@ public class CommentaireSpot extends Commentaire {
     public void setSpot(Spot spot) {
         this.spot = spot;
     }
-
-
 }

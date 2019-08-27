@@ -291,4 +291,23 @@ public class Utilisateur extends Entitie implements Serializable{
     public void setEmpruntsTopos(List<Topo> empruntsTopos) {
         this.empruntsTopos = empruntsTopos;
     }
+
+    public void addSpot(Spot spot) {
+        this.spots.add(spot);
+    }
+
+    public void addSecteur(Secteur secteur){
+        this.secteurs.add(secteur);
+    }
+
+    public void addVoie(Voie voie){
+        this.voies.add(voie);
+    }
+
+    public void addCommentaireSpot(CommentaireSpot commentaireSpot){
+        this.commentaireSpots.add(commentaireSpot);
+        commentaireSpot.setUtilisateur(this);
+        commentaireSpot.setUsername(this.getUsername());
+    }
+
 }

@@ -146,6 +146,11 @@ public class Spot extends Entitie implements Serializable {
         this.photos.add(photo);
     }
 
+    public void addCommentaire(CommentaireSpot commentaire) {
+        commentaire.setSpot(this);
+        this.commentaires.add(commentaire);
+    }
+
     public void setDepartement(Departement departement) {
         this.departement = departement;
         departement.addSpot(this);
@@ -178,6 +183,7 @@ public class Spot extends Entitie implements Serializable {
 
     public void setUtilisateur(Utilisateur utilisateur) {
         this.utilisateur = utilisateur;
+        utilisateur.addSpot(this);
     }
 
     public Departement getDepartement() {
@@ -226,10 +232,5 @@ public class Spot extends Entitie implements Serializable {
 
     public Ville getVille() {
         return ville;
-    }
-
-    public void addCommentaire(CommentaireSpot commentaire) {
-        this.commentaires.add(commentaire);
-        commentaire.setSpot(this);
     }
 }

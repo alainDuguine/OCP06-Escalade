@@ -42,7 +42,7 @@
         <span class="ancre" id="${spot.nom}"></span>
         <div class="descriptionDiv">
             <h1>Spot - <c:out value="${spot.nom}"/></h1>
-            <h5><c:out value="${spot.departement.nom}"/> - <c:out value="${spot.ville.nom}"/></h5>
+            <h5><c:out value="${spot.departement.nom}"/> - <c:out value="${spot.ville.nom}"/> - <i>ajouté par <c:out value="${spot.utilisateur.username}"/></i></h5>
             <h3>Description :</h3>
             <p><c:out value="${spot.description}"/></p>
             <c:if test="${!empty spot.photos}">
@@ -60,6 +60,7 @@
             <span class="ancre" id="${secteur.nom}"></span>
             <div class="descriptionDiv">
                 <h1>Secteur - <c:out value="${secteur.nom}"/></h1>
+                <h5><i>ajouté par <c:out value="${secteur.utilisateur.username}"/></i></h5>
                 <h3>Description :</h3>
                 <p><c:out value="${secteur.description}"/></p>
                 <c:if test="${!empty secteur.photos}">
@@ -76,6 +77,7 @@
                     <span class="ancre" id="${voie.nom}"></span>
                     <div>
                         <h1>Voie - <c:out value="${voie.nom}"/></h1>
+                        <h5><i>ajoutée par <c:out value="${voie.utilisateur.username}"/></i></h5>
                         <p>Cotation : <c:out value="${voie.cotation.code}"/></p>
                         <p>Altitude : <c:out value="${voie.altitude}"/></p>
                         <p>Nombre de longueurs : <c:out value="${voie.nbLongueurs}"/></p>
@@ -85,7 +87,7 @@
                             <div class="gallery">
                                 <div class="scroller">
                                     <c:forEach items="${voie.photos}" var="photo">
-                                        <a href="${chemin}${photo.nom}" data-lightbox="galleryVoies"><img src="${chemin}${photo.nom}"/></a>
+                                        <a href="${chemin}${photo.nom}" data-lightbox="galleryVoie"><img src="${chemin}${photo.nom}"/></a>
                                     </c:forEach>
                                 </div>
                             </div>
@@ -99,6 +101,7 @@
             <span class="ancre" id="commentaireAncre">ancre</span>
             <c:if test="${!empty sessionScope.sessionUtilisateur}">
                 <div class="commentaireForm">
+                    <input type="text" id="usernameCommentaire" hidden="hidden" value="<c:out value="${sessionScope.sessionUtilisateur}"/>"/>
                     <label for="commentaireInput" id="labelCommentaire">Ajouter un commentaire public :</label>
                     <textarea name="commentaire" id="commentaireInput" ></textarea>
                     <input type="button" id="submitCommentaire" value="Ajouter un commentaire">
@@ -106,9 +109,9 @@
                 <hr/>
             </c:if>
             <div class="commentaireDisplay">
-                <c:forEach items="${spot.commentaires}" var="commentaireInput">
-                    <p class="commentaire"><c:out value="${commentaireInput.utilisateur.nom} ${commentaireInput.utilisateur.prenom}"/> le ${commentaireInput.dateFormat}
-                    <br/><c:out value="${commentaireInput.contenu}"/></p><hr/>
+                <c:forEach items="${spot.commentaires}" var="commentairePublic">
+                    <p class="commentaire">Par <c:out value="${commentairePublic.utilisateur.username}"/> le ${commentairePublic.dateFormat}
+                    <br/><c:out value="${commentairePublic.contenu}"/></p><hr/>
                 </c:forEach>
             </div>
         </div>
@@ -135,22 +138,23 @@
 
         $("#submitCommentaire").click(function(e){
             e.preventDefault();
-            var commentaire = ($("#commentaireInput").val());
+            var commentaire = $.trim($("#commentaireInput").val());
+            var utilisateur = ($("#usernameCommentaire").val());
             var idSpot = ${spot.id};
             if (commentaire.length > 280){
                 alert("Un commentaire peut au maximum contenir 280 caractères");
             }else if (commentaire.length == 0) {
                 alert("Vous ne pouvez pas publier un commentaire vide")
             }else{
-                $.post("saveCommentaire.do", {contenu: commentaire, idSpot: idSpot},
+                $.post("saveCommentaire.do", {contenu: commentaire, idSpot: idSpot, utilisateur: utilisateur},
                     function (data) {
                         if (!data.hasOwnProperty('erreur')) {
                             $("#commentaireInput").val('');
                             if ($(".commentaire").length) {
-                                $(".commentaire").first().before("<p class=\"commentaire\"> le "
+                                $(".commentaire").first().before("<p class=\"commentaire\">Par " + data.username + " le "
                                     + data.dateFormat + "<br/>" + data.contenu + "</p><hr/>");
                             } else {
-                                $(".commentaireDisplay").append("<p class=\"commentaire\"> le "
+                                $(".commentaireDisplay").append("<p class=\"commentaire\">Par " + data.username + " le "
                                     + data.dateFormat + "<br/>" + data.contenu + "</p><hr/>");
                             }
                         }else{

@@ -4,6 +4,7 @@ import com.alain.EntityManagerUtil;
 import com.alain.dao.contract.EntityRepository;
 import com.alain.dao.entities.Departement;
 import com.alain.dao.entities.Spot;
+import com.alain.dao.entities.Utilisateur;
 import com.alain.dao.entities.Ville;
 import com.alain.metier.SpotResearchDto;
 import com.alain.metier.Utilities;
@@ -25,13 +26,16 @@ public class SpotDaoImpl implements EntityRepository<Spot> {
     public Spot save(Spot spot, HttpServletRequest req) {
         EntityTransaction transaction = entityManager.getTransaction();
         try {
+            transaction.begin();
+            UtilisateurDaoImpl utilisateurDao = new UtilisateurDaoImpl();
+            Utilisateur utilisateur = utilisateurDao.findByUsername((String) req.getSession().getAttribute("sessionUtilisateur"));
             DepartementDaoImpl departementDao = new DepartementDaoImpl();
             VilleDaoImpl villeDao = new VilleDaoImpl();
-            transaction.begin();
             Departement departement = departementDao.getById(req.getParameter("departement"));
             Ville ville = villeDao.findOne(Long.parseLong(req.getParameter("ville")));
             spot.setDepartement(departement);
             spot.setVille(ville);
+            spot.setUtilisateur(utilisateur);
             entityManager.persist(spot);
             transaction.commit();
         } catch (Exception e){

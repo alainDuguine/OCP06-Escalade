@@ -4,6 +4,8 @@ import com.alain.EntityManagerUtil;
 import com.alain.dao.contract.EntityRepository;
 import com.alain.dao.entities.Secteur;
 import com.alain.dao.entities.Spot;
+import com.alain.dao.entities.Utilisateur;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
@@ -18,10 +20,13 @@ public class SecteurDaoImpl extends EntityManagerUtil implements EntityRepositor
         EntityTransaction transaction = entityManager.getTransaction();
         try{
             transaction.begin();
+            UtilisateurDaoImpl utilisateurDao = new UtilisateurDaoImpl();
+            Utilisateur utilisateur = utilisateurDao.findByUsername((String) req.getSession().getAttribute("sessionUtilisateur"));
             SpotDaoImpl spotDao = new SpotDaoImpl();
             Spot spot = spotDao.findOne(Long.parseLong(req.getParameter("idSpot")));
             // Création des associations bidirectionelles
             secteur.setSpot(spot);
+            secteur.setUtilisateur(utilisateur);
             entityManager.persist(secteur);
             transaction.commit();
         }catch (Exception e){

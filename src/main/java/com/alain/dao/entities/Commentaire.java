@@ -32,6 +32,10 @@ public class Commentaire extends Entitie implements Serializable {
     @ManyToOne
     private Utilisateur utilisateur;
 
+    // Champ username pour requête ajax lors de la création d'un commentaire
+    @Expose()
+    @Transient
+    private String username;
     /* ***********************************************************************************************
        **** CONSTRUCTORS      ************************************************************************
        *********************************************************************************************** */
@@ -45,8 +49,7 @@ public class Commentaire extends Entitie implements Serializable {
 
     @Override
     public void hydrate(HttpServletRequest req) {
-        this.contenu = StringEscapeUtils.escapeHtml(req.getParameter(CHAMP_CONTENU));
-        this.dateTime = LocalDateTime.now();
+        this.contenu = Utilities.getValeurChamp(req, CHAMP_CONTENU);        this.dateTime = LocalDateTime.now();
         this.dateFormat = this.setDateFormat();
     }
 
@@ -93,6 +96,18 @@ public class Commentaire extends Entitie implements Serializable {
 
     public Utilisateur getUtilisateur() {
         return utilisateur;
+    }
+
+    public void setDateFormat(String dateFormat) {
+        this.dateFormat = dateFormat;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public void setUtilisateur(Utilisateur utilisateur) {
