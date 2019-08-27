@@ -23,7 +23,6 @@
             <button class="menu-button" id="Voie">Mes Voies</button>
         </nav>
     </div>
-
     <!-- Table Spot -->
     <div class="resultatDiv" id="tableSpot">
         <table>
@@ -35,7 +34,7 @@
             <tbody>
             <c:forEach items="${utilisateur.spots}" var="spot">
                 <tr class="item">
-                    <td><c:out value="${spot.nom}"/></td>
+                    <td><a href="display.do?idSpot=${spot.id}"><c:out value="${spot.nom}"/></a></td>
                     <td><c:out value="${spot.ville.nom}"/></td>
                     <td><c:out value="${spot.departement.nom}"/></td>
                     <td><a href="modifierSpot.do?idSpot=${spot.id}">Modifier ce spot</a></td>
@@ -58,7 +57,7 @@
             <tbody>
             <c:forEach items="${utilisateur.secteurs}" var="secteur">
                 <tr class="item">
-                    <td><c:out value="${secteur.nom}"/></td>
+                    <td><a href="display.do?idSpot=${secteur.spot.id}#${secteur.nom}"><c:out value="${secteur.nom}"/></a></td>
                     <td><c:out value="${secteur.spot.nom}"/></td>
                     <td><a href="modifierSecteur.do?idSecteur=${secteur.id}">Modifier ce secteur</a></td>
                     <td><a href="ajoutVoie.do?idSecteur=${secteur.id}">Ajouter une voie</a></td>
@@ -80,7 +79,7 @@
             <tbody>
             <c:forEach items="${utilisateur.voies}" var="voie">
                 <tr class="item">
-                    <td><c:out value="${voie.nom}"/></td>
+                    <td><a href="display.do?idSpot=${voie.secteur.spot.id}#${voie.nom}"><c:out value="${voie.nom}"/></a></td>
                     <td><c:out value="${voie.secteur.nom}"/></td>
                     <td><c:out value="${voie.secteur.spot.nom}"/></td>
                     <td><a href="modifierVoie.do?idVoie=${voie.id}">Modifier cette voie</a></td>
@@ -89,6 +88,9 @@
             </c:forEach>
             </tbody>
         </table>
+    </div>
+    <div id="addSpot">
+        <p class="menu-button" id="addSpotButton"><a href="ajoutSpot.do"><img src="../../images/plus.png"/><span>Ajouter un Spot</span></a></p>
     </div>
 </section>
 <script src="https://code.jquery.com/jquery-3.4.1.js"

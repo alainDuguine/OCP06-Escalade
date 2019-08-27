@@ -215,7 +215,8 @@ public class Servlet extends HttpServlet {
                 form.setResultat(form.checkResultListErreurs(form.getListErreurs()));
                 req.setAttribute("form", form);
                 if (form.isResultat()) {
-                    resp.sendRedirect("/display.do?idSpot=" + req.getParameter("idSpot"));
+                    resp.sendRedirect("/dashboard.do?resultat=true");
+//                    resp.sendRedirect("/display.do?idSpot=" + req.getParameter("idSpot"));
                 } else {
                     doGet(req, resp);
                 }
@@ -234,10 +235,11 @@ public class Servlet extends HttpServlet {
                 form.setResultat(form.checkResultListErreurs(form.getListErreurs()));
                 req.setAttribute("form", form);
                 if (form.isResultat()) {
-                    Long idSpot = ((Voie) form.getEntitie()).getSecteur().getSpot().getId();
-                    String nomSecteur = ((Voie) form.getEntitie()).getSecteur().getNom();
-                    req.setAttribute("idSpot", idSpot);
-                    resp.sendRedirect("/display.do?idSpot=" + idSpot + "#" + nomSecteur);
+                    resp.sendRedirect("/dashboard.do?resultat=true");
+//                    Long idSpot = ((Voie) form.getEntitie()).getSecteur().getSpot().getId();
+//                    String nomSecteur = ((Voie) form.getEntitie()).getSecteur().getNom();
+//                    req.setAttribute("idSpot", idSpot);
+//                    resp.sendRedirect("/display.do?idSpot=" + idSpot + "#" + nomSecteur);
                 } else {
                     doGet(req, resp);
                 }

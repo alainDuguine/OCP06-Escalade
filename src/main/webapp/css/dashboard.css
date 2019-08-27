@@ -42,3 +42,32 @@
 .item a:hover{
     color: slateblue;
 }
+
+#addSpot{
+    display: flex;
+    margin:0.5em;
+    padding:0.5em;
+    justify-content: center;
+}
+
+#addSpot p{
+    border: 2px solid #a88680;
+    border-radius: 8px;
+}
+
+#addSpot a{
+    display: flex;
+    text-decoration: none;
+    color: black;
+}
+
+#addSpot a span{
+    align-self: center;
+}
+
+#addSpotButton img{
+    margin:0;
+    padding:0.5em;
+    width: 30px;
+    align-items: center;
+}
