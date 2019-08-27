@@ -23,8 +23,9 @@
                 <div>${form.listErreurs['email']}</div>
             </div>
             <div class="connexionForm">
+                <c:set var="email" value="${empty cookieEmail ? param.email : cookieEmail}"/>
                 <label for="email">Adresse e-mail :</label>
-                <input type="email" name="email" id="email" placeholder="name@example.com" required="required" value="<c:out value="${param.email}"/>">
+                <input type="email" name="email" id="email" placeholder="name@example.com" required="required" value="<c:out value="${email}"/>">
             </div>
             <div class="erreur">
                 <div></div>
@@ -32,11 +33,11 @@
             </div>
             <div class="connexionForm">
                 <label for="password">Mot de passe :</label>
-                <input type="password" name="password" id="password" required="required" >
+                <input type="password" name="password" id="password" required="required" />
             </div>
             <div>
-                <input type="checkbox" name="session" id="session">
-                <label for="session" class="connexionLabel">Se souvenir de moi</label>
+                <input type="checkbox" name="cookie" id="cookie">
+                <label for="cookie" class="connexionLabel">Se souvenir de moi</label>
             </div>
             <br>
             <span class="connexionLabel"><a href="">Mot de passe oublié</a></span>

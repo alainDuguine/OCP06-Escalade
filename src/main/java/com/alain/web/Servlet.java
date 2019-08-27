@@ -9,10 +9,7 @@ import com.alain.metier.Utilities;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -38,6 +35,14 @@ public class Servlet extends HttpServlet {
                 this.getServletContext().getRequestDispatcher("/WEB-INF/inscription.jsp").forward(req, resp);
                 break;
             case "/connexion.do":
+                Cookie[] cookies = req.getCookies();
+                if (cookies != null){
+                    for (Cookie cookie : cookies){
+                        if (cookie.getName().equals("email")){
+                            req.setAttribute("cookieEmail", cookie.getValue());
+                        }
+                    }
+                }
                 this.getServletContext().getRequestDispatcher("/WEB-INF/connexion.jsp").forward(req, resp);
                 break;
             case "/ajoutSpot.do":
@@ -161,6 +166,11 @@ public class Servlet extends HttpServlet {
                 form.checkConnect(req, utilisateurDaoImpl);
                 req.setAttribute("form", form);
                 if (form.isResultat()) {
+                    if (req.getParameter("cookie") != null){
+                        Cookie cookieEmail = new Cookie("email", req.getParameter("email"));
+                        cookieEmail.setMaxAge(60*60*24*365);
+                        resp.addCookie(cookieEmail);
+                    }
                     HttpSession session = req.getSession();
                     String username = ((Utilisateur) form.getEntitie()).getUsername();
                     session.setAttribute("sessionUtilisateur", username);
