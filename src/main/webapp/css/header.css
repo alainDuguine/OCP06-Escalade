@@ -104,7 +104,7 @@ header{
     border-bottom-right-radius: 12px;
 }
 
-.user p:first-of-type{
+.user p:first-of-type, .userDrop p:first-of-type{
     border-left: 1px solid #a88680;
 }
 

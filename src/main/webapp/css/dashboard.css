@@ -25,3 +25,20 @@
     border-top: 5px solid #ee4e00;
     box-sizing: border-box;
 }
+
+.menuDashboard button.active{
+    background-color: rgba(128,142,168,0.33);
+}
+
+.resultatDiv {
+    display: none;
+}
+
+.item a{
+    text-decoration: underline;
+    color: #0000ee;
+}
+
+.item a:hover{
+    color: slateblue;
+}

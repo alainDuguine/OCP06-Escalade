@@ -34,6 +34,6 @@ tbody tr:nth-child(odd){
     background-color: rgba(128,142,168,0.5);
 }
 
-tbody tr:hover{
+.tableauResult tbody tr:hover{
     background-color: #a8808e;
 }
