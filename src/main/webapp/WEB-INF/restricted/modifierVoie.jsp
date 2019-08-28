@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Modifier un Secteur</title>
+    <title>Modifier une Voie</title>
     <%@ include file="../includeCss.jsp"%>
     <link rel="stylesheet" type="text/css" href="../../css/form.css">
     <link href="https://fonts.googleapis.com/css?family=Merienda&display=swap" rel="stylesheet">
@@ -11,28 +11,47 @@
 <%@ include file= "../header.jsp"%>
 <section class="mainDiv">
     <div class="formDiv">
-        <h1>Modifier un secteur :</h1>
-        <form method="post" action="updateSecteur.do" enctype="multipart/form-data">
+        <h1>Modifier une voie :</h1>
+        <form method="post" action="updateVoie.do" enctype="multipart/form-data">
             <div class="erreur">
                 <div class="erreurSingleCol">${form.listErreurs['server']}</div>
             </div>
-<%--            <input type="text" name="idSpot" id="idSpot" hidden="hidden" value="<c:out value="${secteur.spot.id}"/>">--%>
-            <input type="text" name="idSecteur" id="idSecteur" hidden="hidden" value="<c:out value="${secteur.id}"/>">
+            <input type="text" name="idVoie" id="idVoie" hidden="hidden" value="<c:out value="${voie.id}"/>">
             <div class="erreur">
                 <div></div>
                 <div>${form.listErreurs['nom']}</div>
             </div>
             <div class="inscriptionForm">
-                <label for="nom">Nom du secteur :</label>
-                <input type="text" name="nom" id="nom" maxlength="50" required="required" value="<c:out value="${secteur.nom}"/>">
+                <label for="nom">Nom de la voie :</label>
+                <input type="text" name="nom" id="nom" maxlength="50" required="required" value="<c:out value="${voie.nom}"/>">
+            </div>
+
+            <div class="inscriptionForm">
+                <label for="cotation">Cotation :</label>
+                <select name="cotation" id="cotation" required="required">
+                    <option value="">Choisissez une cotation</option>
+                    <c:forEach items="${cotations}" var="cotation">
+                        <option value="${cotation.id}">${cotation.code}</option>
+                    </c:forEach>
+                </select>
+            </div>
+
+            <div class="inscriptionForm">
+                <label for="altitude">Altitude :</label>
+                <input type="number" step="1" min="0" name="altitude" id="altitude" value="${voie.altitude}">
+            </div>
+
+            <div class="inscriptionForm">
+                <label for="longueur">Nombre de longueurs :</label>
+                <input type="number" step="1" min="0" name="longueur" id="longueur" value="${voie.nbLongueurs}">
             </div>
 
             <div class="erreur">
-                <div>${form.listErreurs['description']}</div>
+                <div class="erreurDescription">${form.listErreurs['description']}</div>
             </div>
             <div class="inscriptionForm">
                 <label for="description">Description :</label>
-                <textarea name="description" id="description" required="required"><c:out value="${secteur.description}"/></textarea>
+                <textarea name="description" id="description" required="required" ><c:out value="${voie.description}"/></textarea>
             </div>
             <br>
             <hr>
@@ -40,7 +59,7 @@
                 <h5 id="photoLabel">Photos enregistrées :</h5>
                 <div  class="modifPhoto">
                     <c:set var="chemin">/imagesUsers/</c:set>
-                    <c:forEach items="${secteur.photos}" var="photo">
+                    <c:forEach items="${voie.photos}" var="photo">
                         <div class="photoSaved"><img src="${chemin}${photo.nom}"><a href="supprimerPhoto.do">Supprimer</a></div>
                     </c:forEach>
                 </div>
@@ -69,6 +88,13 @@
         crossorigin="anonymous">
 </script>
 <script src="../../js/checkPhotos.js"></script>
-<script></script>
+<script>
+    $(document).ready(function(){
+
+        var cotation = ${voie.cotation.id};
+        $("#cotation option[value="+cotation+"]").prop('selected', true);
+
+    });
+</script>
 </body>
 </html>

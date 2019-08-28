@@ -72,7 +72,7 @@ public class CheckForm {
         }
     }
 
-    public void checkAndUpdate(HttpServletRequest req, String className, EntityRepository dao, Long id){
+    public void checkAndUpdate(HttpServletRequest req, EntityRepository dao, Long id){
         Entitie bean=null;
         try {
             bean = (Entitie) dao.findOne(id);

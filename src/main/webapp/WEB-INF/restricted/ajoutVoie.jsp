@@ -44,12 +44,12 @@
 
             <div class="inscriptionForm">
                 <label for="altitude">Altitude :</label>
-                <input type="number" step="1" min="0" name="altitude" id="altitude">
+                <input type="number" step="1" min="0" name="altitude" id="altitude" value="${param.altitude}">
             </div>
 
             <div class="inscriptionForm">
                 <label for="longueur">Nombre de longueurs :</label>
-                <input type="number" step="1" min="0" name="longueur" id="longueur">
+                <input type="number" step="1" min="0" name="longueur" id="longueur" value="${param.longueur}">
             </div>
 
             <div class="erreur">

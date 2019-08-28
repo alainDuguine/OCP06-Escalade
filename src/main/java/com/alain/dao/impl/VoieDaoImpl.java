@@ -44,12 +44,24 @@ public class VoieDaoImpl implements EntityRepository<Voie> {
 
     @Override
     public Voie update(Voie voie,  HttpServletRequest req) {
-        return null;
+        EntityTransaction transaction = entityManager.getTransaction();
+        try {
+            transaction.begin();
+            CotationDaoImpl cotationDao = new CotationDaoImpl();
+            Cotation cotation = cotationDao.findOne(Long.parseLong(req.getParameter("cotation")));
+            voie.setCotation(cotation);
+            entityManager.merge(voie);
+            transaction.commit();
+        }catch (Exception e){
+            if (transaction != null)
+                transaction.rollback();
+            e.printStackTrace();
+        }
+        return voie;
     }
 
     @Override
     public void delete(Long id) {
-
     }
 
     @Override
@@ -66,6 +78,14 @@ public class VoieDaoImpl implements EntityRepository<Voie> {
         Query query = entityManager.createQuery("select v from Voie v where v.nom= :nom and v.secteur.id= :idSecteur");
         query.setParameter("nom", nomVoie);
         query.setParameter("idSecteur", idSecteur);
+        return query.getResultList();
+    }
+
+    public List<Voie> findVoieInSecteurForUpdate(Long idVoie, String nomVoie, Long idSecteur) {
+        Query query = entityManager.createQuery("select v from Voie v where v.nom= :nom and v.secteur.id= :idSecteur and v.id <> :idVoie");
+        query.setParameter("nom", nomVoie);
+        query.setParameter("idSecteur", idSecteur);
+        query.setParameter("idVoie", idVoie);
         return query.getResultList();
     }
 }

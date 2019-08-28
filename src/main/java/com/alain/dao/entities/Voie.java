@@ -92,7 +92,7 @@ public class Voie extends Entitie implements Serializable {
         Map<String, String> listErreur = new HashMap<>();
 
         if (Utilities.isEmpty(this.nom)) {
-            listErreur.put(CHAMP_NOM, "Veuillez entrer le nom du spot");
+            listErreur.put(CHAMP_NOM, "Veuillez entrer le nom de la voie");
         }
         if (!checkVoieExist((VoieDaoImpl)dao, req).isEmpty()){
             listErreur.put(CHAMP_NOM, "Une voie du même nom existe déjà pour ce secteur");
@@ -106,6 +106,9 @@ public class Voie extends Entitie implements Serializable {
     }
 
     private List<Voie> checkVoieExist(VoieDaoImpl dao, HttpServletRequest req){
+        if (this.getId() != null){
+            return dao.findVoieInSecteurForUpdate(this.getId(), this.nom, this.getSecteur().getId());
+        }
         return dao.findVoieInSecteur(this.nom, Long.parseLong(req.getParameter("idSecteur")));
     }
 

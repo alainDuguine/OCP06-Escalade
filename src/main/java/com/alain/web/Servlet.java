@@ -55,11 +55,12 @@ public class Servlet extends HttpServlet {
                 if (path.equals("/modifierSpot.do") || path.equals("/updateSpot.do")){
                     SpotDaoImpl spotDao = new SpotDaoImpl();
                     Spot spot = spotDao.findOne(Long.parseLong(req.getParameter("idSpot")));
-                    req.setAttribute("spot", spot);
-                    if (!spot.getUtilisateur().getUsername().equals(req.getSession().getAttribute("sessionUtilisateur"))){
+                    if (spot == null || !spot.getUtilisateur().getUsername().equals(req.getSession().getAttribute("sessionUtilisateur"))) {
                         this.getServletContext().getRequestDispatcher("/WEB-INF/erreur.jsp").forward(req, resp);
+                    }else{
+                        req.setAttribute("spot", spot);
+                        this.getServletContext().getRequestDispatcher("/WEB-INF/restricted/modifierSpot.jsp").forward(req, resp);
                     }
-                    this.getServletContext().getRequestDispatcher("/WEB-INF/restricted/modifierSpot.jsp").forward(req, resp);
                 }else {
                     this.getServletContext().getRequestDispatcher("/WEB-INF/restricted/ajoutSpot.jsp").forward(req, resp);
                 }
@@ -69,32 +70,53 @@ public class Servlet extends HttpServlet {
             case "/saveSecteur.do": {
                 SpotDaoImpl spotDao = new SpotDaoImpl();
                 Spot spot = spotDao.findOne(Long.parseLong(req.getParameter("idSpot")));
-                req.setAttribute("spot", spot);
-                this.getServletContext().getRequestDispatcher("/WEB-INF/restricted/ajoutSecteur.jsp").forward(req, resp);
+                if (spot == null){
+                    this.getServletContext().getRequestDispatcher("/WEB-INF/erreur.jsp").forward(req, resp);
+                }else{
+                    req.setAttribute("spot", spot);
+                    this.getServletContext().getRequestDispatcher("/WEB-INF/restricted/ajoutSecteur.jsp").forward(req, resp);
+                }
                 break;
             }
             case "/modifierSecteur.do":
             case "/updateSecteur.do":{
                 SecteurDaoImpl secteurDao = new SecteurDaoImpl();
                 Secteur secteur = secteurDao.findOne(Long.parseLong(req.getParameter("idSecteur")));
-                req.setAttribute("secteur", secteur);
-                if (!secteur.getUtilisateur().getUsername().equals(req.getSession().getAttribute("sessionUtilisateur"))){
+                if (secteur == null ||!secteur.getUtilisateur().getUsername().equals(req.getSession().getAttribute("sessionUtilisateur"))){
                     this.getServletContext().getRequestDispatcher("/WEB-INF/erreur.jsp").forward(req, resp);
+                }else {
+                    req.setAttribute("secteur", secteur);
+                    this.getServletContext().getRequestDispatcher("/WEB-INF/restricted/modifierSecteur.jsp").forward(req, resp);
                 }
-                this.getServletContext().getRequestDispatcher("/WEB-INF/restricted/modifierSecteur.jsp").forward(req, resp);
+                break;
             }
             case "/ajoutVoie.do":
             case "/saveVoie.do": {
                 SecteurDaoImpl secteurDao = new SecteurDaoImpl();
                 Secteur secteur = secteurDao.findOne(Long.parseLong(req.getParameter("idSecteur")));
-                if (secteur != null) {
+                if (secteur == null) {
+                    this.getServletContext().getRequestDispatcher("/WEB-INF/erreur.jsp").forward(req, resp);
+                } else {
                     CotationDaoImpl cotationDao = new CotationDaoImpl();
                     List<Cotation> cotations = cotationDao.findAll();
                     req.setAttribute("cotations", cotations);
                     req.setAttribute("secteur", secteur);
                     this.getServletContext().getRequestDispatcher("/WEB-INF/restricted/ajoutVoie.jsp").forward(req, resp);
-                } else {
+                }
+                break;
+            }
+            case "/modifierVoie.do":
+            case "/updateVoie.do":{
+                VoieDaoImpl voieDao = new VoieDaoImpl();
+                Voie voie = voieDao.findOne(Long.parseLong(req.getParameter("idVoie")));
+                if (voie == null ||!voie.getUtilisateur().getUsername().equals(req.getSession().getAttribute("sessionUtilisateur"))){
                     this.getServletContext().getRequestDispatcher("/WEB-INF/erreur.jsp").forward(req, resp);
+                }else {
+                    CotationDaoImpl cotationDao = new CotationDaoImpl();
+                    List<Cotation> cotations = cotationDao.findAll();
+                    req.setAttribute("cotations", cotations);
+                    req.setAttribute("voie", voie);
+                    this.getServletContext().getRequestDispatcher("/WEB-INF/restricted/modifierVoie.jsp").forward(req, resp);
                 }
                 break;
             }
@@ -269,7 +291,7 @@ public class Servlet extends HttpServlet {
                 PhotoSpotDaoImpl photoSpotDao = new PhotoSpotDaoImpl();
                 CheckForm form = new CheckForm();
                 Long idSpot = Long.parseLong(req.getParameter("idSpot"));
-                form.checkAndUpdate(req, "com.alain.dao.entities.Spot", spotDao, idSpot);
+                form.checkAndUpdate(req, spotDao, idSpot);
                 if (form.getListErreurs().isEmpty()) {
                     req.setAttribute("idSpot", idSpot);
                     form.checkAndSavePhoto(req, "com.alain.dao.entities.PhotoSpot", photoSpotDao);
@@ -288,10 +310,29 @@ public class Servlet extends HttpServlet {
                 PhotoSecteurDaoImpl photoSecteurDao = new PhotoSecteurDaoImpl();
                 CheckForm form = new CheckForm();
                 Long idSecteur = Long.parseLong(req.getParameter("idSecteur"));
-                form.checkAndUpdate(req, "com.alain.dao.entities.Spot", secteurDao, idSecteur);
+                form.checkAndUpdate(req, secteurDao, idSecteur);
                 if (form.getListErreurs().isEmpty()) {
                     req.setAttribute("idSecteur", idSecteur);
                     form.checkAndSavePhoto(req, "com.alain.dao.entities.PhotoSecteur", photoSecteurDao);
+                }
+                form.setResultat(form.checkResultListErreurs(form.getListErreurs()));
+                req.setAttribute("form", form);
+                if (form.isResultat()) {
+                    resp.sendRedirect("/dashboard.do?resultat=true");
+                } else {
+                    doGet(req, resp);
+                }
+                break;
+            }
+            case "/updateVoie.do":{
+                VoieDaoImpl voieDao = new VoieDaoImpl();
+                PhotoVoieDaoImpl photoVoieDao = new PhotoVoieDaoImpl();
+                CheckForm form = new CheckForm();
+                Long idVoie = Long.parseLong(req.getParameter("idVoie"));
+                form.checkAndUpdate(req, voieDao, idVoie);
+                if (form.getListErreurs().isEmpty()) {
+                    req.setAttribute("idVoie", idVoie);
+                    form.checkAndSavePhoto(req, "com.alain.dao.entities.PhotoVoie", photoVoieDao);
                 }
                 form.setResultat(form.checkResultListErreurs(form.getListErreurs()));
                 req.setAttribute("form", form);
