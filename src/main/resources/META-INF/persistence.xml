@@ -16,7 +16,6 @@
 <!--            <property name="hibernate.hbm2ddl.auto" value="create" />-->
 <!--            <property name="javax.persistence.sql-load-script-source" value="META-INF/data.sql"/>-->
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL95Dialect"/>
-            <property name="hibernate.connection.autocommit" value="true" />
         </properties>
 
     </persistence-unit>
