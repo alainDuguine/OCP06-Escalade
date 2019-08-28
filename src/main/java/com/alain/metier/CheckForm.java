@@ -72,6 +72,22 @@ public class CheckForm {
         }
     }
 
+    public void checkAndUpdate(HttpServletRequest req, String className, EntityRepository dao, Long id){
+        Entitie bean=null;
+        try {
+            bean = (Entitie) dao.findOne(id);
+            bean.hydrate(req);
+            this.listErreurs = bean.checkErreurs(dao, req);
+            if (this.listErreurs.isEmpty()) {
+                dao.update(bean, req);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            listErreurs.put("server", "Une erreur système est apparue, merci de réessayer plus tard");
+        }
+        this.setEntitie(bean);
+    }
+
     public void checkConnect(HttpServletRequest req, UtilisateurDaoImpl dao){
         this.entitie = dao.findByEmail(req.getParameter("email"));
         String password = req.getParameter("password");

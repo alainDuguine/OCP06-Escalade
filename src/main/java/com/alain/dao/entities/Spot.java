@@ -106,6 +106,9 @@ public class Spot extends Entitie implements Serializable {
     }
 
     private List<Spot> checkSpotExist(SpotDaoImpl dao, HttpServletRequest req) {
+        if (this.getId() != null){
+                return dao.findSpotInDepartementForUpdate(this.getId(), this.nom, req.getParameter(CHAMP_DEPARTEMENT));
+        }
         return dao.findSpotInDepartement(this.nom, req.getParameter(CHAMP_DEPARTEMENT));
     }
 

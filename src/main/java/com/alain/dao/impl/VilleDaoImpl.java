@@ -28,7 +28,7 @@ public class VilleDaoImpl implements EntityRepository<Ville> {
     }
 
     @Override
-    public Ville update(Ville ville) {
+    public Ville update(Ville ville, HttpServletRequest req) {
         return null;
     }
 

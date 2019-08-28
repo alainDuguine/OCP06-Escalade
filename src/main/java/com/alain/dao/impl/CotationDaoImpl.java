@@ -19,7 +19,7 @@ public class CotationDaoImpl implements EntityRepository<Cotation> {
     }
 
     @Override
-    public Cotation update(Cotation cotation) {
+    public Cotation update(Cotation cotation, HttpServletRequest req) {
         return null;
     }
 

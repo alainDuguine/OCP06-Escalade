@@ -34,7 +34,7 @@ public class PhotoSpotDaoImpl implements EntityRepository<PhotoSpot> {
     }
 
     @Override
-    public PhotoSpot update(PhotoSpot photoSpot) {
+    public PhotoSpot update(PhotoSpot photoSpot,  HttpServletRequest req) {
         return null;
     }
 

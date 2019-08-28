@@ -34,6 +34,7 @@
             <tbody>
             <c:forEach items="${utilisateur.spots}" var="spot">
                 <tr class="item">
+                    <td hidden="hidden">${spot.id}</td>
                     <td><a href="display.do?idSpot=${spot.id}"><c:out value="${spot.nom}"/></a></td>
                     <td><c:out value="${spot.ville.nom}"/></td>
                     <td><c:out value="${spot.departement.nom}"/></td>

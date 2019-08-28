@@ -18,7 +18,7 @@ public class DepartementDaoImpl implements EntityRepository<Departement> {
     }
 
     @Override
-    public Departement update(Departement departement) {
+    public Departement update(Departement departement, HttpServletRequest req) {
         return null;
     }
 

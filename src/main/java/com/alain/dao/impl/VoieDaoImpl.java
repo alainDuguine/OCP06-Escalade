@@ -43,7 +43,7 @@ public class VoieDaoImpl implements EntityRepository<Voie> {
     }
 
     @Override
-    public Voie update(Voie voie) {
+    public Voie update(Voie voie,  HttpServletRequest req) {
         return null;
     }
 

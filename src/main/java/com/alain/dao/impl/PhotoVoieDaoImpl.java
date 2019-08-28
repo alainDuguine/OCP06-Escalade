@@ -35,7 +35,7 @@ public class PhotoVoieDaoImpl implements EntityRepository<PhotoVoie> {
     }
 
     @Override
-    public PhotoVoie update(PhotoVoie photoVoie) {
+    public PhotoVoie update(PhotoVoie photoVoie,  HttpServletRequest req) {
         return null;
     }
 

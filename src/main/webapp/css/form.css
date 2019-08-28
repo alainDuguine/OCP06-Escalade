@@ -93,3 +93,44 @@ textarea{
     border-radius: 5px;
     padding: 0;
 }
+
+/*=========================================================================================*/
+/*===== Mise en forme galerie photos enregistrées*=========================================*/
+/*=========================================================================================*/
+
+#photoForm{
+    flex-direction: column;
+}
+
+#photoLabel{
+    text-align: center;
+    margin: 0.5em;
+    padding: 0.5em;
+    text-decoration: underline;
+}
+
+.modifPhoto{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.modifPhoto img{
+    margin:0;
+    padding: 0;
+    height: 6em;
+}
+
+.photoSaved{
+    margin: 0;
+    padding: 0;
+    display: inline-flex;
+    flex-direction: column;
+}
+
+.photoSaved a{
+    text-align: center;
+    font-size: 0.8em;
+    cursor: pointer;
+}

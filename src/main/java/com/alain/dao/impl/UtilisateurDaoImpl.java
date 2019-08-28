@@ -27,7 +27,7 @@ public class UtilisateurDaoImpl implements EntityRepository<Utilisateur>{
         return utilisateur;
     }
 
-    public Utilisateur update(Utilisateur utilisateur) {
+    public Utilisateur update(Utilisateur utilisateur,  HttpServletRequest req) {
         entityManager.merge(utilisateur);
         return utilisateur;
     }

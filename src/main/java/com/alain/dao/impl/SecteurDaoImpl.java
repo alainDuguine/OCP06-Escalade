@@ -38,7 +38,7 @@ public class SecteurDaoImpl extends EntityManagerUtil implements EntityRepositor
     }
 
     @Override
-    public Secteur update(Secteur secteur) {
+    public Secteur update(Secteur secteur,  HttpServletRequest req) {
         return null;
     }
 

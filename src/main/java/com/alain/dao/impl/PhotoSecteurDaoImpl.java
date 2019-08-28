@@ -34,7 +34,7 @@ public class PhotoSecteurDaoImpl implements EntityRepository<PhotoSecteur> {
         }
 
     @Override
-    public PhotoSecteur update(PhotoSecteur photoSecteur) {
+    public PhotoSecteur update(PhotoSecteur photoSecteur,  HttpServletRequest req) {
         return null;
     }
 

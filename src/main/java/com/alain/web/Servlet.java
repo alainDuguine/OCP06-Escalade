@@ -45,13 +45,26 @@ public class Servlet extends HttpServlet {
                 }
                 this.getServletContext().getRequestDispatcher("/WEB-INF/connexion.jsp").forward(req, resp);
                 break;
+            case "/modifierSpot.do":
+            case "/updateSpot.do":
             case "/ajoutSpot.do":
-            case "/saveSpot.do":
+            case "/saveSpot.do": {
                 DepartementDaoImpl departementDao = new DepartementDaoImpl();
                 List<Departement> departements = departementDao.findAll();
                 req.setAttribute("departements", departements);
-                this.getServletContext().getRequestDispatcher("/WEB-INF/restricted/ajoutSpot.jsp").forward(req, resp);
+                if (path.equals("/modifierSpot.do") || path.equals("/updateSpot.do")){
+                    SpotDaoImpl spotDao = new SpotDaoImpl();
+                    Spot spot = spotDao.findOne(Long.parseLong(req.getParameter("idSpot")));
+                    req.setAttribute("spot", spot);
+                    if (!spot.getUtilisateur().getUsername().equals(req.getSession().getAttribute("sessionUtilisateur"))){
+                        this.getServletContext().getRequestDispatcher("/WEB-INF/erreur.jsp").forward(req, resp);
+                    }
+                    this.getServletContext().getRequestDispatcher("/WEB-INF/restricted/modifierSpot.jsp").forward(req, resp);
+                }else {
+                    this.getServletContext().getRequestDispatcher("/WEB-INF/restricted/ajoutSpot.jsp").forward(req, resp);
+                }
                 break;
+            }
             case "/ajoutSecteur.do":
             case "/saveSecteur.do": {
                 SpotDaoImpl spotDao = new SpotDaoImpl();
@@ -236,10 +249,25 @@ public class Servlet extends HttpServlet {
                 req.setAttribute("form", form);
                 if (form.isResultat()) {
                     resp.sendRedirect("/dashboard.do?resultat=true");
-//                    Long idSpot = ((Voie) form.getEntitie()).getSecteur().getSpot().getId();
-//                    String nomSecteur = ((Voie) form.getEntitie()).getSecteur().getNom();
-//                    req.setAttribute("idSpot", idSpot);
-//                    resp.sendRedirect("/display.do?idSpot=" + idSpot + "#" + nomSecteur);
+                } else {
+                    doGet(req, resp);
+                }
+                break;
+            }
+            case "/updateSpot.do":{
+                SpotDaoImpl spotDao = new SpotDaoImpl();
+                PhotoSpotDaoImpl photoSpotDao = new PhotoSpotDaoImpl();
+                CheckForm form = new CheckForm();
+                Long idSpot = Long.parseLong(req.getParameter("idSpot"));
+                form.checkAndUpdate(req, "com.alain.dao.entities.Spot", spotDao, idSpot);
+                if (form.getListErreurs().isEmpty()) {
+                    req.setAttribute("idSpot", idSpot);
+                    form.checkAndSavePhoto(req, "com.alain.dao.entities.PhotoSpot", photoSpotDao);
+                }
+                form.setResultat(form.checkResultListErreurs(form.getListErreurs()));
+                req.setAttribute("form", form);
+                if (form.isResultat()) {
+                    resp.sendRedirect("/dashboard.do?resultat=true");
                 } else {
                     doGet(req, resp);
                 }

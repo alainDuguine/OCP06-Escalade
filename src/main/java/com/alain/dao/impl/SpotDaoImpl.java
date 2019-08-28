@@ -47,11 +47,23 @@ public class SpotDaoImpl implements EntityRepository<Spot> {
     }
 
     @Override
-    public Spot update(Spot spot) {
+    public Spot update(Spot spot, HttpServletRequest req) {
         EntityTransaction transaction = entityManager.getTransaction();
-        transaction.begin();
-        entityManager.merge(spot);
-        transaction.commit();
+        try {
+            transaction.begin();
+            DepartementDaoImpl departementDao = new DepartementDaoImpl();
+            VilleDaoImpl villeDao = new VilleDaoImpl();
+            Departement departement = departementDao.getById(req.getParameter("departement"));
+            Ville ville = villeDao.findOne(Long.parseLong(req.getParameter("ville")));
+            spot.setDepartement(departement);
+            spot.setVille(ville);
+            entityManager.merge(spot);
+            transaction.commit();
+        } catch (Exception e){
+            if (transaction != null)
+                transaction.rollback();
+            e.printStackTrace();
+        }
         return spot;
     }
 
@@ -162,6 +174,14 @@ public class SpotDaoImpl implements EntityRepository<Spot> {
     public List<String> findVilleInDepHavingSpot(String codeDep) {
         Query query = entityManager.createQuery("select spot.ville.nom from Spot spot where spot.departement.code= :codeDep ORDER BY spot.ville.nom ASC ");
         query.setParameter("codeDep", codeDep);
+        return query.getResultList();
+    }
+
+    public List<Spot> findSpotInDepartementForUpdate(Long id, String nomSpot, String departement) {
+        Query query = entityManager.createQuery("select s from Spot s where s.nom= :nom and s.departement.code= :departement and s.id <> :id");
+        query.setParameter("nom", nomSpot );
+        query.setParameter("departement", departement);
+        query.setParameter("id", id);
         return query.getResultList();
     }
 }

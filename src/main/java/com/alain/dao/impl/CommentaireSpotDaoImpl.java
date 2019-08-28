@@ -40,9 +40,10 @@ public class CommentaireSpotDaoImpl implements EntityRepository<CommentaireSpot>
     }
 
     @Override
-    public CommentaireSpot update(CommentaireSpot commentaireSpot) {
+    public CommentaireSpot update(CommentaireSpot commentaireSpot, HttpServletRequest req) {
         return null;
     }
+
 
     @Override
     public void delete(Long id) {
