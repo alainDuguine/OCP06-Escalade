@@ -65,24 +65,23 @@ public class Servlet extends HttpServlet {
                 }
                 break;
             }
-            case "/modifierSecteur.do":
-            case "/updateSecteur.do":
             case "/ajoutSecteur.do":
             case "/saveSecteur.do": {
                 SpotDaoImpl spotDao = new SpotDaoImpl();
                 Spot spot = spotDao.findOne(Long.parseLong(req.getParameter("idSpot")));
                 req.setAttribute("spot", spot);
-                if (path.equals("/modifierSecteur.do") || path.equals("/updateSecteur.do")){
-                    SecteurDaoImpl secteurDao = new SecteurDaoImpl();
-                    Secteur secteur = secteurDao.findOne(Long.parseLong(req.getParameter("idSecteur")));
-                    req.setAttribute("secteur", secteur);
-                    if (!spot.getUtilisateur().getUsername().equals(req.getSession().getAttribute("sessionUtilisateur"))){
-                        this.getServletContext().getRequestDispatcher("/WEB-INF/erreur.jsp").forward(req, resp);
-                    }
-                    this.getServletContext().getRequestDispatcher("/WEB-INF/restricted/modifierSecteur.jsp").forward(req, resp);
-                }
                 this.getServletContext().getRequestDispatcher("/WEB-INF/restricted/ajoutSecteur.jsp").forward(req, resp);
                 break;
+            }
+            case "/modifierSecteur.do":
+            case "/updateSecteur.do":{
+                SecteurDaoImpl secteurDao = new SecteurDaoImpl();
+                Secteur secteur = secteurDao.findOne(Long.parseLong(req.getParameter("idSecteur")));
+                req.setAttribute("secteur", secteur);
+                if (!secteur.getUtilisateur().getUsername().equals(req.getSession().getAttribute("sessionUtilisateur"))){
+                    this.getServletContext().getRequestDispatcher("/WEB-INF/erreur.jsp").forward(req, resp);
+                }
+                this.getServletContext().getRequestDispatcher("/WEB-INF/restricted/modifierSecteur.jsp").forward(req, resp);
             }
             case "/ajoutVoie.do":
             case "/saveVoie.do": {
@@ -285,14 +284,14 @@ public class Servlet extends HttpServlet {
                 break;
             }
             case "/updateSecteur.do":{
-                SpotDaoImpl spotDao = new SpotDaoImpl();
-                PhotoSpotDaoImpl photoSpotDao = new PhotoSpotDaoImpl();
+                SecteurDaoImpl secteurDao = new SecteurDaoImpl();
+                PhotoSecteurDaoImpl photoSecteurDao = new PhotoSecteurDaoImpl();
                 CheckForm form = new CheckForm();
                 Long idSecteur = Long.parseLong(req.getParameter("idSecteur"));
-                form.checkAndUpdate(req, "com.alain.dao.entities.Spot", spotDao, idSecteur);
+                form.checkAndUpdate(req, "com.alain.dao.entities.Spot", secteurDao, idSecteur);
                 if (form.getListErreurs().isEmpty()) {
                     req.setAttribute("idSecteur", idSecteur);
-                    form.checkAndSavePhoto(req, "com.alain.dao.entities.PhotoSpot", photoSpotDao);
+                    form.checkAndSavePhoto(req, "com.alain.dao.entities.PhotoSecteur", photoSecteurDao);
                 }
                 form.setResultat(form.checkResultListErreurs(form.getListErreurs()));
                 req.setAttribute("form", form);

@@ -77,6 +77,7 @@
                     </c:forEach>
                 </div>
             </div>
+
             <br>
             <hr>
 

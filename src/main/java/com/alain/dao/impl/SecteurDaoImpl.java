@@ -39,7 +39,17 @@ public class SecteurDaoImpl extends EntityManagerUtil implements EntityRepositor
 
     @Override
     public Secteur update(Secteur secteur,  HttpServletRequest req) {
-        return null;
+        EntityTransaction transaction = entityManager.getTransaction();
+        try {
+            transaction.begin();
+            entityManager.merge(secteur);
+            transaction.commit();
+        } catch (Exception e){
+            if (transaction != null)
+                transaction.rollback();
+            e.printStackTrace();
+        }
+        return secteur;
     }
 
     @Override
