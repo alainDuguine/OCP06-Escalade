@@ -63,4 +63,11 @@ public class SecteurDaoImpl extends EntityManagerUtil implements EntityRepositor
         return query.getResultList();
     }
 
+    public List<Secteur> findSecteurInSpotForUpdate(Long idSecteur, String nomSecteur, long idSpot) {
+        Query query = entityManager.createQuery("select s from Secteur s where s.nom= :nom and s.spot.id= :idSpot and s.id <> :idSecteur");
+        query.setParameter("nom", nomSecteur);
+        query.setParameter("idSpot", idSpot);
+        query.setParameter("idSecteur", idSecteur);
+        return query.getResultList();
+    }
 }
