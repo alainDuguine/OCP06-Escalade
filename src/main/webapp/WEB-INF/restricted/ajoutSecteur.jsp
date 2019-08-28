@@ -19,7 +19,7 @@
         </c:if>
         <form method="post" action="saveSecteur.do" enctype="multipart/form-data">
             <div class="erreur">
-                <div class="erreurDescription">${form.listErreurs['server']}</div>
+                <div class="erreurSingleCol">${form.listErreurs['server']}</div>
             </div>
             <input type="text" name="idSpot" id="idSpot" hidden="hidden" value="<c:out value="${param.idSpot}"/>">
             <div class="erreur">
