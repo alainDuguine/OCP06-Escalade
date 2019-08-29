@@ -127,7 +127,22 @@ public class Servlet extends HttpServlet {
             case "/dashboard.do": {
                 HttpSession session = req.getSession();
                 String username = (String) session.getAttribute("sessionUtilisateur");
-                if (username != null) {
+                if (username == null) {
+                    this.getServletContext().getRequestDispatcher("/WEB-INF/connexion.jsp").forward(req, resp);
+                }if(session.getAttribute("admin").equals(true)){
+                    UtilisateurDaoImpl utilisateurDao = new UtilisateurDaoImpl();
+                    List<Utilisateur> utilisateurs = utilisateurDao.findAll();
+                    req.setAttribute("listUtilisateur", utilisateurs);
+                    SpotDaoImpl spotDao = new SpotDaoImpl();
+                    List<Spot> listSpot = spotDao.findAll();
+                    SecteurDaoImpl secteurDao = new SecteurDaoImpl();
+                    List<Secteur> listSecteur = secteurDao.findAll();
+                    VoieDaoImpl voieDao = new VoieDaoImpl();
+                    List<Voie> listVoie = voieDao.findAll();
+                    req.setAttribute("listSpot", listSpot);
+                    req.setAttribute("listSecteur", listSecteur);
+                    req.setAttribute("listVoie", listVoie);
+                }else{
                     UtilisateurDaoImpl utilisateurDao = new UtilisateurDaoImpl();
                     Utilisateur utilisateur = utilisateurDao.findByUsername(username);
                     req.setAttribute("utilisateur", utilisateur);
@@ -224,7 +239,9 @@ public class Servlet extends HttpServlet {
                     }
                     HttpSession session = req.getSession();
                     String username = ((Utilisateur) form.getEntitie()).getUsername();
+                    Boolean admin = ((Utilisateur) form.getEntitie()).isAdmin();
                     session.setAttribute("sessionUtilisateur", username);
+                    session.setAttribute("admin", admin);
                     doGet(req,resp);
                 } else {
                     this.getServletContext().getRequestDispatcher("/WEB-INF/connexion.jsp").forward(req, resp);
@@ -385,6 +402,17 @@ public class Servlet extends HttpServlet {
                 Boolean result = photoDao.deletePhoto(idPhoto);
                 PrintWriter out = resp.getWriter();
                 out.print(result);
+                out.flush();
+                break;
+            }
+            case "/toggleAdmin.do":{
+                Long idUser = Long.parseLong(req.getParameter("idUser"));
+                UtilisateurDaoImpl utilisateurDao = new UtilisateurDaoImpl();
+                Utilisateur utilisateur = utilisateurDao.findOne(idUser);
+                utilisateur.setAdmin(!utilisateur.isAdmin());
+                utilisateurDao.update(utilisateur, req);
+                PrintWriter out = resp.getWriter();
+                out.print(utilisateur.isAdmin());
                 out.flush();
                 break;
             }

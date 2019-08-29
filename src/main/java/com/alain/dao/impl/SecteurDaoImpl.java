@@ -58,7 +58,8 @@ public class SecteurDaoImpl extends EntityManagerUtil implements EntityRepositor
 
     @Override
     public List<Secteur> findAll() {
-        return null;
+        Query query = entityManager.createQuery("select secteur from Secteur secteur");
+        return query.getResultList();
     }
 
     @Override

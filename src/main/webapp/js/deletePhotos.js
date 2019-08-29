@@ -3,13 +3,15 @@ $(document).ready(function() {
         event.preventDefault();
         var el = $(this),
             photoId = $(this).attr('href');
-        $.post("supprimerPhoto.do", {idPhoto: photoId}, function (data) {
-            if (data == 'true') {
-                el.parent().remove();
-                alert("Suppression effectuée");
-            } else {
-                alert("Suppression échouée");
-            }
-        })
+        if (confirm("Etes-vous sûr de vouloir supprimer cette photo ?")) {
+            $.post("supprimerPhoto.do", {idPhoto: photoId}, function (data) {
+                if (data == 'true') {
+                    el.parent().remove();
+                    alert("Suppression effectuée");
+                } else {
+                    alert("Suppression échouée");
+                }
+            })
+        }
     });
 });

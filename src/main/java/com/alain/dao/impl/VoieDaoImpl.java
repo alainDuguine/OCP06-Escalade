@@ -66,7 +66,8 @@ public class VoieDaoImpl implements EntityRepository<Voie> {
 
     @Override
     public List<Voie> findAll() {
-        return null;
+        Query query = entityManager.createQuery("select voie from Voie voie");
+        return query.getResultList();
     }
 
     @Override
