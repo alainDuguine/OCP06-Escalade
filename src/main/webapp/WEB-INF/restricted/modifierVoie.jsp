@@ -1,7 +1,11 @@
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
     <title>Modifier une Voie</title>
     <%@ include file="../includeCss.jsp"%>
     <link rel="stylesheet" type="text/css" href="../../css/form.css">
@@ -38,12 +42,14 @@
 
             <div class="inscriptionForm">
                 <label for="altitude">Altitude :</label>
-                <input type="number" step="1" min="0" name="altitude" id="altitude" value="${voie.altitude}">
+                <fmt:parseNumber var="altitudeInt" value="${voie.altitude}"/>
+                <input type="number" step="1" min="0" name="altitude" id="altitude" value="${altitudeInt}">
             </div>
 
             <div class="inscriptionForm">
                 <label for="longueur">Nombre de longueurs :</label>
-                <input type="number" step="1" min="0" name="longueur" id="longueur" value="${voie.nbLongueurs}">
+                <fmt:parseNumber var="nbLongueurInt" value="${voie.nbLongueurs}"/>
+                <input type="number" step="1" min="0" name="longueur" id="longueur" value="${nbLongueurInt}">
             </div>
 
             <div class="erreur">
@@ -60,7 +66,7 @@
                 <div  class="modifPhoto">
                     <c:set var="chemin">/imagesUsers/</c:set>
                     <c:forEach items="${voie.photos}" var="photo">
-                        <div class="photoSaved"><img src="${chemin}${photo.nom}"><a href="supprimerPhoto.do">Supprimer</a></div>
+                        <div class="photoSaved"><img src="${chemin}${photo.nom}"><a href="${photo.id}">Supprimer</a></div>
                     </c:forEach>
                 </div>
             </div>
@@ -87,10 +93,10 @@
         integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
         crossorigin="anonymous">
 </script>
-<script src="../../js/checkPhotos.js"></script>
+<script src="../../js/checkPhotos.js" charset="UTF-8"></script>
+<script src="../../js/deletePhotos.js" charset="UTF-8"></script>
 <script>
     $(document).ready(function(){
-
         var cotation = ${voie.cotation.id};
         $("#cotation option[value="+cotation+"]").prop('selected', true);
 

@@ -2,6 +2,9 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
     <title>Modifier un Spot</title>
     <%@ include file="../includeCss.jsp"%>
     <link rel="stylesheet" type="text/css" href="../../css/form.css">
@@ -73,7 +76,7 @@
                 <div  class="modifPhoto">
                     <c:set var="chemin">/imagesUsers/</c:set>
                     <c:forEach items="${spot.photos}" var="photo">
-                        <div class="photoSaved"><img src="${chemin}${photo.nom}"><a href="supprimerPhoto.do">Supprimer</a></div>
+                        <div class="photoSaved"><img src="${chemin}${photo.nom}"><a href="${photo.id}">Supprimer</a></div>
                     </c:forEach>
                 </div>
             </div>
@@ -101,13 +104,26 @@
         integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
         crossorigin="anonymous">
 </script>
-<script src="../../js/checkPhotos.js"></script>
+<script src="../../js/checkPhotos.js" charset="UTF-8"></script>
+<script src="../../js/deletePhotos.js" charset="UTF-8"></script>
 <script>
     $(document).ready(function(){
 
-        var departement = ${spot.departement.code};
-        var ville = ${spot.ville.id};
+        var departement =${spot.departement.code};
+
+        if (departement < 10){
+            departement = "0" + departement;
+        }
+
+        var ville =${spot.ville.id};
+        if (ville < 10){
+            ville = "0" + ville;
+        }
+
         $("#departement option[value="+departement+"]").prop('selected', true);
+
+        // alert(departement);
+        // alert(ville);
 
         $('#departement').change(function() {
             var choixDep = $('#departement').val();
@@ -126,9 +142,10 @@
             );
         });
 
-        $('#departement').trigger("change");
+        setTimeout(function(){$('#departement').trigger("change");},0);
 
-        $("#ville").val(ville);
+        $("#ville option[value="+ville+"]").prop('selected', true);
+
     });
 </script>
 </body>

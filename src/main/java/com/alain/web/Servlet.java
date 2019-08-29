@@ -59,6 +59,7 @@ public class Servlet extends HttpServlet {
                         this.getServletContext().getRequestDispatcher("/WEB-INF/erreur.jsp").forward(req, resp);
                     }else{
                         req.setAttribute("spot", spot);
+                        this.setNoCache(resp);
                         this.getServletContext().getRequestDispatcher("/WEB-INF/restricted/modifierSpot.jsp").forward(req, resp);
                     }
                 }else {
@@ -86,6 +87,7 @@ public class Servlet extends HttpServlet {
                     this.getServletContext().getRequestDispatcher("/WEB-INF/erreur.jsp").forward(req, resp);
                 }else {
                     req.setAttribute("secteur", secteur);
+                    this.setNoCache(resp);
                     this.getServletContext().getRequestDispatcher("/WEB-INF/restricted/modifierSecteur.jsp").forward(req, resp);
                 }
                 break;
@@ -116,6 +118,7 @@ public class Servlet extends HttpServlet {
                     List<Cotation> cotations = cotationDao.findAll();
                     req.setAttribute("cotations", cotations);
                     req.setAttribute("voie", voie);
+                    this.setNoCache(resp);
                     this.getServletContext().getRequestDispatcher("/WEB-INF/restricted/modifierVoie.jsp").forward(req, resp);
                 }
                 break;
@@ -376,6 +379,21 @@ public class Servlet extends HttpServlet {
                 doGet(req, resp);
                 break;
             }
+            case "/supprimerPhoto.do":{
+                Long idPhoto = Long.parseLong(req.getParameter("idPhoto"));
+                PhotoDao photoDao = new PhotoDao();
+                Boolean result = photoDao.deletePhoto(idPhoto);
+                PrintWriter out = resp.getWriter();
+                out.print(result);
+                out.flush();
+                break;
+            }
         }
+    }
+
+    private void setNoCache(HttpServletResponse resp) {
+        resp.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+        resp.setHeader("Pragma", "no-cache");
+        resp.setDateHeader("Expires", 0);
     }
 }
