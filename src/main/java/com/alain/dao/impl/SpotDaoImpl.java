@@ -68,13 +68,25 @@ public class SpotDaoImpl implements EntityRepository<Spot> {
     }
 
     @Override
-    public void delete(Long id) {
-
+    public boolean delete(Long id) {
+        EntityTransaction transaction = entityManager.getTransaction();
+        try {
+            transaction.begin();
+            Spot spot = entityManager.find(Spot.class, id);
+            entityManager.remove(spot);
+            transaction.commit();
+            return true;
+        }catch (Exception e){
+            if (transaction != null)
+                transaction.rollback();
+            e.printStackTrace();
+            return false;
+        }
     }
 
     @Override
     public List<Spot> findAll() {
-        Query query = entityManager.createQuery("select spot from Spot spot");
+        Query query = entityManager.createQuery("select spot from Spot spot order by spot.nom asc");
         return query.getResultList();
     }
 

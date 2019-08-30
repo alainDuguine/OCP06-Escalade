@@ -10,7 +10,7 @@ import javax.persistence.EntityTransaction;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
-public class PhotoVoieDaoImpl implements EntityRepository<PhotoVoie> {
+public class PhotoVoieDaoImpl implements EntityRepository<PhotoVoie>{
 
     private EntityManager entityManager = EntityManagerUtil.getEntityManager();
 
@@ -35,13 +35,13 @@ public class PhotoVoieDaoImpl implements EntityRepository<PhotoVoie> {
     }
 
     @Override
-    public PhotoVoie update(PhotoVoie photoVoie,  HttpServletRequest req) {
+    public PhotoVoie update(PhotoVoie photoVoie, HttpServletRequest req) {
         return null;
     }
 
     @Override
-    public void delete(Long id) {
-
+    public boolean delete(Long id) {
+        return false;
     }
 
     @Override
@@ -53,4 +53,5 @@ public class PhotoVoieDaoImpl implements EntityRepository<PhotoVoie> {
     public PhotoVoie findOne(Long id) {
         return null;
     }
+
 }

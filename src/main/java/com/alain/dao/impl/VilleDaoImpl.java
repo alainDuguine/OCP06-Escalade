@@ -8,7 +8,7 @@ import javax.persistence.Query;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
-public class VilleDaoImpl implements EntityRepository<Ville> {
+public class VilleDaoImpl{
 
     private EntityManager entityManager = EntityManagerUtil.getEntityManager();
 
@@ -22,27 +22,6 @@ public class VilleDaoImpl implements EntityRepository<Ville> {
         return entityManager.find(Ville.class, id);
     }
 
-    @Override
-    public Ville save(Ville ville, HttpServletRequest req) {
-        return null;
-    }
-
-    @Override
-    public Ville update(Ville ville, HttpServletRequest req) {
-        return null;
-    }
-
-    @Override
-    public void delete(Long id) {
-
-    }
-
-    @Override
-    public List<Ville> findAll() {
-        return null;
-    }
-
-    @Override
     public Ville findOne(Long id) {
         return entityManager.find(Ville.class, id);
     }

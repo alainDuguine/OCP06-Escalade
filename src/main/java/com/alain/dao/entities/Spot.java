@@ -40,15 +40,15 @@ public class Spot extends Entitie implements Serializable {
     @ManyToOne
     private Ville ville;
 
-    @OneToMany (mappedBy ="spot")
+    @OneToMany (mappedBy ="spot", cascade = CascadeType.ALL)
     private List<Secteur> secteurs = new ArrayList<>();
-    @OneToMany (mappedBy = "spot")
+    @OneToMany (mappedBy = "spot", cascade = CascadeType.ALL)
     private List<CommentaireSpot> commentaires = new ArrayList<>();
-    @OneToMany (mappedBy = "spot")
+    @OneToMany (mappedBy = "spot", cascade = CascadeType.ALL)
     private List<PhotoSpot> photos = new ArrayList<>();
-    @OneToMany(mappedBy = "spot")
+    @OneToMany(mappedBy = "spot", cascade = CascadeType.ALL)
     private List<ComplementSpot> complements = new ArrayList<>();
-    @ManyToMany (mappedBy = "spot")
+    @ManyToMany (mappedBy = "spot", cascade = CascadeType.ALL)
     private List<Topo> topos = new ArrayList<>();
 
     /* ***********************************************************************************************

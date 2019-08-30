@@ -53,12 +53,25 @@ public class SecteurDaoImpl extends EntityManagerUtil implements EntityRepositor
     }
 
     @Override
-    public void delete(Long id) {
+    public boolean delete(Long id) {
+        EntityTransaction transaction = entityManager.getTransaction();
+        try {
+            transaction.begin();
+            Secteur secteur = entityManager.find(Secteur.class, id);
+            entityManager.remove(secteur);
+            transaction.commit();
+            return true;
+        }catch (Exception e){
+            if (transaction != null)
+                transaction.rollback();
+            e.printStackTrace();
+            return false;
+        }
     }
 
     @Override
     public List<Secteur> findAll() {
-        Query query = entityManager.createQuery("select secteur from Secteur secteur");
+        Query query = entityManager.createQuery("select secteur from Secteur secteur order by secteur.nom asc");
         return query.getResultList();
     }
 

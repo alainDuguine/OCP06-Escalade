@@ -32,13 +32,24 @@ public class UtilisateurDaoImpl implements EntityRepository<Utilisateur>{
         return utilisateur;
     }
 
-    public void delete(Long id) {
-        Utilisateur utilisateur = entityManager.find(Utilisateur.class, id);
-        entityManager.remove(utilisateur);
+    public boolean delete(Long id) {
+        EntityTransaction transaction = entityManager.getTransaction();
+        try {
+            transaction.begin();
+            Utilisateur utilisateur = entityManager.find(Utilisateur.class, id);
+            entityManager.remove(utilisateur);
+            transaction.commit();
+            return true;
+        }catch (Exception e){
+            if (transaction != null)
+                transaction.rollback();
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public List<Utilisateur> findAll() {
-        Query query = entityManager.createQuery("select u from Utilisateur u");
+        Query query = entityManager.createQuery("select u from Utilisateur u order by u.id asc");
         return query.getResultList();
     }
 

@@ -37,25 +37,25 @@ public class Utilisateur extends Entitie implements Serializable{
     private String prenom;
     private boolean admin = false;
 
-    @OneToMany (mappedBy = "utilisateur")
+    @OneToMany (mappedBy = "utilisateur", cascade = CascadeType.ALL)
     private List<Spot> spots = new ArrayList<>();
-    @OneToMany (mappedBy = "utilisateur")
+    @OneToMany (mappedBy = "utilisateur", cascade = CascadeType.ALL)
     private List<Secteur> secteurs = new ArrayList<>();
-    @OneToMany (mappedBy = "utilisateur")
+    @OneToMany (mappedBy = "utilisateur", cascade = CascadeType.ALL)
     private List<Voie> voies = new ArrayList<>();
-    @OneToMany (mappedBy = "utilisateur")
+    @OneToMany (mappedBy = "utilisateur", cascade = CascadeType.ALL)
     private List<CommentaireSpot> commentaireSpots = new ArrayList<>();
-    @OneToMany (mappedBy = "utilisateur")
+    @OneToMany (mappedBy = "utilisateur", cascade = CascadeType.ALL)
     private List<CommentaireSecteur> commentaireSecteurs = new ArrayList<>();
-    @OneToMany (mappedBy = "utilisateur")
+    @OneToMany (mappedBy = "utilisateur", cascade = CascadeType.ALL)
     private List<CommentaireVoie> commentaireVoies = new ArrayList<>();
-    @OneToMany (mappedBy = "utilisateur")
+    @OneToMany (mappedBy = "utilisateur", cascade = CascadeType.ALL)
     private List<ComplementSpot> complementSpots = new ArrayList<>();
-    @OneToMany (mappedBy = "utilisateur")
+    @OneToMany (mappedBy = "utilisateur", cascade = CascadeType.ALL)
     private List<ComplementSecteur> complementSecteurs = new ArrayList<>();
-    @OneToMany (mappedBy = "utilisateur")
+    @OneToMany (mappedBy = "utilisateur", cascade = CascadeType.ALL)
     private List<ComplementVoie> complementVoies = new ArrayList<>();
-    @OneToMany (mappedBy = "utilisateur")
+    @OneToMany (mappedBy = "utilisateur", cascade = CascadeType.ALL)
     private List<Topo> topos = new ArrayList<>();
 
     @ManyToMany (mappedBy = "empruntUtilisateurs")

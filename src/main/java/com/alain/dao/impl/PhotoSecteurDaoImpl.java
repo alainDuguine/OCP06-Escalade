@@ -9,7 +9,7 @@ import javax.persistence.EntityTransaction;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
-public class PhotoSecteurDaoImpl implements EntityRepository<PhotoSecteur> {
+public class PhotoSecteurDaoImpl implements EntityRepository<PhotoSecteur>{
 
     private EntityManager entityManager = EntityManagerUtil.getEntityManager();
 
@@ -34,17 +34,17 @@ public class PhotoSecteurDaoImpl implements EntityRepository<PhotoSecteur> {
         }
 
     @Override
-    public PhotoSecteur update(PhotoSecteur photoSecteur,  HttpServletRequest req) {
+    public PhotoSecteur update(PhotoSecteur photoSecteur, HttpServletRequest req) {
         return null;
     }
 
     @Override
-    public void delete(Long id) {
-
+    public boolean delete(Long id) {
+        return false;
     }
 
     @Override
-    public List findAll() {
+    public List<PhotoSecteur> findAll() {
         return null;
     }
 

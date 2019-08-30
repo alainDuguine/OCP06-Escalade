@@ -46,8 +46,8 @@ public class CommentaireSpotDaoImpl implements EntityRepository<CommentaireSpot>
 
 
     @Override
-    public void delete(Long id) {
-
+    public boolean delete(Long id) {
+        return false;
     }
 
     @Override

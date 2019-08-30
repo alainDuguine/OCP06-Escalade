@@ -40,11 +40,11 @@ public class Voie extends Entitie implements Serializable {
     @ManyToOne(fetch=FetchType.EAGER)
     private Cotation cotation;
 
-    @OneToMany (mappedBy = "voie")
+    @OneToMany (mappedBy = "voie", cascade = CascadeType.ALL)
     private List<CommentaireVoie> commentaires = new ArrayList<>();
-    @OneToMany (mappedBy = "voie")
+    @OneToMany (mappedBy = "voie", cascade = CascadeType.ALL)
     private List<ComplementVoie> complements = new ArrayList<>();
-    @OneToMany (mappedBy = "voie")
+    @OneToMany (mappedBy = "voie", cascade = CascadeType.ALL)
     private List<PhotoVoie> photos = new ArrayList<>();
 
     /* ********************************************************************************************

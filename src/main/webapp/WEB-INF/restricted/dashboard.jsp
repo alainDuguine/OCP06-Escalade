@@ -45,15 +45,14 @@
             <%--   Si le user est admin, on affiche tous les spots  --%>
             <c:set var="spots" value="${ admin ? listSpot : utilisateur.spots}"/>
             <c:forEach items="${spots}" var="spot">
-                <tr class="item">
-                    <td hidden="hidden">${spot.id}</td>
+                <tr class="item" id="${spot.id}">
                     <td><a href="display.do?idSpot=${spot.id}"><c:out value="${spot.nom}"/></a></td>
                     <td><c:out value="${spot.ville.nom}"/></td>
                     <td><c:out value="${spot.departement.nom}"/></td>
                     <td><a href="modifierSpot.do?idSpot=${spot.id}">Modifier ce spot</a></td>
                     <td><a href="ajoutSecteur.do?idSpot=${spot.id}">Ajouter un secteur</a></td>
                     <c:if test="${admin}">
-                        <td id="${spot.id}"><a href="deleteSpot">Supprimer</a></td>
+                        <td class="supprElem"><a href="supprimerSpot">Supprimer</a></td>
                     </c:if>
                 </tr>
             </c:forEach>
@@ -72,13 +71,13 @@
             <tbody>
             <c:set var="secteurs" value="${admin ? listSecteur : utilisateur.secteurs}"/>
             <c:forEach items="${secteurs}" var="secteur">
-                <tr class="item">
+                <tr class="item" id="${secteur.id}">
                     <td><a href="display.do?idSpot=${secteur.spot.id}#${secteur.nom}"><c:out value="${secteur.nom}"/></a></td>
                     <td><c:out value="${secteur.spot.nom}"/></td>
                     <td><a href="modifierSecteur.do?idSecteur=${secteur.id}">Modifier ce secteur</a></td>
                     <td><a href="ajoutVoie.do?idSecteur=${secteur.id}">Ajouter une voie</a></td>
                     <c:if test="${admin}">
-                        <td id="${secteur.id}"><a href="deleteSecteur">Supprimer</a></td>
+                        <td class="supprElem"><a href="supprimerSecteur">Supprimer</a></td>
                     </c:if>
                 </tr>
             </c:forEach>
@@ -97,13 +96,13 @@
             <tbody>
             <c:set var="voies" value="${admin ? listVoie : utilisateur.voies}"/>
             <c:forEach items="${voies}" var="voie">
-                <tr class="item">
+                <tr class="item" id="${voie.id}">
                     <td><a href="display.do?idSpot=${voie.secteur.spot.id}#${voie.nom}"><c:out value="${voie.nom}"/></a></td>
                     <td><c:out value="${voie.secteur.nom}"/></td>
                     <td><c:out value="${voie.secteur.spot.nom}"/></td>
                     <td><a href="modifierVoie.do?idVoie=${voie.id}">Modifier cette voie</a></td>
                     <c:if test="${admin}">
-                        <td id="${secteur.id}"><a href="deleteVoie">Supprimer</a></td>
+                        <td class="supprElem"><a href="supprimerVoie">Supprimer</a></td>
                     </c:if>
                 </tr>
             </c:forEach>
@@ -130,7 +129,7 @@
                     <td><c:out value="${user.prenom}"/></td>
                     <td class="adminTable"><c:out value="${user.admin}"/></td>
                     <td><button class="buttonAdmin"type="button">Administrateur</button></td>
-                    <td><a href="deleteUser">Supprimer</a></td>
+                    <td class="supprElem"><a href="deleteUser">Supprimer</a></td>
                 </tr>
             </c:forEach>
             </tbody>
@@ -168,6 +167,26 @@
             }
 
         });
+
+        //Suppression des éléments Spots, Secteurs, Voies
+        $(".supprElem").click(function(event){
+            event.preventDefault();
+            var el = $(this),
+                path = $(this).children('a').attr('href')+".do",
+                elId = $(this).parent().attr('id');
+            alert(el +" "+path+" "+elId);
+            if (confirm("Etes-vous sûr de vouloir supprimer cet élément ?")) {
+                $.post(path, {idElement: elId}, function (data) {
+                    if (data == 'true') {
+                        el.parent().remove();
+                        alert("Suppression effectuée");
+                    } else {
+                        alert("Suppression échouée");
+                    }
+                })
+            }
+
+        })
     })
 </script>
 </body>

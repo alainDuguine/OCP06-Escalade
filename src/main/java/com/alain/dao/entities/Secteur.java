@@ -32,13 +32,13 @@ public class Secteur extends Entitie implements Serializable {
     @ManyToOne
     private Spot spot;
 
-    @OneToMany (mappedBy = "secteur")
+    @OneToMany (mappedBy = "secteur", cascade = CascadeType.ALL)
     private List<Voie> voies = new ArrayList<>();
-    @OneToMany (mappedBy = "secteur")
+    @OneToMany (mappedBy = "secteur", cascade = CascadeType.ALL)
     private List<CommentaireSecteur> commentaires = new ArrayList<>();
     @OneToMany (mappedBy = "secteur")
     private List<ComplementSecteur> complements = new ArrayList<>();
-    @OneToMany (mappedBy = "secteur")
+    @OneToMany (mappedBy = "secteur", cascade = CascadeType.ALL)
     private List<PhotoSecteur> photos = new ArrayList<>();
 
     /* ********************************************************************************************

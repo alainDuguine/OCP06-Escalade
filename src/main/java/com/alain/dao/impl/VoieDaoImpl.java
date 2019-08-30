@@ -61,12 +61,25 @@ public class VoieDaoImpl implements EntityRepository<Voie> {
     }
 
     @Override
-    public void delete(Long id) {
+    public boolean delete(Long id) {
+        EntityTransaction transaction = entityManager.getTransaction();
+        try {
+            transaction.begin();
+            Voie voie = entityManager.find(Voie.class, id);
+            entityManager.remove(voie);
+            transaction.commit();
+            return true;
+        }catch (Exception e){
+            if (transaction != null)
+                transaction.rollback();
+            e.printStackTrace();
+            return false;
+        }
     }
 
     @Override
     public List<Voie> findAll() {
-        Query query = entityManager.createQuery("select voie from Voie voie");
+        Query query = entityManager.createQuery("select voie from Voie voie order by voie.nom asc");
         return query.getResultList();
     }
 

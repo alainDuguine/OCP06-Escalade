@@ -71,3 +71,16 @@
     width: 30px;
     align-items: center;
 }
+
+.buttonAdmin{
+    background-color: white;
+    border: 2px solid #a88680;
+    border-radius: 6px;
+    font-family: 'Merienda', 'Open Sans', sans-serif;
+    font-size: 0.9em;
+}
+
+.buttonAdmin:hover{
+    background-color: rgba(128,142,168,0.75);
+    box-sizing: border-box;
+}

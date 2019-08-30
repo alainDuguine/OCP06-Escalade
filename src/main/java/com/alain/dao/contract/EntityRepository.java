@@ -6,7 +6,7 @@ import java.util.List;
 public interface EntityRepository<T> {
     T save(T t, HttpServletRequest req);
     T update(T t, HttpServletRequest req);
-    void delete(Long id);
+    boolean delete(Long id);
     List<T> findAll();
     T findOne (Long id);
 }

@@ -1,6 +1,7 @@
 package com.alain.web;
 
 import com.alain.EntityManagerUtil;
+import com.alain.dao.contract.EntityRepository;
 import com.alain.dao.entities.*;
 import com.alain.dao.impl.*;
 import com.alain.metier.CheckForm;
@@ -234,7 +235,7 @@ public class Servlet extends HttpServlet {
                 if (form.isResultat()) {
                     if (req.getParameter("cookie") != null){
                         Cookie cookieEmail = new Cookie("email", req.getParameter("email"));
-                        cookieEmail.setMaxAge(60*60*24*365);
+                        cookieEmail.setMaxAge(60*60*24*30);
                         resp.addCookie(cookieEmail);
                     }
                     HttpSession session = req.getSession();
@@ -281,7 +282,6 @@ public class Servlet extends HttpServlet {
                 req.setAttribute("form", form);
                 if (form.isResultat()) {
                     resp.sendRedirect("/dashboard.do?resultat=true");
-//                    resp.sendRedirect("/display.do?idSpot=" + req.getParameter("idSpot"));
                 } else {
                     doGet(req, resp);
                 }
@@ -396,13 +396,45 @@ public class Servlet extends HttpServlet {
                 doGet(req, resp);
                 break;
             }
+            case "/supprimerSpot.do":{
+                Long idSpot = Long.parseLong(req.getParameter("idElement"));
+                SpotDaoImpl spotDao = new SpotDaoImpl();
+                Boolean result = spotDao.delete(idSpot);
+                this.sendAjaxBooleanResponse(result, resp);
+                break;
+            }
+            case "/supprimerSecteur.do":{
+                Long idSecteur = Long.parseLong(req.getParameter("idElement"));
+                SecteurDaoImpl secteurDao = new SecteurDaoImpl();
+                Boolean result = secteurDao.delete(idSecteur);
+                this.sendAjaxBooleanResponse(result, resp);
+                break;
+            }
+            case "/supprimerVoie.do":{
+                Long idVoie = Long.parseLong(req.getParameter("idElement"));
+                VoieDaoImpl voieDao = new VoieDaoImpl();
+                Boolean result = voieDao.delete(idVoie);
+                this.sendAjaxBooleanResponse(result, resp);
+                break;
+            }
+//            Long idElement = Long.parseLong(req.getParameter("idElement"));
+//            EntityRepository dao;
+//            if (path.contains("Spot")){
+//                dao = new SpotDaoImpl();
+//            }else if(path.contains("Secteur")){
+//                dao = new SecteurDaoImpl();
+//            }else{
+//                dao = new VoieDaoImpl();
+//            }
+//            Boolean result = dao.delete(idElement);
+//            this.sendAjaxBooleanResponse(result, resp);
+//            break;
+
             case "/supprimerPhoto.do":{
                 Long idPhoto = Long.parseLong(req.getParameter("idPhoto"));
                 PhotoDao photoDao = new PhotoDao();
                 Boolean result = photoDao.deletePhoto(idPhoto);
-                PrintWriter out = resp.getWriter();
-                out.print(result);
-                out.flush();
+                this.sendAjaxBooleanResponse(result, resp);
                 break;
             }
             case "/toggleAdmin.do":{
@@ -417,6 +449,12 @@ public class Servlet extends HttpServlet {
                 break;
             }
         }
+    }
+
+    private void sendAjaxBooleanResponse(Boolean result, HttpServletResponse resp) throws IOException {
+        PrintWriter out = resp.getWriter();
+        out.print(result);
+        out.flush();
     }
 
     private void setNoCache(HttpServletResponse resp) {
