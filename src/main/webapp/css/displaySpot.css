@@ -73,3 +73,8 @@ input[type=button]{
     font-family: 'Merienda', 'Open Sans', sans-serif;
     font-size: 0.9em;
 }
+
+#iconeOfficiel{
+    float: right;
+    margin: 0.5em;
+}

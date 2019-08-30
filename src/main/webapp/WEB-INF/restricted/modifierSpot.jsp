@@ -13,6 +13,7 @@
 <body>
 <%@ include file= "../header.jsp"%>
 <section class="mainDiv">
+    <c:set var="admin" value="${sessionScope.admin}"/>
     <div class="formDiv">
         <h1>Modifier un spot d'escalade :</h1>
         <form method="post" action="updateSpot.do" enctype="multipart/form-data">
@@ -69,6 +70,21 @@
                 <label for="description">Description :</label>
                 <textarea name="description" id="description" required="required"><c:out value="${spot.description}"/></textarea>
             </div>
+
+            <c:if test="${admin}">
+                <div class="officielCheckbox">
+                    <c:choose>
+                        <c:when test="${spot.officiel}">
+                            <input type="checkbox" id="officiel" name="officiel" value="officiel" checked/>
+                        </c:when>
+                        <c:otherwise>
+                            <input type="checkbox" id="officiel" name="officiel" value="officiel"/>
+                        </c:otherwise>
+                    </c:choose>
+                    <label for="officiel">Officiel "Les amis de l'escalade"</label>
+                </div>
+            </c:if>
+
             <br>
             <hr>
             <div class="inscriptionForm" id="photoForm">

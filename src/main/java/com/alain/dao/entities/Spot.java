@@ -82,6 +82,11 @@ public class Spot extends Entitie implements Serializable {
         this.setNom(Utilities.getValeurChamp(req, CHAMP_NOM));
         this.setAdresse(Utilities.getValeurChamp(req, CHAMP_ADRESSE));
         this.setDescription(Utilities.getValeurChamp(req, CHAMP_DESCRIPTION));
+        if(req.getParameter("officiel") != null){
+            this.setOfficiel(true);
+        }else{
+            this.setOfficiel(false);
+        }
 }
 
     @Override

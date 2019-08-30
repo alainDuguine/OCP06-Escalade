@@ -38,9 +38,13 @@
             </ul>
         </div>
     </section>
+
     <section class="mainDiv" id="displayDiv">
         <span class="ancre" id="${spot.nom}"></span>
         <div class="descriptionDiv">
+            <c:if test="${spot.officiel}">
+                <img  id="iconeOfficiel" src="../images/officiel.png" alt="Spot officiel" title="Ce spot est validé par l'association !">
+            </c:if>
             <h1>Spot - <c:out value="${spot.nom}"/></h1>
             <h5><c:out value="${spot.departement.nom}"/> - <c:out value="${spot.ville.nom}"/> - <i>ajouté par <c:out value="${spot.utilisateur.username}"/></i></h5>
             <h3>Description :</h3>

@@ -56,7 +56,8 @@ public class Servlet extends HttpServlet {
                 if (path.equals("/modifierSpot.do") || path.equals("/updateSpot.do")){
                     SpotDaoImpl spotDao = new SpotDaoImpl();
                     Spot spot = spotDao.findOne(Long.parseLong(req.getParameter("idSpot")));
-                    if (spot == null || !spot.getUtilisateur().getUsername().equals(req.getSession().getAttribute("sessionUtilisateur"))) {
+                    // Si le spot n'existe pas, ou si l'utilisateur n'a pas créé le spot et qu'il n'est pas admin, on envoie une page d'erreur
+                    if (spot == null || (!spot.getUtilisateur().getUsername().equals(req.getSession().getAttribute("sessionUtilisateur"))) && (req.getSession().getAttribute("admin").equals(false))) {
                         this.getServletContext().getRequestDispatcher("/WEB-INF/erreur.jsp").forward(req, resp);
                     }else{
                         req.setAttribute("spot", spot);
@@ -84,7 +85,7 @@ public class Servlet extends HttpServlet {
             case "/updateSecteur.do":{
                 SecteurDaoImpl secteurDao = new SecteurDaoImpl();
                 Secteur secteur = secteurDao.findOne(Long.parseLong(req.getParameter("idSecteur")));
-                if (secteur == null ||!secteur.getUtilisateur().getUsername().equals(req.getSession().getAttribute("sessionUtilisateur"))){
+                if (secteur == null || (!secteur.getUtilisateur().getUsername().equals(req.getSession().getAttribute("sessionUtilisateur"))) && (req.getSession().getAttribute("admin").equals(false))) {
                     this.getServletContext().getRequestDispatcher("/WEB-INF/erreur.jsp").forward(req, resp);
                 }else {
                     req.setAttribute("secteur", secteur);
@@ -112,7 +113,7 @@ public class Servlet extends HttpServlet {
             case "/updateVoie.do":{
                 VoieDaoImpl voieDao = new VoieDaoImpl();
                 Voie voie = voieDao.findOne(Long.parseLong(req.getParameter("idVoie")));
-                if (voie == null ||!voie.getUtilisateur().getUsername().equals(req.getSession().getAttribute("sessionUtilisateur"))){
+                if (voie == null ||(!voie.getUtilisateur().getUsername().equals(req.getSession().getAttribute("sessionUtilisateur"))) && (req.getSession().getAttribute("admin").equals(false))){
                     this.getServletContext().getRequestDispatcher("/WEB-INF/erreur.jsp").forward(req, resp);
                 }else {
                     CotationDaoImpl cotationDao = new CotationDaoImpl();
@@ -414,6 +415,13 @@ public class Servlet extends HttpServlet {
                 Long idVoie = Long.parseLong(req.getParameter("idElement"));
                 VoieDaoImpl voieDao = new VoieDaoImpl();
                 Boolean result = voieDao.delete(idVoie);
+                this.sendAjaxBooleanResponse(result, resp);
+                break;
+            }
+            case "/supprimerUser.do":{
+                Long idUser = Long.parseLong(req.getParameter("idElement"));
+                UtilisateurDaoImpl utilisateurDao = new UtilisateurDaoImpl();
+                Boolean result = utilisateurDao.delete(idUser);
                 this.sendAjaxBooleanResponse(result, resp);
                 break;
             }
