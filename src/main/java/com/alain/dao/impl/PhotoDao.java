@@ -2,7 +2,6 @@ package com.alain.dao.impl;
 
 import com.alain.EntityManagerUtil;
 import com.alain.dao.entities.Photo;
-import com.alain.dao.entities.Voie;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
@@ -21,6 +20,7 @@ public class PhotoDao{
             transaction.begin();
             Photo photo = entityManager.find(Photo.class, id);
             entityManager.remove(photo);
+            entityManager.flush();
             Path path = Paths.get(Photo.getCHEMIN()+photo.getNom());
             Files.delete(path);
             transaction.commit();

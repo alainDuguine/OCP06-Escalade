@@ -77,6 +77,9 @@
         <table>
             <thead>
                 <tr>
+                    <c:if test="${admin}">
+                        <th>Id Secteur</th>
+                    </c:if>
                     <th>Nom Secteur</th><th>Nom Spot</th>
                     <c:if test="${admin}">
                         <th>Utilisateur</th>
@@ -87,6 +90,9 @@
             <c:set var="secteurs" value="${admin ? listSecteur : utilisateur.secteurs}"/>
             <c:forEach items="${secteurs}" var="secteur">
                 <tr class="item" id="${secteur.id}">
+                    <c:if test="${admin}">
+                        <td><c:out value="${secteur.id}"/></td>
+                    </c:if>
                     <td><a href="display.do?idSpot=${secteur.spot.id}#${secteur.nom}"><c:out value="${secteur.nom}"/></a></td>
                     <td><c:out value="${secteur.spot.nom}"/></td>
                     <c:if test="${admin}">
@@ -108,6 +114,9 @@
         <table>
             <thead>
                 <tr>
+                    <c:if test="${admin}">
+                        <th>Id Voie</th>
+                    </c:if>
                     <th>Nom Voie</th><th>Nom Secteur</th><th>Nom Spot</th>
                     <c:if test="${admin}">
                         <th>Utilisateur</th>
@@ -118,6 +127,9 @@
             <c:set var="voies" value="${admin ? listVoie : utilisateur.voies}"/>
             <c:forEach items="${voies}" var="voie">
                 <tr class="item" id="${voie.id}">
+                    <c:if test="${admin}">
+                        <td><c:out value="${voie.id}"/></td>
+                    </c:if>
                     <td><a href="display.do?idSpot=${voie.secteur.spot.id}#${voie.nom}"><c:out value="${voie.nom}"/></a></td>
                     <td><c:out value="${voie.secteur.nom}"/></td>
                     <td><c:out value="${voie.secteur.spot.nom}"/></td>
@@ -202,8 +214,7 @@
                 $.post(path, {idElement: elId}, function (data) {
                     if (data == 'true') {
                         el.parent().remove();
-                        alert("Suppression effectuée");
-                        // location.reload();
+                        if(!alert("Suppression effectuée")){window.location.reload()};
                     } else {
                         alert("Suppression échouée");
                     }

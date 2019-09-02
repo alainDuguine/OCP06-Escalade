@@ -20,8 +20,6 @@ public class Voie extends Entitie implements Serializable {
     private static final String CHAMP_LONGUEUR = "longueur";
     private static final String CHAMP_DESCRIPTION = "description";
 
-
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -40,11 +38,11 @@ public class Voie extends Entitie implements Serializable {
     @ManyToOne(fetch=FetchType.EAGER)
     private Cotation cotation;
 
-    @OneToMany (mappedBy = "voie", cascade = CascadeType.ALL)
+    @OneToMany (mappedBy = "voie", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CommentaireVoie> commentaires = new ArrayList<>();
-    @OneToMany (mappedBy = "voie", cascade = CascadeType.ALL)
+    @OneToMany (mappedBy = "voie", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ComplementVoie> complements = new ArrayList<>();
-    @OneToMany (mappedBy = "voie", cascade = CascadeType.ALL)
+    @OneToMany (mappedBy = "voie", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PhotoVoie> photos = new ArrayList<>();
 
     /* ********************************************************************************************

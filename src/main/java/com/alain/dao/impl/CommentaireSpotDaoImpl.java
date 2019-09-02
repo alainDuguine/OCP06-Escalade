@@ -53,6 +53,7 @@ public class CommentaireSpotDaoImpl implements EntityRepository<CommentaireSpot>
             transaction.begin();
             Commentaire commentaire = entityManager.find(Commentaire.class, id);
             entityManager.remove(commentaire);
+            entityManager.flush();
             transaction.commit();
             return true;
         }catch (Exception e){

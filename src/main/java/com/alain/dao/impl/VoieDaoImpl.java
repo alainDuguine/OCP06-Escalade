@@ -67,6 +67,7 @@ public class VoieDaoImpl implements EntityRepository<Voie> {
             transaction.begin();
             Voie voie = entityManager.find(Voie.class, id);
             entityManager.remove(voie);
+            entityManager.flush();
             transaction.commit();
             return true;
         }catch (Exception e){

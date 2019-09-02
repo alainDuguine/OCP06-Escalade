@@ -1,15 +1,11 @@
 package com.alain.dao.entities;
 
 
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.OnDelete;
-
 import javax.persistence.*;
 import javax.servlet.http.Part;
 import java.io.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)

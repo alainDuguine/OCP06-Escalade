@@ -74,6 +74,7 @@ public class SpotDaoImpl implements EntityRepository<Spot> {
             transaction.begin();
             Spot spot = entityManager.find(Spot.class, id);
             entityManager.remove(spot);
+            entityManager.flush();
             transaction.commit();
             return true;
         }catch (Exception e){

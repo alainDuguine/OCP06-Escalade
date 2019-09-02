@@ -13,7 +13,6 @@ import java.io.InputStream;
 public class PhotoVoie extends Photo {
 
     @ManyToOne
-    @OnDelete(action = OnDeleteAction.CASCADE)
     private Voie voie;
 
     /* ********************************************************************************************

@@ -14,7 +14,7 @@ import java.util.Map;
 
 @Entity
 @Table
-@MultipartConfig
+//@MultipartConfig
 public class Spot extends Entitie implements Serializable {
     private static final String CHAMP_NOM = "nom";
     private static final String CHAMP_ADRESSE = "adresse";
@@ -40,15 +40,15 @@ public class Spot extends Entitie implements Serializable {
     @ManyToOne
     private Ville ville;
 
-    @OneToMany (mappedBy ="spot", cascade = CascadeType.ALL)
+    @OneToMany (mappedBy ="spot", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Secteur> secteurs = new ArrayList<>();
-    @OneToMany (mappedBy = "spot", cascade = CascadeType.ALL)
+    @OneToMany (mappedBy = "spot", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CommentaireSpot> commentaires = new ArrayList<>();
-    @OneToMany (mappedBy = "spot", cascade = CascadeType.ALL)
+    @OneToMany (mappedBy = "spot", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PhotoSpot> photos = new ArrayList<>();
-    @OneToMany(mappedBy = "spot", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "spot", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ComplementSpot> complements = new ArrayList<>();
-    @ManyToMany (mappedBy = "spot", cascade = CascadeType.ALL)
+    @ManyToMany (mappedBy = "spot")
     private List<Topo> topos = new ArrayList<>();
 
     /* ***********************************************************************************************
