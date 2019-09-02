@@ -19,4 +19,10 @@ public abstract class Entitie {
      * @return une map d'erreur <Champ, valeur>
      */
     public abstract Map<String, String> checkErreurs(EntityRepository dao, HttpServletRequest req);
+
+    /**
+     * Retourne l'id de l'objet
+     * @return
+     */
+    public abstract Long getId();
 }

@@ -6,7 +6,7 @@ $(document).ready(function() {
         var el = $(this),
             photoId = $(this).attr('href');
         if (confirm("Etes-vous sûr de vouloir supprimer cette photo ?")) {
-            $.post("supprimerPhoto.do", {idPhoto: photoId}, function (data) {
+            $.post("supprimerPhoto.do", {idElement: photoId}, function (data) {
                 if (data == 'true') {
                     el.parent().remove();
                     if(!alert("Suppression effectuée")){window.location.reload()};

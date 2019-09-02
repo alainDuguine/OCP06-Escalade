@@ -1,20 +1,24 @@
 package com.alain.dao.impl;
 
 import com.alain.EntityManagerUtil;
+import com.alain.dao.contract.EntityRepository;
 import com.alain.dao.entities.Photo;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.servlet.http.HttpServletRequest;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 
-public class PhotoDao{
+public class PhotoDao implements EntityRepository<Photo> {
 
     private EntityManager entityManager = EntityManagerUtil.getEntityManager();
 
-    public boolean deletePhoto(Long id){
+    @Override
+    public boolean delete(Long id){
         EntityTransaction transaction = entityManager.getTransaction();
         try {
             transaction.begin();
@@ -33,4 +37,23 @@ public class PhotoDao{
         }
     }
 
+    @Override
+    public Photo save(Photo photo, HttpServletRequest req) {
+        return null;
+    }
+
+    @Override
+    public Photo update(Photo photo, HttpServletRequest req) {
+        return null;
+    }
+
+    @Override
+    public List<Photo> findAll() {
+        return null;
+    }
+
+    @Override
+    public Photo findOne(Long id) {
+        return null;
+    }
 }

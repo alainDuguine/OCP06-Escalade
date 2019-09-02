@@ -189,7 +189,7 @@
                 commId = $(this).parent().attr('id');
             if (path === "supprimerCommentaire.do") {
                 if (confirm("Etes-vous sûr de vouloir supprimer ce commentaire ?")) {
-                    $.post(path, {idComm: commId}, function (data) {
+                    $.post(path, {idElement: commId}, function (data) {
                         if (data == 'true') {
                             el.parent().parent().remove();
                             alert("Suppression effectuée");

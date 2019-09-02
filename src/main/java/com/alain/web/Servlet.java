@@ -225,13 +225,22 @@ public class Servlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String path = req.getServletPath();
         switch (path) {
-            case "/saveUser.do": {
-                UtilisateurDaoImpl utilisateurDaoImpl = new UtilisateurDaoImpl();
+            case "/saveCommentaire.do": {
+                Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+                CommentaireSpotDaoImpl commentaireDao = new CommentaireSpotDaoImpl();
+                String idSpot = req.getParameter("idSpot");
                 CheckForm form = new CheckForm();
-                form.checkAndSave(req, "com.alain.dao.entities.Utilisateur", utilisateurDaoImpl);
+                form.checkAndSave(req, "com.alain.dao.entities.CommentaireSpot", commentaireDao);
                 form.setResultat(form.checkResultListErreurs(form.getListErreurs()));
-                req.setAttribute("form", form);
-                this.getServletContext().getRequestDispatcher("/WEB-INF/inscription.jsp").forward(req, resp);
+                if (form.isResultat()) {
+                    resp.setContentType("application/json");
+                    resp.setCharacterEncoding("UTF-8");
+                    CommentaireSpot commentaire = (CommentaireSpot) form.getEntitie();
+                    String json = gson.toJson(commentaire);
+                    PrintWriter out = resp.getWriter();
+                    out.print(json);
+                    out.flush();
+                }
                 break;
             }
             case "/connexionForm.do": {
@@ -256,53 +265,42 @@ public class Servlet extends HttpServlet {
                 }
                 break;
             }
-            case "/saveSpot.do": {
-                SpotDaoImpl spotDao = new SpotDaoImpl();
-                PhotoSpotDaoImpl photoSpotDao = new PhotoSpotDaoImpl();
+            case "/saveUser.do": {
+                UtilisateurDaoImpl utilisateurDaoImpl = new UtilisateurDaoImpl();
                 CheckForm form = new CheckForm();
-                form.checkAndSave(req, "com.alain.dao.entities.Spot", spotDao);
-                if (form.getListErreurs().isEmpty()) {
-                    Long idSpot = ((Spot) form.getEntitie()).getId();
-                    req.setAttribute("idSpot", idSpot);
-                    form.checkAndSavePhoto(req, "com.alain.dao.entities.PhotoSpot", photoSpotDao);
-                }
+                form.checkAndSave(req, "com.alain.dao.entities.Utilisateur", utilisateurDaoImpl);
                 form.setResultat(form.checkResultListErreurs(form.getListErreurs()));
                 req.setAttribute("form", form);
-                if (form.isResultat()) {
-                    resp.sendRedirect("/dashboard.do?resultat=true");
-                } else {
-                    doGet(req, resp);
-                }
+                this.getServletContext().getRequestDispatcher("/WEB-INF/inscription.jsp").forward(req, resp);
                 break;
             }
-            case "/saveSecteur.do": {
-                SecteurDaoImpl secteurDao = new SecteurDaoImpl();
-                PhotoSecteurDaoImpl photoSecteurDao = new PhotoSecteurDaoImpl();
-                CheckForm form = new CheckForm();
-                form.checkAndSave(req, "com.alain.dao.entities.Secteur", secteurDao);
-                if (form.getListErreurs().isEmpty()) {
-                    Long idSecteur = ((Secteur) form.getEntitie()).getId();
-                    req.setAttribute("idSecteur", idSecteur);
-                    form.checkAndSavePhoto(req, "com.alain.dao.entities.PhotoSecteur", photoSecteurDao);
+            case "/saveSpot.do":
+            case "/saveSecteur.do":
+            case "/saveVoie.do":{
+                EntityRepository dao, daoPhoto;
+                String className, photoClassName;
+                if (path.contains("Spot")){
+                    dao = new SpotDaoImpl();
+                    daoPhoto = new PhotoSpotDaoImpl();
+                    className = "com.alain.dao.entities.Spot";
+                    photoClassName = "com.alain.dao.entities.PhotoSpot";
+                } else if (path.contains("Secteur")) {
+                    dao = new SecteurDaoImpl();
+                    daoPhoto = new PhotoSecteurDaoImpl();
+                    className = "com.alain.dao.entities.Secteur";
+                    photoClassName = "com.alain.dao.entities.PhotoSecteur";
+                }else{
+                    dao = new VoieDaoImpl();
+                    daoPhoto = new PhotoVoieDaoImpl();
+                    className = "com.alain.dao.entities.Voie";
+                    photoClassName = "com.alain.dao.entities.PhotoVoie";
                 }
-                form.setResultat(form.checkResultListErreurs(form.getListErreurs()));
-                req.setAttribute("form", form);
-                if (form.isResultat()) {
-                    resp.sendRedirect("/dashboard.do?resultat=true");
-                } else {
-                    doGet(req, resp);
-                }
-                break;
-            }
-            case "/saveVoie.do": {
-                VoieDaoImpl voieDao = new VoieDaoImpl();
-                PhotoVoieDaoImpl photoVoieDao = new PhotoVoieDaoImpl();
                 CheckForm form = new CheckForm();
-                form.checkAndSave(req, "com.alain.dao.entities.Voie", voieDao);
+                form.checkAndSave(req, className, dao);
                 if (form.getListErreurs().isEmpty()) {
-                    Long idVoie = ((Voie) form.getEntitie()).getId();
-                    req.setAttribute("idVoie", idVoie);
-                    form.checkAndSavePhoto(req, "com.alain.dao.entities.PhotoVoie", photoVoieDao);
+                    Long idElement = form.getEntitie().getId();
+                    req.setAttribute("idElement", idElement);
+                    form.checkAndSavePhoto(req, photoClassName, daoPhoto);
                 }
                 form.setResultat(form.checkResultListErreurs(form.getListErreurs()));
                 req.setAttribute("form", form);
@@ -317,27 +315,26 @@ public class Servlet extends HttpServlet {
             case "/updateSecteur.do":
             case "/updateVoie.do":{
                 Long idElement = Long.parseLong(req.getParameter("idElement"));
-                EntityRepository dao;
-                EntityRepository daoPhoto;
-                String className;
+                EntityRepository dao, daoPhoto;
+                String photoClassName;
                 if (path.contains("Spot")){
                     dao = new SpotDaoImpl();
                     daoPhoto = new PhotoSpotDaoImpl();
-                    className = "com.alain.dao.entities.PhotoSpot";
+                    photoClassName = "com.alain.dao.entities.PhotoSpot";
                 } else if (path.contains("Secteur")) {
                     dao = new SecteurDaoImpl();
                     daoPhoto = new PhotoSecteurDaoImpl();
-                    className = "com.alain.dao.entities.PhotoSecteur";
+                    photoClassName = "com.alain.dao.entities.PhotoSecteur";
                 }else{
                     dao = new VoieDaoImpl();
                     daoPhoto = new PhotoVoieDaoImpl();
-                    className = "com.alain.dao.entities.PhotoVoie";
+                    photoClassName = "com.alain.dao.entities.PhotoVoie";
                 }
                 CheckForm form = new CheckForm();
                 form.checkAndUpdate(req, dao, idElement);
                 if (form.getListErreurs().isEmpty()) {
                     req.setAttribute("idElement", idElement);
-                    form.checkAndSavePhoto(req, className, daoPhoto);
+                    form.checkAndSavePhoto(req, photoClassName, daoPhoto);
                 }
                 form.setResultat(form.checkResultListErreurs(form.getListErreurs()));
                 req.setAttribute("form", form);
@@ -364,51 +361,28 @@ public class Servlet extends HttpServlet {
                 this.sendAjaxBooleanResponse(result, resp);
                 break;
             }
+            case "/supprimerUser.do":
+            case "/supprimerCommentaire.do":
+            case "/supprimerPhoto.do":{
+                Long idElement = Long.parseLong(req.getParameter("idElement"));
+                EntityRepository dao;
+                if (path.contains("User")) {
+                    dao = new UtilisateurDaoImpl();
+                } else if (path.contains("Commentaire")) {
+                    dao = new CommentaireSpotDaoImpl();
+                } else {
+                    dao = new PhotoDao();
+                }
+                Boolean result = dao.delete(idElement);
+                this.sendAjaxBooleanResponse(result, resp);
+                break;
+            }
             case "/rechercheSpot.do": {
                 SpotDaoImpl spotDao = new SpotDaoImpl();
                 Map<String, Object> paramMap = Utilities.getParameterMapFromReq(req);
                 List<SpotResearchDto> spots = spotDao.findSpotPersonalResearch(paramMap);
                 req.setAttribute("spots", spots);
                 doGet(req, resp);
-                break;
-            }
-            case "/supprimerUser.do":{
-                Long idUser = Long.parseLong(req.getParameter("idElement"));
-                UtilisateurDaoImpl utilisateurDao = new UtilisateurDaoImpl();
-                Boolean result = utilisateurDao.delete(idUser);
-                this.sendAjaxBooleanResponse(result, resp);
-                break;
-            }
-            case "/saveCommentaire.do": {
-                Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
-                CommentaireSpotDaoImpl commentaireDao = new CommentaireSpotDaoImpl();
-                String idSpot = req.getParameter("idSpot");
-                CheckForm form = new CheckForm();
-                form.checkAndSave(req, "com.alain.dao.entities.CommentaireSpot", commentaireDao);
-                form.setResultat(form.checkResultListErreurs(form.getListErreurs()));
-                if (form.isResultat()) {
-                    resp.setContentType("application/json");
-                    resp.setCharacterEncoding("UTF-8");
-                    CommentaireSpot commentaire = (CommentaireSpot) form.getEntitie();
-                    String json = gson.toJson(commentaire);
-                    PrintWriter out = resp.getWriter();
-                    out.print(json);
-                    out.flush();
-                }
-                break;
-            }
-            case "/supprimerCommentaire.do":{
-                Long idComm = Long.parseLong(req.getParameter("idComm"));
-                CommentaireDao commentaireDao = new CommentaireDao();
-                Boolean result = commentaireDao.delete(idComm);
-                this.sendAjaxBooleanResponse(result, resp);
-                break;
-            }
-            case "/supprimerPhoto.do":{
-                Long idPhoto = Long.parseLong(req.getParameter("idPhoto"));
-                PhotoDao photoDao = new PhotoDao();
-                Boolean result = photoDao.deletePhoto(idPhoto);
-                this.sendAjaxBooleanResponse(result, resp);
                 break;
             }
             case "/toggleAdmin.do":{
