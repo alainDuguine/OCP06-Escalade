@@ -114,8 +114,17 @@
             </c:if>
             <div class="commentaireDisplay">
                 <c:forEach items="${spot.commentaires}" var="commentairePublic">
-                    <p class="commentaire">Par <c:out value="${commentairePublic.utilisateur.username}"/> le ${commentairePublic.dateFormat}
-                    <br/><c:out value="${commentairePublic.contenu}"/></p><hr/>
+                    <div class="commentaire">Par <c:out value="${commentairePublic.utilisateur.username}"/> le ${commentairePublic.dateFormat}
+                    <br/><c:out value="${commentairePublic.contenu}"/>
+                        <c:if test="${admin}">
+                            <p class="modifComm" id="${commentairePublic.id}">
+                                <a href="modifierCommentaire">Modifier</a>
+                                <a href="supprimerCommentaire">Supprimer</a>
+                            </p>
+                        </c:if>
+                        <hr/>
+                    </div>
+
                 </c:forEach>
             </div>
         </div>
@@ -127,6 +136,8 @@
 <script>
     $(document).ready(function(){
 
+
+        // Gestion de l'arborescence d'un spot
         $(".treeview li:has(li)").addClass("parent");
 
         $(".treeview li").click(function (e){
@@ -140,6 +151,8 @@
                 $(this).addClass("close");
         });
 
+
+        // Publication des commentaires
         $("#submitCommentaire").click(function(e){
             e.preventDefault();
             var commentaire = $.trim($("#commentaireInput").val());
@@ -151,22 +164,43 @@
                 alert("Vous ne pouvez pas publier un commentaire vide")
             }else{
                 $.post("saveCommentaire.do", {contenu: commentaire, idSpot: idSpot, utilisateur: utilisateur},
-                    function (data) {
-                        if (!data.hasOwnProperty('erreur')) {
-                            $("#commentaireInput").val('');
-                            if ($(".commentaire").length) {
-                                $(".commentaire").first().before("<p class=\"commentaire\">Par " + data.username + " le "
-                                    + data.dateFormat + "<br/>" + data.contenu + "</p><hr/>");
-                            } else {
-                                $(".commentaireDisplay").append("<p class=\"commentaire\">Par " + data.username + " le "
-                                    + data.dateFormat + "<br/>" + data.contenu + "</p><hr/>");
-                            }
-                        }else{
-                            alert(data.erreur);
+                function (data) {
+                    if (!data.hasOwnProperty('erreur')) {
+                        $("#commentaireInput").val('');
+                        if ($(".commentaire").length) {
+                            $(".commentaire").first().before("<p class=\"commentaire\">Par " + data.username + " le "
+                                + data.dateFormat + "<br/>" + data.contenu + "</p><hr/>");
+                        } else {
+                            $(".commentaireDisplay").append("<p class=\"commentaire\">Par " + data.username + " le "
+                                + data.dateFormat + "<br/>" + data.contenu + "</p><hr/>");
                         }
-                    });
+                    }else{
+                        alert(data.erreur);
+                    }
+                });
             }
         })
+
+        //Suppression des commentaires par l'administrateur
+        $(".modifComm > a").click(function (event) {
+            event.preventDefault();
+            var el = $(this),
+                path = $(this).attr('href')+".do",
+                commId = $(this).parent().attr('id');
+            if (path === "supprimerCommentaire.do") {
+                if (confirm("Etes-vous sûr de vouloir supprimer ce commentaire ?")) {
+                    $.post(path, {idComm: commId}, function (data) {
+                        if (data == 'true') {
+                            el.parent().parent().remove();
+                            alert("Suppression effectuée");
+                        } else {
+                            alert("Suppression échouée");
+                        }
+                    })
+                }
+            }
+        });
+
     });
 </script>
 </body>

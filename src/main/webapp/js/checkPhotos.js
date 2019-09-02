@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-    var validImageTypes = ["image/jpeg", "image/png"];
+    var validImageTypes = ["image/png", "image/jpeg"];
 
     $(":file").change(function () {
         var totalSize = 0;
@@ -9,7 +9,7 @@ $(document).ready(function() {
             if (file.size > 5242880) {
                 alert("Le fichier " + file.name + " fait plus de 5 Mo");
                 $(":file").val('');
-            } else if ($.inArray(file.type, validImageTypes)){
+            } else if ($.inArray(file.type, validImageTypes) === -1){
                 alert("Le fichier " + file.name + " n'est pas au format jpeg ou png");
                 $(":file").val('');
             } else {

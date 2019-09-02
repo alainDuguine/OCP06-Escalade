@@ -1,11 +1,15 @@
 package com.alain.dao.entities;
 
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.OnDelete;
+
 import javax.persistence.*;
 import javax.servlet.http.Part;
 import java.io.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -25,6 +29,8 @@ public class Photo implements Serializable{
 
     @Transient
     private InputStream contenu;
+
+
 
     /* ********************************************************************************************
      **** CONSTRUCTORS      ************************************************************************
@@ -71,7 +77,7 @@ public class Photo implements Serializable{
         String extension;
         String nomGenere;
         extension = getExtension(part);
-        if ((!extension.equals("jpg")) && (!extension.equals("png")) && (!extension.equals("jpeg"))){
+        if ((!extension.equalsIgnoreCase("jpg")) && (!extension.equalsIgnoreCase("png")) && (!extension.equalsIgnoreCase("jpeg"))){
             this.erreur = "Les fichiers doivent être au format jpg ou png";
         }
         dateTime = formatDate(LocalDateTime.now());
@@ -120,6 +126,9 @@ public class Photo implements Serializable{
      **** GETTERS & SETTERS ************************************************************************
      *********************************************************************************************** */
 
+    public static String getCHEMIN() {
+        return CHEMIN;
+    }
 
     public Long getId() {
         return id;

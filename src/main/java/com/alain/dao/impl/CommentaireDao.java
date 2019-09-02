@@ -1,28 +1,21 @@
 package com.alain.dao.impl;
 
 import com.alain.EntityManagerUtil;
-import com.alain.dao.entities.Photo;
-import com.alain.dao.entities.Voie;
+import com.alain.dao.entities.Commentaire;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
-
-public class PhotoDao{
+public class CommentaireDao {
 
     private EntityManager entityManager = EntityManagerUtil.getEntityManager();
 
-    public boolean deletePhoto(Long id){
+    public boolean delete(Long id) {
         EntityTransaction transaction = entityManager.getTransaction();
         try {
             transaction.begin();
-            Photo photo = entityManager.find(Photo.class, id);
-            entityManager.remove(photo);
-            Path path = Paths.get(Photo.getCHEMIN()+photo.getNom());
-            Files.delete(path);
+            Commentaire commentaire = entityManager.find(Commentaire.class, id);
+            entityManager.remove(commentaire);
             transaction.commit();
             return true;
         }catch (Exception e){
@@ -32,5 +25,4 @@ public class PhotoDao{
             return false;
         }
     }
-
 }

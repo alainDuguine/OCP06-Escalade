@@ -88,6 +88,11 @@ public class VoieDaoImpl implements EntityRepository<Voie> {
         return entityManager.find(Voie.class, id);
     }
 
+//    @Override
+//    public boolean deletePhoto(Voie voie, HttpServletRequest req) {
+//        return false;
+//    }
+
     public List<Voie> findVoieInSecteur(String nomVoie, Long idSecteur){
         Query query = entityManager.createQuery("select v from Voie v where v.nom= :nom and v.secteur.id= :idSecteur");
         query.setParameter("nom", nomVoie);

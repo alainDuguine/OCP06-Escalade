@@ -10,11 +10,12 @@ import javax.persistence.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Entity
-@Table
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Commentaire extends Entitie implements Serializable {
     private static final String CHAMP_CONTENU = "contenu";
@@ -36,6 +37,9 @@ public class Commentaire extends Entitie implements Serializable {
     @Expose()
     @Transient
     private String username;
+
+//    @OneToOne (mappedBy = "commentaire", cascade = CascadeType.ALL)
+//    private CommentaireSpot commentaireSpot;
     /* ***********************************************************************************************
        **** CONSTRUCTORS      ************************************************************************
        *********************************************************************************************** */

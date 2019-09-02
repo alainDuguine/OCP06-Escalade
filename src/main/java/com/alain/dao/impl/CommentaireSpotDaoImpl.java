@@ -2,6 +2,7 @@ package com.alain.dao.impl;
 
 import com.alain.EntityManagerUtil;
 import com.alain.dao.contract.EntityRepository;
+import com.alain.dao.entities.Commentaire;
 import com.alain.dao.entities.CommentaireSpot;
 import com.alain.dao.entities.Spot;
 import com.alain.dao.entities.Utilisateur;
@@ -47,7 +48,19 @@ public class CommentaireSpotDaoImpl implements EntityRepository<CommentaireSpot>
 
     @Override
     public boolean delete(Long id) {
-        return false;
+        EntityTransaction transaction = entityManager.getTransaction();
+        try {
+            transaction.begin();
+            Commentaire commentaire = entityManager.find(Commentaire.class, id);
+            entityManager.remove(commentaire);
+            transaction.commit();
+            return true;
+        }catch (Exception e){
+            if (transaction != null)
+                transaction.rollback();
+            e.printStackTrace();
+            return false;
+        }
     }
 
     @Override

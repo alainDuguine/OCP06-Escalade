@@ -1,14 +1,19 @@
 package com.alain.dao.entities;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 import java.io.InputStream;
 
 @Entity
 @Table
 @PrimaryKeyJoinColumn(name = "id")
+@OnDelete(action = OnDeleteAction.CASCADE)
 public class PhotoVoie extends Photo {
 
     @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Voie voie;
 
     /* ********************************************************************************************

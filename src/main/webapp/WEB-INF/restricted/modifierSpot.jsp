@@ -136,11 +136,6 @@
             ville = "0" + ville;
         }
 
-        $("#departement option[value="+departement+"]").prop('selected', true);
-
-        // alert(departement);
-        // alert(ville);
-
         $('#departement').change(function() {
             var choixDep = $('#departement').val();
             $.getJSON("choixDepartement.do",{codeDep: choixDep},
@@ -154,13 +149,15 @@
                         var option = "<option value=" + valToArray[0] + ">" + valToArray[1] + "</option>";
                         $("#ville").append(option);
                     });
+                    $("#ville option[value="+ville+"]").prop('selected', true);
                 }
             );
         });
 
-        setTimeout(function(){$('#departement').trigger("change");},0);
+        $("#departement option[value="+departement+"]").prop('selected', true);
 
-        $("#ville option[value="+ville+"]").prop('selected', true);
+        $('#departement').trigger("change");
+
 
     });
 </script>

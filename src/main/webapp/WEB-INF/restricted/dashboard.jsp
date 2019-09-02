@@ -203,6 +203,7 @@
                     if (data == 'true') {
                         el.parent().remove();
                         alert("Suppression effectuée");
+                        // location.reload();
                     } else {
                         alert("Suppression échouée");
                     }

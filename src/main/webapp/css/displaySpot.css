@@ -78,3 +78,13 @@ input[type=button]{
     float: right;
     margin: 0.5em;
 }
+
+.modifComm{
+    margin: 0;
+    padding: 0;
+}
+
+.modifComm a{
+    margin: 0 0.5em;
+    font-size: 0.8em;
+}

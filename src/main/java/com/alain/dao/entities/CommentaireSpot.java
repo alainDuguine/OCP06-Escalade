@@ -10,10 +10,12 @@ import java.util.Date;
 @PrimaryKeyJoinColumn(name="id")
 public class CommentaireSpot extends Commentaire {
 
-
     @Expose(serialize = false, deserialize = false)
     @ManyToOne(fetch = FetchType.LAZY)
     private Spot spot;
+
+//    @OneToOne
+//    private Commentaire commentaire;
 
     /* ********************************************************************************************
     **** CONSTRUCTORS      ************************************************************************

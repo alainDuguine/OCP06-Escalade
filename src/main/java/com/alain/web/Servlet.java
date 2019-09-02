@@ -1,7 +1,6 @@
 package com.alain.web;
 
 import com.alain.EntityManagerUtil;
-import com.alain.dao.contract.EntityRepository;
 import com.alain.dao.entities.*;
 import com.alain.dao.impl.*;
 import com.alain.metier.CheckForm;
@@ -9,15 +8,21 @@ import com.alain.metier.SpotResearchDto;
 import com.alain.metier.Utilities;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.*;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
 public class Servlet extends HttpServlet {
+
+    private static final String CONTEXT_PATH_PHOTO = "/imagesUsers/";
+    private static final String REAL_PATH_PHOTO = "D:\\fichiers";
 
     @Override
     public void init() throws ServletException {
@@ -364,31 +369,6 @@ public class Servlet extends HttpServlet {
                 }
                 break;
             }
-            case "/saveCommentaire.do": {
-                Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
-                CommentaireSpotDaoImpl commentaireDao = new CommentaireSpotDaoImpl();
-                String idSpot = req.getParameter("idSpot");
-                CheckForm form = new CheckForm();
-                form.checkAndSave(req, "com.alain.dao.entities.CommentaireSpot", commentaireDao);
-                form.setResultat(form.checkResultListErreurs(form.getListErreurs()));
-                if (form.isResultat()) {
-                    resp.setContentType("application/json");
-                    resp.setCharacterEncoding("UTF-8");
-                    CommentaireSpot commentaire = (CommentaireSpot) form.getEntitie();
-                    String json = gson.toJson(commentaire);
-                    PrintWriter out = resp.getWriter();
-                    out.print(json);
-                    out.flush();
-                } else {
-                    resp.setContentType("application/json");
-                    resp.setCharacterEncoding("UTF-8");
-                    String erreurJson = gson.toJson(form.getListErreurs());
-                    PrintWriter out = resp.getWriter();
-                    out.print(erreurJson);
-                    out.flush();
-                }
-                break;
-            }
             case "/rechercheSpot.do": {
                 SpotDaoImpl spotDao = new SpotDaoImpl();
                 Map<String, Object> paramMap = Utilities.getParameterMapFromReq(req);
@@ -437,7 +417,31 @@ public class Servlet extends HttpServlet {
 //            Boolean result = dao.delete(idElement);
 //            this.sendAjaxBooleanResponse(result, resp);
 //            break;
-
+            case "/saveCommentaire.do": {
+                Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+                CommentaireSpotDaoImpl commentaireDao = new CommentaireSpotDaoImpl();
+                String idSpot = req.getParameter("idSpot");
+                CheckForm form = new CheckForm();
+                form.checkAndSave(req, "com.alain.dao.entities.CommentaireSpot", commentaireDao);
+                form.setResultat(form.checkResultListErreurs(form.getListErreurs()));
+                if (form.isResultat()) {
+                    resp.setContentType("application/json");
+                    resp.setCharacterEncoding("UTF-8");
+                    CommentaireSpot commentaire = (CommentaireSpot) form.getEntitie();
+                    String json = gson.toJson(commentaire);
+                    PrintWriter out = resp.getWriter();
+                    out.print(json);
+                    out.flush();
+                }
+                break;
+            }
+            case "/supprimerCommentaire.do":{
+                Long idComm = Long.parseLong(req.getParameter("idComm"));
+                CommentaireDao commentaireDao = new CommentaireDao();
+                Boolean result = commentaireDao.delete(idComm);
+                this.sendAjaxBooleanResponse(result, resp);
+                break;
+            }
             case "/supprimerPhoto.do":{
                 Long idPhoto = Long.parseLong(req.getParameter("idPhoto"));
                 PhotoDao photoDao = new PhotoDao();
