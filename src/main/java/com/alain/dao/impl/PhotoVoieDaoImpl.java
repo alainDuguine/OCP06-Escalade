@@ -20,7 +20,7 @@ public class PhotoVoieDaoImpl implements EntityRepository<PhotoVoie>{
         try{
             transaction.begin();
             VoieDaoImpl voieDao = new VoieDaoImpl();
-            Long idVoie = (Long) req.getAttribute("idVoie");
+            Long idVoie = (Long) req.getAttribute("idElement");
             Voie voie = voieDao.findOne(idVoie);
             // Création des associations bidirectionelles
             voie.addPhoto(photoVoie);

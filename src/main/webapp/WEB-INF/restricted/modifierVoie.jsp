@@ -20,7 +20,7 @@
             <div class="erreur">
                 <div class="erreurSingleCol">${form.listErreurs['server']}</div>
             </div>
-            <input type="text" name="idVoie" id="idVoie" hidden="hidden" value="<c:out value="${voie.id}"/>">
+            <input type="text" name="idElement" id="idElement" hidden="hidden" value="<c:out value="${voie.id}"/>">
             <div class="erreur">
                 <div></div>
                 <div>${form.listErreurs['nom']}</div>

@@ -19,7 +19,7 @@ public class PhotoSecteurDaoImpl implements EntityRepository<PhotoSecteur>{
         try{
             transaction.begin();
             SecteurDaoImpl secteurDao = new SecteurDaoImpl();
-            Long idSecteur = (Long) req.getAttribute("idSecteur");
+            Long idSecteur = (Long) req.getAttribute("idElement");
             Secteur secteur = secteurDao.findOne(idSecteur);
             // Création des associations bidirectionelles
             secteur.addPhoto(photoSecteur);

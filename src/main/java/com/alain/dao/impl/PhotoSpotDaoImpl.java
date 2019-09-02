@@ -19,7 +19,7 @@ public class PhotoSpotDaoImpl implements EntityRepository<PhotoSpot>{
         try{
             transaction.begin();
             SpotDaoImpl spotDao = new SpotDaoImpl();
-            Long idSpot = (Long) req.getAttribute("idSpot");
+            Long idSpot = (Long) req.getAttribute("idElement");
             Spot spot = spotDao.findOne(idSpot);
             // Création des associations bidirectionelles
             spot.addPhoto(photoSpot);
