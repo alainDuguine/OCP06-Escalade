@@ -9,5 +9,4 @@ public interface EntityRepository<T> {
     boolean delete(Long id);
     List<T> findAll();
     T findOne (Long id);
-//    boolean deletePhoto(T t, HttpServletRequest req);
 }

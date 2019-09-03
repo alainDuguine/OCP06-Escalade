@@ -35,23 +35,67 @@ public class Servlet extends HttpServlet {
 
         String path = req.getServletPath();
         switch (path) {
-            case "/index.do":
+
+            /* *********************************************************************************************
+             **** Index      *******************************************************************************
+             *********************************************************************************************** */
+            case "/index.do": {
                 this.getServletContext().getRequestDispatcher("/WEB-INF/index.jsp").forward(req, resp);
                 break;
-            case "/inscription.do":
+            }
+
+
+            /* *********************************************************************************************
+             **** Gestion Utilisateur      *****************************************************************
+             *********************************************************************************************** */
+            case "/inscription.do": {
                 this.getServletContext().getRequestDispatcher("/WEB-INF/inscription.jsp").forward(req, resp);
                 break;
-            case "/connexion.do":
+            }
+            case "/connexion.do": {
                 Cookie[] cookies = req.getCookies();
-                if (cookies != null){
-                    for (Cookie cookie : cookies){
-                        if (cookie.getName().equals("email")){
+                if (cookies != null) {
+                    for (Cookie cookie : cookies) {
+                        if (cookie.getName().equals("email")) {
                             req.setAttribute("cookieEmail", cookie.getValue());
                         }
                     }
                 }
                 this.getServletContext().getRequestDispatcher("/WEB-INF/connexion.jsp").forward(req, resp);
                 break;
+            }
+            case "/connexionForm.do":
+            case "/dashboard.do": {
+                HttpSession session = req.getSession();
+                String username = (String) session.getAttribute("sessionUtilisateur");
+                if (username == null) {
+                    this.getServletContext().getRequestDispatcher("/WEB-INF/connexion.jsp").forward(req, resp);
+                }if(session.getAttribute("admin").equals(true)){
+                    UtilisateurDaoImpl utilisateurDao = new UtilisateurDaoImpl();
+                    List<Utilisateur> utilisateurs = utilisateurDao.findAll();
+                    req.setAttribute("listUtilisateur", utilisateurs);
+                    SpotDaoImpl spotDao = new SpotDaoImpl();
+                    List<Spot> listSpot = spotDao.findAll();
+                    SecteurDaoImpl secteurDao = new SecteurDaoImpl();
+                    List<Secteur> listSecteur = secteurDao.findAll();
+                    VoieDaoImpl voieDao = new VoieDaoImpl();
+                    List<Voie> listVoie = voieDao.findAll();
+                    req.setAttribute("listSpot", listSpot);
+                    req.setAttribute("listSecteur", listSecteur);
+                    req.setAttribute("listVoie", listVoie);
+                }else{
+                    UtilisateurDaoImpl utilisateurDao = new UtilisateurDaoImpl();
+                    Utilisateur utilisateur = utilisateurDao.findByUsername(username);
+                    req.setAttribute("utilisateur", utilisateur);
+                }
+                this.getServletContext().getRequestDispatcher("/WEB-INF/restricted/dashboard.jsp").forward(req, resp);
+                break;
+            }
+
+            /* *********************************************************************************************
+             **** Gestion Entités Spots, secteurs, voies    ************************************************
+             *********************************************************************************************** */
+
             case "/modifierSpot.do":
             case "/updateSpot.do":
             case "/ajoutSpot.do":
@@ -87,19 +131,6 @@ public class Servlet extends HttpServlet {
                 }
                 break;
             }
-            case "/modifierSecteur.do":
-            case "/updateSecteur.do":{
-                SecteurDaoImpl secteurDao = new SecteurDaoImpl();
-                Secteur secteur = secteurDao.findOne(Long.parseLong(req.getParameter("idSecteur")));
-                if (secteur == null || (!secteur.getUtilisateur().getUsername().equals(req.getSession().getAttribute("sessionUtilisateur"))) && (req.getSession().getAttribute("admin").equals(false))) {
-                    this.getServletContext().getRequestDispatcher("/WEB-INF/erreur.jsp").forward(req, resp);
-                }else {
-                    req.setAttribute("secteur", secteur);
-                    this.setNoCache(resp);
-                    this.getServletContext().getRequestDispatcher("/WEB-INF/restricted/modifierSecteur.jsp").forward(req, resp);
-                }
-                break;
-            }
             case "/ajoutVoie.do":
             case "/saveVoie.do": {
                 SecteurDaoImpl secteurDao = new SecteurDaoImpl();
@@ -112,6 +143,19 @@ public class Servlet extends HttpServlet {
                     req.setAttribute("cotations", cotations);
                     req.setAttribute("secteur", secteur);
                     this.getServletContext().getRequestDispatcher("/WEB-INF/restricted/ajoutVoie.jsp").forward(req, resp);
+                }
+                break;
+            }
+            case "/modifierSecteur.do":
+            case "/updateSecteur.do":{
+                SecteurDaoImpl secteurDao = new SecteurDaoImpl();
+                Secteur secteur = secteurDao.findOne(Long.parseLong(req.getParameter("idSecteur")));
+                if (secteur == null || (!secteur.getUtilisateur().getUsername().equals(req.getSession().getAttribute("sessionUtilisateur"))) && (req.getSession().getAttribute("admin").equals(false))) {
+                    this.getServletContext().getRequestDispatcher("/WEB-INF/erreur.jsp").forward(req, resp);
+                }else {
+                    req.setAttribute("secteur", secteur);
+                    this.setNoCache(resp);
+                    this.getServletContext().getRequestDispatcher("/WEB-INF/restricted/modifierSecteur.jsp").forward(req, resp);
                 }
                 break;
             }
@@ -129,33 +173,6 @@ public class Servlet extends HttpServlet {
                     this.setNoCache(resp);
                     this.getServletContext().getRequestDispatcher("/WEB-INF/restricted/modifierVoie.jsp").forward(req, resp);
                 }
-                break;
-            }
-            case "/connexionForm.do":
-            case "/dashboard.do": {
-                HttpSession session = req.getSession();
-                String username = (String) session.getAttribute("sessionUtilisateur");
-                if (username == null) {
-                    this.getServletContext().getRequestDispatcher("/WEB-INF/connexion.jsp").forward(req, resp);
-                }if(session.getAttribute("admin").equals(true)){
-                    UtilisateurDaoImpl utilisateurDao = new UtilisateurDaoImpl();
-                    List<Utilisateur> utilisateurs = utilisateurDao.findAll();
-                    req.setAttribute("listUtilisateur", utilisateurs);
-                    SpotDaoImpl spotDao = new SpotDaoImpl();
-                    List<Spot> listSpot = spotDao.findAll();
-                    SecteurDaoImpl secteurDao = new SecteurDaoImpl();
-                    List<Secteur> listSecteur = secteurDao.findAll();
-                    VoieDaoImpl voieDao = new VoieDaoImpl();
-                    List<Voie> listVoie = voieDao.findAll();
-                    req.setAttribute("listSpot", listSpot);
-                    req.setAttribute("listSecteur", listSecteur);
-                    req.setAttribute("listVoie", listVoie);
-                }else{
-                    UtilisateurDaoImpl utilisateurDao = new UtilisateurDaoImpl();
-                    Utilisateur utilisateur = utilisateurDao.findByUsername(username);
-                    req.setAttribute("utilisateur", utilisateur);
-                }
-                this.getServletContext().getRequestDispatcher("/WEB-INF/restricted/dashboard.jsp").forward(req, resp);
                 break;
             }
             case "/listeSpot.do":
@@ -225,24 +242,9 @@ public class Servlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String path = req.getServletPath();
         switch (path) {
-            case "/saveCommentaire.do": {
-                Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
-                CommentaireSpotDaoImpl commentaireDao = new CommentaireSpotDaoImpl();
-                String idSpot = req.getParameter("idSpot");
-                CheckForm form = new CheckForm();
-                form.checkAndSave(req, "com.alain.dao.entities.CommentaireSpot", commentaireDao);
-                form.setResultat(form.checkResultListErreurs(form.getListErreurs()));
-                if (form.isResultat()) {
-                    resp.setContentType("application/json");
-                    resp.setCharacterEncoding("UTF-8");
-                    CommentaireSpot commentaire = (CommentaireSpot) form.getEntitie();
-                    String json = gson.toJson(commentaire);
-                    PrintWriter out = resp.getWriter();
-                    out.print(json);
-                    out.flush();
-                }
-                break;
-            }
+            /* *********************************************************************************************
+             **** Gestion Utilisateur      *****************************************************************
+             *********************************************************************************************** */
             case "/connexionForm.do": {
                 UtilisateurDaoImpl utilisateurDaoImpl = new UtilisateurDaoImpl();
                 CheckForm form = new CheckForm();
@@ -274,6 +276,9 @@ public class Servlet extends HttpServlet {
                 this.getServletContext().getRequestDispatcher("/WEB-INF/inscription.jsp").forward(req, resp);
                 break;
             }
+            /* *********************************************************************************************
+             **** Gestion Entités Spots, secteurs, voies    ************************************************
+             *********************************************************************************************** */
             case "/saveSpot.do":
             case "/saveSecteur.do":
             case "/saveVoie.do":{
@@ -361,6 +366,11 @@ public class Servlet extends HttpServlet {
                 this.sendAjaxBooleanResponse(result, resp);
                 break;
             }
+
+            /* *********************************************************************************************
+             **** Suppression recherche et droits admins   ************************************************
+             *********************************************************************************************** */
+
             case "/supprimerUser.do":
             case "/supprimerCommentaire.do":
             case "/supprimerPhoto.do":{
@@ -370,8 +380,15 @@ public class Servlet extends HttpServlet {
                     dao = new UtilisateurDaoImpl();
                 } else if (path.contains("Commentaire")) {
                     dao = new CommentaireSpotDaoImpl();
-                } else {
-                    dao = new PhotoDao();
+                } else{
+                    String url = req.getParameter("jspUrl");
+                    if (url.contains("Spot")){
+                        dao = new PhotoSpotDaoImpl();
+                    }else if (url.contains("Secteur")){
+                        dao = new PhotoSecteurDaoImpl();
+                    }else{
+                        dao = new PhotoVoieDaoImpl();
+                    }
                 }
                 Boolean result = dao.delete(idElement);
                 this.sendAjaxBooleanResponse(result, resp);
@@ -383,6 +400,24 @@ public class Servlet extends HttpServlet {
                 List<SpotResearchDto> spots = spotDao.findSpotPersonalResearch(paramMap);
                 req.setAttribute("spots", spots);
                 doGet(req, resp);
+                break;
+            }
+            case "/saveCommentaire.do": {
+                Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+                CommentaireSpotDaoImpl commentaireDao = new CommentaireSpotDaoImpl();
+                String idSpot = req.getParameter("idSpot");
+                CheckForm form = new CheckForm();
+                form.checkAndSave(req, "com.alain.dao.entities.CommentaireSpot", commentaireDao);
+                form.setResultat(form.checkResultListErreurs(form.getListErreurs()));
+                if (form.isResultat()) {
+                    resp.setContentType("application/json");
+                    resp.setCharacterEncoding("UTF-8");
+                    CommentaireSpot commentaire = (CommentaireSpot) form.getEntitie();
+                    String json = gson.toJson(commentaire);
+                    PrintWriter out = resp.getWriter();
+                    out.print(json);
+                    out.flush();
+                }
                 break;
             }
             case "/toggleAdmin.do":{

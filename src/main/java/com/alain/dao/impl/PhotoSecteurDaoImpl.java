@@ -2,11 +2,16 @@ package com.alain.dao.impl;
 
 import com.alain.EntityManagerUtil;
 import com.alain.dao.contract.EntityRepository;
+import com.alain.dao.entities.Photo;
 import com.alain.dao.entities.PhotoSecteur;
+import com.alain.dao.entities.PhotoSpot;
 import com.alain.dao.entities.Secteur;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.servlet.http.HttpServletRequest;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 public class PhotoSecteurDaoImpl implements EntityRepository<PhotoSecteur>{
@@ -39,8 +44,26 @@ public class PhotoSecteurDaoImpl implements EntityRepository<PhotoSecteur>{
     }
 
     @Override
-    public boolean delete(Long id) {
-        return false;
+    public boolean delete(Long idPhoto){
+        EntityTransaction transaction = entityManager.getTransaction();
+        try {
+            transaction.begin();
+            PhotoSecteur photo = entityManager.find(PhotoSecteur.class, idPhoto);
+            Secteur secteur = entityManager.find(Secteur.class, photo.getSecteur().getId());
+            secteur.removePhoto(photo);
+            photo.removeRelation();
+            entityManager.remove(photo);
+            entityManager.flush();
+            Path path = Paths.get(Photo.getCHEMIN()+photo.getNom());
+            Files.delete(path);
+            transaction.commit();
+            return true;
+        }catch (Exception e){
+            if (transaction != null)
+                transaction.rollback();
+            e.printStackTrace();
+            return false;
+        }
     }
 
     @Override

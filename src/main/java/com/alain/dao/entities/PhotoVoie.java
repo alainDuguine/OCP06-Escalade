@@ -46,4 +46,8 @@ public class PhotoVoie extends Photo {
     public void setVoie(Voie voie) {
         this.voie = voie;
     }
+
+    public void removeRelation() {
+        this.voie = null;
+    }
 }

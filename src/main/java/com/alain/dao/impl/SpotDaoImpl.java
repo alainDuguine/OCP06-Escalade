@@ -2,10 +2,7 @@ package com.alain.dao.impl;
 
 import com.alain.EntityManagerUtil;
 import com.alain.dao.contract.EntityRepository;
-import com.alain.dao.entities.Departement;
-import com.alain.dao.entities.Spot;
-import com.alain.dao.entities.Utilisateur;
-import com.alain.dao.entities.Ville;
+import com.alain.dao.entities.*;
 import com.alain.metier.SpotResearchDto;
 import com.alain.metier.Utilities;
 
@@ -13,6 +10,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
 import javax.servlet.http.HttpServletRequest;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;

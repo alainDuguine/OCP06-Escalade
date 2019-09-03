@@ -210,4 +210,7 @@ public class Voie extends Entitie implements Serializable {
         this.photos = photos;
     }
 
+    public void removePhoto(PhotoVoie photo) {
+        this.photos.removeIf(photoVoie -> photoVoie.getId().equals(photo.getId()));
+    }
 }

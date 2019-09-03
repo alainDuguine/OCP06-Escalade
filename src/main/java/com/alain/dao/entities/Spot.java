@@ -7,10 +7,7 @@ import javax.persistence.*;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Entity
 @Table
@@ -115,6 +112,14 @@ public class Spot extends Entitie implements Serializable {
                 return dao.findSpotInDepartementForUpdate(this.getId(), this.nom, req.getParameter(CHAMP_DEPARTEMENT));
         }
         return dao.findSpotInDepartement(this.nom, req.getParameter(CHAMP_DEPARTEMENT));
+    }
+
+    /**
+     * Iterator pour enlever une photo d'un spot
+     * @param photo
+     */
+    public void removePhoto(Photo photo) {
+        this.photos.removeIf(photoSpot -> photoSpot.getId().equals(photo.getId()));
     }
 
     /* ***********************************************************************************************
@@ -241,4 +246,5 @@ public class Spot extends Entitie implements Serializable {
     public Ville getVille() {
         return ville;
     }
+
 }

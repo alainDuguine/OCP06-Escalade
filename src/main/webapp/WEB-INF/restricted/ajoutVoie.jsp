@@ -21,8 +21,8 @@
             <div class="erreur">
                 <div class="erreurDescription">${form.listErreurs['server']}</div>
             </div>
-            <input type="text" name="idSpot" id="idSpot" hidden="hidden" value="<c:out value="${param.idSpot}"/>">
-            <input type="text" name="idSecteur" id="idSecteur" hidden="hidden" value="<c:out value="${param.idSecteur}"/>">
+<%--            <input type="text" name="idSpot" id="idSpot" hidden="hidden" value="<c:out value="${param.idSpot}"/>">--%>
+            <input type="text" name="idElement" id="idElement" hidden="hidden" value="<c:out value="${param.idSecteur}"/>">
             <div class="erreur">
                 <div></div>
                 <div>${form.listErreurs['nom']}</div>

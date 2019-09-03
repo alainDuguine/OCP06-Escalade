@@ -45,4 +45,8 @@ public class PhotoSecteur extends Photo {
     public void setSecteur(Secteur secteur) {
         this.secteur = secteur;
     }
+
+    public void removeRelation() {
+        this.secteur = null;
+    }
 }

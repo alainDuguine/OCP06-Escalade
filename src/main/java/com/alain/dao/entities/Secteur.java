@@ -98,6 +98,14 @@ public class Secteur extends Entitie implements Serializable {
         return dao.findSecteurInSpot(this.nom, Long.parseLong(req.getParameter("idSpot")));
     }
 
+    /**
+     * Iterator pour enlever une photo d'un secteur
+     * @param photo
+     */
+    public void removePhoto(Photo photo) {
+        this.photos.removeIf(photoSecteur -> photoSecteur.getId().equals(photo.getId()));
+    }
+
     /* ***********************************************************************************************
      **** GETTERS & SETTERS ************************************************************************
      *********************************************************************************************** */
@@ -184,5 +192,6 @@ public class Secteur extends Entitie implements Serializable {
     public void addVoie(Voie voie) {
         this.voies.add(voie);
     }
+
 }
 
