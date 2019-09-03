@@ -6,6 +6,7 @@ import com.alain.dao.entities.Commentaire;
 import com.alain.dao.entities.CommentaireSpot;
 import com.alain.dao.entities.Spot;
 import com.alain.dao.entities.Utilisateur;
+import org.apache.logging.log4j.core.tools.picocli.CommandLine;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
@@ -18,7 +19,7 @@ public class CommentaireSpotDaoImpl implements EntityRepository<CommentaireSpot>
     private EntityManager entityManager = EntityManagerUtil.getEntityManager();
 
     @Override
-    public CommentaireSpot save(CommentaireSpot commentaire, HttpServletRequest req) {
+    public CommentaireSpot save(CommentaireSpot commentaire, HttpServletRequest req) throws Exception {
         EntityTransaction transaction = entityManager.getTransaction();
         try {
             transaction.begin();
@@ -36,6 +37,7 @@ public class CommentaireSpotDaoImpl implements EntityRepository<CommentaireSpot>
             if (transaction != null)
                 transaction.rollback();
             e.printStackTrace();
+            throw new Exception();
         }
         return commentaire;
     }
@@ -51,9 +53,13 @@ public class CommentaireSpotDaoImpl implements EntityRepository<CommentaireSpot>
         EntityTransaction transaction = entityManager.getTransaction();
         try {
             transaction.begin();
-            Commentaire commentaire = entityManager.find(Commentaire.class, id);
+            CommentaireSpot commentaire = entityManager.find(CommentaireSpot.class, id);
+            Spot spot = entityManager.find(Spot.class, commentaire.getSpot().getId());
+            commentaire.removeRelation();
+            spot.removeCommentaire(commentaire);
             entityManager.remove(commentaire);
             entityManager.flush();
+            entityManager.clear();
             transaction.commit();
             return true;
         }catch (Exception e){

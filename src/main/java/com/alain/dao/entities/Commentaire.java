@@ -38,8 +38,6 @@ public class Commentaire extends Entitie implements Serializable {
     @Transient
     private String username;
 
-//    @OneToOne (mappedBy = "commentaire", cascade = CascadeType.ALL)
-//    private CommentaireSpot commentaireSpot;
     /* ***********************************************************************************************
        **** CONSTRUCTORS      ************************************************************************
        *********************************************************************************************** */

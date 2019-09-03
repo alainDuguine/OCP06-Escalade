@@ -14,9 +14,6 @@ public class CommentaireSpot extends Commentaire {
     @ManyToOne(fetch = FetchType.LAZY)
     private Spot spot;
 
-//    @OneToOne
-//    private Commentaire commentaire;
-
     /* ********************************************************************************************
     **** CONSTRUCTORS      ************************************************************************
     *********************************************************************************************** */
@@ -45,5 +42,9 @@ public class CommentaireSpot extends Commentaire {
 
     public void setSpot(Spot spot) {
         this.spot = spot;
+    }
+
+    public void removeRelation() {
+        this.spot = null;
     }
 }

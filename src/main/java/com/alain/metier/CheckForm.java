@@ -62,10 +62,11 @@ public class CheckForm {
                     }
                 }
             }
-        } catch (IOException | IllegalAccessException | InstantiationException | ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (ServletException e) {
+        }  catch (ServletException e) {
             erreurPhoto += "Les fichiers ne doivent pas excéder une taille de 4 Mo";
+        } catch (Exception e) {
+            e.printStackTrace();
+            listErreurs.put("server", "Une erreur système est apparue, merci de réessayer plus tard");
         }
         if (erreurPhoto != null){
             this.listErreurs.put("photo", erreurPhoto);

@@ -4,14 +4,12 @@ import com.alain.dao.contract.EntityRepository;
 import com.alain.dao.impl.SpotDaoImpl;
 import com.alain.metier.Utilities;
 import javax.persistence.*;
-import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
 import java.util.*;
 
 @Entity
 @Table
-//@MultipartConfig
 public class Spot extends Entitie implements Serializable {
     private static final String CHAMP_NOM = "nom";
     private static final String CHAMP_ADRESSE = "adresse";
@@ -39,7 +37,7 @@ public class Spot extends Entitie implements Serializable {
 
     @OneToMany (mappedBy ="spot", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Secteur> secteurs = new ArrayList<>();
-    @OneToMany (mappedBy = "spot", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany (mappedBy = "spot", cascade = CascadeType.ALL)
     private List<CommentaireSpot> commentaires = new ArrayList<>();
     @OneToMany (mappedBy = "spot", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PhotoSpot> photos = new ArrayList<>();
@@ -120,6 +118,14 @@ public class Spot extends Entitie implements Serializable {
      */
     public void removePhoto(Photo photo) {
         this.photos.removeIf(photoSpot -> photoSpot.getId().equals(photo.getId()));
+    }
+
+    /**
+     * Iterator pour enlever un commentaire d'un spot
+     * @param commentaire
+     */
+    public void removeCommentaire(CommentaireSpot commentaire) {
+        this.commentaires.removeIf(commentaireSpot -> commentaireSpot.getId() == commentaire.getId());
     }
 
     /* ***********************************************************************************************
