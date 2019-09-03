@@ -91,11 +91,18 @@ public class Secteur extends Entitie implements Serializable {
         return listErreur;
     }
 
+    /**
+     * check if the secteur exist in the spot for new record, and update
+     * @param dao
+     * @param req
+     * @return
+     * @throws Exception
+     */
     private List<Secteur> checkSecteurExist(SecteurDaoImpl dao, HttpServletRequest req) throws Exception {
         if (this.getId() != null){
             return dao.findSecteurInSpotForUpdate(this.getId(), this.nom, this.getSpot().getId());
         }
-        return dao.findSecteurInSpot(this.nom, Long.parseLong(req.getParameter("idSpot")));
+        return dao.findSecteurInSpot(this.nom, Long.parseLong(req.getParameter("idElement")));
     }
 
     /**

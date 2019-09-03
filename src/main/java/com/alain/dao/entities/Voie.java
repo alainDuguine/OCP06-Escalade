@@ -107,7 +107,7 @@ public class Voie extends Entitie implements Serializable {
         if (this.getId() != null){
             return dao.findVoieInSecteurForUpdate(this.getId(), this.nom, this.getSecteur().getId());
         }
-        return dao.findVoieInSecteur(this.nom, Long.parseLong(req.getParameter("idSecteur")));
+        return dao.findVoieInSecteur(this.nom, Long.parseLong(req.getParameter("idElement")));
     }
 
     /* ***********************************************************************************************

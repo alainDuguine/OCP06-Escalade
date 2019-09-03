@@ -25,7 +25,7 @@ public class VoieDaoImpl implements EntityRepository<Voie> {
             UtilisateurDaoImpl utilisateurDao = new UtilisateurDaoImpl();
             Utilisateur utilisateur = utilisateurDao.findByUsername((String) req.getSession().getAttribute("sessionUtilisateur"));
             SecteurDaoImpl secteurDao = new SecteurDaoImpl();
-            Secteur secteur = secteurDao.findOne(Long.parseLong(req.getParameter("idSecteur")));
+            Secteur secteur = secteurDao.findOne(Long.parseLong(req.getParameter("idElement")));
             CotationDaoImpl cotationDao = new CotationDaoImpl();
             Cotation cotation = cotationDao.findOne(Long.parseLong(req.getParameter("cotation")));
             // Création des associations bidirectionelles
