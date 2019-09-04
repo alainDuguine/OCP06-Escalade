@@ -59,7 +59,7 @@ public class Commentaire extends Entitie implements Serializable {
     public Map<String, String> checkErreurs(EntityRepository dao, HttpServletRequest req) {
         Map<String, String> listErreur = new HashMap<>();
 
-        if (Utilities.isEmpty(this.contenu)) {
+        if (this.contenu == null) {
             listErreur.put("erreur", "Le commentaire est vide");
         }else if (this.contenu.length() > 255){
             listErreur.put("erreur", "Un commentaire peut au maximum contenir 255 caractères");

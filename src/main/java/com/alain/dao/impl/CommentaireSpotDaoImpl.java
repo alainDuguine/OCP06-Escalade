@@ -42,7 +42,17 @@ public class CommentaireSpotDaoImpl implements EntityRepository<CommentaireSpot>
 
     @Override
     public CommentaireSpot update(CommentaireSpot commentaireSpot, HttpServletRequest req) {
-        return null;
+        EntityTransaction transaction = entityManager.getTransaction();
+        try {
+            transaction.begin();
+            entityManager.merge(commentaireSpot);
+            transaction.commit();
+        } catch (Exception e){
+            if (transaction != null)
+                transaction.rollback();
+            e.printStackTrace();
+        }
+        return commentaireSpot;
     }
 
 
@@ -75,7 +85,7 @@ public class CommentaireSpotDaoImpl implements EntityRepository<CommentaireSpot>
 
     @Override
     public CommentaireSpot findOne(Long id) {
-        return null;
+        return entityManager.find(CommentaireSpot.class, id);
     }
 
     public List<CommentaireSpot> findAllInSpot(Long id){

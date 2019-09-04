@@ -115,11 +115,13 @@
             <div class="commentaireDisplay">
                 <c:forEach items="${spot.commentaires}" var="commentairePublic">
                     <div class="commentaire">Par <c:out value="${commentairePublic.utilisateur.username}"/> le ${commentairePublic.dateFormat}
-                    <br/><c:out value="${commentairePublic.contenu}"/>
-                        <c:if test="${admin}">
+                    <br/><span id="content${commentairePublic.id}"><c:out value="${commentairePublic.contenu}"/>
+                        <c:if test="${admin}"></span>
                             <p class="modifComm" id="${commentairePublic.id}">
-                                <a href="modifierCommentaire">Modifier</a>
-                                <a href="supprimerCommentaire">Supprimer</a>
+                                <a href="modifierCommentaire.do">Modifier</a>
+                                <a href="supprimerCommentaire.do">Supprimer</a>
+                                <input type="button" style='display:none;' id="updateCommentaire" Value="Enregistrer"/>
+                                <input type="button" style='display:none;' id="annulerUpdate" Value="Annuler"/>
                             </p>
                         </c:if>
                         <hr/>
@@ -181,11 +183,11 @@
             }
         })
 
-        //Suppression des commentaires par l'administrateur
+        //Suppression et modification des commentaires par l'administrateur
         $(".modifComm > a").click(function (event) {
             event.preventDefault();
             var el = $(this),
-                path = $(this).attr('href')+".do",
+                path = $(this).attr('href'),
                 commId = $(this).parent().attr('id');
             if (path === "supprimerCommentaire.do") {
                 if (confirm("Etes-vous sûr de vouloir supprimer ce commentaire ?")) {
@@ -198,9 +200,36 @@
                         }
                     })
                 }
+            // remplace l'affichage du commentaire en inpt et affiche les boutons de sauvegardes de modification
+            }else if (path === "modifierCommentaire.do"){
+                event.preventDefault();
+                var el = $(this),
+                    idComm = $(this).parent().attr('id'),
+                    contentComm = $('#content'+idComm).text().trim();
+                console.log(idComm);
+                console.log(contentComm);
+                $('#content'+idComm).replaceWith("<input id='inputModifCommentaire' type='text' id='content' value='"+contentComm+"' style='width:100%;height: 2.5em;border-radius: 5px;'/>");
+                $('#updateCommentaire').show();
+                $('#annulerUpdate').show();
             }
         });
 
+        //Sauvegarde de la modification d'un commentaire
+        $("#updateCommentaire").click(function (event) {
+            var el = $(this),
+                idComm = $(this).parent().attr('id'),
+                contenuComm = $('#inputModifCommentaire').val();
+            alert(contenuComm + idComm);
+            if (confirm("Etes-vous sûr de vouloir modifier ce commentaire ?")) {
+                $.post("updateCommentaire.do", {idCommentaire: idComm, contenu: contenuComm}, function (data) {
+                    if (data.resultat == 'true') {
+                        if(!alert("Modification effectuée")){window.location.reload()};
+                    } else {
+                        alert("Modification échouée : "+ data.erreur);
+                    }
+                })
+            }
+        });
     });
 </script>
 </body>

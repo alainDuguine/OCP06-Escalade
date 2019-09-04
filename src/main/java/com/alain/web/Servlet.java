@@ -16,6 +16,7 @@ import javax.servlet.http.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -271,9 +272,20 @@ public class Servlet extends HttpServlet {
                 UtilisateurDaoImpl utilisateurDaoImpl = new UtilisateurDaoImpl();
                 CheckForm form = new CheckForm();
                 form.checkAndSave(req, "com.alain.dao.entities.Utilisateur", utilisateurDaoImpl);
-                form.setResultat(form.checkResultListErreurs(form.getListErreurs()));
+//                form.setResultat(form.checkResultListErreurs(form.getListErreurs()));
                 req.setAttribute("form", form);
                 this.getServletContext().getRequestDispatcher("/WEB-INF/inscription.jsp").forward(req, resp);
+                break;
+            }
+            case "/toggleAdmin.do":{
+                Long idUser = Long.parseLong(req.getParameter("idUser"));
+                UtilisateurDaoImpl utilisateurDao = new UtilisateurDaoImpl();
+                Utilisateur utilisateur = utilisateurDao.findOne(idUser);
+                utilisateur.setAdmin(!utilisateur.isAdmin());
+                utilisateurDao.update(utilisateur, req);
+                PrintWriter out = resp.getWriter();
+                out.print(utilisateur.isAdmin());
+                out.flush();
                 break;
             }
             /* *********************************************************************************************
@@ -302,7 +314,8 @@ public class Servlet extends HttpServlet {
                 }
                 CheckForm form = new CheckForm();
                 form.checkAndSave(req, className, dao);
-                if (form.getListErreurs().isEmpty()) {
+//                if (form.getListErreurs().isEmpty()) {
+                if (form.isResultat()){
                     Long id = form.getEntitie().getId();
                     req.setAttribute("idElement", id);
                     System.out.println(req.getAttribute("idElement"));
@@ -338,11 +351,12 @@ public class Servlet extends HttpServlet {
                 }
                 CheckForm form = new CheckForm();
                 form.checkAndUpdate(req, dao, idElement);
-                if (form.getListErreurs().isEmpty()) {
+//                if (form.getListErreurs().isEmpty()) {
+                if (form.isResultat()){
                     req.setAttribute("idElement", idElement);
                     form.checkAndSavePhoto(req, photoClassName, daoPhoto);
                 }
-                form.setResultat(form.checkResultListErreurs(form.getListErreurs()));
+//                form.setResultat(form.checkResultListErreurs(form.getListErreurs()));
                 req.setAttribute("form", form);
                 if (form.isResultat()) {
                     resp.sendRedirect("/dashboard.do?resultat=true");
@@ -409,7 +423,7 @@ public class Servlet extends HttpServlet {
                 String idSpot = req.getParameter("idSpot");
                 CheckForm form = new CheckForm();
                 form.checkAndSave(req, "com.alain.dao.entities.CommentaireSpot", commentaireDao);
-                form.setResultat(form.checkResultListErreurs(form.getListErreurs()));
+//                form.setResultat(form.checkResultListErreurs(form.getListErreurs()));
                 if (form.isResultat()) {
                     resp.setContentType("application/json");
                     resp.setCharacterEncoding("UTF-8");
@@ -421,14 +435,22 @@ public class Servlet extends HttpServlet {
                 }
                 break;
             }
-            case "/toggleAdmin.do":{
-                Long idUser = Long.parseLong(req.getParameter("idUser"));
-                UtilisateurDaoImpl utilisateurDao = new UtilisateurDaoImpl();
-                Utilisateur utilisateur = utilisateurDao.findOne(idUser);
-                utilisateur.setAdmin(!utilisateur.isAdmin());
-                utilisateurDao.update(utilisateur, req);
+            case "/updateCommentaire.do":{
+                CommentaireSpotDaoImpl commentaireSpotDao = new CommentaireSpotDaoImpl();
+                CheckForm form = new CheckForm();
+                form.checkAndUpdate(req, commentaireSpotDao, Long.parseLong(req.getParameter("idCommentaire")));
+//                form.setResultat(form.checkResultListErreurs(form.getListErreurs()));
+                Map<String, String> ajaxReturn = new HashMap<>();
+                ajaxReturn.put("resultat", String.valueOf(form.isResultat()));
+                if (!form.isResultat()){
+                    ajaxReturn.put("erreur",form.getListErreurs().toString());
+                }
+                Gson gson = new Gson();
+                String ajaxReturnString = gson.toJson(ajaxReturn);
                 PrintWriter out = resp.getWriter();
-                out.print(utilisateur.isAdmin());
+                resp.setContentType("application/json");
+                resp.setCharacterEncoding("UTF-8");
+                out.print(ajaxReturnString);
                 out.flush();
                 break;
             }

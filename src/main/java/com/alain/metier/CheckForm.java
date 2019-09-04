@@ -41,6 +41,7 @@ public class CheckForm {
            listErreurs.put("server", "Une erreur système est apparue, merci de réessayer plus tard");
         }
         this.setEntitie(bean);
+        this.setResultat(checkResultListErreurs(listErreurs));
     }
 
     public void checkAndSavePhoto(HttpServletRequest req, String className, EntityRepository dao){
@@ -71,6 +72,7 @@ public class CheckForm {
         if (erreurPhoto != null){
             this.listErreurs.put("photo", erreurPhoto);
         }
+        this.setResultat(checkResultListErreurs(listErreurs));
     }
 
     public void checkAndUpdate(HttpServletRequest req, EntityRepository dao, Long id){
@@ -87,6 +89,7 @@ public class CheckForm {
             listErreurs.put("server", "Une erreur système est apparue, merci de réessayer plus tard");
         }
         this.setEntitie(bean);
+        this.setResultat(checkResultListErreurs(listErreurs));
     }
 
     public void checkConnect(HttpServletRequest req, UtilisateurDaoImpl dao){
