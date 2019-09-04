@@ -303,8 +303,9 @@ public class Servlet extends HttpServlet {
                 CheckForm form = new CheckForm();
                 form.checkAndSave(req, className, dao);
                 if (form.getListErreurs().isEmpty()) {
-                    Long idElement = form.getEntitie().getId();
-                    req.setAttribute("idElement", idElement);
+                    Long id = form.getEntitie().getId();
+                    req.setAttribute("idElement", id);
+                    System.out.println(req.getAttribute("idElement"));
                     form.checkAndSavePhoto(req, photoClassName, daoPhoto);
                 }
                 form.setResultat(form.checkResultListErreurs(form.getListErreurs()));

@@ -22,9 +22,7 @@ public class PhotoSpotDaoImpl implements EntityRepository<PhotoSpot>{
         EntityTransaction transaction = entityManager.getTransaction();
         try{
             transaction.begin();
-            SpotDaoImpl spotDao = new SpotDaoImpl();
-            Long idSpot = (Long) req.getAttribute("idElement");
-            Spot spot = spotDao.findOne(idSpot);
+            Spot spot = entityManager.find(Spot.class, (req.getAttribute("idElement")));
             // Création des associations bidirectionelles
             spot.addPhoto(photoSpot);
             entityManager.persist(photoSpot);

@@ -24,10 +24,8 @@ public class VoieDaoImpl implements EntityRepository<Voie> {
             transaction.begin();
             UtilisateurDaoImpl utilisateurDao = new UtilisateurDaoImpl();
             Utilisateur utilisateur = utilisateurDao.findByUsername((String) req.getSession().getAttribute("sessionUtilisateur"));
-            SecteurDaoImpl secteurDao = new SecteurDaoImpl();
-            Secteur secteur = secteurDao.findOne(Long.parseLong(req.getParameter("idElement")));
-            CotationDaoImpl cotationDao = new CotationDaoImpl();
-            Cotation cotation = cotationDao.findOne(Long.parseLong(req.getParameter("cotation")));
+            Secteur secteur = entityManager.find(Secteur.class,Long.parseLong(req.getParameter("idElement")));
+            Cotation cotation = entityManager.find(Cotation.class, Long.parseLong(req.getParameter("cotation")));
             // Création des associations bidirectionelles
             voie.setSecteur(secteur);
             voie.setCotation(cotation);
@@ -47,8 +45,7 @@ public class VoieDaoImpl implements EntityRepository<Voie> {
         EntityTransaction transaction = entityManager.getTransaction();
         try {
             transaction.begin();
-            CotationDaoImpl cotationDao = new CotationDaoImpl();
-            Cotation cotation = cotationDao.findOne(Long.parseLong(req.getParameter("cotation")));
+            Cotation cotation = entityManager.find(Cotation.class, Long.parseLong(req.getParameter("cotation")));
             voie.setCotation(cotation);
             entityManager.merge(voie);
             transaction.commit();
@@ -88,11 +85,6 @@ public class VoieDaoImpl implements EntityRepository<Voie> {
     public Voie findOne(Long id) {
         return entityManager.find(Voie.class, id);
     }
-
-//    @Override
-//    public boolean deletePhoto(Voie voie, HttpServletRequest req) {
-//        return false;
-//    }
 
     public List<Voie> findVoieInSecteur(String nomVoie, Long idSecteur){
         Query query = entityManager.createQuery("select v from Voie v where v.nom= :nom and v.secteur.id= :idSecteur");

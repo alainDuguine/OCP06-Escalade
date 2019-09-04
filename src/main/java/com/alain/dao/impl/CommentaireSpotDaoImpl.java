@@ -25,9 +25,7 @@ public class CommentaireSpotDaoImpl implements EntityRepository<CommentaireSpot>
             transaction.begin();
             UtilisateurDaoImpl utilisateurDao = new UtilisateurDaoImpl();
             Utilisateur utilisateur = utilisateurDao.findByUsername((String) req.getSession().getAttribute("sessionUtilisateur"));
-            SpotDaoImpl spotDao = new SpotDaoImpl();
-            Long idSpot = Long.parseLong(req.getParameter("idSpot"));
-            Spot spot = spotDao.findOne(idSpot);
+            Spot spot = entityManager.find(Spot.class, Long.parseLong(req.getParameter("idSpot")));
             // Création des associations bidirectionelles
             spot.addCommentaire(commentaire);
             utilisateur.addCommentaireSpot(commentaire);

@@ -22,8 +22,7 @@ public class SecteurDaoImpl extends EntityManagerUtil implements EntityRepositor
             transaction.begin();
             UtilisateurDaoImpl utilisateurDao = new UtilisateurDaoImpl();
             Utilisateur utilisateur = utilisateurDao.findByUsername((String) req.getSession().getAttribute("sessionUtilisateur"));
-            SpotDaoImpl spotDao = new SpotDaoImpl();
-            Spot spot = spotDao.findOne(Long.parseLong(req.getParameter("idElement")));
+            Spot spot = entityManager.find(Spot.class, Long.parseLong(req.getParameter("idElement")));
             // Création des associations bidirectionelles
             secteur.setSpot(spot);
             secteur.setUtilisateur(utilisateur);

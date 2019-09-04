@@ -23,9 +23,7 @@ public class PhotoVoieDaoImpl implements EntityRepository<PhotoVoie>{
         EntityTransaction transaction = entityManager.getTransaction();
         try{
             transaction.begin();
-            VoieDaoImpl voieDao = new VoieDaoImpl();
-            Long idVoie = (Long) req.getAttribute("idElement");
-            Voie voie = voieDao.findOne(idVoie);
+            Voie voie = entityManager.find(Voie.class, (req.getAttribute("idElement")));
             // Création des associations bidirectionelles
             voie.addPhoto(photoVoie);
             entityManager.persist(photoVoie);
