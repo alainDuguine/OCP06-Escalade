@@ -115,13 +115,13 @@
             <div class="commentaireDisplay">
                 <c:forEach items="${spot.commentaires}" var="commentairePublic">
                     <div class="commentaire">Par <c:out value="${commentairePublic.utilisateur.username}"/> le ${commentairePublic.dateFormat}
-                    <br/><span id="content${commentairePublic.id}"><c:out value="${commentairePublic.contenu}"/>
-                        <c:if test="${admin}"></span>
+                    <br/><span id="content${commentairePublic.id}"><c:out value="${commentairePublic.contenu}"/></span>
+                        <c:if test="${admin}">
                             <p class="modifComm" id="${commentairePublic.id}">
                                 <a href="modifierCommentaire.do">Modifier</a>
                                 <a href="supprimerCommentaire.do">Supprimer</a>
-                                <input type="button" style='display:none;' id="updateCommentaire" Value="Enregistrer"/>
-                                <input type="button" style='display:none;' id="annulerUpdate" Value="Annuler"/>
+                                <input type="button" style='display:none;' class="updateCommentaire" id="updateCommentaire${commentairePublic.id}" Value="Enregistrer"/>
+                                <input type="button" style='display:none;' class="annulerUpdate" id="annulerUpdate${commentairePublic.id}" Value="Annuler"/>
                             </p>
                         </c:if>
                         <hr/>
@@ -137,7 +137,6 @@
 <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
 <script>
     $(document).ready(function(){
-
 
         // Gestion de l'arborescence d'un spot
         $(".treeview li:has(li)").addClass("parent");
@@ -183,15 +182,17 @@
             }
         })
 
+        var commentaireAvantUpdate, idComm
+
         //Suppression et modification des commentaires par l'administrateur
         $(".modifComm > a").click(function (event) {
             event.preventDefault();
             var el = $(this),
-                path = $(this).attr('href'),
-                commId = $(this).parent().attr('id');
+                path = $(this).attr('href');
+            idComm = $(this).parent().attr('id');
             if (path === "supprimerCommentaire.do") {
                 if (confirm("Etes-vous sûr de vouloir supprimer ce commentaire ?")) {
-                    $.post(path, {idElement: commId}, function (data) {
+                    $.post(path, {idElement: idComm}, function (data) {
                         if (data == 'true') {
                             el.parent().parent().remove();
                             alert("Suppression effectuée");
@@ -200,36 +201,48 @@
                         }
                     })
                 }
-            // remplace l'affichage du commentaire en inpt et affiche les boutons de sauvegardes de modification
+            // remplace l'affichage du commentaire en input<text> et affiche les boutons de sauvegardes de modification
             }else if (path === "modifierCommentaire.do"){
                 event.preventDefault();
-                var el = $(this),
-                    idComm = $(this).parent().attr('id'),
-                    contentComm = $('#content'+idComm).text().trim();
-                console.log(idComm);
-                console.log(contentComm);
-                $('#content'+idComm).replaceWith("<input id='inputModifCommentaire' type='text' id='content' value='"+contentComm+"' style='width:100%;height: 2.5em;border-radius: 5px;'/>");
-                $('#updateCommentaire').show();
-                $('#annulerUpdate').show();
+                commentaireAvantUpdate = $('#content'+idComm).text().trim();
+                $('#content'+idComm).replaceWith("<input id='inputModifCommentaire' type='text' id='content' value='"+commentaireAvantUpdate+"' style='width:100%;height: 2.5em;border-radius: 5px;'/>");
+                $('#updateCommentaire'+idComm).show();
+                $('#annulerUpdate'+idComm).show();
+                $(this).closest('div').focusin();
             }
         });
 
         //Sauvegarde de la modification d'un commentaire
-        $("#updateCommentaire").click(function (event) {
-            var el = $(this),
-                idComm = $(this).parent().attr('id'),
-                contenuComm = $('#inputModifCommentaire').val();
-            alert(contenuComm + idComm);
+        $(".updateCommentaire").click(function (event) {
+            var contenuComm = $('#inputModifCommentaire').val();
             if (confirm("Etes-vous sûr de vouloir modifier ce commentaire ?")) {
                 $.post("updateCommentaire.do", {idCommentaire: idComm, contenu: contenuComm}, function (data) {
                     if (data.resultat == 'true') {
                         if(!alert("Modification effectuée")){window.location.reload()};
                     } else {
-                        alert("Modification échouée : "+ data.erreur);
+                        if(!alert("Modification échouée : "+ data.erreur)){
+                            $('#content'+idComm).text(commentaireAvantUpdate);
+                        };
                     }
                 })
             }
         });
+
+        $(".commentaire").focusout(function(){
+            var $elem=$(this);
+            setTimeout(function(){
+                if(!$elem.find(':focus').length) {
+                    $('#inputModifCommentaire').replaceWith("<span id='content" + idComm + "'>" + commentaireAvantUpdate + "</span>");
+                    $('#updateCommentaire' + idComm).hide();
+                    $('#annulerUpdate' + idComm).hide();
+                }
+            },0);
+        });
+
+        $(".annulerUpdate").click(function () {
+            window.location.reload();
+        });
+
     });
 </script>
 </body>
