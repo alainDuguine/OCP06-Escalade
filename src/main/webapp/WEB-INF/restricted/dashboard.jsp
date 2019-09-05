@@ -24,11 +24,13 @@
                 <button class="menu-button" id="Spot">Mes Spots</button>
                 <button class="menu-button" id="Secteur">Mes Secteurs</button>
                 <button class="menu-button" id="Voie">Mes Voies</button>
+                <button class="menu-button" id="Topo">Mes Topos</button>
             </c:if>
             <c:if test="${admin}">
                 <button class="menu-button" id="Spot">Les Spots</button>
                 <button class="menu-button" id="Secteur">Les Secteurs</button>
                 <button class="menu-button" id="Voie">Les Voies</button>
+                <button class="menu-button" id="Topo">Les Topos</button>
                 <button class="menu-button" id="Utilisateur">Les Utilisateurs</button>
             </c:if>
         </nav>
@@ -70,7 +72,12 @@
             </c:forEach>
             </tbody>
         </table>
+        <!-- Bouton ajout Spot -->
+        <div id="addSpot">
+            <p class="menu-button" id="addSpotButton"><a href="ajoutSpot.do"><img src="../../images/plus.png"/><span>Ajouter un Spot</span></a></p>
+        </div>
     </div>
+
 
     <!-- Table Secteur -->
     <div class="resultatDiv" id="tableSecteur">
@@ -146,6 +153,48 @@
         </table>
     </div>
 
+    <!-- Table Topo -->
+    <div class="resultatDiv" id="tableTopo">
+        <table>
+            <thead>
+            <tr>
+                <c:if test="${admin}">
+                    <th>Id Topo</th>
+                </c:if>
+                <th>Nom Topo</th><th>Date Edition</th><th>Disponible</th>
+                <c:if test="${admin}">
+                    <th>Utilisateur</th>
+                </c:if>
+            </tr>
+            </thead>
+            <tbody>
+            <c:set var="topos" value="${admin ? listTopo : utilisateur.topos}"/>
+            <c:forEach items="${topos}" var="topo">
+                <tr class="item" id="${topo.id}">
+                    <c:if test="${admin}">
+                        <td><c:out value="${topo.id}"/></td>
+                    </c:if>
+                    <td><c:out value="${topo.nom}"/></td>
+                    <td><c:out value="${topo.dateEdition}"/></td>
+                    <td><c:out value="${topo.disponible ? 'Oui' : 'Non'}"/></td>
+                    <c:if test="${admin}">
+                        <td><c:out value="${topo.utilisateur.username}"/></td>
+                    </c:if>
+                    <td><a href="modifierTopo.do?idTopo=${topo.id}">Modifier ce topo</a></td>
+                    <td class="supprElem"><a href="supprimerTopo">Supprimer</a></td>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
+        <!-- Bouton ajout de Topo -->
+        <div id="addTopo">
+            <p class="menu-button" id="addTopoButton"><a href="ajoutTopo.do"><img src="../../images/plus.png"/><span>Ajouter un Topo</span></a></p>
+        </div>
+
+    </div>
+
+
+
     <c:if test="${admin}">
     <!-- Table Utilisateur -->
     <div class="resultatDiv" id="tableUtilisateur">
@@ -173,16 +222,14 @@
     </div>
     </c:if>
 
-    <div id="addSpot">
-        <p class="menu-button" id="addSpotButton"><a href="ajoutSpot.do"><img src="../../images/plus.png"/><span>Ajouter un Spot</span></a></p>
-    </div>
+
 </section>
 <script src="https://code.jquery.com/jquery-3.4.1.js"
         integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
         crossorigin="anonymous"></script>
 <script>
     $(document).ready(function () {
-        //Affiche chaque taleau (spot, secteur, voie) sur le clic du menu
+        //Affiche chaque taleau (spot, secteur, voie, topo, utilisateur) sur le clic du menu
         $(".menu-button").click(function() {
             $(".resultatDiv").hide()
             $(".menuDashboard button").removeClass("active");

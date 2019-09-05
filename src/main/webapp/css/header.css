@@ -114,7 +114,8 @@ header{
     max-height: 50em;
     display: flex;
     flex-direction: column;
-    width: 10em;
+    min-width: 10em;
+    width: auto;
 }
 
 .userDrop > div{

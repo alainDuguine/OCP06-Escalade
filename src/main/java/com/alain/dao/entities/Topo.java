@@ -130,6 +130,7 @@ public class Topo extends Entitie implements Serializable {
 
     public void setUtilisateur(Utilisateur utilisateur) {
         this.utilisateur = utilisateur;
+        utilisateur.addTopo(this);
     }
 
     public List<Utilisateur> getEmpruntUtilisateurs() {

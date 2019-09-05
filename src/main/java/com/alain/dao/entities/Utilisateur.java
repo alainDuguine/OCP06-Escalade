@@ -310,4 +310,8 @@ public class Utilisateur extends Entitie implements Serializable{
         commentaireSpot.setUsername(this.getUsername());
     }
 
+    public void addTopo(Topo topo) {
+        this.topos.add(topo);
+    }
+
 }

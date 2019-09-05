@@ -73,23 +73,37 @@ public class Servlet extends HttpServlet {
                     this.getServletContext().getRequestDispatcher("/WEB-INF/connexion.jsp").forward(req, resp);
                 }if(session.getAttribute("admin").equals(true)){
                     UtilisateurDaoImpl utilisateurDao = new UtilisateurDaoImpl();
-                    List<Utilisateur> utilisateurs = utilisateurDao.findAll();
-                    req.setAttribute("listUtilisateur", utilisateurs);
+                    List<Utilisateur> listUtilisateur = utilisateurDao.findAll();
+
                     SpotDaoImpl spotDao = new SpotDaoImpl();
                     List<Spot> listSpot = spotDao.findAll();
+
                     SecteurDaoImpl secteurDao = new SecteurDaoImpl();
                     List<Secteur> listSecteur = secteurDao.findAll();
+
                     VoieDaoImpl voieDao = new VoieDaoImpl();
                     List<Voie> listVoie = voieDao.findAll();
+
+                    TopoDaoImpl topoDao = new TopoDaoImpl();
+                    List<Topo> listTopo = topoDao.findAll();
+
+                    req.setAttribute("listUtilisateur", listUtilisateur);
                     req.setAttribute("listSpot", listSpot);
                     req.setAttribute("listSecteur", listSecteur);
                     req.setAttribute("listVoie", listVoie);
+                    req.setAttribute("listTopo", listTopo);
                 }else{
                     UtilisateurDaoImpl utilisateurDao = new UtilisateurDaoImpl();
                     Utilisateur utilisateur = utilisateurDao.findByUsername(username);
                     req.setAttribute("utilisateur", utilisateur);
                 }
                 this.getServletContext().getRequestDispatcher("/WEB-INF/restricted/dashboard.jsp").forward(req, resp);
+                break;
+            }
+            case "/deconnexion.do":{
+                HttpSession session = req.getSession();
+                session.invalidate();
+                resp.sendRedirect("index.do");
                 break;
             }
 
@@ -145,6 +159,11 @@ public class Servlet extends HttpServlet {
                     req.setAttribute("secteur", secteur);
                     this.getServletContext().getRequestDispatcher("/WEB-INF/restricted/ajoutVoie.jsp").forward(req, resp);
                 }
+                break;
+            }
+            case "/ajoutTopo.do":
+            case "/saveTopo.do":{
+                this.getServletContext().getRequestDispatcher("/WEB-INF/restricted/ajoutTopo.jsp").forward(req, resp);
                 break;
             }
             case "/modifierSecteur.do":
@@ -204,6 +223,11 @@ public class Servlet extends HttpServlet {
                 }
                 break;
             }
+
+            /* *********************************************************************************************
+             **** Appels AJAX    ************************************************
+             *********************************************************************************************** */
+
             case "/choixDepartement.do": {
                 Gson gson = new Gson();
                 VilleDaoImpl dao = new VilleDaoImpl();
@@ -228,12 +252,6 @@ public class Servlet extends HttpServlet {
                 resp.setCharacterEncoding("UTF-8");
                 out.print(villesJsonString);
                 out.flush();
-                break;
-            }
-            case "/deconnexion.do":{
-                HttpSession session = req.getSession();
-                session.invalidate();
-                resp.sendRedirect("index.do");
                 break;
             }
         }
@@ -287,9 +305,11 @@ public class Servlet extends HttpServlet {
                 out.flush();
                 break;
             }
+
             /* *********************************************************************************************
              **** Gestion Entités Spots, secteurs, voies    ************************************************
              *********************************************************************************************** */
+
             case "/saveSpot.do":
             case "/saveSecteur.do":
             case "/saveVoie.do":
@@ -323,7 +343,6 @@ public class Servlet extends HttpServlet {
                     System.out.println(req.getAttribute("idElement"));
                     form.checkAndSavePhoto(req, photoClassName, daoPhoto);
                 }
-                form.setResultat(form.checkResultListErreurs(form.getListErreurs()));
                 req.setAttribute("form", form);
                 if (form.isResultat()) {
                     resp.sendRedirect("/dashboard.do?resultat=true");
@@ -383,7 +402,7 @@ public class Servlet extends HttpServlet {
             }
 
             /* *********************************************************************************************
-             **** Suppression recherche et droits admins   ************************************************
+             **** Suppression, recherche et droits admins   ************************************************
              *********************************************************************************************** */
 
             case "/supprimerUser.do":

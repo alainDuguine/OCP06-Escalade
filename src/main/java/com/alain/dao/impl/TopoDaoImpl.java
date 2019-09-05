@@ -7,6 +7,7 @@ import com.alain.dao.entities.Utilisateur;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.Query;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
@@ -45,7 +46,8 @@ public class TopoDaoImpl implements EntityRepository<Topo> {
 
     @Override
     public List<Topo> findAll() {
-        return null;
+        Query query = entityManager.createQuery("select t from Topo t order by t.nom asc");
+        return query.getResultList();
     }
 
     @Override

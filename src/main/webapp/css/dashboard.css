@@ -43,29 +43,29 @@
     color: slateblue;
 }
 
-#addSpot{
+#addSpot, #addTopo{
     display: flex;
     margin:0.5em;
     padding:0.5em;
     justify-content: center;
 }
 
-#addSpot p{
+#addSpot p, #addTopo p{
     border: 2px solid #a88680;
     border-radius: 8px;
 }
 
-#addSpot a{
+#addSpot a, #addTopo a{
     display: flex;
     text-decoration: none;
     color: black;
 }
 
-#addSpot a span{
+#addSpot a span, #addTopo a span{
     align-self: center;
 }
 
-#addSpotButton img{
+#addSpotButton img, #addTopoButton img{
     margin:0;
     padding:0.5em;
     width: 30px;

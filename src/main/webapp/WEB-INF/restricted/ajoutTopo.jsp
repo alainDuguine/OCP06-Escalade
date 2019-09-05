@@ -17,7 +17,7 @@
                 <c:out value="${form.resultat ? 'Enregistrement effectué' : 'Enregistrement échoué'}"/>
             </p>
         </c:if>
-        <form method="post" action="saveTopo.do" enctype="multipart/form-data">
+        <form method="post" action="saveTopo.do">
             <div class="erreur">
                 <div class="erreurSingleCol">${form.listErreurs['server']}</div>
             </div>
@@ -43,7 +43,7 @@
                 <div>${form.listErreurs['photo']}</div>
             </div>
             <div class="inscriptionForm">
-                <label for="dateParution" id="labelPhoto">Ajouter des photos (format jpeg, png) :<br> (Taille max 5 Mo, taille totale max 50 Mo):<br><span id="taillePhoto"></span></label>
+                <label for="dateParution" id="labelParution">Date de parution</label>
                 <input type="date" id="dateParution" name="dateParution" min="1950-01-01" required="required"/>
             </div>
 

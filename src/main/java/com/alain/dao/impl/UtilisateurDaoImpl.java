@@ -28,7 +28,17 @@ public class UtilisateurDaoImpl implements EntityRepository<Utilisateur>{
     }
 
     public Utilisateur update(Utilisateur utilisateur,  HttpServletRequest req) {
-        entityManager.merge(utilisateur);
+        EntityTransaction transaction = entityManager.getTransaction();
+        try {
+            transaction.begin();
+            entityManager.merge(utilisateur);
+            entityManager.flush();
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null)
+                transaction.rollback();
+            e.printStackTrace();
+        }
         return utilisateur;
     }
 
