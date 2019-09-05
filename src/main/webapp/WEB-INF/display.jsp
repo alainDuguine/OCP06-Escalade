@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="../css/gallery.css">
     <link rel="stylesheet" type="text/css" href="../css/displaySpot.css">
     <link rel="stylesheet" type="text/css" href="../css/lightbox.css">
-    <link rel="stylesheet" type="text/css" href="../css/treeview.css">
+    <link rel="stylesheet" type="text/css" href="../css/displayNav.css">
     <link href="https://fonts.googleapis.com/css?family=Merienda&display=swap" rel="stylesheet">
     <title>Spot : <c:out value="${spot.nom}"/></title>
 </head>
@@ -37,6 +37,20 @@
                 </li>
             </ul>
         </div>
+
+        <c:if test="${!empty sessionScope.sessionUtilisateur}">
+            <div class="topoDisplay">
+                <div class="topoDisplayDiv">
+                    <h3>Topos disponible :</h3>
+                    <c:forEach items="${spot.topos}" var="topo">
+                        <div>
+                            <p><a><c:out value="${topo.nom}"/></a></p>
+                            <button class="buttonReservationTopo" type="button">Demander Réservation</button>
+                        </div>
+                    </c:forEach>
+                </div>
+            </div>
+        </c:if>
     </section>
 
     <section class="mainDiv" id="displayDiv">

@@ -182,7 +182,7 @@
                         <td><c:out value="${topo.utilisateur.username}"/></td>
                     </c:if>
                     <td class="topoTable"><c:out value="${topo.disponible ? 'Oui' : 'Non'}"/></td>
-                    <td><button class="buttonTopo"type="button">Disponibilité</button></td>
+                    <td><button class="buttonTopo" type="button">Disponibilité</button></td>
                     <td><a href="modifierTopo.do?idTopo=${topo.id}">Modifier ce topo</a></td>
                     <td class="supprElem"><a href="supprimerTopo">Supprimer</a></td>
                 </tr>

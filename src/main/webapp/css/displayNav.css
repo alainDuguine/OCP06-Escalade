@@ -1,4 +1,4 @@
-.treeview{
+.treeview, .topoDisplay{
     background-color: white;
     padding:0.5em;
     border: 2px solid #a88680;
@@ -8,7 +8,7 @@
     line-height: normal;
 }
 
-.treeviewDiv{
+.treeviewDiv, .topoDisplayDiv{
     margin: 0;
     padding: 0;
     width:100%;
@@ -27,7 +27,7 @@
     margin:0em;
 }
 
-.treeview a{
+.treeview a, .topoDiv a{
     text-decoration: none;
     color: black;
     font-size: 0.8em;
@@ -58,6 +58,11 @@
     display: none;
 }
 
+.topoDisplayDiv h3{
+    margin: 0.5em;
+    font-size: 0.9em;
+}
+
 #ajoutSecteur, #ajoutVoie{
     font-size: 0.6em;
     color: #0000ee;
@@ -65,4 +70,19 @@
 
 #ajoutSecteur:visited, #ajoutVoie:visited{
     color: #0000ee;
+}
+
+.buttonReservationTopo{
+    background-color: white;
+    border: 2px solid #a88680;
+    border-radius: 6px;
+    font-family: 'Merienda', 'Open Sans', sans-serif;
+    font-size: 0.9em;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.buttonReservationTopo:hover{
+    background-color: rgba(128,142,168,0.75);
+    box-sizing: border-box;
 }
