@@ -43,7 +43,7 @@ public class Spot extends Entitie implements Serializable {
     private List<PhotoSpot> photos = new ArrayList<>();
     @OneToMany(mappedBy = "spot", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ComplementSpot> complements = new ArrayList<>();
-    @ManyToMany (mappedBy = "spot")
+    @ManyToMany (mappedBy = "spots")
     private List<Topo> topos = new ArrayList<>();
 
     /* ***********************************************************************************************
@@ -126,6 +126,14 @@ public class Spot extends Entitie implements Serializable {
      */
     public void removeCommentaire(CommentaireSpot commentaire) {
         this.commentaires.removeIf(commentaireSpot -> commentaireSpot.getId() == commentaire.getId());
+    }
+
+    /**
+     * Iterator pour enlever un Spot d'un Topo
+     * @param
+     */
+    public void removeFromTopo(Topo topo) {
+        this.topos.removeIf(topoInSpot -> topoInSpot.getId() == topo.getId());
     }
 
     /* ***********************************************************************************************
@@ -252,5 +260,6 @@ public class Spot extends Entitie implements Serializable {
     public Ville getVille() {
         return ville;
     }
+
 
 }

@@ -67,7 +67,7 @@ public class Servlet extends HttpServlet {
             }
             case "/connexionForm.do":
             case "/dashboard.do": {
-               HttpSession session = req.getSession();
+                HttpSession session = req.getSession();
                 String username = (String) session.getAttribute("sessionUtilisateur");
                 if (username == null) {
                     this.getServletContext().getRequestDispatcher("/WEB-INF/connexion.jsp").forward(req, resp);
@@ -223,6 +223,35 @@ public class Servlet extends HttpServlet {
                 }
                 break;
             }
+            case "/ajoutTopoSpot.do":{
+                HttpSession session = req.getSession();
+                String username = (String) session.getAttribute("sessionUtilisateur");
+                SpotDaoImpl spotDao = new SpotDaoImpl();
+                Spot spot = spotDao.findOne(Long.parseLong(req.getParameter("idSpot")));
+                if (spot == null || username == null){
+                    this.getServletContext().getRequestDispatcher("/WEB-INF/erreur.jsp").forward(req, resp);
+                }else{
+                    req.setAttribute("spot", spot);
+                    UtilisateurDaoImpl utilisateurDao = new UtilisateurDaoImpl();
+                    Utilisateur utilisateur = utilisateurDao.findByUsername(username);
+                    req.setAttribute("utilisateur",utilisateur );
+                    this.getServletContext().getRequestDispatcher("/WEB-INF/restricted/selectionTopo.jsp").forward(req, resp);
+                }
+                break;
+            }
+            case "/modifierTopo.do":{
+                TopoDaoImpl topoDao = new TopoDaoImpl();
+                Topo topo = topoDao.findOne(Long.parseLong(req.getParameter("idTopo")));
+                // Seul l'administrateur ou le propriétaire du topo peut le modifier
+                if (topo == null ||(!topo.getUtilisateur().getUsername().equals(req.getSession().getAttribute("sessionUtilisateur"))) && (req.getSession().getAttribute("admin").equals(false))){
+                    this.getServletContext().getRequestDispatcher("/WEB-INF/erreur.jsp").forward(req, resp);
+                }else {
+                    req.setAttribute("topo", topo);
+                    this.setNoCache(resp);
+                    this.getServletContext().getRequestDispatcher("/WEB-INF/restricted/modifierTopo.jsp").forward(req, resp);
+                }
+                break;
+            }
 
             /* *********************************************************************************************
              **** Appels AJAX    ************************************************
@@ -307,7 +336,7 @@ public class Servlet extends HttpServlet {
             }
 
             /* *********************************************************************************************
-             **** Gestion Entités Spots, secteurs, voies    ************************************************
+             **** Gestion Entités Spots, secteurs, voies, topos    ************************************************
              *********************************************************************************************** */
 
             case "/saveSpot.do":
@@ -353,10 +382,11 @@ public class Servlet extends HttpServlet {
             }
             case "/updateSpot.do":
             case "/updateSecteur.do":
-            case "/updateVoie.do":{
+            case "/updateVoie.do":
+            case "/updateTopo.do":{
                 Long idElement = Long.parseLong(req.getParameter("idElement"));
-                EntityRepository dao, daoPhoto;
-                String photoClassName;
+                EntityRepository dao, daoPhoto = null;
+                String photoClassName = null;
                 if (path.contains("Spot")){
                     dao = new SpotDaoImpl();
                     daoPhoto = new PhotoSpotDaoImpl();
@@ -365,14 +395,16 @@ public class Servlet extends HttpServlet {
                     dao = new SecteurDaoImpl();
                     daoPhoto = new PhotoSecteurDaoImpl();
                     photoClassName = "com.alain.dao.entities.PhotoSecteur";
-                }else{
+                }else if (path.contains("Voie")){
                     dao = new VoieDaoImpl();
                     daoPhoto = new PhotoVoieDaoImpl();
                     photoClassName = "com.alain.dao.entities.PhotoVoie";
+                }else{
+                    dao = new TopoDaoImpl();
                 }
                 CheckForm form = new CheckForm();
                 form.checkAndUpdate(req, dao, idElement);
-                if (form.isResultat()){
+                if (form.isResultat() && !path.contains("Topo")){
                     req.setAttribute("idElement", idElement);
                     form.checkAndSavePhoto(req, photoClassName, daoPhoto);
                 }
@@ -418,14 +450,15 @@ public class Servlet extends HttpServlet {
 
             case "/supprimerUser.do":
             case "/supprimerCommentaire.do":
-            case "/supprimerPhoto.do":{
+            case "/supprimerPhoto.do":
+            case "/supprimerTopo.do":{
                 Long idElement = Long.parseLong(req.getParameter("idElement"));
                 EntityRepository dao;
                 if (path.contains("User")) {
                     dao = new UtilisateurDaoImpl();
                 } else if (path.contains("Commentaire")) {
                     dao = new CommentaireSpotDaoImpl();
-                } else{
+                } else if (path.contains("Photo")){
                     String url = req.getParameter("jspUrl");
                     if (url.contains("Spot")){
                         dao = new PhotoSpotDaoImpl();
@@ -434,6 +467,8 @@ public class Servlet extends HttpServlet {
                     }else{
                         dao = new PhotoVoieDaoImpl();
                     }
+                } else {
+                    dao = new TopoDaoImpl();
                 }
                 Boolean result = dao.delete(idElement);
                 this.sendAjaxBooleanResponse(result, resp);
@@ -480,6 +515,14 @@ public class Servlet extends HttpServlet {
                 resp.setCharacterEncoding("UTF-8");
                 out.print(ajaxReturnString);
                 out.flush();
+                break;
+            }
+            case "/supprimerSpotInTopo.do":{
+                TopoDaoImpl topoDao = new TopoDaoImpl();
+                Long idTopo = Long.parseLong(req.getParameter("idTopo"));
+                Long idSpot = Long.parseLong(req.getParameter("idSpot"));
+                Boolean result = topoDao.deleteSpotFromTopo(idTopo, idSpot);
+                this.sendAjaxBooleanResponse(result, resp);
                 break;
             }
         }

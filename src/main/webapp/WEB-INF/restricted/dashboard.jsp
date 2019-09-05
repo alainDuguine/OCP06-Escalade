@@ -166,7 +166,6 @@
                     <th>Utilisateur</th>
                 </c:if>
                 <th>Disponible</th>
-
             </tr>
             </thead>
             <tbody>
@@ -193,10 +192,7 @@
         <div id="addTopo">
             <p class="menu-button" id="addTopoButton"><a href="ajoutTopo.do"><img src="../../images/plus.png"/><span>Ajouter un Topo</span></a></p>
         </div>
-
     </div>
-
-
 
     <c:if test="${admin}">
     <!-- Table Utilisateur -->

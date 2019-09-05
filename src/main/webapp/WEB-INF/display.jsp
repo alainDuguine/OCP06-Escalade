@@ -49,6 +49,7 @@
                         </div>
                     </c:forEach>
                 </div>
+                <a id="ajoutTopo" href="ajoutTopoSpot.do?idSpot=${spot.id}">Ajouter des Topos</a>
             </div>
         </c:if>
     </section>

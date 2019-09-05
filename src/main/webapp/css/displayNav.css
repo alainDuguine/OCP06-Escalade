@@ -27,13 +27,13 @@
     margin:0em;
 }
 
-.treeview a, .topoDiv a{
+.treeview a, .topoDisplay a{
     text-decoration: none;
     color: black;
     font-size: 0.8em;
 }
 
-.treeview a:hover, .selected{
+.treeview a:hover, .selected, .topoDisplay a:hover{
     background-color: rgba(128,142,168,0.5);
     border: 1px solid #a88680;
     border-radius: 6px;
@@ -68,7 +68,13 @@
     color: #0000ee;
 }
 
-#ajoutSecteur:visited, #ajoutVoie:visited{
+#ajoutTopo{
+    font-size: 0.7em;
+    color: #0000ee;
+    margin-left: 0.5em;
+}
+
+#ajoutSecteur:visited, #ajoutVoie:visited, #ajoutTopo:visited{
     color: #0000ee;
 }
 

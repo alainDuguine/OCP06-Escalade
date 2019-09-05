@@ -2,6 +2,7 @@ package com.alain.dao.impl;
 
 import com.alain.EntityManagerUtil;
 import com.alain.dao.contract.EntityRepository;
+import com.alain.dao.entities.Spot;
 import com.alain.dao.entities.Topo;
 import com.alain.dao.entities.Utilisateur;
 
@@ -64,5 +65,26 @@ public class TopoDaoImpl implements EntityRepository<Topo> {
     @Override
     public Topo findOne(Long id) {
         return entityManager.find(Topo.class, id);
+    }
+
+    public boolean deleteSpotFromTopo(Long idTopo, Long idSpot) {
+        EntityTransaction transaction = entityManager.getTransaction();
+        try {
+            transaction.begin();
+            Topo topo = entityManager.find(Topo.class, idTopo);
+            Spot spot = entityManager.find(Spot.class, idSpot);
+            //Supprime le topo danss le spot et le spot dans le topo
+            topo.removeSpot(spot);
+            entityManager.merge(topo);
+            entityManager.flush();
+            transaction.commit();
+            return true;
+        } catch (Exception e) {
+            if (transaction != null)
+                transaction.rollback();
+            e.printStackTrace();
+            return false;
+        }
+
     }
 }

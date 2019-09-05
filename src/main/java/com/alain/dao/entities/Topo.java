@@ -30,7 +30,7 @@ public class Topo extends Entitie implements Serializable {
     @ManyToMany
     private List<Utilisateur> empruntUtilisateurs = new ArrayList<>();
     @ManyToMany
-    private List<Spot> spot = new ArrayList<>();
+    private List<Spot> spots = new ArrayList<>();
 
     /* ********************************************************************************************
      **** CONSTRUCTORS      ************************************************************************
@@ -72,6 +72,15 @@ public class Topo extends Entitie implements Serializable {
         return listErreur;
     }
 
+    /**
+     * Iterator pour enlever un spot d'un topo
+     * @param
+     */
+    public void removeSpot(Spot spot) {
+        this.spots.removeIf(spotInList -> spotInList.getId() == spot.getId());
+        spot.removeFromTopo(this);
+    }
+
     /* ***********************************************************************************************
      **** GETTERS & SETTERS ************************************************************************
      *********************************************************************************************** */
@@ -92,12 +101,12 @@ public class Topo extends Entitie implements Serializable {
         this.nom = nom;
     }
 
-    public List<Spot> getSpot() {
-        return spot;
+    public List<Spot> getSpots() {
+        return spots;
     }
 
-    public void setSpot(List<Spot> spot) {
-        this.spot = spot;
+    public void setSpots(List<Spot> spot) {
+        this.spots = spot;
     }
 
     public String getDateEdition() {
@@ -140,4 +149,5 @@ public class Topo extends Entitie implements Serializable {
     public void setEmpruntUtilisateurs(List<Utilisateur> empruntUtilisateurs) {
         this.empruntUtilisateurs = empruntUtilisateurs;
     }
+
 }

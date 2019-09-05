@@ -125,6 +125,8 @@
 <script>
     $(document).ready(function(){
 
+        // Affichage Département et ville depuis l'enregistrement et changement possible
+
         var departement =${spot.departement.code};
 
         if (departement < 10){
