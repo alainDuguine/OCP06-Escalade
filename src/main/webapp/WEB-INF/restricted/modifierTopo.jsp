@@ -43,7 +43,7 @@
             </div>
             <div class="inscriptionForm">
                 <label for="dateParution" id="labelParution">Date de parution</label>
-                <input type="date" id="dateParution" name="dateParution" min="1950-01-01" required="required"/>
+                <input type="date" id="dateParution" name="dateParution" min="1950-01-01" required="required" value="${topo.dateEdition}"/>
             </div>
             <br>
             <hr>

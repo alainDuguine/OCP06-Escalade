@@ -262,4 +262,7 @@ public class Spot extends Entitie implements Serializable {
     }
 
 
+    public void addTopo(Topo topo) {
+        this.topos.add(topo);
+    }
 }

@@ -81,6 +81,11 @@ public class Topo extends Entitie implements Serializable {
         spot.removeFromTopo(this);
     }
 
+    public void addSpot(Spot spot) {
+        this.spots.add(spot);
+        spot.addTopo(this);
+    }
+
     /* ***********************************************************************************************
      **** GETTERS & SETTERS ************************************************************************
      *********************************************************************************************** */
@@ -149,5 +154,4 @@ public class Topo extends Entitie implements Serializable {
     public void setEmpruntUtilisateurs(List<Utilisateur> empruntUtilisateurs) {
         this.empruntUtilisateurs = empruntUtilisateurs;
     }
-
 }

@@ -223,6 +223,7 @@ public class Servlet extends HttpServlet {
                 }
                 break;
             }
+            case "/saveTopoSpot.do":
             case "/ajoutTopoSpot.do":{
                 HttpSession session = req.getSession();
                 String username = (String) session.getAttribute("sessionUtilisateur");
@@ -231,10 +232,16 @@ public class Servlet extends HttpServlet {
                 if (spot == null || username == null){
                     this.getServletContext().getRequestDispatcher("/WEB-INF/erreur.jsp").forward(req, resp);
                 }else{
-                    req.setAttribute("spot", spot);
-                    UtilisateurDaoImpl utilisateurDao = new UtilisateurDaoImpl();
-                    Utilisateur utilisateur = utilisateurDao.findByUsername(username);
-                    req.setAttribute("utilisateur",utilisateur );
+                    if(session.getAttribute("admin").equals(true)){
+                        TopoDaoImpl topoDao = new TopoDaoImpl();
+                        List<Topo> listTopo = topoDao.findAll();
+                        req.setAttribute("listTopo", listTopo);
+                    }else {
+                        req.setAttribute("spot", spot);
+                        UtilisateurDaoImpl utilisateurDao = new UtilisateurDaoImpl();
+                        Utilisateur utilisateur = utilisateurDao.findByUsername(username);
+                        req.setAttribute("utilisateur", utilisateur);
+                    }
                     this.getServletContext().getRequestDispatcher("/WEB-INF/restricted/selectionTopo.jsp").forward(req, resp);
                 }
                 break;
@@ -515,6 +522,19 @@ public class Servlet extends HttpServlet {
                 resp.setCharacterEncoding("UTF-8");
                 out.print(ajaxReturnString);
                 out.flush();
+                break;
+            }
+            // Ajoute les relations entre un spot référencé par un topo
+            case "/saveTopoSpot.do":{
+                TopoDaoImpl topoDao = new TopoDaoImpl();
+                Long idTopo = Long.parseLong(req.getParameter("idTopo"));
+                Long idSpot = Long.parseLong(req.getParameter("idSpot"));
+                Boolean result = topoDao.addSpotInTopo(idTopo, idSpot);
+                if (result) {
+                    resp.sendRedirect("/display.do?idSpot="+idSpot+"&resultat=true");
+                } else {
+                    doGet(req, resp);
+                }
                 break;
             }
             case "/supprimerSpotInTopo.do":{

@@ -73,7 +73,7 @@ public class TopoDaoImpl implements EntityRepository<Topo> {
             transaction.begin();
             Topo topo = entityManager.find(Topo.class, idTopo);
             Spot spot = entityManager.find(Spot.class, idSpot);
-            //Supprime le topo danss le spot et le spot dans le topo
+            //Supprime le topo dans le spot et le spot dans le topo
             topo.removeSpot(spot);
             entityManager.merge(topo);
             entityManager.flush();
@@ -86,5 +86,25 @@ public class TopoDaoImpl implements EntityRepository<Topo> {
             return false;
         }
 
+    }
+
+    public boolean addSpotInTopo(Long idTopo, Long idSpot) {
+        EntityTransaction transaction = entityManager.getTransaction();
+        try{
+            transaction.begin();
+            Topo topo = entityManager.find(Topo.class, idTopo);
+            Spot spot = entityManager.find(Spot.class, idSpot);
+            // Ajoute le spot dans le topo et le topo dans le spot
+            topo.addSpot(spot);
+            entityManager.merge(topo);
+            entityManager.flush();
+            transaction.commit();
+            return true;
+        } catch (Exception e){
+            if (transaction != null)
+                transaction.rollback();
+            e.printStackTrace();
+            return false;
+        }
     }
 }

@@ -12,6 +12,13 @@
 <%@ include file= "../header.jsp"%>
 <section class="mainDiv">
     <div class="formDiv">
+
+        <c:if test="${not empty resultat}">
+        <p class="${form.resultat ? 'success' : 'echec'}">
+            <c:out value="${form.resultat ? 'Enregistrement effectué' : 'Enregistrement échoué'}"/>
+        </p>
+        </c:if>
+
         <h1>Ajouter des topos au spot ${spot.nom}</h1>
         <div class="descriptionDiv" id="conditionTopo">
             <p>En ajoutant un topo à un spot, vous acceptez de le mettre à disposition des membres de la communauté pour un prêt.
@@ -19,10 +26,9 @@
                 Si vous acceptez cette demande, votre adresse email sera communiqué au membre.</p>
         </div>
 
-        <form method="post" action="addTopoSpot.do">
-
-        <div class="resultatDiv">
-                <form method="post" action="saveTopoSpot.do">
+        <form method="post" action="saveTopoSpot.do">
+            <input type="text" name="idSpot" id="idSpot" hidden="hidden" value="<c:out value="${param.idSpot}"/>">
+            <div class="resultatDiv">
                     <table class="tableauResult">
                         <thead>
                             <tr>
@@ -32,9 +38,10 @@
                             </tr>
                         </thead>
                         <tbody>
-                        <c:forEach items="${utilisateur.topos}" var="topo">
+                        <c:set var="topos" value="${admin ? listTopo : utilisateur.topos}"/>
+                        <c:forEach items="${topos}" var="topo">
                             <tr class="item">
-                                <c:set var="idSpot" value="${topo.id}"/>
+                                <input type="text" hidden="hidden" name="idTopo" id="idTopo" value="<c:out value="${topo.id}"/>"/>
                                 <td><c:out value="${topo.nom}"/></td>
                                 <td><c:out value="${topo.dateEdition}"/></td>
                                 <td><input type="checkbox" name="checkTopo"/></td>
@@ -45,9 +52,8 @@
                     <div class="bouton">
                         <input type="submit" value="Enregistrer"/>
                     </div>
-                </form>
-
-        </div>
+            </div>
+        </form>
 </section>
 <%@include file="../social.jsp"%>
 <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
