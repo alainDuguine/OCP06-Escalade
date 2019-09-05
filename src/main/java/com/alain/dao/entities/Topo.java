@@ -1,21 +1,27 @@
 package com.alain.dao.entities;
 
+import com.alain.dao.contract.EntityRepository;
+import com.alain.metier.Utilities;
+
 import javax.persistence.*;
+import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Entity
 @Table
-public class Topo implements Serializable {
+public class Topo extends Entitie implements Serializable {
+    private static final String CHAMP_NOM = "nom";
+    private static final String CHAMP_DESCRIPTION = "description";
+    private static final String CHAMP_DATEPARUTION = "dateParution";
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nom;
-    private Date dateEdition;
+    private String dateEdition;
     private String description;
-    private Boolean disponible;
+    private Boolean disponible = true;
 
     // Associations
     @ManyToOne
@@ -33,7 +39,7 @@ public class Topo implements Serializable {
     public Topo() {
     }
 
-    public Topo(String nom, Date dateEdition, String description, Boolean disponible) {
+    public Topo(String nom, String dateEdition, String description, Boolean disponible) {
         this.nom = nom;
         this.dateEdition = dateEdition;
         this.description = description;
@@ -43,6 +49,28 @@ public class Topo implements Serializable {
     /* ********************************************************************************************
      **** METHODS           ************************************************************************
      ******************************************************************************************** */
+
+    @Override
+    public void hydrate(HttpServletRequest req) {
+        this.setNom(Utilities.getValeurChamp(req, CHAMP_NOM));
+        this.setDescription(Utilities.getValeurChamp(req, CHAMP_DESCRIPTION));
+        this.setDateEdition(Utilities.getValeurChamp(req, CHAMP_DATEPARUTION));
+    }
+
+    @Override
+    public Map<String, String> checkErreurs(EntityRepository dao, HttpServletRequest req) {
+        Map<String, String> listErreur = new HashMap<>();
+
+        if (Utilities.isEmpty(this.nom)) {
+            listErreur.put(CHAMP_NOM, "Veuillez entrer le nom du topo");
+        }
+        if (Utilities.isEmpty(this.description) || this.description.length() < 10) {
+            listErreur.put(CHAMP_DESCRIPTION, "Veuillez entrer une description d'au moins 50 caractères");
+        }else if (this.description.length() > 2000){
+            listErreur.put(CHAMP_DESCRIPTION, "Veuillez entrer une description de maximum 2000 caractères.");
+        }
+        return listErreur;
+    }
 
     /* ***********************************************************************************************
      **** GETTERS & SETTERS ************************************************************************
@@ -72,11 +100,11 @@ public class Topo implements Serializable {
         this.spot = spot;
     }
 
-    public Date getDateEdition() {
+    public String getDateEdition() {
         return dateEdition;
     }
 
-    public void setDateEdition(Date dateEdition) {
+    public void setDateEdition(String dateEdition) {
         this.dateEdition = dateEdition;
     }
 

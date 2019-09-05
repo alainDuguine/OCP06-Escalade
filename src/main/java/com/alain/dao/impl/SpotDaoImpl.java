@@ -29,10 +29,6 @@ public class SpotDaoImpl implements EntityRepository<Spot> {
             transaction.begin();
             UtilisateurDaoImpl utilisateurDao = new UtilisateurDaoImpl();
             Utilisateur utilisateur = utilisateurDao.findByUsername((String) req.getSession().getAttribute("sessionUtilisateur"));
-//            DepartementDaoImpl departementDao = new DepartementDaoImpl();
-//            VilleDaoImpl villeDao = new VilleDaoImpl();
-//            Departement departement = departementDao.getById(req.getParameter("departement"));
-//            Ville ville = villeDao.findOne(Long.parseLong(req.getParameter("ville")));
             Departement departement = entityManager.find(Departement.class, req.getParameter("departement"));
             Ville ville = entityManager.find(Ville.class, Long.parseLong(req.getParameter("ville")));
             spot.setDepartement(departement);

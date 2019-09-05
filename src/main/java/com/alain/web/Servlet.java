@@ -272,7 +272,6 @@ public class Servlet extends HttpServlet {
                 UtilisateurDaoImpl utilisateurDaoImpl = new UtilisateurDaoImpl();
                 CheckForm form = new CheckForm();
                 form.checkAndSave(req, "com.alain.dao.entities.Utilisateur", utilisateurDaoImpl);
-//                form.setResultat(form.checkResultListErreurs(form.getListErreurs()));
                 req.setAttribute("form", form);
                 this.getServletContext().getRequestDispatcher("/WEB-INF/inscription.jsp").forward(req, resp);
                 break;
@@ -293,9 +292,10 @@ public class Servlet extends HttpServlet {
              *********************************************************************************************** */
             case "/saveSpot.do":
             case "/saveSecteur.do":
-            case "/saveVoie.do":{
-                EntityRepository dao, daoPhoto;
-                String className, photoClassName;
+            case "/saveVoie.do":
+            case "/saveTopo.do":{
+                EntityRepository dao, daoPhoto = null;
+                String className, photoClassName = null;
                 if (path.contains("Spot")){
                     dao = new SpotDaoImpl();
                     daoPhoto = new PhotoSpotDaoImpl();
@@ -306,16 +306,18 @@ public class Servlet extends HttpServlet {
                     daoPhoto = new PhotoSecteurDaoImpl();
                     className = "com.alain.dao.entities.Secteur";
                     photoClassName = "com.alain.dao.entities.PhotoSecteur";
-                }else{
+                } else if (path.contains("Voie")){
                     dao = new VoieDaoImpl();
                     daoPhoto = new PhotoVoieDaoImpl();
                     className = "com.alain.dao.entities.Voie";
                     photoClassName = "com.alain.dao.entities.PhotoVoie";
+                } else{
+                    dao = new TopoDaoImpl();
+                    className = "com.alain.dao.entities.Topo";
                 }
                 CheckForm form = new CheckForm();
                 form.checkAndSave(req, className, dao);
-//                if (form.getListErreurs().isEmpty()) {
-                if (form.isResultat()){
+                if (form.isResultat() && !path.contains("Topo")){
                     Long id = form.getEntitie().getId();
                     req.setAttribute("idElement", id);
                     System.out.println(req.getAttribute("idElement"));
@@ -351,12 +353,10 @@ public class Servlet extends HttpServlet {
                 }
                 CheckForm form = new CheckForm();
                 form.checkAndUpdate(req, dao, idElement);
-//                if (form.getListErreurs().isEmpty()) {
                 if (form.isResultat()){
                     req.setAttribute("idElement", idElement);
                     form.checkAndSavePhoto(req, photoClassName, daoPhoto);
                 }
-//                form.setResultat(form.checkResultListErreurs(form.getListErreurs()));
                 req.setAttribute("form", form);
                 if (form.isResultat()) {
                     resp.sendRedirect("/dashboard.do?resultat=true");
@@ -423,7 +423,6 @@ public class Servlet extends HttpServlet {
                 String idSpot = req.getParameter("idSpot");
                 CheckForm form = new CheckForm();
                 form.checkAndSave(req, "com.alain.dao.entities.CommentaireSpot", commentaireDao);
-//                form.setResultat(form.checkResultListErreurs(form.getListErreurs()));
                 if (form.isResultat()) {
                     resp.setContentType("application/json");
                     resp.setCharacterEncoding("UTF-8");
@@ -439,7 +438,6 @@ public class Servlet extends HttpServlet {
                 CommentaireSpotDaoImpl commentaireSpotDao = new CommentaireSpotDaoImpl();
                 CheckForm form = new CheckForm();
                 form.checkAndUpdate(req, commentaireSpotDao, Long.parseLong(req.getParameter("idCommentaire")));
-//                form.setResultat(form.checkResultListErreurs(form.getListErreurs()));
                 Map<String, String> ajaxReturn = new HashMap<>();
                 ajaxReturn.put("resultat", String.valueOf(form.isResultat()));
                 if (!form.isResultat()){
