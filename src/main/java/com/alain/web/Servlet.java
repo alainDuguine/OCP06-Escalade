@@ -67,7 +67,7 @@ public class Servlet extends HttpServlet {
             }
             case "/connexionForm.do":
             case "/dashboard.do": {
-                HttpSession session = req.getSession();
+               HttpSession session = req.getSession();
                 String username = (String) session.getAttribute("sessionUtilisateur");
                 if (username == null) {
                     this.getServletContext().getRequestDispatcher("/WEB-INF/connexion.jsp").forward(req, resp);
@@ -398,6 +398,17 @@ public class Servlet extends HttpServlet {
                 }
                 Boolean result = dao.delete(idElement);
                 this.sendAjaxBooleanResponse(result, resp);
+                break;
+            }
+            case "/toggleTopo.do":{
+                Long idTopo = Long.parseLong(req.getParameter("idTopo"));
+                TopoDaoImpl topoDao = new TopoDaoImpl();
+                Topo topo = topoDao.findOne(idTopo);
+                topo.setDisponible(!topo.isDisponible());
+                topoDao.update(topo, req);
+                PrintWriter out = resp.getWriter();
+                out.print(topo.isDisponible());
+                out.flush();
                 break;
             }
 

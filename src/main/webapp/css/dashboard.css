@@ -72,15 +72,17 @@
     align-items: center;
 }
 
-.buttonAdmin{
+.buttonAdmin, .buttonTopo{
     background-color: white;
     border: 2px solid #a88680;
     border-radius: 6px;
     font-family: 'Merienda', 'Open Sans', sans-serif;
     font-size: 0.9em;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-.buttonAdmin:hover{
+.buttonAdmin:hover, .buttonTopo:hover{
     background-color: rgba(128,142,168,0.75);
     box-sizing: border-box;
 }

@@ -21,7 +21,7 @@ public class Topo extends Entitie implements Serializable {
     private String nom;
     private String dateEdition;
     private String description;
-    private Boolean disponible = true;
+    private boolean disponible = true;
 
     // Associations
     @ManyToOne
@@ -116,11 +116,11 @@ public class Topo extends Entitie implements Serializable {
         this.description = description;
     }
 
-    public Boolean getDisponible() {
+    public boolean isDisponible() {
         return disponible;
     }
 
-    public void setDisponible(Boolean disponible) {
+    public void setDisponible(boolean disponible) {
         this.disponible = disponible;
     }
 

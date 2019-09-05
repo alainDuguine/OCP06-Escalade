@@ -36,7 +36,18 @@ public class TopoDaoImpl implements EntityRepository<Topo> {
 
     @Override
     public Topo update(Topo topo, HttpServletRequest req) {
-        return null;
+        EntityTransaction transaction = entityManager.getTransaction();
+        try {
+            transaction.begin();
+            entityManager.merge(topo);
+            entityManager.flush();
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null)
+                transaction.rollback();
+            e.printStackTrace();
+        }
+        return topo;
     }
 
     @Override
@@ -52,6 +63,6 @@ public class TopoDaoImpl implements EntityRepository<Topo> {
 
     @Override
     public Topo findOne(Long id) {
-        return null;
+        return entityManager.find(Topo.class, id);
     }
 }

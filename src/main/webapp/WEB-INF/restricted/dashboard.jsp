@@ -161,10 +161,12 @@
                 <c:if test="${admin}">
                     <th>Id Topo</th>
                 </c:if>
-                <th>Nom Topo</th><th>Date Edition</th><th>Disponible</th>
+                <th>Nom Topo</th><th>Date Edition</th>
                 <c:if test="${admin}">
                     <th>Utilisateur</th>
                 </c:if>
+                <th>Disponible</th>
+
             </tr>
             </thead>
             <tbody>
@@ -176,10 +178,11 @@
                     </c:if>
                     <td><c:out value="${topo.nom}"/></td>
                     <td><c:out value="${topo.dateEdition}"/></td>
-                    <td><c:out value="${topo.disponible ? 'Oui' : 'Non'}"/></td>
                     <c:if test="${admin}">
                         <td><c:out value="${topo.utilisateur.username}"/></td>
                     </c:if>
+                    <td class="topoTable"><c:out value="${topo.disponible ? 'Oui' : 'Non'}"/></td>
+                    <td><button class="buttonTopo"type="button">Disponibilité</button></td>
                     <td><a href="modifierTopo.do?idTopo=${topo.id}">Modifier ce topo</a></td>
                     <td class="supprElem"><a href="supprimerTopo">Supprimer</a></td>
                 </tr>
@@ -212,7 +215,7 @@
                     <td><c:out value="${user.email}"/></td>
                     <td><c:out value="${user.nom}"/></td>
                     <td><c:out value="${user.prenom}"/></td>
-                    <td class="adminTable"><c:out value="${user.admin}"/></td>
+                    <td class="adminTable"><c:out value="${user.admin? 'Oui':'Non'}"/></td>
                     <td><button class="buttonAdmin"type="button">Administrateur</button></td>
                     <td class="supprElem"><a href="supprimerUser">Supprimer</a></td>
                 </tr>
@@ -238,17 +241,40 @@
             $(idTable).show();
         });
 
+        //Change le statut disponible d'un topo
+        $(".buttonTopo").click(function() {
+            var el = $(this);
+            var topoId = $(this).parent().parent().attr('id');
+            if (confirm("Etes-vous sûr de vouloir modifier la disponibilité de ce topo ?")) {
+                $.post("toggleTopo.do", {idTopo: topoId}, function (data) {
+                    var result;
+                    if (data === 'true'){
+                        result = 'Oui';
+                    }else{
+                        result = 'Non';
+                    }
+                    $(el).parent().siblings(".topoTable").text(result);
+                    alert("Modification de la disponibilité effectuée");
+                })
+            }
+        });
+
         //Change le statut administrateur de l'utilisateur sur le clic du bouton
         $(".buttonAdmin").click(function() {
             var el = $(this);
             var userId = $(this).parent().parent().attr('id');
             if (confirm("Etes-vous sûr de vouloir modifier les doits utilisateurs pour cet utilisateur ?")) {
                 $.post("toggleAdmin.do", {idUser: userId}, function (data) {
-                    $(el).parent().siblings(".adminTable").text(data);
+                    var result;
+                    if (data === 'true'){
+                        result = 'Oui';
+                    }else{
+                        result = 'Non';
+                    }
+                    $(el).parent().siblings(".adminTable").text(result);
                     alert("Modification des droits effectuée");
                 })
             }
-
         });
 
         //Suppression des éléments Spots, Secteurs, Voies
