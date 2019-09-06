@@ -78,14 +78,28 @@ public class Topo extends Entitie implements Serializable {
      */
     public void removeSpot(Spot spot) {
         this.spots.removeIf(spotInList -> spotInList.getId() == spot.getId());
-        spot.removeFromTopo(this);
     }
 
+    /**
+     * Ajoute un spot à la liste s'il n'est pas déjà présent
+     * @param spot
+     */
     public void addSpot(Spot spot) {
-        this.spots.add(spot);
+        if(!this.spots.contains(spot)){
+            this.spots.add(spot);
+        }
         spot.addTopo(this);
     }
 
+    /**
+     * Supprime tous les liens vers le topo dans les spots
+     */
+    public void removeAllSpots() {
+        for (Spot spot : spots){
+            spot.removeTopo(this);
+        }
+        this.spots.clear();
+    }
     /* ***********************************************************************************************
      **** GETTERS & SETTERS ************************************************************************
      *********************************************************************************************** */
@@ -154,4 +168,5 @@ public class Topo extends Entitie implements Serializable {
     public void setEmpruntUtilisateurs(List<Utilisateur> empruntUtilisateurs) {
         this.empruntUtilisateurs = empruntUtilisateurs;
     }
+
 }

@@ -1,5 +1,5 @@
 .treeview, .topoDisplay{
-    background-color: white;
+    background-color: rgba(255,255,255,0.75);
     padding:0.5em;
     border: 2px solid #a88680;
     border-radius: 12px;
@@ -63,6 +63,22 @@
     font-size: 0.9em;
 }
 
+#listTopo{
+    margin: 0;
+    padding: 0;
+}
+
+.itemTopo{
+    display: flex;
+    justify-content: space-between;
+    list-style: none;
+    margin: 0.5em;
+}
+
+.itemTopo a{
+    cursor: pointer;
+}
+
 #ajoutSecteur, #ajoutVoie{
     font-size: 0.6em;
     color: #0000ee;
@@ -84,8 +100,8 @@
     border-radius: 6px;
     font-family: 'Merienda', 'Open Sans', sans-serif;
     font-size: 0.9em;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 0;
+    padding: 0 0.2em;
 }
 
 .buttonReservationTopo:hover{

@@ -279,7 +279,13 @@
             var el = $(this),
                 path = $(this).children('a').attr('href')+".do",
                 elId = $(this).parent().attr('id');
-            if (confirm("Attention ! La suppression d'un élément entraînera la suppression de tous les éléments associés ! Spots, Secteurs, Voies, Photos, Commentaires. Etes-vous sûr de vouloir continuer ?")) {
+            var msg;
+            if (path.includes('Topo')){
+                msg = "Etes vous sûr de vouloir supprimer ce topo ?"
+            }else{
+                msg ="Attention ! La suppression d'un élément entraînera la suppression de tous les éléments associés ! Spots, Secteurs, Voies, Photos, Commentaires. Etes-vous sûr de vouloir continuer ?";
+            }
+            if (confirm(msg)) {
                 $.post(path, {idElement: elId}, function (data) {
                     if (data == 'true') {
                         el.parent().remove();

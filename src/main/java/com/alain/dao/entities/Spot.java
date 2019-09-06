@@ -112,6 +112,8 @@ public class Spot extends Entitie implements Serializable {
         return dao.findSpotInDepartement(this.nom, req.getParameter(CHAMP_DEPARTEMENT));
     }
 
+    // Tous ces itérateurs sont utilisés pour supprimer l'association 1 à n pour une suppression propre
+
     /**
      * Iterator pour enlever une photo d'un spot
      * @param photo
@@ -134,6 +136,42 @@ public class Spot extends Entitie implements Serializable {
      */
     public void removeFromTopo(Topo topo) {
         this.topos.removeIf(topoInSpot -> topoInSpot.getId() == topo.getId());
+    }
+
+    /**
+     * Iterator pour enlever un secteur d'un spot
+     * @param secteur
+     */
+    public void removeSecteur(Secteur secteur) {
+        this.secteurs.removeIf(secteurInSpot -> secteurInSpot.getId() == secteur.getId());
+    }
+
+    /**
+     * Ajoute un topo à la liste s'il n'est pas déjà présent
+     * @param topo
+     */
+    public void addTopo(Topo topo) {
+        if(!this.topos.contains(topo)) {
+            this.topos.add(topo);
+        }
+    }
+
+    /**
+     * Supprime tous les liens vers le spot dans les topos
+     */
+    public void removeAllTopos() {
+        for (Topo topo : topos) {
+            topo.removeSpot(this);
+        }
+        this.topos.clear();
+    }
+
+    /**
+     * Iterator pour enlever un topo d'un spot
+     * @param
+     */
+    public void removeTopo(Topo topo) {
+        this.topos.removeIf(topoInList -> topoInList.getId() == topo.getId());
     }
 
     /* ***********************************************************************************************
@@ -261,8 +299,4 @@ public class Spot extends Entitie implements Serializable {
         return ville;
     }
 
-
-    public void addTopo(Topo topo) {
-        this.topos.add(topo);
-    }
 }

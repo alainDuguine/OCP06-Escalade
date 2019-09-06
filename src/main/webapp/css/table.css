@@ -37,3 +37,8 @@ tbody tr:nth-child(odd){
 .tableauResult tbody tr:hover{
     background-color: #a8808e;
 }
+
+.spotInTopo > a{
+    text-decoration: underline;
+    color: #0000ee;
+}

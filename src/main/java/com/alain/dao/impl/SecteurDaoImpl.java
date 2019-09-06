@@ -57,6 +57,9 @@ public class SecteurDaoImpl extends EntityManagerUtil implements EntityRepositor
         try {
             transaction.begin();
             Secteur secteur = entityManager.find(Secteur.class, id);
+            Spot spot = entityManager.find(Spot.class, secteur.getSpot().getId());
+            spot.removeSecteur(secteur);
+            secteur.removeSpot();
             entityManager.remove(secteur);
             entityManager.flush();
             transaction.commit();

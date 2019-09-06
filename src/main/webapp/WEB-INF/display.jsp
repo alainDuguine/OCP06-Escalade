@@ -42,14 +42,17 @@
             <div class="topoDisplay">
                 <div class="topoDisplayDiv">
                     <h3>Topos disponible :</h3>
+                    <ul id="listTopo">
                     <c:forEach items="${spot.topos}" var="topo">
-                        <div>
-                            <p><a><c:out value="${topo.nom}"/></a></p>
-                            <button class="buttonReservationTopo" type="button">Demander Réservation</button>
-                        </div>
+                        <c:if test="${topo.disponible}">
+                            <li class="itemTopo"><a>- <c:out value="${topo.nom}"/></a><button class="buttonReservationTopo" type="button">Réserver</button>
+                            </li>
+                            <hr>
+                        </c:if>
                     </c:forEach>
+                    </ul>
                 </div>
-                <a id="ajoutTopo" href="ajoutTopoSpot.do?idSpot=${spot.id}">Ajouter des Topos</a>
+                <a id="ajoutTopo" href="ajoutTopoSpot.do?idSpot=${spot.id}">Ajouter mes Topos</a>
             </div>
         </c:if>
     </section>

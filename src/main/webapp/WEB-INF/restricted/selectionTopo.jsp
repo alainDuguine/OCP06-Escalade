@@ -44,7 +44,7 @@
                                 <input type="text" hidden="hidden" name="idTopo" id="idTopo" value="<c:out value="${topo.id}"/>"/>
                                 <td><c:out value="${topo.nom}"/></td>
                                 <td><c:out value="${topo.dateEdition}"/></td>
-                                <td><input type="checkbox" name="checkTopo"/></td>
+                                <td><input type="checkbox" name="checkTopo" value="${topo.id}"/></td>
                             </tr>
                         </c:forEach>
                         </tbody>

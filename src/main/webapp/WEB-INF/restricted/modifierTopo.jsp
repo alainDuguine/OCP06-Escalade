@@ -50,7 +50,7 @@
             <div class="inscriptionForm" id="photoForm">
                 <h5 id="listeSpots">Spots référencés dans le topo :</h5>
                 <div  class="modifTopo">
-                    <table class="tableauResult">
+                    <table>
                         <thead>
                         <tr>
                             <th>Nom Spot</th>
@@ -84,7 +84,6 @@
         integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
         crossorigin="anonymous">
 </script>
-<script src="../../js/deleteSpotFromTopo.js" charset="UTF-8"></script>
 <script>
     $(document).ready(function () {
         $(".spotInTopo > a").click(function(event){
@@ -95,7 +94,6 @@
             if (confirm("Etes-vous sûr de vouloir supprimer ce spot de ce topo ?")) {
                 $.post("supprimerSpotInTopo.do", {idSpot: spotId, idTopo: topoId}, function (data) {
                     if (data == 'true') {
-                        el.parent().remove();
                         if(!alert("Suppression effectuée")){window.location.reload()};
                     } else {
                         alert("Suppression échouée");

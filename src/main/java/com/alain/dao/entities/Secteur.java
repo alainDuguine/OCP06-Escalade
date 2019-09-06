@@ -200,5 +200,12 @@ public class Secteur extends Entitie implements Serializable {
         this.voies.add(voie);
     }
 
+    public void removeVoie(Voie voie) {
+        this.voies.removeIf(voieInSecteur -> voieInSecteur.getId().equals(voie.getId()));
+    }
+
+    public void removeSpot() {
+        this.spot = null;
+    }
 }
 

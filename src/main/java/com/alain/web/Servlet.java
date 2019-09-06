@@ -16,10 +16,7 @@ import javax.servlet.http.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 public class Servlet extends HttpServlet {
 
@@ -526,10 +523,15 @@ public class Servlet extends HttpServlet {
             }
             // Ajoute les relations entre un spot référencé par un topo
             case "/saveTopoSpot.do":{
+                Boolean result = false;
                 TopoDaoImpl topoDao = new TopoDaoImpl();
-                Long idTopo = Long.parseLong(req.getParameter("idTopo"));
+                String[] idTopos = req.getParameterValues("checkTopo");
                 Long idSpot = Long.parseLong(req.getParameter("idSpot"));
-                Boolean result = topoDao.addSpotInTopo(idTopo, idSpot);
+                if (idTopos != null) {
+                    for (String idTopo : idTopos) {
+                            result = topoDao.addSpotInTopo(Long.parseLong(idTopo), idSpot);
+                        }
+                    }
                 if (result) {
                     resp.sendRedirect("/display.do?idSpot="+idSpot+"&resultat=true");
                 } else {

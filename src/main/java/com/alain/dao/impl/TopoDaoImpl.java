@@ -53,7 +53,21 @@ public class TopoDaoImpl implements EntityRepository<Topo> {
 
     @Override
     public boolean delete(Long id) {
-        return false;
+        EntityTransaction transaction = entityManager.getTransaction();
+        try {
+            transaction.begin();
+            Topo topo = entityManager.find(Topo.class, id);
+            topo.removeAllSpots();
+            entityManager.remove(topo);
+            entityManager.flush();
+            transaction.commit();
+            return true;
+        }catch (Exception e){
+            if (transaction != null)
+                transaction.rollback();
+            e.printStackTrace();
+            return false;
+        }
     }
 
     @Override
@@ -75,6 +89,7 @@ public class TopoDaoImpl implements EntityRepository<Topo> {
             Spot spot = entityManager.find(Spot.class, idSpot);
             //Supprime le topo dans le spot et le spot dans le topo
             topo.removeSpot(spot);
+            spot.removeFromTopo(topo);
             entityManager.merge(topo);
             entityManager.flush();
             transaction.commit();
