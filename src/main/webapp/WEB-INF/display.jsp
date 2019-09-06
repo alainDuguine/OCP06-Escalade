@@ -9,6 +9,7 @@
     <link rel="stylesheet" type="text/css" href="../css/displaySpot.css">
     <link rel="stylesheet" type="text/css" href="../css/lightbox.css">
     <link rel="stylesheet" type="text/css" href="../css/displayNav.css">
+    <link rel="stylesheet" type="text/css" href="../css/popup.css">
     <link href="https://fonts.googleapis.com/css?family=Merienda&display=swap" rel="stylesheet">
     <title>Spot : <c:out value="${spot.nom}"/></title>
 </head>
@@ -45,7 +46,18 @@
                     <ul id="listTopo">
                     <c:forEach items="${spot.topos}" var="topo">
                         <c:if test="${topo.disponible}">
-                            <li class="itemTopo"><a>- <c:out value="${topo.nom}"/></a><button class="buttonReservationTopo" type="button">Réserver</button>
+                            <div type="text" class="popup" id="${topo.id}">
+                                    <li class="itemTopo"><a onclick="myFunction()">- <c:out value="${topo.nom}"/></a><button class="buttonReservationTopo" type="button">Réserver</button>
+<%--                                <input type="text" hidden="hidden" class="idTopo" value="${topo.id}"/>--%>
+<%--                                <input type="text" hidden="hidden" class="${topo.id}" id="${topo.id}topoNom" value="${topo.nom}"/>--%>
+<%--                                <input type="text" hidden="hidden" class="${topo.id}" id="${topo.id}topoDescription" value="${topo.description}"/>--%>
+<%--                                <input type="text" hidden="hidden" class="${topo.id}" id="${topo.id}topoDate" value="${topo.dateEdition}"/>--%>
+                                    <div class="popuptext" id="myPopup">
+                                        <span type="text" id="${topo.id}topoNom">${topo.nom}</span>
+                                        <span type="text" id="${topo.id}topoDescription">${topo.description}</span>
+                                        <span type="text" id="${topo.id}topoDate">${topo.dateEdition}</span>
+                                    </div>
+                                </div>
                             </li>
                             <hr>
                         </c:if>
@@ -63,6 +75,7 @@
             <c:if test="${spot.officiel}">
                 <img  id="iconeOfficiel" src="../images/officiel.png" alt="Spot officiel" title="Ce spot est validé par l'association !">
             </c:if>
+            <input type="text" id="idSpot" hidden="hidden" value="${spot.id}"/>
             <h1>Spot - <c:out value="${spot.nom}"/></h1>
             <h5><c:out value="${spot.departement.nom}"/> - <c:out value="${spot.ville.nom}"/> - <i>ajouté par <c:out value="${spot.utilisateur.username}"/></i></h5>
             <h3>Description :</h3>
@@ -152,14 +165,19 @@
 </section>
 
 <script type="text/javascript" src="../js/lightbox-plus-jquery.min.js"></script>
+<script type="text/javascript" src="../js/commentaireSpot.js"></script>
 <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
 <script>
-    $(document).ready(function(){
+    $(document).ready(function() {
 
+        function myFunction() {
+            var popup = document.getElementById("myPopup");
+            popup.classList.toggle("show");
+        }
         // Gestion de l'arborescence d'un spot
         $(".treeview li:has(li)").addClass("parent");
 
-        $(".treeview li").click(function (e){
+        $(".treeview li").click(function (e) {
             $(".treeElement").removeClass("selected");
             $(this).children(".treeElement").addClass("selected");
             e.stopPropagation();
@@ -170,98 +188,18 @@
                 $(this).addClass("close");
         });
 
-
-        // Publication des commentaires
-        $("#submitCommentaire").click(function(e){
-            e.preventDefault();
-            var commentaire = $.trim($("#commentaireInput").val());
-            var utilisateur = ($("#usernameCommentaire").val());
-            var idSpot = ${spot.id};
-            if (commentaire.length > 280){
-                alert("Un commentaire peut au maximum contenir 280 caractères");
-            }else if (commentaire.length == 0) {
-                alert("Vous ne pouvez pas publier un commentaire vide")
-            }else{
-                $.post("saveCommentaire.do", {contenu: commentaire, idSpot: idSpot, utilisateur: utilisateur},
-                function (data) {
-                    if (!data.hasOwnProperty('erreur')) {
-                        $("#commentaireInput").val('');
-                        if ($(".commentaire").length) {
-                            $(".commentaire").first().before("<p class=\"commentaire\">Par " + data.username + " le "
-                                + data.dateFormat + "<br/>" + data.contenu + "</p><hr/>");
-                        } else {
-                            $(".commentaireDisplay").append("<p class=\"commentaire\">Par " + data.username + " le "
-                                + data.dateFormat + "<br/>" + data.contenu + "</p><hr/>");
-                        }
-                    }else{
-                        alert(data.erreur);
-                    }
-                });
-            }
-        })
-
-        var commentaireAvantUpdate, idComm
-
-        //Suppression et modification des commentaires par l'administrateur
-        $(".modifComm > a").click(function (event) {
-            event.preventDefault();
-            var el = $(this),
-                path = $(this).attr('href');
-            idComm = $(this).parent().attr('id');
-            if (path === "supprimerCommentaire.do") {
-                if (confirm("Etes-vous sûr de vouloir supprimer ce commentaire ?")) {
-                    $.post(path, {idElement: idComm}, function (data) {
-                        if (data == 'true') {
-                            el.parent().parent().remove();
-                            alert("Suppression effectuée");
-                        } else {
-                            alert("Suppression échouée");
-                        }
-                    })
-                }
-            // remplace l'affichage du commentaire en input<text> et affiche les boutons de sauvegardes de modification
-            }else if (path === "modifierCommentaire.do"){
-                event.preventDefault();
-                commentaireAvantUpdate = $('#content'+idComm).text().trim();
-                $('#content'+idComm).replaceWith("<input id='inputModifCommentaire' type='text' id='content' value='"+commentaireAvantUpdate+"' style='width:100%;height: 2.5em;border-radius: 5px;'/>");
-                $('#updateCommentaire'+idComm).show();
-                $('#annulerUpdate'+idComm).show();
-                $(this).closest('div').focusin();
-            }
-        });
-
-        //Sauvegarde de la modification d'un commentaire
-        $(".updateCommentaire").click(function (event) {
-            var contenuComm = $('#inputModifCommentaire').val();
-            if (confirm("Etes-vous sûr de vouloir modifier ce commentaire ?")) {
-                $.post("updateCommentaire.do", {idCommentaire: idComm, contenu: contenuComm}, function (data) {
-                    if (data.resultat == 'true') {
-                        if(!alert("Modification effectuée")){window.location.reload()};
-                    } else {
-                        if(!alert("Modification échouée : "+ data.erreur)){
-                            $('#content'+idComm).text(commentaireAvantUpdate);
-                        };
-                    }
-                })
-            }
-        });
-
-        $(".commentaire").focusout(function(){
-            var $elem=$(this);
-            setTimeout(function(){
-                if(!$elem.find(':focus').length) {
-                    $('#inputModifCommentaire').replaceWith("<span id='content" + idComm + "'>" + commentaireAvantUpdate + "</span>");
-                    $('#updateCommentaire' + idComm).hide();
-                    $('#annulerUpdate' + idComm).hide();
-                }
-            },0);
-        });
-
-        $(".annulerUpdate").click(function () {
-            window.location.reload();
-        });
+        // // Affichage de la description d'un topo dans un alert sur click
+        // $(".itemTopo a").click(function () {
+        //     var idTopo = $(this).siblings().next().val(),
+        //         nomTopo = $("#"+idTopo+"topoNom").val(),
+        //         descriptionTopo = $("#"+idTopo+"topoDescription").val(),
+        //         dateTopo = $("#"+idTopo+"topoDate").val();
+        //     console.log(idTopo, nomTopo, descriptionTopo, dateTopo);
+        //         alert("<b>Topo  - "+nomTopo+"</b>" +idTopo + " " + nomTopo + " " + descriptionTopo + " " + dateTopo);
+        // });
 
     });
+
 </script>
 </body>
 </html>
