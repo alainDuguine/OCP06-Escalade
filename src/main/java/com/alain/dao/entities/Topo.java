@@ -28,8 +28,9 @@ public class Topo extends Entitie implements Serializable {
     @ManyToOne
     private Utilisateur utilisateur;
 
-    @ManyToMany
-    private List<Utilisateur> empruntUtilisateurs = new ArrayList<>();
+    @OneToMany (mappedBy = "topo")
+    private List<Reservation> reservations = new ArrayList<>();
+
     @ManyToMany
     private List<Spot> spots = new ArrayList<>();
 
@@ -162,12 +163,11 @@ public class Topo extends Entitie implements Serializable {
         utilisateur.addTopo(this);
     }
 
-    public List<Utilisateur> getEmpruntUtilisateurs() {
-        return empruntUtilisateurs;
+    public List<Reservation> getReservations() {
+        return reservations;
     }
 
-    public void setEmpruntUtilisateurs(List<Utilisateur> empruntUtilisateurs) {
-        this.empruntUtilisateurs = empruntUtilisateurs;
+    public void setReservations(List<Reservation> reservations) {
+        this.reservations = reservations;
     }
-
 }

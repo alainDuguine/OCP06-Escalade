@@ -57,9 +57,10 @@ public class Utilisateur extends Entitie implements Serializable{
     private List<ComplementVoie> complementVoies = new ArrayList<>();
     @OneToMany (mappedBy = "utilisateur", cascade = CascadeType.ALL)
     private List<Topo> topos = new ArrayList<>();
-
-    @ManyToMany (mappedBy = "empruntUtilisateurs")
-    private List<Topo> empruntsTopos = new ArrayList<>();
+    @OneToMany (mappedBy = "emprunteur")
+    private List<Reservation> demandeReservations = new ArrayList<>();
+    @OneToMany (mappedBy = "preteur")
+    private List<Reservation> offreReservations = new ArrayList<>();
 
     /* ********************************************************************************************
      **** CONSTRUCTORS      ************************************************************************
@@ -284,12 +285,20 @@ public class Utilisateur extends Entitie implements Serializable{
         this.topos = topos;
     }
 
-    public List<Topo> getEmpruntsTopos() {
-        return empruntsTopos;
+    public List<Reservation> getDemandeReservations() {
+        return demandeReservations;
     }
 
-    public void setEmpruntsTopos(List<Topo> empruntsTopos) {
-        this.empruntsTopos = empruntsTopos;
+    public void setDemandeReservations(List<Reservation> demandeReservations) {
+        this.demandeReservations = demandeReservations;
+    }
+
+    public List<Reservation> getOffreReservations() {
+        return offreReservations;
+    }
+
+    public void setOffreReservations(List<Reservation> offreReservations) {
+        this.offreReservations = offreReservations;
     }
 
     public void addSpot(Spot spot) {
