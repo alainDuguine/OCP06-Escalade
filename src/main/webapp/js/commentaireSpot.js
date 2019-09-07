@@ -16,11 +16,11 @@ $(document).ready(function(){
                     if (!data.hasOwnProperty('erreur')) {
                         $("#commentaireInput").val('');
                         if ($(".commentaire").length) {
-                            $(".commentaire").first().before("<p class=\"commentaire\">Par " + data.username + " le "
-                                + data.dateFormat + "<br/>" + data.contenu + "</p><hr/>");
+                            $(".commentaire").first().before("<p class=\"commentaire\"><span class=\"auteurCommentaire\">Par " + data.username + " le "
+                                + data.dateFormat + "</span><br/>" + data.contenu + "</p><hr/>");
                         } else {
-                            $(".commentaireDisplay").append("<p class=\"commentaire\">Par " + data.username + " le "
-                                + data.dateFormat + "<br/>" + data.contenu + "</p><hr/>");
+                            $(".commentaireDisplay").append("<p class=\"commentaire\"><span class=\"auteurCommentaire\">Par " + data.username + " le "
+                                + data.dateFormat + "</span><br/>" + data.contenu + "</p><hr/>");
                         }
                     }else{
                         alert(data.erreur);
