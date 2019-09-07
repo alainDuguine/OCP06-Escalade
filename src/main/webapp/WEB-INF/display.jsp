@@ -46,19 +46,17 @@
                     <ul id="listTopo">
                     <c:forEach items="${spot.topos}" var="topo">
                         <c:if test="${topo.disponible}">
-                            <div type="text" class="popup" id="${topo.id}">
-                                    <li class="itemTopo"><a onclick="myFunction()">- <c:out value="${topo.nom}"/></a><button class="buttonReservationTopo" type="button">Réserver</button>
-<%--                                <input type="text" hidden="hidden" class="idTopo" value="${topo.id}"/>--%>
-<%--                                <input type="text" hidden="hidden" class="${topo.id}" id="${topo.id}topoNom" value="${topo.nom}"/>--%>
-<%--                                <input type="text" hidden="hidden" class="${topo.id}" id="${topo.id}topoDescription" value="${topo.description}"/>--%>
-<%--                                <input type="text" hidden="hidden" class="${topo.id}" id="${topo.id}topoDate" value="${topo.dateEdition}"/>--%>
-                                    <div class="popuptext" id="myPopup">
-                                        <span type="text" id="${topo.id}topoNom">${topo.nom}</span>
-                                        <span type="text" id="${topo.id}topoDescription">${topo.description}</span>
-                                        <span type="text" id="${topo.id}topoDate">${topo.dateEdition}</span>
-                                    </div>
+                            <div class="popup" id="${topo.id}">
+                                <div class="popuptext">
+                                    <p class="descriptionPopup">
+                                        <span>Description :</span>
+                                        <br>${topo.description}<br>
+                                        <span>Edition:</span>
+                                        <br>${topo.dateEdition}
+                                    </p>
                                 </div>
-                            </li>
+                            </div>
+                            <li class="itemTopo" id="${topo.id}"><a href="#">- <c:out value="${topo.nom}"/></a><button class="buttonReservationTopo" type="button">Réserver</button></li>
                             <hr>
                         </c:if>
                     </c:forEach>
@@ -145,7 +143,7 @@
             </c:if>
             <div class="commentaireDisplay">
                 <c:forEach items="${spot.commentaires}" var="commentairePublic">
-                    <div class="commentaire">Par <c:out value="${commentairePublic.utilisateur.username}"/> le ${commentairePublic.dateFormat}
+                    <div class="commentaire"><span class="auteurCommentaire">Par <c:out value="${commentairePublic.utilisateur.username}"/> le ${commentairePublic.dateFormat}</span>
                     <br/><span id="content${commentairePublic.id}"><c:out value="${commentairePublic.contenu}"/></span>
                         <c:if test="${admin}">
                             <p class="modifComm" id="${commentairePublic.id}">
@@ -170,10 +168,6 @@
 <script>
     $(document).ready(function() {
 
-        function myFunction() {
-            var popup = document.getElementById("myPopup");
-            popup.classList.toggle("show");
-        }
         // Gestion de l'arborescence d'un spot
         $(".treeview li:has(li)").addClass("parent");
 
@@ -188,15 +182,19 @@
                 $(this).addClass("close");
         });
 
-        // // Affichage de la description d'un topo dans un alert sur click
-        // $(".itemTopo a").click(function () {
-        //     var idTopo = $(this).siblings().next().val(),
-        //         nomTopo = $("#"+idTopo+"topoNom").val(),
-        //         descriptionTopo = $("#"+idTopo+"topoDescription").val(),
-        //         dateTopo = $("#"+idTopo+"topoDate").val();
-        //     console.log(idTopo, nomTopo, descriptionTopo, dateTopo);
-        //         alert("<b>Topo  - "+nomTopo+"</b>" +idTopo + " " + nomTopo + " " + descriptionTopo + " " + dateTopo);
-        // });
+        //Affichage de la description d'un topo dans un popup sur click
+        var idTopo;
+
+        $(".itemTopo a").click(function (e) {
+            e.preventDefault();
+            idTopo = $(this).parent().attr('id');
+            $("#"+idTopo+" > div").toggleClass("show");
+            $(this).focus()
+        });
+
+        $('.itemTopo a').blur(function(){
+            $("#"+idTopo+" > div").toggleClass("show");
+        });
 
     });
 

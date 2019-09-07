@@ -20,6 +20,7 @@ public class Topo extends Entitie implements Serializable {
     private Long id;
     private String nom;
     private String dateEdition;
+    @Column (length = 2000)
     private String description;
     private boolean disponible = true;
 

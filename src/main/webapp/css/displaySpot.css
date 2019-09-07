@@ -6,6 +6,7 @@
     top: 4em;
     left: 20em;
     margin:1em;
+    z-index: -2;
 }
 
 #navDiv{
@@ -60,6 +61,12 @@ h5{
 
 .commentaireForm textarea:focus {
     border: 2px solid #a88680;
+}
+
+.auteurCommentaire{
+    font-size: 0.9em;
+    text-decoration: underline;
+    font-weight: bold;
 }
 
 input[type=button]{

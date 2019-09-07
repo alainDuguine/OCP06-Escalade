@@ -1,24 +1,39 @@
 /* Popup container */
 .popup {
     position: relative;
-    display: inline-block;
+    display: block;
     cursor: pointer;
+    min-width: 15em;
+    max-width: 50em;
+    width: 300%;
+    z-index: 1;
 }
 
 /* The actual popup (appears on top) */
 .popup .popuptext {
     visibility: hidden;
-    width: 160px;
-    background-color: #555;
+    width: auto;
+    background-color: rgb(85, 85, 85);
     color: #fff;
-    text-align: center;
+    text-align: justify;
     border-radius: 6px;
-    padding: 8px 0;
+    padding: 0.5em;
+    margin: 0;
     position: absolute;
-    z-index: 1;
-    bottom: 125%;
-    left: 50%;
-    margin-left: -80px;
+    bottom: 100%;
+    font-size: 0.8em;
+    font-weight: lighter;
+}
+
+.descriptionPopup{
+    margin:0;
+    padding:0;
+    width: 100%;
+}
+
+.descriptionPopup > span{
+    text-align: center;
+    text-decoration: underline;
 }
 
 /* Popup arrow */
@@ -26,7 +41,7 @@
     content: "";
     position: absolute;
     top: 100%;
-    left: 50%;
+    left: 10%;
     margin-left: -5px;
     border-width: 5px;
     border-style: solid;
