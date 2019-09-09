@@ -574,6 +574,20 @@ public class Servlet extends HttpServlet {
                 }
                 break;
             }
+            case "/refuserPret.do":
+            case "/accepterPret.do":{
+                ReservationDaoImpl reservationDao = new ReservationDaoImpl();
+                Reservation reservation = reservationDao.findOne(Long.parseLong(req.getParameter("idReservation")));
+                boolean result;
+                try {
+                    reservationDao.update(reservation, req);
+                    result = true;
+                }catch (Exception e){
+                    result = false;
+                }
+                this.sendAjaxBooleanResponse(result, resp);
+                break;
+            }
         }
     }
 

@@ -72,7 +72,7 @@
     align-items: center;
 }
 
-.buttonAdmin, .buttonTopo{
+.buttonAdmin, .buttonTopo, .buttonReservation{
     background-color: white;
     border: 2px solid #a88680;
     border-radius: 6px;
@@ -82,7 +82,8 @@
     margin-right: auto;
 }
 
-.buttonAdmin:hover, .buttonTopo:hover{
+.buttonAdmin:hover, .buttonTopo:hover, .buttonReservation:hover{
     background-color: rgba(128,142,168,0.75);
     box-sizing: border-box;
+    cursor: pointer;
 }

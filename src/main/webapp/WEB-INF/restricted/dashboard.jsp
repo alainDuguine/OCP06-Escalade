@@ -182,7 +182,7 @@
                         <td><c:out value="${topo.utilisateur.username}"/></td>
                     </c:if>
                     <td class="topoTable"><c:out value="${topo.disponible ? 'Oui' : 'Non'}"/></td>
-                    <td><button class="buttonTopo" type="button">Disponibilité</button></td>
+                    <td><button class="buttonTopo" id="dispoTopo" type="button">Disponibilité</button></td>
                     <td><a href="modifierTopo.do?idTopo=${topo.id}">Modifier ce topo</a></td>
                     <td class="supprElem"><a href="supprimerTopo">Supprimer</a></td>
                 </tr>
@@ -225,7 +225,9 @@
                         <td><c:out value="${pret.dateDernierStatut}"/></td>
                         <c:choose>
                             <c:when test="${pret.dernierStatut == 'PENDING'}">
-                                <td>En Attente</td>
+                                <td id="statutReservation">En Attente</td>
+                                <td><button class="buttonReservation" id="accepterPret.do" type="button">Accepter</button></td>
+                                <td><button class="buttonReservation" id="refuserPret.do" type="button">Refuser</button></td>
                             </c:when>
                             <c:when test="${pret.dernierStatut == 'APPROVED'}">
                                 <td>Acceptée</td>
@@ -270,6 +272,7 @@
                     <c:choose>
                         <c:when test="${emprunt.dernierStatut == 'PENDING'}">
                             <td>En Attente</td>
+                            <td class="supprElem"><a href="supprimerReservation">Supprimer</a></td>
                         </c:when>
                         <c:when test="${emprunt.dernierStatut == 'APPROVED'}">
                             <td>Acceptée</td>
@@ -325,7 +328,7 @@
         crossorigin="anonymous"></script>
 <script>
     $(document).ready(function () {
-        //Affiche chaque taleau (spot, secteur, voie, topo, utilisateur) sur le clic du menu
+        // Affiche chaque taleau (spot, secteur, voie, topo, utilisateur) sur le clic du menu
         $(".menu-button").click(function() {
             $(".resultatDiv").hide()
             $(".menuDashboard button").removeClass("active");
@@ -334,8 +337,8 @@
             $(idTable).show();
         });
 
-        //Change le statut disponible d'un topo
-        $(".buttonTopo").click(function() {
+        // Change le statut disponible d'un topo
+        $("#dispoTopo").click(function() {
             var el = $(this);
             var topoId = $(this).parent().parent().attr('id');
             if (confirm("Etes-vous sûr de vouloir modifier la disponibilité de ce topo ?")) {
@@ -352,7 +355,7 @@
             }
         });
 
-        //Change le statut administrateur de l'utilisateur sur le clic du bouton
+        // Change le statut administrateur de l'utilisateur sur le clic du bouton
         $(".buttonAdmin").click(function() {
             var el = $(this);
             var userId = $(this).parent().parent().attr('id');
@@ -370,7 +373,7 @@
             }
         });
 
-        //Suppression des éléments Spots, Secteurs, Voies
+        // Suppression des éléments Spots, Secteurs, Voies
         $(".supprElem").click(function(event){
             event.preventDefault();
             var el = $(this),
@@ -392,8 +395,38 @@
                     }
                 })
             }
+        })
+
+        // Accord ou refus réservation
+
+        $(".buttonReservation").click(function(){
+            var idReservation = $(this).parent().parent().attr('id'),
+                buttonPath = $(this).attr('id');
+            if (buttonPath === "accepterPret.do") {
+                msg = "En acceptant la demande de prêt, votre adresse email sera communiquée au demandeur. Etes-vous sûr ?"
+            } else {
+                msg = "Etes-vous sûr de vouloir refuser la demande de prêt ?"
+            }
+            if (confirm(msg)){
+                $.post(buttonPath, {idReservation: idReservation}, function (data){
+                    if (data === 'true') {
+                        if (buttonPath === "accepterPret.do"){
+                            $('#statutReservation').val("Acceptée");
+                            if(!alert("La demande de prêt a bien été acceptée !")){window.location.reload()};
+                        }else if(buttonPath === "refuserPret.do"){
+                            $('#statutReservation').val("Refusée");
+                            if(!alert("La demande de prêt a bien été refusée !")){window.location.reload()};
+                        }
+                    } else {
+                        alert("Une erreur est apparue, merci de réessayer plus tard");
+                    }
+                })
+            }
+
 
         })
+
+
     })
 </script>
 </body>

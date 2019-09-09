@@ -1,5 +1,5 @@
 package com.alain.dao.entities;
 
 public enum ReservationStatutEnum {
-    PENDING,APPROVED,REFUSED;
+    PENDING,APPROVED,REFUSED,CANCELLED,FINISHED;
 }

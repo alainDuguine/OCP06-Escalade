@@ -8,6 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class ReservationDaoImpl extends EntityManagerUtil implements EntityRepository<Reservation> {
@@ -29,7 +30,6 @@ public class ReservationDaoImpl extends EntityManagerUtil implements EntityRepos
             topo.addReservation(reservation);
             preteur.addPret(reservation);
             emprunteur.addEmprunt(reservation);
-            // Création des associations bidirectionelles
             entityManager.flush();
             transaction.commit();
         }catch (Exception e){
@@ -43,7 +43,28 @@ public class ReservationDaoImpl extends EntityManagerUtil implements EntityRepos
 
     @Override
     public Reservation update(Reservation reservation, HttpServletRequest req) {
-        return null;
+        EntityTransaction transaction = entityManager.getTransaction();
+        try{
+            transaction.begin();
+            String path = req.getServletPath();
+            ReservationHistorique reservationHistorique = new ReservationHistorique();
+            reservationHistorique.setDateTime(LocalDateTime.now());
+            if(path.contains("accepter")){
+                reservationHistorique.setReservationStatut(ReservationStatutEnum.APPROVED);
+            }else{
+                reservationHistorique.setReservationStatut(ReservationStatutEnum.REFUSED);
+            }
+            reservationHistorique.setReservation(reservation);
+            reservation.addEvent(reservationHistorique);
+            entityManager.flush();
+            transaction.commit();
+        }catch (Exception e){
+            if (transaction != null)
+                transaction.rollback();
+            e.printStackTrace();
+            throw e;
+        }
+        return reservation;
     }
 
     @Override
@@ -53,12 +74,13 @@ public class ReservationDaoImpl extends EntityManagerUtil implements EntityRepos
 
     @Override
     public List<Reservation> findAll() {
-        return null;
+        Query query = entityManager.createQuery("select reservation from Reservation reservation order by reservation.id desc");
+        return query.getResultList();
     }
 
     @Override
     public Reservation findOne(Long id) {
-        return null;
+        return entityManager.find(Reservation.class, id);
     }
 
     public List<Reservation> findReservationInTopoForUser(Long idTopo, Long idEmprunteur) {

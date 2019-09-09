@@ -111,4 +111,5 @@
 .buttonReservationTopo:hover{
     background-color: rgba(128,142,168,0.75);
     box-sizing: border-box;
+    cursor: pointer;
 }
