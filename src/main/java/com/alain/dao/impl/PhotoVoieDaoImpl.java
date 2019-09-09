@@ -32,6 +32,7 @@ public class PhotoVoieDaoImpl implements EntityRepository<PhotoVoie>{
             if (transaction != null)
                 transaction.rollback();
             e.printStackTrace();
+            throw e;
         }
         return photoVoie;
     }

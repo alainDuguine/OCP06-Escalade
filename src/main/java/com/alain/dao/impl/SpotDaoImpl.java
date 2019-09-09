@@ -40,6 +40,7 @@ public class SpotDaoImpl implements EntityRepository<Spot> {
             if (transaction != null)
                 transaction.rollback();
             e.printStackTrace();
+            throw e;
         }
         return spot;
     }
@@ -59,6 +60,7 @@ public class SpotDaoImpl implements EntityRepository<Spot> {
             if (transaction != null)
                 transaction.rollback();
             e.printStackTrace();
+            throw e;
         }
         return spot;
     }

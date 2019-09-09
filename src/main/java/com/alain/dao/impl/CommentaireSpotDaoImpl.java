@@ -19,7 +19,7 @@ public class CommentaireSpotDaoImpl implements EntityRepository<CommentaireSpot>
     private EntityManager entityManager = EntityManagerUtil.getEntityManager();
 
     @Override
-    public CommentaireSpot save(CommentaireSpot commentaire, HttpServletRequest req) throws Exception {
+    public CommentaireSpot save(CommentaireSpot commentaire, HttpServletRequest req){
         EntityTransaction transaction = entityManager.getTransaction();
         try {
             transaction.begin();
@@ -35,7 +35,7 @@ public class CommentaireSpotDaoImpl implements EntityRepository<CommentaireSpot>
             if (transaction != null)
                 transaction.rollback();
             e.printStackTrace();
-            throw new Exception();
+            throw e;
         }
         return commentaire;
     }
@@ -51,6 +51,7 @@ public class CommentaireSpotDaoImpl implements EntityRepository<CommentaireSpot>
             if (transaction != null)
                 transaction.rollback();
             e.printStackTrace();
+            throw e;
         }
         return commentaireSpot;
     }

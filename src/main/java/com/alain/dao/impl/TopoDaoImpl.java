@@ -31,6 +31,7 @@ public class TopoDaoImpl implements EntityRepository<Topo> {
             if (transaction != null)
                 transaction.rollback();
             e.printStackTrace();
+            throw e;
         }
         return topo;
     }
@@ -47,6 +48,7 @@ public class TopoDaoImpl implements EntityRepository<Topo> {
             if (transaction != null)
                 transaction.rollback();
             e.printStackTrace();
+            throw e;
         }
         return topo;
     }

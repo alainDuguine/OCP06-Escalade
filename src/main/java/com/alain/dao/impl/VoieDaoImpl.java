@@ -36,6 +36,7 @@ public class VoieDaoImpl implements EntityRepository<Voie> {
             if (transaction != null)
                 transaction.rollback();
             e.printStackTrace();
+            throw e;
         }
         return voie;
     }
@@ -53,6 +54,7 @@ public class VoieDaoImpl implements EntityRepository<Voie> {
             if (transaction != null)
                 transaction.rollback();
             e.printStackTrace();
+            throw e;
         }
         return voie;
     }

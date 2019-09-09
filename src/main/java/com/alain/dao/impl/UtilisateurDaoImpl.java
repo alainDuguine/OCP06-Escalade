@@ -23,6 +23,7 @@ public class UtilisateurDaoImpl implements EntityRepository<Utilisateur>{
             if (transaction != null)
                 transaction.rollback();
             e.printStackTrace();
+            throw e;
         }
         return utilisateur;
     }
@@ -38,6 +39,7 @@ public class UtilisateurDaoImpl implements EntityRepository<Utilisateur>{
             if (transaction != null)
                 transaction.rollback();
             e.printStackTrace();
+            throw e;
         }
         return utilisateur;
     }

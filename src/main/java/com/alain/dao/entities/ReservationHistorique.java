@@ -28,7 +28,7 @@ public class ReservationHistorique implements Serializable {
     }
 
     public ReservationHistorique(LocalDateTime dateTime, ReservationStatutEnum reservationStatut) {
-        this.dateTime = dateTime;
+        this.dateTime = LocalDateTime.now();
         this.reservationStatut = reservationStatut;
     }
 
@@ -71,4 +71,5 @@ public class ReservationHistorique implements Serializable {
     public void setReservation(Reservation reservation) {
         this.reservation = reservation;
     }
+
 }

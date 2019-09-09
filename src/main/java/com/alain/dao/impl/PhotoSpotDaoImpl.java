@@ -31,6 +31,7 @@ public class PhotoSpotDaoImpl implements EntityRepository<PhotoSpot>{
             if (transaction != null)
                 transaction.rollback();
             e.printStackTrace();
+            throw e;
         }
         return photoSpot;
     }

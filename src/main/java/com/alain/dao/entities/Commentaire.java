@@ -51,7 +51,8 @@ public class Commentaire extends Entitie implements Serializable {
 
     @Override
     public void hydrate(HttpServletRequest req) {
-        this.contenu = Utilities.getValeurChamp(req, CHAMP_CONTENU);        this.dateTime = LocalDateTime.now();
+        this.contenu = Utilities.getValeurChamp(req, CHAMP_CONTENU);
+        this.dateTime = LocalDateTime.now();
         this.dateFormat = this.setDateFormat();
     }
 

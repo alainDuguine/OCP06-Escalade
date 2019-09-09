@@ -32,6 +32,7 @@ public class SecteurDaoImpl extends EntityManagerUtil implements EntityRepositor
             if (transaction != null)
                 transaction.rollback();
             e.printStackTrace();
+            throw e;
         }
         return secteur;
     }
@@ -47,6 +48,7 @@ public class SecteurDaoImpl extends EntityManagerUtil implements EntityRepositor
             if (transaction != null)
                 transaction.rollback();
             e.printStackTrace();
+            throw e;
         }
         return secteur;
     }
