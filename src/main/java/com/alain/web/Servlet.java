@@ -84,11 +84,15 @@ public class Servlet extends HttpServlet {
                     TopoDaoImpl topoDao = new TopoDaoImpl();
                     List<Topo> listTopo = topoDao.findAll();
 
+                    ReservationDaoImpl reservationDao = new ReservationDaoImpl();
+                    List<Reservation> listReservations = reservationDao.findAll();
+
                     req.setAttribute("listUtilisateur", listUtilisateur);
                     req.setAttribute("listSpot", listSpot);
                     req.setAttribute("listSecteur", listSecteur);
                     req.setAttribute("listVoie", listVoie);
                     req.setAttribute("listTopo", listTopo);
+                    req.setAttribute("listReservations", listReservations);
                 }else{
                     UtilisateurDaoImpl utilisateurDao = new UtilisateurDaoImpl();
                     Utilisateur utilisateur = utilisateurDao.findByUsername(username);
@@ -456,7 +460,8 @@ public class Servlet extends HttpServlet {
             case "/supprimerUser.do":
             case "/supprimerCommentaire.do":
             case "/supprimerPhoto.do":
-            case "/supprimerTopo.do":{
+            case "/supprimerTopo.do":
+            case "/supprimerReservation.do":{
                 Long idElement = Long.parseLong(req.getParameter("idElement"));
                 EntityRepository dao;
                 if (path.contains("User")) {
@@ -472,8 +477,10 @@ public class Servlet extends HttpServlet {
                     }else{
                         dao = new PhotoVoieDaoImpl();
                     }
-                } else {
+                } else if (path.contains("Topo")){
                     dao = new TopoDaoImpl();
+                } else {
+                    dao = new ReservationDaoImpl();
                 }
                 Boolean result = dao.delete(idElement);
                 this.sendAjaxBooleanResponse(result, resp);

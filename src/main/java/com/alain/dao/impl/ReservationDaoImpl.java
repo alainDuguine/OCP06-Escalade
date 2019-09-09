@@ -69,7 +69,21 @@ public class ReservationDaoImpl extends EntityManagerUtil implements EntityRepos
 
     @Override
     public boolean delete(Long id) {
-        return false;
+        EntityTransaction transaction = entityManager.getTransaction();
+        try{
+            transaction.begin();
+            Reservation reservation = entityManager.find(Reservation.class, id);
+            reservation.removeHistorique();
+            entityManager.remove(reservation);
+            entityManager.flush();
+            transaction.commit();
+            return true;
+        }catch (Exception e){
+            if (transaction != null)
+                transaction.rollback();
+            e.printStackTrace();
+            return false;
+        }
     }
 
     @Override

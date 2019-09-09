@@ -1,6 +1,6 @@
 <header>
     <div id="logo">
-        <a href=""><img src="../images/logo.png" alt="Logo association" title="Notre association" id="img-logo"/></a>
+        <a href="index.do"><img src="../images/logo.png" alt="Logo association" title="Notre association" id="img-logo"/></a>
     </div>
     <div id="banner">
         <nav class="menu">

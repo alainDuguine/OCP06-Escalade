@@ -196,7 +196,12 @@
 
         <!-- Table Pret de Topos-->
 
-        <h3>Mes prêts de topo :</h3>
+        <c:if test="${!admin}">
+            <h3>Mes Prêts de topo :</h3>
+        </c:if>
+        <c:if test="${admin}">
+            <h3>Les Prêts de topo :</h3>
+        </c:if>
         <table>
             <thead>
             <tr>
@@ -209,6 +214,7 @@
                 <th>Emprunteur</th>
                 <th>Date de réservation</th>
                 <th>Statut réservation</th>
+                <th>Adresse email</th>
             </tr>
             </thead>
             <tbody>
@@ -218,7 +224,7 @@
                         <c:if test="${admin}">
                             <td><c:out value="${pret.topo.id}"/></td>
                             <td><c:out value="${pret.id}"/></td>
-                            <td><c:out value="${pret.preteur}"/></td>
+                            <td><c:out value="${pret.preteur.username}"/></td>
                         </c:if>
                         <td><c:out value="${pret.topo.nom}"/></td>
                         <td><c:out value="${pret.emprunteur.username}"/></td>
@@ -226,11 +232,15 @@
                         <c:choose>
                             <c:when test="${pret.dernierStatut == 'PENDING'}">
                                 <td id="statutReservation">En Attente</td>
-                                <td><button class="buttonReservation" id="accepterPret.do" type="button">Accepter</button></td>
-                                <td><button class="buttonReservation" id="refuserPret.do" type="button">Refuser</button></td>
+                                <td class="containerButtonReservation">
+                                    <button class="buttonReservation" id="accepterPret.do" type="button">Accepter</button>
+                                    <button class="buttonReservation" id="refuserPret.do" type="button">Refuser</button>
+                                </td>
+
                             </c:when>
                             <c:when test="${pret.dernierStatut == 'APPROVED'}">
                                 <td>Acceptée</td>
+                                <td>${pret.emprunteur.email}</td>
                             </c:when>
                             <c:otherwise>
                                 <td>Refusée</td>
@@ -242,7 +252,12 @@
         </table>
 
 
-        <h3>Mes emprunts de topo :</h3>
+        <c:if test="${!admin}">
+            <h3>Mes emprunts de topo :</h3>
+        </c:if>
+        <c:if test="${admin}">
+            <h3>Les emprunts de topo :</h3>
+        </c:if>
         <table>
             <thead>
             <tr>
@@ -255,6 +270,8 @@
                 <th>Propriétaire Topo</th>
                 <th>Date de réservation</th>
                 <th>Statut réservation</th>
+                <th>Adresse email</th>
+
             </tr>
             </thead>
             <tbody>
@@ -264,10 +281,10 @@
                     <c:if test="${admin}">
                         <td><c:out value="${emprunt.topo.id}"/></td>
                         <td><c:out value="${emprunt.id}"/></td>
-                        <td><c:out value="${emprunt.preteur}"/></td>
+                        <td><c:out value="${emprunt.emprunteur.username}"/></td>
                     </c:if>
                     <td><c:out value="${emprunt.topo.nom}"/></td>
-                    <td><c:out value="${emprunt.emprunteur.username}"/></td>
+                    <td><c:out value="${emprunt.preteur.username}"/></td>
                     <td><c:out value="${emprunt.dateDernierStatut}"/></td>
                     <c:choose>
                         <c:when test="${emprunt.dernierStatut == 'PENDING'}">
@@ -276,6 +293,7 @@
                         </c:when>
                         <c:when test="${emprunt.dernierStatut == 'APPROVED'}">
                             <td>Acceptée</td>
+                            <td>${emprunt.preteur.email}</td>
                         </c:when>
                         <c:otherwise>
                             <td>Refusée</td>
@@ -285,14 +303,7 @@
             </c:forEach>
             </tbody>
         </table>
-
-
     </div>
-
-
-
-
-
 
     <c:if test="${admin}">
     <!-- Table Utilisateur -->
@@ -382,6 +393,8 @@
             var msg;
             if (path.includes('Topo')){
                 msg = "Etes vous sûr de vouloir supprimer ce topo ?"
+            }else if (path.includes('Reservation')){
+                msg = "Etes vous sûr de vouloir annuler cette demande de réservation ?"
             }else{
                 msg ="Attention ! La suppression d'un élément entraînera la suppression de tous les éléments associés ! Spots, Secteurs, Voies, Photos, Commentaires. Etes-vous sûr de vouloir continuer ?";
             }
@@ -415,15 +428,14 @@
                             if(!alert("La demande de prêt a bien été acceptée !")){window.location.reload()};
                         }else if(buttonPath === "refuserPret.do"){
                             $('#statutReservation').val("Refusée");
-                            if(!alert("La demande de prêt a bien été refusée !")){window.location.reload()};
+                            alert("La demande de prêt a bien été refusée !");
+                            // if(!alert("La demande de prêt a bien été refusée !")){window.location.reload()};
                         }
                     } else {
                         alert("Une erreur est apparue, merci de réessayer plus tard");
                     }
                 })
             }
-
-
         })
 
 

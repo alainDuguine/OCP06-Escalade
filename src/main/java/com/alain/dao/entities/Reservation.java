@@ -39,7 +39,7 @@ public class Reservation extends Entitie implements Serializable {
     @ManyToOne
     private Topo topo;
 
-    @OneToMany (mappedBy = "reservation", cascade = CascadeType.PERSIST)
+    @OneToMany (mappedBy = "reservation", cascade = CascadeType.ALL)
     private List<ReservationHistorique> listHistorique = new ArrayList<>();
 
 
@@ -104,6 +104,10 @@ public class Reservation extends Entitie implements Serializable {
         this.setDateDernierStatut(Utilities.dateStringFr(reservationHistorique.getDateTime()));
     }
 
+    public void removeHistorique() {
+        this.listHistorique.clear();
+    }
+
     /* *********************************************************************************************
      **** GETTERS & SETTERS ************************************************************************
      *********************************************************************************************** */
@@ -164,4 +168,6 @@ public class Reservation extends Entitie implements Serializable {
     public void setDateDernierStatut(String dateDernierStatut) {
         this.dateDernierStatut = dateDernierStatut;
     }
+
+
 }
