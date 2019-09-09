@@ -294,6 +294,7 @@ public class Servlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String path = req.getServletPath();
         switch (path) {
+
             /* *********************************************************************************************
              **** Gestion Utilisateur      *****************************************************************
              *********************************************************************************************** */
@@ -489,7 +490,6 @@ public class Servlet extends HttpServlet {
             case "/saveCommentaire.do": {
                 Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
                 CommentaireSpotDaoImpl commentaireDao = new CommentaireSpotDaoImpl();
-                String idSpot = req.getParameter("idSpot");
                 CheckForm form = new CheckForm();
                 form.checkAndSave(req, "com.alain.dao.entities.CommentaireSpot", commentaireDao);
                 if (form.isResultat()) {
@@ -521,7 +521,11 @@ public class Servlet extends HttpServlet {
                 out.flush();
                 break;
             }
-            // Ajoute les relations entre un spot référencé par un topo
+
+            /* *********************************************************************************************
+             **** Relations entre spot et topo  ************************************************************
+             *********************************************************************************************** */
+
             case "/saveTopoSpot.do":{
                 Boolean result = false;
                 TopoDaoImpl topoDao = new TopoDaoImpl();
@@ -545,6 +549,29 @@ public class Servlet extends HttpServlet {
                 Long idSpot = Long.parseLong(req.getParameter("idSpot"));
                 Boolean result = topoDao.deleteSpotFromTopo(idTopo, idSpot);
                 this.sendAjaxBooleanResponse(result, resp);
+                break;
+            }
+
+            /* *********************************************************************************************
+             **** Gestion des Réservations de topo  ********************************************************
+             *********************************************************************************************** */
+            case "/reserverTopo.do":{
+                ReservationDaoImpl reservationDao = new ReservationDaoImpl();
+                CheckForm form = new CheckForm();
+                form.checkAndSave(req, "com.alain.dao.entities.Reservation", reservationDao);
+                if (form.isResultat()) {
+                    sendAjaxBooleanResponse(true, resp);
+                }else{
+                    Map<String, String> ajaxReturn = new HashMap<>();
+                    ajaxReturn.put("erreur", String.valueOf(form.getListErreurs().get("erreur")));
+                    Gson gson = new Gson();
+                    String ajaxReturnString = gson.toJson(ajaxReturn);
+                    PrintWriter out = resp.getWriter();
+                    resp.setContentType("application/json");
+                    resp.setCharacterEncoding("UTF-8");
+                    out.print(ajaxReturnString);
+                    out.flush();
+                }
                 break;
             }
         }

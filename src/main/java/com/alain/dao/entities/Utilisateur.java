@@ -58,9 +58,9 @@ public class Utilisateur extends Entitie implements Serializable{
     @OneToMany (mappedBy = "utilisateur", cascade = CascadeType.ALL)
     private List<Topo> topos = new ArrayList<>();
     @OneToMany (mappedBy = "emprunteur")
-    private List<Reservation> demandeReservations = new ArrayList<>();
+    private List<Reservation> emprunts = new ArrayList<>();
     @OneToMany (mappedBy = "preteur")
-    private List<Reservation> offreReservations = new ArrayList<>();
+    private List<Reservation> prets = new ArrayList<>();
 
     /* ********************************************************************************************
      **** CONSTRUCTORS      ************************************************************************
@@ -285,20 +285,20 @@ public class Utilisateur extends Entitie implements Serializable{
         this.topos = topos;
     }
 
-    public List<Reservation> getDemandeReservations() {
-        return demandeReservations;
+    public List<Reservation> getEmprunts() {
+        return emprunts;
     }
 
-    public void setDemandeReservations(List<Reservation> demandeReservations) {
-        this.demandeReservations = demandeReservations;
+    public void setEmprunt(List<Reservation> emprunts) {
+        this.emprunts = emprunts;
     }
 
-    public List<Reservation> getOffreReservations() {
-        return offreReservations;
+    public List<Reservation> getPrets() {
+        return prets;
     }
 
-    public void setOffreReservations(List<Reservation> offreReservations) {
-        this.offreReservations = offreReservations;
+    public void setPrets(List<Reservation> prets) {
+        this.prets = prets;
     }
 
     public void addSpot(Spot spot) {
@@ -321,6 +321,14 @@ public class Utilisateur extends Entitie implements Serializable{
 
     public void addTopo(Topo topo) {
         this.topos.add(topo);
+    }
+
+    public void addPret(Reservation reservation){
+        this.prets.add(reservation);
+    }
+
+    public void addEmprunt(Reservation reservation){
+        this.emprunts.add(reservation);
     }
 
 }

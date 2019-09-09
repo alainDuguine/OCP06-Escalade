@@ -155,6 +155,7 @@
 
     <!-- Table Topo -->
     <div class="resultatDiv" id="tableTopo">
+        <h3>Mes topo enregistrés :</h3>
         <table>
             <thead>
             <tr>
@@ -192,7 +193,103 @@
         <div id="addTopo">
             <p class="menu-button" id="addTopoButton"><a href="ajoutTopo.do"><img src="../../images/plus.png"/><span>Ajouter un Topo</span></a></p>
         </div>
+
+        <!-- Table Pret de Topos-->
+
+        <h3>Mes prêts de topo :</h3>
+        <table>
+            <thead>
+            <tr>
+                <c:if test="${admin}">
+                    <th>Id Topo</th>
+                    <th>Id Reservation</th>
+                    <th>Propriétaire Topo</th>
+                </c:if>
+                <th>Nom Topo</th>
+                <th>Emprunteur</th>
+                <th>Date de réservation</th>
+                <th>Statut réservation</th>
+            </tr>
+            </thead>
+            <tbody>
+            <c:set var="prets" value="${admin ? listReservations : utilisateur.prets}"/>
+            <c:forEach items="${prets}" var="pret">
+                    <tr class="item" id="${pret.id}">
+                        <c:if test="${admin}">
+                            <td><c:out value="${pret.topo.id}"/></td>
+                            <td><c:out value="${pret.id}"/></td>
+                            <td><c:out value="${pret.preteur}"/></td>
+                        </c:if>
+                        <td><c:out value="${pret.topo.nom}"/></td>
+                        <td><c:out value="${pret.emprunteur.username}"/></td>
+                        <td><c:out value="${pret.dateDernierStatut}"/></td>
+                        <c:choose>
+                            <c:when test="${pret.dernierStatut == 'PENDING'}">
+                                <td>En Attente</td>
+                            </c:when>
+                            <c:when test="${pret.dernierStatut == 'APPROVED'}">
+                                <td>Acceptée</td>
+                            </c:when>
+                            <c:otherwise>
+                                <td>Refusée</td>
+                            </c:otherwise>
+                        </c:choose>
+                    </tr>
+            </c:forEach>
+            </tbody>
+        </table>
+
+
+        <h3>Mes emprunts de topo :</h3>
+        <table>
+            <thead>
+            <tr>
+                <c:if test="${admin}">
+                    <th>Id Topo</th>
+                    <th>Id Reservation</th>
+                    <th>Emprunteur Topo</th>
+                </c:if>
+                <th>Nom Topo</th>
+                <th>Propriétaire Topo</th>
+                <th>Date de réservation</th>
+                <th>Statut réservation</th>
+            </tr>
+            </thead>
+            <tbody>
+            <c:set var="emprunts" value="${admin ? listReservations : utilisateur.emprunts}"/>
+            <c:forEach items="${emprunts}" var="emprunt">
+                <tr class="item" id="${emprunt.id}">
+                    <c:if test="${admin}">
+                        <td><c:out value="${emprunt.topo.id}"/></td>
+                        <td><c:out value="${emprunt.id}"/></td>
+                        <td><c:out value="${emprunt.preteur}"/></td>
+                    </c:if>
+                    <td><c:out value="${emprunt.topo.nom}"/></td>
+                    <td><c:out value="${emprunt.emprunteur.username}"/></td>
+                    <td><c:out value="${emprunt.dateDernierStatut}"/></td>
+                    <c:choose>
+                        <c:when test="${emprunt.dernierStatut == 'PENDING'}">
+                            <td>En Attente</td>
+                        </c:when>
+                        <c:when test="${emprunt.dernierStatut == 'APPROVED'}">
+                            <td>Acceptée</td>
+                        </c:when>
+                        <c:otherwise>
+                            <td>Refusée</td>
+                        </c:otherwise>
+                    </c:choose>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
+
+
     </div>
+
+
+
+
+
 
     <c:if test="${admin}">
     <!-- Table Utilisateur -->

@@ -102,6 +102,14 @@ public class Topo extends Entitie implements Serializable {
         }
         this.spots.clear();
     }
+
+    /**
+     * Ajoute une réservation à l'historique du topo
+     * @return
+     */
+    public void addReservation(Reservation reservation){
+        this.reservations.add(reservation);
+    }
     /* ***********************************************************************************************
      **** GETTERS & SETTERS ************************************************************************
      *********************************************************************************************** */
