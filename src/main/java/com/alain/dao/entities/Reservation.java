@@ -1,6 +1,7 @@
 package com.alain.dao.entities;
 
 import com.alain.dao.contract.EntityRepository;
+import com.alain.dao.impl.ReservationDaoImpl;
 import com.alain.dao.impl.TopoDaoImpl;
 import com.alain.dao.impl.UtilisateurDaoImpl;
 import com.alain.metier.Utilities;
@@ -12,6 +13,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static org.apache.logging.log4j.ThreadContext.isEmpty;
 
 @Entity
 @Table
@@ -75,10 +78,24 @@ public class Reservation extends Entitie implements Serializable {
 
         if (this.emprunteur.getUsername() == this.preteur.getUsername()) {
             listErreur.put("erreur", "Vous ne pouvez pas réserver vos propres topos.");
-        }else if (!this.topo.isDisponible()){
+        }
+        if(!checkReservationEnCours((ReservationDaoImpl)dao, req).isEmpty()){
+                listErreur.put("erreur", "Vous avez déjà une réservation en cours pour ce topo.");
+        }
+        if (!this.topo.isDisponible()){
             listErreur.put("erreur", "Le topo est déjà réservé par un utilisateur");
         }
         return listErreur;
+    }
+
+    /**
+     * Vérifie si une réservation est déjà en cours pour ce topo et pour cet utilisateur
+     * @param dao
+     * @param req
+     * @return
+     */
+    private List<Reservation> checkReservationEnCours(ReservationDaoImpl dao, HttpServletRequest req) {
+        return dao.findReservationInTopoForUser(this.topo.getId(), this.getEmprunteur().getId());
     }
 
     public void addEvent(ReservationHistorique reservationHistorique){

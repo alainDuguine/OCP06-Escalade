@@ -6,6 +6,7 @@ import com.alain.dao.entities.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.Query;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
@@ -58,5 +59,12 @@ public class ReservationDaoImpl extends EntityManagerUtil implements EntityRepos
     @Override
     public Reservation findOne(Long id) {
         return null;
+    }
+
+    public List<Reservation> findReservationInTopoForUser(Long idTopo, Long idEmprunteur) {
+        Query query = entityManager.createQuery("select r from Reservation r where r.emprunteur.id= :idEmprunteur and r.topo.id= :idTopo and r.dernierStatut = 'PENDING'");
+        query.setParameter("idEmprunteur", idEmprunteur );
+        query.setParameter("idTopo", idTopo);
+        return query.getResultList();
     }
 }

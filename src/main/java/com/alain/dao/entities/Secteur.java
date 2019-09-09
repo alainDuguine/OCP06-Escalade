@@ -93,6 +93,7 @@ public class Secteur extends Entitie implements Serializable {
 
     /**
      * check if the secteur exist in the spot for new record, and update
+     * Vériifie si un secteur existe dans le spot pour un nouvel enregistrement ou pour modification
      * @param dao
      * @param req
      * @return
