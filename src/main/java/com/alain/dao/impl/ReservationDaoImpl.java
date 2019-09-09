@@ -51,8 +51,10 @@ public class ReservationDaoImpl extends EntityManagerUtil implements EntityRepos
             reservationHistorique.setDateTime(LocalDateTime.now());
             if(path.contains("accepter")){
                 reservationHistorique.setReservationStatut(ReservationStatutEnum.APPROVED);
-            }else{
+            }else if (path.contains("refuser")){
                 reservationHistorique.setReservationStatut(ReservationStatutEnum.REFUSED);
+            }else{
+                reservationHistorique.setReservationStatut(ReservationStatutEnum.FINISHED);
             }
             reservationHistorique.setReservation(reservation);
             reservation.addEvent(reservationHistorique);
@@ -74,6 +76,9 @@ public class ReservationDaoImpl extends EntityManagerUtil implements EntityRepos
             transaction.begin();
             Reservation reservation = entityManager.find(Reservation.class, id);
             reservation.removeHistorique();
+            reservation.getTopo().removeReservation(reservation);
+            reservation.getEmprunteur().removeReservation(reservation);
+            reservation.getPreteur().removeReservation(reservation);
             entityManager.remove(reservation);
             entityManager.flush();
             transaction.commit();

@@ -14,7 +14,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.apache.logging.log4j.ThreadContext.isEmpty;
 
 @Entity
 @Table
@@ -39,7 +38,7 @@ public class Reservation extends Entitie implements Serializable {
     @ManyToOne
     private Topo topo;
 
-    @OneToMany (mappedBy = "reservation", cascade = CascadeType.ALL)
+    @OneToMany (mappedBy = "reservation", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ReservationHistorique> listHistorique = new ArrayList<>();
 
 

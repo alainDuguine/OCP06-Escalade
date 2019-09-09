@@ -113,6 +113,16 @@ public class Utilisateur extends Entitie implements Serializable{
         return encryptedPassword.equals(testedPassword);
     }
 
+    /**
+     * Supprime les relations pour une réservation
+     * @param reservation
+     */
+    public void removeReservation(Reservation reservation) {
+        this.emprunts.removeIf(empruntInList -> empruntInList.getId().equals(reservation.getId()));
+        this.prets.removeIf(pretInList -> pretInList.getId().equals(reservation.getId()));
+    }
+
+
     /* ***********************************************************************************************
      **** GETTERS & SETTERS ************************************************************************
      *********************************************************************************************** */

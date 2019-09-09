@@ -110,6 +110,11 @@ public class Topo extends Entitie implements Serializable {
     public void addReservation(Reservation reservation){
         this.reservations.add(reservation);
     }
+
+
+    public void removeReservation(Reservation reservation) {
+        this.reservations.removeIf(reservationInList -> reservationInList.getId() == reservation.getId());
+    }
     /* ***********************************************************************************************
      **** GETTERS & SETTERS ************************************************************************
      *********************************************************************************************** */

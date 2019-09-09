@@ -581,6 +581,7 @@ public class Servlet extends HttpServlet {
                 }
                 break;
             }
+            case "/terminerReservation.do":
             case "/refuserPret.do":
             case "/accepterPret.do":{
                 ReservationDaoImpl reservationDao = new ReservationDaoImpl();

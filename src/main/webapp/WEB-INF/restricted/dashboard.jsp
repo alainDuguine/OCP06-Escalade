@@ -182,7 +182,7 @@
                         <td><c:out value="${topo.utilisateur.username}"/></td>
                     </c:if>
                     <td class="topoTable"><c:out value="${topo.disponible ? 'Oui' : 'Non'}"/></td>
-                    <td><button class="buttonTopo" id="dispoTopo" type="button">Disponibilité</button></td>
+                    <td><button class="buttonTopo" class="dispoTopo" type="button">Disponibilité</button></td>
                     <td><a href="modifierTopo.do?idTopo=${topo.id}">Modifier ce topo</a></td>
                     <td class="supprElem"><a href="supprimerTopo">Supprimer</a></td>
                 </tr>
@@ -198,112 +198,155 @@
 
         <c:if test="${!admin}">
             <h3>Mes Prêts de topo :</h3>
-        </c:if>
-        <c:if test="${admin}">
-            <h3>Les Prêts de topo :</h3>
-        </c:if>
-        <table>
-            <thead>
-            <tr>
-                <c:if test="${admin}">
-                    <th>Id Topo</th>
-                    <th>Id Reservation</th>
-                    <th>Propriétaire Topo</th>
-                </c:if>
-                <th>Nom Topo</th>
-                <th>Emprunteur</th>
-                <th>Date de réservation</th>
-                <th>Statut réservation</th>
-                <th>Adresse email</th>
-            </tr>
-            </thead>
-            <tbody>
-            <c:set var="prets" value="${admin ? listReservations : utilisateur.prets}"/>
-            <c:forEach items="${prets}" var="pret">
-                    <tr class="item" id="${pret.id}">
-                        <c:if test="${admin}">
-                            <td><c:out value="${pret.topo.id}"/></td>
-                            <td><c:out value="${pret.id}"/></td>
-                            <td><c:out value="${pret.preteur.username}"/></td>
-                        </c:if>
-                        <td><c:out value="${pret.topo.nom}"/></td>
-                        <td><c:out value="${pret.emprunteur.username}"/></td>
-                        <td><c:out value="${pret.dateDernierStatut}"/></td>
-                        <c:choose>
-                            <c:when test="${pret.dernierStatut == 'PENDING'}">
-                                <td id="statutReservation">En Attente</td>
-                                <td class="containerButtonReservation">
-                                    <button class="buttonReservation" id="accepterPret.do" type="button">Accepter</button>
-                                    <button class="buttonReservation" id="refuserPret.do" type="button">Refuser</button>
-                                </td>
+            <table>
+                <thead>
+                <tr>
+                    <th>Nom Topo</th>
+                    <th>Emprunteur</th>
+                    <th>Date de réservation</th>
+                    <th>Statut réservation</th>
+                    <th>Adresse email</th>
+                </tr>
+                </thead>
+                <tbody>
+                <c:set var="attentePret" value="false"/>
+                <c:set var="prets" value="${utilisateur.prets}"/>
+                <c:forEach items="${prets}" var="pret">
+                        <tr class="item" id="${pret.id}">
+                            <td><c:out value="${pret.topo.nom}"/></td>
+                            <td><c:out value="${pret.emprunteur.username}"/></td>
+                            <td><c:out value="${pret.dateDernierStatut}"/></td>
+                            <c:choose>
+                                <c:when test="${pret.dernierStatut == 'PENDING'}">
+                                    <td id="statutReservation">En Attente</td>
+                                    <td class="containerButtonReservation">
+                                        <button class="buttonReservation" value="accepterPret.do" type="button">Accepter</button>
+                                        <button class="buttonReservation" value="refuserPret.do" type="button">Refuser</button>
+                                    </td>
+                                    <c:set var="attentePret" value="true"/>
+                                </c:when>
+                                <c:when test="${pret.dernierStatut == 'APPROVED'}">
+                                    <td>Acceptée</td>
+                                    <td>${pret.emprunteur.email}</td>
+                                </c:when>
+                                <c:when test="${pret.dernierStatut == 'REFUSED'}">
+                                    <td>Refusée</td>
+                                </c:when>
+                                <c:otherwise>
+                                    <td>Terminée</td>
+                                </c:otherwise>
+                            </c:choose>
+                        </tr>
+                </c:forEach>
+                </tbody>
+            </table>
 
+            <h3>Mes emprunts de topo :</h3>
+            <table>
+                <thead>
+                <tr>
+                    <th>Nom Topo</th>
+                    <th>Propriétaire Topo</th>
+                    <th>Date de réservation</th>
+                    <th>Statut réservation</th>
+                    <th>Adresse email</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                <c:set var="attenteEmprunt" value="false"/>
+                <c:set var="emprunts" value="${utilisateur.emprunts}"/>
+                <c:forEach items="${emprunts}" var="emprunt">
+                    <tr class="item" id="${emprunt.id}">
+                        <td><c:out value="${emprunt.topo.nom}"/></td>
+                        <td><c:out value="${emprunt.preteur.username}"/></td>
+                        <td><c:out value="${emprunt.dateDernierStatut}"/></td>
+                        <c:choose>
+                            <c:when test="${emprunt.dernierStatut == 'PENDING'}">
+                                <td>En Attente</td>
+                                <td class="supprElem"><a href="supprimerReservation">Supprimer</a></td>
                             </c:when>
-                            <c:when test="${pret.dernierStatut == 'APPROVED'}">
+                            <c:when test="${emprunt.dernierStatut == 'APPROVED'}">
                                 <td>Acceptée</td>
-                                <td>${pret.emprunteur.email}</td>
+                                <td>${emprunt.preteur.email}</td>
+                                <td><button class="buttonReservation" value="terminerReservation.do" type="button">Terminer</button></td>
+                                <c:set var="attenteEmprunt" value="true"/>
+                            </c:when>
+                            <c:when test="${emprunt.dernierStatut == 'REFUSED'}">
+                                <td>Refusée</td>
                             </c:when>
                             <c:otherwise>
-                                <td>Refusée</td>
+                                <td>Terminée</td>
                             </c:otherwise>
                         </c:choose>
                     </tr>
-            </c:forEach>
-            </tbody>
-        </table>
-
-
-        <c:if test="${!admin}">
-            <h3>Mes emprunts de topo :</h3>
+                </c:forEach>
+                </tbody>
+            </table>
         </c:if>
+
+
         <c:if test="${admin}">
-            <h3>Les emprunts de topo :</h3>
+            <h3>Les Prêts de topo :</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Id Topo</th>
+                        <th>Id Pret</th>
+                        <th>Propriétaire Topo</th>
+                        <th>Nom Topo</th>
+                        <th>Emprunteur</th>
+                        <th>Date de réservation</th>
+                        <th>Statut réservation</th>
+                        <th>Adresse email</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <c:set var="attentePret" value="false"/>
+                    <c:set var="attenteEmprunt" value="false"/>
+                    <c:set var="prets" value="${listReservations}"/>
+                    <c:forEach items="${prets}" var="pret">
+                        <tr class="item" id="${pret.id}">
+                            <td><c:out value="${pret.topo.id}"/></td>
+                            <td><c:out value="${pret.id}"/></td>
+                            <td><c:out value="${pret.preteur.username}"/></td>
+                            <td><c:out value="${pret.topo.nom}"/></td>
+                            <td><c:out value="${pret.emprunteur.username}"/></td>
+                            <td><c:out value="${pret.dateDernierStatut}"/></td>
+                            <c:choose>
+                                <c:when test="${pret.dernierStatut == 'PENDING'}">
+                                    <td id="statutReservation">En Attente</td>
+                                    <c:if test="${pret.preteur.username == sessionUtilisateur}">
+                                        <c:set var="attentePret" value="true"/>
+                                    </c:if>
+                                    <td class="containerButtonReservation">
+                                        <button class="buttonReservation" value="accepterPret.do" type="button">Accepter</button>
+                                        <button class="buttonReservation" value="refuserPret.do" type="button">Refuser</button>
+                                        <td class="supprElem"><a href="supprimerReservation">Supprimer</a></td>
+                                    </td>
+                                </c:when>
+                                <c:when test="${pret.dernierStatut == 'APPROVED'}">
+                                    <td>Acceptée</td>
+                                    <c:if test="${pret.emprunteur.username == sessionUtilisateur}">
+                                        <c:set var="attenteEmprunt" value="true"/>
+                                    </c:if>
+                                    <td>${pret.emprunteur.email}</td>
+                                    <td><button class="buttonReservation" value="terminerReservation.do" type="button">Terminer</button></td>
+                                </c:when>
+                                <c:when test="${pret.dernierStatut == 'REFUSED'}">
+                                    <td>Refusée</td>
+                                </c:when>
+                                <c:otherwise>
+                                    <td>Terminée</td>
+                                </c:otherwise>
+                            </c:choose>
+                        </tr>
+                    </c:forEach>
+                </tbody>
+            </table>
         </c:if>
-        <table>
-            <thead>
-            <tr>
-                <c:if test="${admin}">
-                    <th>Id Topo</th>
-                    <th>Id Reservation</th>
-                    <th>Emprunteur Topo</th>
-                </c:if>
-                <th>Nom Topo</th>
-                <th>Propriétaire Topo</th>
-                <th>Date de réservation</th>
-                <th>Statut réservation</th>
-                <th>Adresse email</th>
-
-            </tr>
-            </thead>
-            <tbody>
-            <c:set var="emprunts" value="${admin ? listReservations : utilisateur.emprunts}"/>
-            <c:forEach items="${emprunts}" var="emprunt">
-                <tr class="item" id="${emprunt.id}">
-                    <c:if test="${admin}">
-                        <td><c:out value="${emprunt.topo.id}"/></td>
-                        <td><c:out value="${emprunt.id}"/></td>
-                        <td><c:out value="${emprunt.emprunteur.username}"/></td>
-                    </c:if>
-                    <td><c:out value="${emprunt.topo.nom}"/></td>
-                    <td><c:out value="${emprunt.preteur.username}"/></td>
-                    <td><c:out value="${emprunt.dateDernierStatut}"/></td>
-                    <c:choose>
-                        <c:when test="${emprunt.dernierStatut == 'PENDING'}">
-                            <td>En Attente</td>
-                            <td class="supprElem"><a href="supprimerReservation">Supprimer</a></td>
-                        </c:when>
-                        <c:when test="${emprunt.dernierStatut == 'APPROVED'}">
-                            <td>Acceptée</td>
-                            <td>${emprunt.preteur.email}</td>
-                        </c:when>
-                        <c:otherwise>
-                            <td>Refusée</td>
-                        </c:otherwise>
-                    </c:choose>
-                </tr>
-            </c:forEach>
-            </tbody>
-        </table>
     </div>
+
 
     <c:if test="${admin}">
     <!-- Table Utilisateur -->
@@ -323,7 +366,7 @@
                     <td><c:out value="${user.nom}"/></td>
                     <td><c:out value="${user.prenom}"/></td>
                     <td class="adminTable"><c:out value="${user.admin? 'Oui':'Non'}"/></td>
-                    <td><button class="buttonAdmin"type="button">Administrateur</button></td>
+                    <td><button class="buttonAdmin" type="button">Administrateur</button></td>
                     <td class="supprElem"><a href="supprimerUser">Supprimer</a></td>
                 </tr>
             </c:forEach>
@@ -339,6 +382,19 @@
         crossorigin="anonymous"></script>
 <script>
     $(document).ready(function () {
+
+        // Alerte si réservation de topo en attente
+        var attentePret = false, attenteEmprunt = false;
+        attentePret = ${attentePret};
+        attenteEmprunt = ${attenteEmprunt};
+            console.log(attentePret + " " + attenteEmprunt);
+        if(attentePret === true){
+            alert("Vous avez des demandes de prêts de topos en attente. Vous les trouverez dans l'onglet \"Mes Topos\"");
+        }
+        if(attenteEmprunt === true){
+            alert("Des demandes de prêts on été acceptées. Veuillez vous rendre dans l'onglet \"Mes Topos\" pour contacter le propriétaire et terminer la réservation.");
+        }
+
         // Affiche chaque taleau (spot, secteur, voie, topo, utilisateur) sur le clic du menu
         $(".menu-button").click(function() {
             $(".resultatDiv").hide()
@@ -349,7 +405,7 @@
         });
 
         // Change le statut disponible d'un topo
-        $("#dispoTopo").click(function() {
+        $(".dispoTopo").click(function() {
             var el = $(this);
             var topoId = $(this).parent().parent().attr('id');
             if (confirm("Etes-vous sûr de vouloir modifier la disponibilité de ce topo ?")) {
@@ -414,11 +470,13 @@
 
         $(".buttonReservation").click(function(){
             var idReservation = $(this).parent().parent().attr('id'),
-                buttonPath = $(this).attr('id');
-            if (buttonPath === "accepterPret.do") {
+                buttonPath = $(this).val();
+            if (buttonPath.includes("accepter")) {
                 msg = "En acceptant la demande de prêt, votre adresse email sera communiquée au demandeur. Etes-vous sûr ?"
-            } else {
+            } else if (buttonPath.includes("refuser")){
                 msg = "Etes-vous sûr de vouloir refuser la demande de prêt ?"
+            } else{
+                msg = "Si vous terminez la réservation, vous ne recevrez plus d'alerte la concernant."
             }
             if (confirm(msg)){
                 $.post(buttonPath, {idReservation: idReservation}, function (data){
@@ -428,8 +486,10 @@
                             if(!alert("La demande de prêt a bien été acceptée !")){window.location.reload()};
                         }else if(buttonPath === "refuserPret.do"){
                             $('#statutReservation').val("Refusée");
-                            alert("La demande de prêt a bien été refusée !");
-                            // if(!alert("La demande de prêt a bien été refusée !")){window.location.reload()};
+                            if(!alert("La demande de prêt a bien été refusée !")){window.location.reload()};
+                        }else{
+                            $('#statutReservation').val("Terminée");
+                            if(!alert("La demande de prêt est terminée !")){window.location.reload()};
                         }
                     } else {
                         alert("Une erreur est apparue, merci de réessayer plus tard");
