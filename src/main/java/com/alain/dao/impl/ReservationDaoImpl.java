@@ -51,6 +51,7 @@ public class ReservationDaoImpl extends EntityManagerUtil implements EntityRepos
             reservationHistorique.setDateTime(LocalDateTime.now());
             if(path.contains("accepter")){
                 reservationHistorique.setReservationStatut(ReservationStatutEnum.APPROVED);
+                reservation.getTopo().setDisponible(false);
             }else if (path.contains("refuser")){
                 reservationHistorique.setReservationStatut(ReservationStatutEnum.REFUSED);
             }else{
