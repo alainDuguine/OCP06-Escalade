@@ -10,18 +10,13 @@ import com.alain.metier.Utilities;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.*;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.nio.file.Paths;
 import java.util.*;
 
 public class Servlet extends HttpServlet {
-
-    private static final String CONTEXT_PATH_PHOTO = "/imagesUsers/";
-    private static final String REAL_PATH_PHOTO = "D:\\fichiers";
 
     @Override
     public void init() throws ServletException {
@@ -42,10 +37,10 @@ public class Servlet extends HttpServlet {
                 break;
             }
 
-
             /* *********************************************************************************************
              **** Gestion Utilisateur      *****************************************************************
              *********************************************************************************************** */
+
             case "/inscription.do": {
                 this.getServletContext().getRequestDispatcher("/WEB-INF/inscription.jsp").forward(req, resp);
                 break;
@@ -69,6 +64,9 @@ public class Servlet extends HttpServlet {
                 if (username == null) {
                     this.getServletContext().getRequestDispatcher("/WEB-INF/connexion.jsp").forward(req, resp);
                 }if(session.getAttribute("admin").equals(true)){
+
+                    // Si l'utilisateur est admin on charge chaque élément séparément, pour avoir accès à tous.
+
                     UtilisateurDaoImpl utilisateurDao = new UtilisateurDaoImpl();
                     List<Utilisateur> listUtilisateur = utilisateurDao.findAll();
 
@@ -94,6 +92,9 @@ public class Servlet extends HttpServlet {
                     req.setAttribute("listTopo", listTopo);
                     req.setAttribute("listReservations", listReservations);
                 }else{
+
+                    // Si l'utilisateur n'est pas admin, on charge simplement l'utilisateur.
+                    // Tous les objets le concernant seront dans son graphe d'objets;
                     UtilisateurDaoImpl utilisateurDao = new UtilisateurDaoImpl();
                     Utilisateur utilisateur = utilisateurDao.findByUsername(username);
                     req.setAttribute("utilisateur", utilisateur);
@@ -196,34 +197,12 @@ public class Servlet extends HttpServlet {
                 }
                 break;
             }
-            case "/listeSpot.do":
-            case "/rechercheSpot.do": {
-                SpotDaoImpl spotDao = new SpotDaoImpl();
-                List<SpotResearchDto> spots = spotDao.findAllForResearch();
-                TreeMap<String, String> listDepartementSort = Utilities.getDepartementSortedFromList(spots);
-                CotationDaoImpl cotationDao = new CotationDaoImpl();
-                List<Cotation> cotations = cotationDao.findAll();
-                req.setAttribute("cotations", cotations);
-                req.setAttribute("listDepartement", listDepartementSort);
-                if (path.equals("/listeSpot.do")) {
-                    req.setAttribute("spots", spots);
-                }
-                this.getServletContext().getRequestDispatcher("/WEB-INF/rechercheSpot.jsp").forward(req, resp);
-                break;
-            }
-            case "/display.do": {
-                SpotDaoImpl spotDao = new SpotDaoImpl();
-                Spot spot = spotDao.findOne(Long.parseLong(req.getParameter("idSpot")));
-                if (spot != null) {
-                    CommentaireSpotDaoImpl commentaireSpotDao = new CommentaireSpotDaoImpl();
-                    spot.setCommentaires(commentaireSpotDao.findAllInSpot(spot.getId()));
-                    req.setAttribute("spot", spot);
-                    this.getServletContext().getRequestDispatcher("/WEB-INF/display.jsp").forward(req, resp);
-                } else {
-                    this.getServletContext().getRequestDispatcher("/WEB-INF/erreur.jsp").forward(req, resp);
-                }
-                break;
-            }
+
+
+            /* *********************************************************************************************
+             **** Gestion Topo *****************************************************************************
+             *********************************************************************************************** */
+
             case "/saveTopoSpot.do":
             case "/ajoutTopoSpot.do":{
                 HttpSession session = req.getSession();
@@ -262,7 +241,46 @@ public class Servlet extends HttpServlet {
             }
 
             /* *********************************************************************************************
-             **** Appels AJAX    ************************************************
+             **** Affichage Spots, Topos *******************************************************************
+             *********************************************************************************************** */
+
+            case "/listeSpot.do":
+            case "/rechercheSpot.do": {
+                SpotDaoImpl spotDao = new SpotDaoImpl();
+                List<SpotResearchDto> spots = spotDao.findAllForResearch();
+                TreeMap<String, String> listDepartementSort = Utilities.getDepartementSortedFromList(spots);
+                CotationDaoImpl cotationDao = new CotationDaoImpl();
+                List<Cotation> cotations = cotationDao.findAll();
+                req.setAttribute("cotations", cotations);
+                req.setAttribute("listDepartement", listDepartementSort);
+                if (path.equals("/listeSpot.do")) {
+                    req.setAttribute("spots", spots);
+                }
+                this.getServletContext().getRequestDispatcher("/WEB-INF/rechercheSpot.jsp").forward(req, resp);
+                break;
+            }
+            case "/display.do": {
+                SpotDaoImpl spotDao = new SpotDaoImpl();
+                Spot spot = spotDao.findOne(Long.parseLong(req.getParameter("idSpot")));
+                if (spot != null) {
+                    CommentaireSpotDaoImpl commentaireSpotDao = new CommentaireSpotDaoImpl();
+                    spot.setCommentaires(commentaireSpotDao.findAllInSpot(spot.getId()));
+                    req.setAttribute("spot", spot);
+                    this.getServletContext().getRequestDispatcher("/WEB-INF/display.jsp").forward(req, resp);
+                } else {
+                    this.getServletContext().getRequestDispatcher("/WEB-INF/erreur.jsp").forward(req, resp);
+                }
+                break;
+            }
+            case "/listeTopo.do":{
+                TopoDaoImpl topoDao = new TopoDaoImpl();
+                List<Topo> topos = topoDao.findAll();
+                req.setAttribute("topos", topos);
+                this.getServletContext().getRequestDispatcher("/WEB-INF/restricted/listeTopo.jsp").forward(req, resp);
+            }
+
+            /* *********************************************************************************************
+             **** Appels AJAX  *****************************************************************************
              *********************************************************************************************** */
 
             case "/choixDepartement.do": {
@@ -293,6 +311,13 @@ public class Servlet extends HttpServlet {
             }
         }
     }
+
+
+
+    /* =================================================================================================================
+    ========  POST  ====================================================================================================
+    ================================================================================================================= */
+
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -332,6 +357,7 @@ public class Servlet extends HttpServlet {
                 this.getServletContext().getRequestDispatcher("/WEB-INF/inscription.jsp").forward(req, resp);
                 break;
             }
+            // switch des droits administrateurs pour un utilisateur
             case "/toggleAdmin.do":{
                 Long idUser = Long.parseLong(req.getParameter("idUser"));
                 UtilisateurDaoImpl utilisateurDao = new UtilisateurDaoImpl();
@@ -345,7 +371,7 @@ public class Servlet extends HttpServlet {
             }
 
             /* *********************************************************************************************
-             **** Gestion Entités Spots, secteurs, voies, topos    ************************************************
+             **** Gestion Entités Spots, secteurs, voies, topos  *******************************************
              *********************************************************************************************** */
 
             case "/saveSpot.do":
@@ -441,20 +467,18 @@ public class Servlet extends HttpServlet {
                 this.sendAjaxBooleanResponse(result, resp);
                 break;
             }
-            case "/toggleTopo.do":{
-                Long idTopo = Long.parseLong(req.getParameter("idTopo"));
-                TopoDaoImpl topoDao = new TopoDaoImpl();
-                Topo topo = topoDao.findOne(idTopo);
-                topo.setDisponible(!topo.isDisponible());
-                topoDao.update(topo, req);
-                PrintWriter out = resp.getWriter();
-                out.print(topo.isDisponible());
-                out.flush();
+            // Recherche multi-critères
+            case "/rechercheSpot.do": {
+                SpotDaoImpl spotDao = new SpotDaoImpl();
+                Map<String, Object> paramMap = Utilities.getParameterMapFromReq(req);
+                List<SpotResearchDto> spots = spotDao.findSpotPersonalResearch(paramMap);
+                req.setAttribute("spots", spots);
+                doGet(req, resp);
                 break;
             }
 
             /* *********************************************************************************************
-             **** Suppression, recherche et droits admins   ************************************************
+             **** Suppression Eléments Ajax ****************************************************************
              *********************************************************************************************** */
 
             case "/supprimerUser.do":
@@ -486,14 +510,11 @@ public class Servlet extends HttpServlet {
                 this.sendAjaxBooleanResponse(result, resp);
                 break;
             }
-            case "/rechercheSpot.do": {
-                SpotDaoImpl spotDao = new SpotDaoImpl();
-                Map<String, Object> paramMap = Utilities.getParameterMapFromReq(req);
-                List<SpotResearchDto> spots = spotDao.findSpotPersonalResearch(paramMap);
-                req.setAttribute("spots", spots);
-                doGet(req, resp);
-                break;
-            }
+
+            /* *********************************************************************************************
+             **** Gestion commentaires *********************************************************************
+             *********************************************************************************************** */
+
             case "/saveCommentaire.do": {
                 Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
                 CommentaireSpotDaoImpl commentaireDao = new CommentaireSpotDaoImpl();
@@ -530,38 +551,9 @@ public class Servlet extends HttpServlet {
             }
 
             /* *********************************************************************************************
-             **** Relations entre spot et topo  ************************************************************
-             *********************************************************************************************** */
-
-            case "/saveTopoSpot.do":{
-                Boolean result = false;
-                TopoDaoImpl topoDao = new TopoDaoImpl();
-                String[] idTopos = req.getParameterValues("checkTopo");
-                Long idSpot = Long.parseLong(req.getParameter("idSpot"));
-                if (idTopos != null) {
-                    for (String idTopo : idTopos) {
-                            result = topoDao.addSpotInTopo(Long.parseLong(idTopo), idSpot);
-                        }
-                    }
-                if (result) {
-                    resp.sendRedirect("/display.do?idSpot="+idSpot+"&resultat=true");
-                } else {
-                    doGet(req, resp);
-                }
-                break;
-            }
-            case "/supprimerSpotInTopo.do":{
-                TopoDaoImpl topoDao = new TopoDaoImpl();
-                Long idTopo = Long.parseLong(req.getParameter("idTopo"));
-                Long idSpot = Long.parseLong(req.getParameter("idSpot"));
-                Boolean result = topoDao.deleteSpotFromTopo(idTopo, idSpot);
-                this.sendAjaxBooleanResponse(result, resp);
-                break;
-            }
-
-            /* *********************************************************************************************
              **** Gestion des Réservations de topo  ********************************************************
              *********************************************************************************************** */
+
             case "/reserverTopo.do":{
                 ReservationDaoImpl reservationDao = new ReservationDaoImpl();
                 CheckForm form = new CheckForm();
@@ -593,6 +585,47 @@ public class Servlet extends HttpServlet {
                 }catch (Exception e){
                     result = false;
                 }
+                this.sendAjaxBooleanResponse(result, resp);
+                break;
+            }
+            // Switcher disponibilité des topos
+            case "/toggleTopo.do":{
+                Long idTopo = Long.parseLong(req.getParameter("idTopo"));
+                TopoDaoImpl topoDao = new TopoDaoImpl();
+                Topo topo = topoDao.findOne(idTopo);
+                topo.setDisponible(!topo.isDisponible());
+                topoDao.update(topo, req);
+                PrintWriter out = resp.getWriter();
+                out.print(topo.isDisponible());
+                out.flush();
+                break;
+            }
+            /* *********************************************************************************************
+             **** Gestion des associations entre spot et topo  *********************************************
+             *********************************************************************************************** */
+
+            case "/saveTopoSpot.do":{
+                Boolean result = false;
+                TopoDaoImpl topoDao = new TopoDaoImpl();
+                String[] idTopos = req.getParameterValues("checkTopo");
+                Long idSpot = Long.parseLong(req.getParameter("idSpot"));
+                if (idTopos != null) {
+                    for (String idTopo : idTopos) {
+                        result = topoDao.addSpotInTopo(Long.parseLong(idTopo), idSpot);
+                    }
+                }
+                if (result) {
+                    resp.sendRedirect("/display.do?idSpot="+idSpot+"&resultat=true");
+                } else {
+                    doGet(req, resp);
+                }
+                break;
+            }
+            case "/supprimerSpotInTopo.do":{
+                TopoDaoImpl topoDao = new TopoDaoImpl();
+                Long idTopo = Long.parseLong(req.getParameter("idTopo"));
+                Long idSpot = Long.parseLong(req.getParameter("idSpot"));
+                Boolean result = topoDao.deleteSpotFromTopo(idTopo, idSpot);
                 this.sendAjaxBooleanResponse(result, resp);
                 break;
             }

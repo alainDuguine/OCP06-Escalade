@@ -19,9 +19,9 @@ $(document).ready(function() {
 
     $(".itemTopo a").click(function (e) {
         e.preventDefault();
-        idTopo = $(this).parent().attr('id');
+        idTopo = $(this).parent().prev('div').attr('id');
         $("#"+idTopo+" > div").toggleClass("show");
-        $(this).focus()
+        $(this).focus();
     });
 
     $('.itemTopo a').blur(function(){
