@@ -2,6 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Tableau de bord</title>
     <%@ include file="../includeCss.jsp"%>
     <link rel="stylesheet" type="text/css" href="../../css/table.css">
@@ -74,7 +75,7 @@
         </table>
         <!-- Bouton ajout Spot -->
         <div id="addSpot">
-            <p class="menu-button" id="addSpotButton"><a href="ajoutSpot.do"><img src="../../images/plus.png"/><span>Ajouter un Spot</span></a></p>
+            <p class="menu-button" id="addSpotButton"><a href="ajoutSpot.do"><img alt="plus" src="../../images/plus.png"/><span>Ajouter un Spot</span></a></p>
         </div>
     </div>
 
@@ -182,7 +183,7 @@
                         <td><c:out value="${topo.utilisateur.username}"/></td>
                     </c:if>
                     <td class="topoTable"><c:out value="${topo.disponible ? 'Oui' : 'Non'}"/></td>
-                    <td><button class="buttonTopo" class="dispoTopo" type="button">Disponibilité</button></td>
+                    <td><button class="buttonTopo dispoTopo" type="button">Disponibilité</button></td>
                     <td><a href="modifierTopo.do?idTopo=${topo.id}">Modifier ce topo</a></td>
                     <td class="supprElem"><a href="supprimerTopo">Supprimer</a></td>
                 </tr>
@@ -191,7 +192,7 @@
         </table>
         <!-- Bouton ajout de Topo -->
         <div id="addTopo">
-            <p class="menu-button" id="addTopoButton"><a href="ajoutTopo.do"><img src="../../images/plus.png"/><span>Ajouter un Topo</span></a></p>
+            <p class="menu-button" id="addTopoButton"><a href="ajoutTopo.do"><img alt="plus" src="../../images/plus.png"/><span>Ajouter un Topo</span></a></p>
         </div>
 
         <!-- Table Pret de Topos-->
@@ -231,9 +232,11 @@
                                 </c:when>
                                 <c:when test="${pret.dernierStatut == 'REFUSED'}">
                                     <td>Refusée</td>
+                                    <td></td>
                                 </c:when>
                                 <c:otherwise>
                                     <td>Terminée</td>
+                                    <td>${pret.emprunteur.email}</td>
                                 </c:otherwise>
                             </c:choose>
                         </tr>
@@ -274,9 +277,11 @@
                             </c:when>
                             <c:when test="${emprunt.dernierStatut == 'REFUSED'}">
                                 <td>Refusée</td>
+                                <td></td>
                             </c:when>
                             <c:otherwise>
                                 <td>Terminée</td>
+                                <td>${emprunt.emprunteur.email}</td>
                             </c:otherwise>
                         </c:choose>
                     </tr>
@@ -322,8 +327,9 @@
                                     <td class="containerButtonReservation">
                                         <button class="buttonReservation" value="accepterPret.do" type="button">Accepter</button>
                                         <button class="buttonReservation" value="refuserPret.do" type="button">Refuser</button>
-                                        <td class="supprElem"><a href="supprimerReservation">Supprimer</a></td>
                                     </td>
+                                    <td class="supprElem"><a href="supprimerReservation">Supprimer</a></td>
+
                                 </c:when>
                                 <c:when test="${pret.dernierStatut == 'APPROVED'}">
                                     <td>Acceptée</td>
@@ -382,6 +388,6 @@
 <script src="https://code.jquery.com/jquery-3.4.1.js"
         integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
         crossorigin="anonymous"></script>
-<script type="text/javascript" src="../../js/dashboard.js"></script>
+<script type="text/javascript" charset="UTF-8" src="../../js/dashboard.js"></script>
 </body>
 </html>

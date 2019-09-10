@@ -2,6 +2,7 @@
 <html>
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <title>Les amis de l'escalade</title>
   <%@ include file="includeCss.jsp"%>
   <link href="https://fonts.googleapis.com/css?family=Merienda&display=swap" rel="stylesheet">

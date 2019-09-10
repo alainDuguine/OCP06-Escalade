@@ -2,9 +2,10 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-    <meta http-equiv="Pragma" content="no-cache" />
-    <meta http-equiv="Expires" content="0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<%--    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />--%>
+<%--    <meta http-equiv="Pragma" content="no-cache" />--%>
+<%--    <meta http-equiv="Expires" content="0" />--%>
     <title>Modifier un Topo</title>
     <%@ include file="../includeCss.jsp"%>
     <link rel="stylesheet" type="text/css" href="../../css/form.css">
@@ -88,13 +89,12 @@
     $(document).ready(function () {
         $(".spotInTopo > a").click(function(event){
             event.preventDefault();
-            var el = $(this),
-                topoId = $('#idElement').val(),
+            var topoId = $('#idElement').val(),
                 spotId = $(this).attr('href');
             if (confirm("Etes-vous sûr de vouloir supprimer ce spot de ce topo ?")) {
                 $.post("supprimerSpotInTopo.do", {idSpot: spotId, idTopo: topoId}, function (data) {
-                    if (data == 'true') {
-                        if(!alert("Suppression effectuée")){window.location.reload()};
+                    if (data === 'true') {
+                        if(!alert("Suppression effectuée")){window.location.reload()}
                     } else {
                         alert("Suppression échouée");
                     }

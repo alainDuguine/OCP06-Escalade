@@ -1,3 +1,4 @@
+
 /*=========================================================================================*/
 /*===== Définition du Header ==============================================================*/
 /*=========================================================================================*/
@@ -41,6 +42,7 @@ header{
     background-color: rgba(255,255,255,0.5);
     flex-basis: 100%;
     height: 3em;
+    max-height: 3em;
     margin-right: 0;
     border-top: 1px solid #a88680;
     border-bottom: 1px solid #a88680;
@@ -49,12 +51,13 @@ header{
 }
 
 .menu-button{
+    flex-grow: 1;
     margin:0;
-    padding: 0 1em;
+    padding: 0 0.5em;
     background-color: white;
     border-bottom: 1px solid #a88680;
     border-right: 1px solid #a88680;
-    border-left: 0px solid #a88680;
+    border-left: 0;
     text-align: center;
     display:flex;
     justify-content: center;
@@ -73,7 +76,7 @@ header{
 }
 
 .menu a, .menuDashboard a{
-    line-height: 2em; /*Centrage vertical des menus et extension de la zone cliquable*/
+    line-height: 1.5em; /*Centrage vertical des menus et extension de la zone cliquable*/
     padding-right: 0.5em;
     padding-left: 0.5em;
     color:black;
@@ -96,21 +99,23 @@ header{
 
 /* Mise en forme supplémentaire pour les derniers éléments .menu et .users */
 
-.menu p:first-of-type{
-    border-left: 0px solid #a88680;
+.menu div:first-of-type{
+    border-left: 0;
 }
 
-.user p:last-of-type{
+.user div:last-of-type{
     border-bottom-right-radius: 12px;
 }
 
-.user p:first-of-type, .userDrop p:first-of-type{
+.user div:first-of-type, .userDrop div:first-of-type{
     border-left: 1px solid #a88680;
 }
 
 /* Mise en forme du menu déroulant */
 
 .userDrop{
+    margin: 0;
+    padding: 0;
     max-height: 50em;
     display: flex;
     flex-direction: column;
@@ -123,6 +128,7 @@ header{
 }
 
 #userConnected{
+    border-left: 1px;
     height: 100%;
     border-bottom-right-radius: 12px;
 }
@@ -157,6 +163,12 @@ header{
     width: 200%;
 }
 
+.container{
+    margin: 0;
+    padding: 0;
+    border-bottom: 1px solid #a88680;
+    border-bottom-right-radius: 12px;
+}
 .container:hover #items {
     max-height: 50em;
     transition: 1.5s;

@@ -2,6 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Inscription</title>
     <%@ include file="includeCss.jsp"%>
     <link rel="stylesheet" type="text/css" href="../css/form.css">
@@ -48,7 +49,7 @@
             </div>
             <div class="inscriptionForm">
                 <label for="nom">Nom :</label>
-                <input type="nom" name="nom" id="nom" maxlength="50" placeholder="Ex : Dupont" value="<c:out value="${param.nom}"/>">
+                <input type="text" name="nom" id="nom" maxlength="50" placeholder="Ex : Dupont" value="<c:out value="${param.nom}"/>">
             </div>
             <div class="erreur">
                 <div></div>
@@ -56,7 +57,7 @@
             </div>
             <div class="inscriptionForm">
                 <label for="prenom">Prénom :</label>
-                <input type="prenom" name="prenom" id="prenom" maxlength="50" placeholder="Ex : Jean" value="<c:out value="${param.prenom}"/>">
+                <input type="text" name="prenom" id="prenom" maxlength="50" placeholder="Ex : Jean" value="<c:out value="${param.prenom}"/>">
             </div>
             <div class="bouton">
                 <input type="submit" value="Enregistrer">

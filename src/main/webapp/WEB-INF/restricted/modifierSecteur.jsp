@@ -2,9 +2,10 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-    <meta http-equiv="Pragma" content="no-cache" />
-    <meta http-equiv="Expires" content="0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<%--    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />--%>
+<%--    <meta http-equiv="Pragma" content="no-cache" />--%>
+<%--    <meta http-equiv="Expires" content="0" />--%>
     <title>Modifier un Secteur</title>
     <%@ include file="../includeCss.jsp"%>
     <link rel="stylesheet" type="text/css" href="../../css/form.css">
@@ -43,7 +44,7 @@
                 <div  class="modifPhoto">
                     <c:set var="chemin">/imagesUsers/</c:set>
                     <c:forEach items="${secteur.photos}" var="photo">
-                        <div class="photoSaved"><img src="${chemin}${photo.nom}"><a href="${photo.id}">Supprimer</a></div>
+                        <div class="photoSaved"><img alt="${photo.nom}" src="${chemin}${photo.nom}"><a href="${photo.id}">Supprimer</a></div>
                     </c:forEach>
                 </div>
             </div>

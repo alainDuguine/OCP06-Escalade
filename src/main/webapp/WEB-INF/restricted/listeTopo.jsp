@@ -2,11 +2,9 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <%@ include file="../includeCss.jsp"%>
     <link rel="stylesheet" type="text/css" href="../../css/listeTopo.css">
-    <link rel="stylesheet" type="text/css" href="../../css/displaySpot.css">
     <link rel="stylesheet" type="text/css" href="../../css/displayNav.css">
     <link rel="stylesheet" type="text/css" href="../../css/popup.css">
     <link href="https://fonts.googleapis.com/css?family=Merienda&display=swap" rel="stylesheet">

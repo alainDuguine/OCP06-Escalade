@@ -1,0 +1,61 @@
+
+
+@media screen and (max-width: 1225px) {
+
+    header{
+        flex-direction: column;
+    }
+
+    #logo{
+        width: 100%;
+        border: 0;
+        border-radius: 0;
+    }
+
+    #logo > a > img{
+       display: block;
+        margin: auto;
+    }
+
+    #banner{
+        justify-content: center;
+        flex-wrap: nowrap;
+        border-bottom-left-radius: 12px;
+        height: 3em;
+    }
+
+    .menu, .userDrop, .user{
+        display: flex;
+        flex-grow: 2;
+    }
+
+    .menu div:first-of-type{border-bottom-left-radius: 12px;}
+
+    .user div:first-of-type, #userConnected, .container{border-left: 0;}
+
+    .userDrop div:first-of-type{
+        border-left: 0;
+    }
+
+}
+
+@media screen and (max-width: 850px) {
+
+    #logo, #banner{
+        position: relative;
+        top: -102px;
+    }
+
+    #banner{flex-wrap: wrap;}
+
+    .menu div:first-of-type {border-radius: 0;}
+
+    .menu{flex-wrap: wrap;}
+
+    .menu a{line-height: 2em;}
+
+    .user div:first-of-type, .userDrop div{
+        border-bottom-left-radius: 12px;
+    }
+
+}

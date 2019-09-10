@@ -2,8 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <%@ include file="includeCss.jsp"%>
     <link rel="stylesheet" type="text/css" href="../css/gallery.css">
     <link rel="stylesheet" type="text/css" href="../css/displaySpot.css">
@@ -95,7 +94,7 @@
                     <div class="gallery">
                         <div class="scroller">
                             <c:forEach items="${spot.photos}" var="photo">
-                                <a href="${chemin}${photo.nom}" data-lightbox="gallerySpot"><img src="${chemin}${photo.nom}"/></a>
+                                <a href="${chemin}${photo.nom}" data-lightbox="gallerySpot"><img alt="${photo.nom}" src="${chemin}${photo.nom}"/></a>
                             </c:forEach>
                         </div>
                     </div>
@@ -117,7 +116,7 @@
                         <div class="gallery">
                             <div class="scroller">
                                 <c:forEach items="${secteur.photos}" var="photo">
-                                    <a href="${chemin}${photo.nom}" data-lightbox="gallerySecteur"><img src="${chemin}${photo.nom}"/></a>
+                                    <a href="${chemin}${photo.nom}" data-lightbox="gallerySecteur"><img alt="${photo.nom}" src="${chemin}${photo.nom}"/></a>
                                 </c:forEach>
                             </div>
                         </div>
@@ -142,7 +141,7 @@
                                 <div class="gallery">
                                     <div class="scroller">
                                         <c:forEach items="${voie.photos}" var="photo">
-                                            <a href="${chemin}${photo.nom}" data-lightbox="galleryVoie"><img src="${chemin}${photo.nom}"/></a>
+                                            <a href="${chemin}${photo.nom}" data-lightbox="galleryVoie"><img alt="${photo.nom}" src="${chemin}${photo.nom}"/></a>
                                         </c:forEach>
                                     </div>
                                 </div>
@@ -195,7 +194,7 @@
 <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
 <script>
 $(document).ready(function(){
-    $(".buttonReservationTopo").click(function (e) {
+    $(".buttonReservationTopo").click(function () {
         var idTopo = $(this).parent().prev('div').attr('id'),
             user = $("#usernameCommentaire").val(),
             nomTopo = $(this).siblings("a").attr('id');
