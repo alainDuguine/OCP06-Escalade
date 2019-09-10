@@ -160,7 +160,6 @@
 
         $('#departement').trigger("change");
 
-
     });
 </script>
 </body>

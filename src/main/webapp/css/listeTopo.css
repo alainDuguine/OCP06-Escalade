@@ -1,0 +1,10 @@
+li{
+    font-size: 1em;
+}
+
+.parent .description{
+    font-size: 0.8em;
+    /*font-style: italic;*/
+    color: #0000ee;
+    text-decoration: underline;
+}

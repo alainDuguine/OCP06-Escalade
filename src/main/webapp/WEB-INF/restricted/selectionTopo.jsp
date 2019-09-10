@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <title>Ajouter des topos</title>
     <%@ include file="../includeCss.jsp"%>
-    <link rel="stylesheet" type="text/css" href="../css/table.css">
-    <link rel="stylesheet" type="text/css" href="../css/form.css">
+    <link rel="stylesheet" type="text/css" href="../../css/table.css">
+    <link rel="stylesheet" type="text/css" href="../../css/form.css">
     <link href="https://fonts.googleapis.com/css?family=Merienda&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -58,12 +58,14 @@
 <%@include file="../social.jsp"%>
 <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
 <script>
-    $(document).ready(function(){
+    $(document).ready(function() {
 
         //Rend chaque ligne du tableau de résultat entièrement cliquable
-        $(".item").click(function(){
+        $(".item").click(function () {
             var href = $(this).find("a").attr("href");
-            if (href){
+            if (href) {
                 window.location = href;
             }
         });
+    });
+</script>

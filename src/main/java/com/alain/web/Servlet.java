@@ -9,7 +9,6 @@ import com.alain.metier.SpotResearchDto;
 import com.alain.metier.Utilities;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.*;
 import java.io.IOException;
@@ -19,7 +18,7 @@ import java.util.*;
 public class Servlet extends HttpServlet {
 
     @Override
-    public void init() throws ServletException {
+    public void init(){
         EntityManagerUtil entityManagerUtil = new EntityManagerUtil();
     }
 
