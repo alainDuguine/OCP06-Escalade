@@ -4,10 +4,10 @@ $(document).ready(function () {
     var attentePret = $("#attentePret").html(),
     attenteEmprunt = $("#attenteEmprunt").html();
     console.log(attentePret + " " + attenteEmprunt);
-    if(attentePret === true){
+    if(attentePret === 'true'){
         alert("Vous avez des demandes de prêts de topos en attente. Vous les trouverez dans l'onglet \"Mes Topos\"");
     }
-    if(attenteEmprunt === true){
+    if(attenteEmprunt === 'true'){
         alert("Des demandes de prêts on été acceptées. Veuillez vous rendre dans l'onglet \"Mes Topos\" pour contacter le propriétaire et terminer la réservation.");
     }
 

@@ -196,7 +196,7 @@
 <script>
 $(document).ready(function(){
     $(".buttonReservationTopo").click(function (e) {
-        var idTopo = $(this).parent().attr('id'),
+        var idTopo = $(this).parent().prev('div').attr('id'),
             user = $("#usernameCommentaire").val(),
             nomTopo = $(this).siblings("a").attr('id');
         if (confirm("Etes vous sûr de vouloir faire une demande de réservation pour le topo " + nomTopo +" ?"))
