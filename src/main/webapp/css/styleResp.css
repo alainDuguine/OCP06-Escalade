@@ -17,6 +17,17 @@
         padding: 0;
     }
 
+    #selectTopoSpot, .resultatDiv{
+        box-sizing: border-box;
+        width: 100%;
+        margin-right: auto;
+        margin-left: auto;
+    }
+
+    #selectTopoSpot table{
+        word-break: break-word;
+        width: 100%;
+    }
 }
 
 @media screen and (max-width: 850px) {

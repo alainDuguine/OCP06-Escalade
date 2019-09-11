@@ -7,6 +7,7 @@
     <%@ include file="../includeCss.jsp"%>
     <link rel="stylesheet" type="text/css" href="../../css/table.css">
     <link rel="stylesheet" type="text/css" href="../../css/dashboard.css">
+    <link rel="stylesheet" type="text/css" href="../../css/dashboardResp.css">
     <link href="https://fonts.googleapis.com/css?family=Merienda&display=swap" rel="stylesheet">
 </head>
 <body>

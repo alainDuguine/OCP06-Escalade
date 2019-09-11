@@ -12,7 +12,7 @@
 <body>
 <%@ include file= "../header.jsp"%>
 <section class="mainDiv">
-    <div class="formDiv">
+    <div class="formDiv" id="selectTopoSpot">
 
         <c:if test="${not empty resultat}">
         <p class="${form.resultat ? 'success' : 'echec'}">
