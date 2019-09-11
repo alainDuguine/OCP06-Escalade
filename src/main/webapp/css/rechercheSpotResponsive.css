@@ -1,0 +1,75 @@
+
+
+
+@media screen and (max-width: 1225px) {
+
+    .resultatDiv{
+             width: 95%;
+             word-break: break-word;
+             font-size: 0.9em;
+         }
+
+    table, thead, tbody, th, td, tr{
+        display: block;
+    }
+
+    thead tr{
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+
+    tr{border: 1px solid #ccc;}
+
+    td{
+        border: none;
+        border-bottom: 1px solid #eee;
+        position: relative;
+        padding-left: 50%;
+        vertical-align: center;
+        min-height: 1.5em;
+    }
+
+    td:before{
+        position: absolute;
+        top: 6px;
+        left: 6px;
+        width: 45%;
+        padding-right: 10px;
+        white-space: nowrap;
+    }
+
+    td:nth-of-type(1):before{content:"Nom";}
+    td:nth-of-type(2):before{content:"Département";}
+    td:nth-of-type(3):before{content:"Ville";}
+    td:nth-of-type(4):before{content:"Cotation min";}
+    td:nth-of-type(5):before{content:"Cotation max";}
+    td:nth-of-type(6):before{content:"Nb Secteurs";}
+    td:nth-of-type(7):before{content:"Officiel";}
+
+}
+
+@media screen and (max-width: 850px) {
+    .formDiv{
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        box-sizing: border-box;
+    }
+
+    .rechercheForm{
+        display: flex;
+        flex-direction: column;
+    }
+
+    .resultatDiv{
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        box-sizing: border-box;
+    }
+}
+
+@media screen and (max-width: 650px) {
+
+}

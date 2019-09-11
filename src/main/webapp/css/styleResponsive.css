@@ -1,0 +1,39 @@
+
+
+@media screen and (max-width: 1225px) {
+
+    .mainDiv{
+        position: relative;
+        top: 15em;
+        box-sizing: border-box;
+        width: 95%;
+        margin-right: auto;
+        margin-left: auto;
+    }
+
+    .social{
+        position: absolute;
+        top: 11.35em;
+        margin:1em;
+        padding: 0;
+    }
+
+}
+
+@media screen and (max-width: 850px) {
+    .mainDiv{
+        width: 95%;
+    }
+}
+
+@media screen and (max-width: 650px) {
+
+    .mainDiv{
+        position: relative;
+        top: 15em;
+    }
+
+    .social{
+        display: none;
+    }
+}
