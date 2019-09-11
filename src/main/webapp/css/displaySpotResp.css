@@ -1,0 +1,31 @@
+
+@media screen and (max-width: 1250px) {
+
+    #displaySpot{
+        position: absolute;
+        top: 12em;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    #navDiv, #displayDiv, .descriptionDiv{
+        position: unset;
+        top: unset;
+        left: unset;
+        margin: 0.5em auto;
+        box-sizing: border-box;
+        width: 95%;
+    }
+
+}
+
+@media screen and (max-width: 850px) {
+
+    #displaySpot{
+        position: absolute;
+        top: 15em;
+    }
+
+}

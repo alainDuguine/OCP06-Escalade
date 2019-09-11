@@ -9,6 +9,7 @@
     <link rel="stylesheet" type="text/css" href="../css/lightbox.css">
     <link rel="stylesheet" type="text/css" href="../css/displayNav.css">
     <link rel="stylesheet" type="text/css" href="../css/popup.css">
+    <link rel="stylesheet" type="text/css" href="../css/displaySpotResp.css">
     <link href="https://fonts.googleapis.com/css?family=Merienda&display=swap" rel="stylesheet">
     <title>Spot : <c:out value="${spot.nom}"/></title>
 </head>
@@ -194,6 +195,7 @@
 <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
 <script>
 $(document).ready(function(){
+    //Reeservation topo
     $(".buttonReservationTopo").click(function () {
         var idTopo = $(this).parent().prev('div').attr('id'),
             user = $("#usernameCommentaire").val(),

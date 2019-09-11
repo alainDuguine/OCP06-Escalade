@@ -7,7 +7,7 @@
     <%@ include file="includeCss.jsp"%>
     <link rel="stylesheet" type="text/css" href="../css/table.css">
     <link rel="stylesheet" type="text/css" href="../css/form.css">
-    <link rel="stylesheet" type="text/css" charset="UTF-8" href="../css/rechercheSpotResponsive.css">
+    <link rel="stylesheet" type="text/css" charset="UTF-8" href="../css/rechercheSpotResp.css">
     <link href="https://fonts.googleapis.com/css?family=Merienda&display=swap" rel="stylesheet">
 </head>
 <body>
