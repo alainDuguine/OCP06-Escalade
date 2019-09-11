@@ -7,7 +7,8 @@
     <%@ include file="../includeCss.jsp"%>
     <link rel="stylesheet" type="text/css" href="../../css/table.css">
     <link rel="stylesheet" type="text/css" href="../../css/dashboard.css">
-    <link rel="stylesheet" type="text/css" href="../../css/dashboardResp.css">
+    <link rel="stylesheet" type="text/css" charset="UTF-8" href="../../css/dashboardResp.css">
+    <link rel="stylesheet" type="text/css" charset="UTF-8" href="../../css/tableResp.css">
     <link href="https://fonts.googleapis.com/css?family=Merienda&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -37,7 +38,14 @@
             </c:if>
         </nav>
     </div>
+
+
     <!-- Table Spot -->
+
+    <!--  Variable pour redéfinir les noms de colonnes en responsive  -->
+
+    <c:set var="labelTableSpot" value="${ admin ? 'labelTableSpotAdmin' : 'labelTableSpot'}"/>
+
     <div class="resultatDiv" id="tableSpot">
         <table>
             <thead>
@@ -57,13 +65,13 @@
             <c:forEach items="${spots}" var="spot">
                 <tr class="item" id="${spot.id}">
                     <c:if test="${admin}">
-                        <td><c:out value="${spot.id}"/></td>
+                        <td class="${labelTableSpot}"><c:out value="${spot.id}"/></td>
                     </c:if>
-                    <td><a href="display.do?idSpot=${spot.id}"><c:out value="${spot.nom}"/></a></td>
-                    <td><c:out value="${spot.ville.nom}"/></td>
-                    <td><c:out value="${spot.departement.nom}"/></td>
+                    <td class="${labelTableSpot}"><a href="display.do?idSpot=${spot.id}"><c:out value="${spot.nom}"/></a></td>
+                    <td class="${labelTableSpot}"><c:out value="${spot.ville.nom}"/></td>
+                    <td class="${labelTableSpot}"><c:out value="${spot.departement.nom}"/></td>
                     <c:if test="${admin}">
-                        <td><c:out value="${spot.utilisateur.username}"/></td>
+                        <td class="${labelTableSpot}"><c:out value="${spot.utilisateur.username}"/></td>
                     </c:if>
                     <td><a href="modifierSpot.do?idSpot=${spot.id}">Modifier ce spot</a></td>
                     <td><a href="ajoutSecteur.do?idSpot=${spot.id}">Ajouter un secteur</a></td>
@@ -82,6 +90,9 @@
 
 
     <!-- Table Secteur -->
+
+    <c:set var="labelTableSecteur" value="${ admin ? 'labelTableSecteurAdmin' : 'labelTableSecteur'}"/>
+
     <div class="resultatDiv" id="tableSecteur">
         <table>
             <thead>
@@ -100,12 +111,12 @@
             <c:forEach items="${secteurs}" var="secteur">
                 <tr class="item" id="${secteur.id}">
                     <c:if test="${admin}">
-                        <td><c:out value="${secteur.id}"/></td>
+                        <td class="${labelTableSecteur}"><c:out value="${secteur.id}"/></td>
                     </c:if>
-                    <td><a href="display.do?idSpot=${secteur.spot.id}#${secteur.nom}"><c:out value="${secteur.nom}"/></a></td>
-                    <td><c:out value="${secteur.spot.nom}"/></td>
+                    <td class="${labelTableSecteur}"><a href="display.do?idSpot=${secteur.spot.id}#${secteur.nom}"><c:out value="${secteur.nom}"/></a></td>
+                    <td class="${labelTableSecteur}"><c:out value="${secteur.spot.nom}"/></td>
                     <c:if test="${admin}">
-                        <td><c:out value="${secteur.utilisateur.username}"/></td>
+                        <td class="${labelTableSecteur}"><c:out value="${secteur.utilisateur.username}"/></td>
                     </c:if>
                     <td><a href="modifierSecteur.do?idSecteur=${secteur.id}">Modifier ce secteur</a></td>
                     <td><a href="ajoutVoie.do?idSecteur=${secteur.id}">Ajouter une voie</a></td>
@@ -119,6 +130,9 @@
     </div>
 
     <!-- Table Voie -->
+
+    <c:set var="labelTableVoie" value="${ admin ? 'labelTableVoieAdmin' : 'labelTableVoie'}"/>
+
     <div class="resultatDiv" id="tableVoie">
         <table>
             <thead>
@@ -137,13 +151,13 @@
             <c:forEach items="${voies}" var="voie">
                 <tr class="item" id="${voie.id}">
                     <c:if test="${admin}">
-                        <td><c:out value="${voie.id}"/></td>
+                        <td class="${labelTableVoie}"><c:out value="${voie.id}"/></td>
                     </c:if>
-                    <td><a href="display.do?idSpot=${voie.secteur.spot.id}#${voie.nom}"><c:out value="${voie.nom}"/></a></td>
-                    <td><c:out value="${voie.secteur.nom}"/></td>
-                    <td><c:out value="${voie.secteur.spot.nom}"/></td>
+                    <td class="${labelTableVoie}"><a href="display.do?idSpot=${voie.secteur.spot.id}#${voie.nom}"><c:out value="${voie.nom}"/></a></td>
+                    <td class="${labelTableVoie}"><c:out value="${voie.secteur.nom}"/></td>
+                    <td class="${labelTableVoie}"><c:out value="${voie.secteur.spot.nom}"/></td>
                     <c:if test="${admin}">
-                        <td><c:out value="${voie.utilisateur.username}"/></td>
+                        <td class="${labelTableVoie}"><c:out value="${voie.utilisateur.username}"/></td>
                     </c:if>
                     <td><a href="modifierVoie.do?idVoie=${voie.id}">Modifier cette voie</a></td>
                     <c:if test="${admin}">
@@ -156,6 +170,9 @@
     </div>
 
     <!-- Table Topo -->
+
+    <c:set var="labelTableTopo" value="${ admin ? 'labelTableTopoAdmin' : 'labelTableTopo'}"/>
+
     <div class="resultatDiv" id="tableTopo">
         <h3>Mes topo enregistrés :</h3>
         <table>
@@ -176,14 +193,14 @@
             <c:forEach items="${topos}" var="topo">
                 <tr class="item" id="${topo.id}">
                     <c:if test="${admin}">
-                        <td><c:out value="${topo.id}"/></td>
+                        <td class="${labelTableTopo}"><c:out value="${topo.id}"/></td>
                     </c:if>
-                    <td><c:out value="${topo.nom}"/></td>
-                    <td><c:out value="${topo.dateEdition}"/></td>
+                    <td class="${labelTableTopo}"><c:out value="${topo.nom}"/></td>
+                    <td class="${labelTableTopo}"><c:out value="${topo.dateEdition}"/></td>
                     <c:if test="${admin}">
-                        <td><c:out value="${topo.utilisateur.username}"/></td>
+                        <td class="${labelTableTopo}"><c:out value="${topo.utilisateur.username}"/></td>
                     </c:if>
-                    <td class="topoTable"><c:out value="${topo.disponible ? 'Oui' : 'Non'}"/></td>
+                    <td class="topoTable ${labelTableTopo}"><c:out value="${topo.disponible ? 'Oui' : 'Non'}"/></td>
                     <td><button class="buttonTopo dispoTopo" type="button">Disponibilité</button></td>
                     <td><a href="modifierTopo.do?idTopo=${topo.id}">Modifier ce topo</a></td>
                     <td class="supprElem"><a href="supprimerTopo">Supprimer</a></td>
@@ -197,6 +214,8 @@
         </div>
 
         <!-- Table Pret de Topos-->
+
+        <c:set var="labelTablePretTopo" value="${ admin ? 'labelTablePretTopoAdmin' : 'labelTablePretTopo'}"/>
 
         <c:if test="${!admin}">
             <h3>Mes Prêts de topo :</h3>
@@ -215,12 +234,12 @@
                 <c:set var="prets" value="${utilisateur.prets}"/>
                 <c:forEach items="${prets}" var="pret">
                         <tr class="item" id="${pret.id}">
-                            <td><c:out value="${pret.topo.nom}"/></td>
-                            <td><c:out value="${pret.emprunteur.username}"/></td>
-                            <td><c:out value="${pret.dateDernierStatut}"/></td>
+                            <td class="${labelTablePretTopo}"><c:out value="${pret.topo.nom}"/></td>
+                            <td class="${labelTablePretTopo}"><c:out value="${pret.emprunteur.username}"/></td>
+                            <td class="${labelTablePretTopo}"><c:out value="${pret.dateDernierStatut}"/></td>
                             <c:choose>
                                 <c:when test="${pret.dernierStatut == 'PENDING'}">
-                                    <td id="statutReservation">En Attente</td>
+                                    <td class="${labelTableTopo}" id="statutReservation">En Attente</td>
                                     <td class="containerButtonReservation">
                                         <button class="buttonReservation" value="accepterPret.do" type="button">Accepter</button>
                                         <button class="buttonReservation" value="refuserPret.do" type="button">Refuser</button>
@@ -228,16 +247,16 @@
                                     <c:set var="attentePret" value="true"/>
                                 </c:when>
                                 <c:when test="${pret.dernierStatut == 'APPROVED'}">
-                                    <td>Acceptée</td>
-                                    <td>${pret.emprunteur.email}</td>
+                                    <td class="${labelTablePretTopo}">Acceptée</td>
+                                    <td class="${labelTablePretTopo}">${pret.emprunteur.email}</td>
                                 </c:when>
                                 <c:when test="${pret.dernierStatut == 'REFUSED'}">
-                                    <td>Refusée</td>
+                                    <td class="${labelTablePretTopo}">Refusée</td>
                                     <td></td>
                                 </c:when>
                                 <c:otherwise>
-                                    <td>Terminée</td>
-                                    <td>${pret.emprunteur.email}</td>
+                                    <td class="${labelTablePretTopo}">Terminée</td>
+                                    <td class="${labelTablePretTopo}">${pret.emprunteur.email}</td>
                                 </c:otherwise>
                             </c:choose>
                         </tr>
@@ -254,7 +273,6 @@
                     <th>Date de réservation</th>
                     <th>Statut réservation</th>
                     <th>Adresse email</th>
-
                 </tr>
                 </thead>
                 <tbody>
@@ -262,27 +280,27 @@
                 <c:set var="emprunts" value="${utilisateur.emprunts}"/>
                 <c:forEach items="${emprunts}" var="emprunt">
                     <tr class="item" id="${emprunt.id}">
-                        <td><c:out value="${emprunt.topo.nom}"/></td>
-                        <td><c:out value="${emprunt.preteur.username}"/></td>
-                        <td><c:out value="${emprunt.dateDernierStatut}"/></td>
+                        <td class="labelEmpruntTopo"><c:out value="${emprunt.topo.nom}"/></td>
+                        <td class="labelEmpruntTopo"><c:out value="${emprunt.preteur.username}"/></td>
+                        <td class="labelEmpruntTopo"><c:out value="${emprunt.dateDernierStatut}"/></td>
                         <c:choose>
                             <c:when test="${emprunt.dernierStatut == 'PENDING'}">
-                                <td>En Attente</td>
+                                <td class="labelEmpruntTopo">En Attente</td>
                                 <td class="supprElem"><a href="supprimerReservation">Supprimer</a></td>
                             </c:when>
                             <c:when test="${emprunt.dernierStatut == 'APPROVED'}">
-                                <td>Acceptée</td>
-                                <td>${emprunt.preteur.email}</td>
+                                <td class="labelEmpruntTopo">Acceptée</td>
+                                <td class="labelEmpruntTopo">${emprunt.preteur.email}</td>
                                 <td><button class="buttonReservation" value="terminerReservation.do" type="button">Terminer</button></td>
                                 <c:set var="attenteEmprunt" value="true"/>
                             </c:when>
                             <c:when test="${emprunt.dernierStatut == 'REFUSED'}">
-                                <td>Refusée</td>
+                                <td class="labelEmpruntTopo">Refusée</td>
                                 <td></td>
                             </c:when>
                             <c:otherwise>
-                                <td>Terminée</td>
-                                <td>${emprunt.emprunteur.email}</td>
+                                <td class="labelEmpruntTopo">Terminée</td>
+                                <td class="labelEmpruntTopo">${emprunt.emprunteur.email}</td>
                             </c:otherwise>
                         </c:choose>
                     </tr>
@@ -313,15 +331,15 @@
                     <c:set var="prets" value="${listReservations}"/>
                     <c:forEach items="${prets}" var="pret">
                         <tr class="item" id="${pret.id}">
-                            <td><c:out value="${pret.topo.id}"/></td>
-                            <td><c:out value="${pret.id}"/></td>
-                            <td><c:out value="${pret.preteur.username}"/></td>
-                            <td><c:out value="${pret.topo.nom}"/></td>
-                            <td><c:out value="${pret.emprunteur.username}"/></td>
-                            <td><c:out value="${pret.dateDernierStatut}"/></td>
+                            <td class="${labelTablePretTopo}"><c:out value="${pret.topo.id}"/></td>
+                            <td class="${labelTablePretTopo}"><c:out value="${pret.id}"/></td>
+                            <td class="${labelTablePretTopo}"><c:out value="${pret.preteur.username}"/></td>
+                            <td class="${labelTablePretTopo}"><c:out value="${pret.topo.nom}"/></td>
+                            <td class="${labelTablePretTopo}"><c:out value="${pret.emprunteur.username}"/></td>
+                            <td class="${labelTablePretTopo}"><c:out value="${pret.dateDernierStatut}"/></td>
                             <c:choose>
                                 <c:when test="${pret.dernierStatut == 'PENDING'}">
-                                    <td id="statutReservation">En Attente</td>
+                                    <td class="${labelTablePretTopo}" id="statutReservation">En Attente</td>
                                     <c:if test="${pret.preteur.username == sessionUtilisateur}">
                                         <c:set var="attentePret" value="true"/>
                                     </c:if>
@@ -330,21 +348,24 @@
                                         <button class="buttonReservation" value="refuserPret.do" type="button">Refuser</button>
                                     </td>
                                     <td class="supprElem"><a href="supprimerReservation">Supprimer</a></td>
-
                                 </c:when>
                                 <c:when test="${pret.dernierStatut == 'APPROVED'}">
-                                    <td>Acceptée</td>
+                                    <td class="${labelTablePretTopo}">Acceptée</td>
                                     <c:if test="${pret.emprunteur.username == sessionUtilisateur}">
                                         <c:set var="attenteEmprunt" value="true"/>
                                     </c:if>
-                                    <td>${pret.emprunteur.email}</td>
+                                    <td class="${labelTablePretTopo}">${pret.emprunteur.email}</td>
                                     <td><button class="buttonReservation" value="terminerReservation.do" type="button">Terminer</button></td>
                                 </c:when>
                                 <c:when test="${pret.dernierStatut == 'REFUSED'}">
-                                    <td>Refusée</td>
+                                    <td class="${labelTablePretTopo}">Refusée</td>
+                                    <td></td>
+                                    <td></td>
                                 </c:when>
                                 <c:otherwise>
-                                    <td>Terminée</td>
+                                    <td class="${labelTablePretTopo}">Terminée</td>
+                                    <td class="${labelTablePretTopo}">${pret.emprunteur.email}</td>
+                                    <td></td>
                                 </c:otherwise>
                             </c:choose>
                         </tr>
@@ -369,12 +390,12 @@
             <tbody>
             <c:forEach items="${listUtilisateur}" var="user">
                 <tr class="item" id="${user.id}">
-                    <td><c:out value="${user.id}"/></td>
-                    <td><c:out value="${user.username}"/></td>
-                    <td><c:out value="${user.email}"/></td>
-                    <td><c:out value="${user.nom}"/></td>
-                    <td><c:out value="${user.prenom}"/></td>
-                    <td class="adminTable"><c:out value="${user.admin? 'Oui':'Non'}"/></td>
+                    <td class="labelUtilisateur"><c:out value="${user.id}"/></td>
+                    <td class="labelUtilisateur"><c:out value="${user.username}"/></td>
+                    <td class="labelUtilisateur"><c:out value="${user.email}"/></td>
+                    <td class="labelUtilisateur"><c:out value="${user.nom}"/></td>
+                    <td class="labelUtilisateur"><c:out value="${user.prenom}"/></td>
+                    <td class="adminTable labelUtilisateur"><c:out value="${user.admin? 'Oui':'Non'}"/></td>
                     <td><button class="buttonAdmin" type="button">Administrateur</button></td>
                     <td class="supprElem"><a href="supprimerUser">Supprimer</a></td>
                 </tr>

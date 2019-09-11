@@ -1,0 +1,116 @@
+
+@media screen and (max-width: 1250px) {
+    #bannerDashboard, .menuDashboard{
+        width: 95%;
+    }
+
+    .menuDashboard button{
+        flex-grow: 1;
+    }
+
+    td:before{
+        width: 5em;
+        font-weight: bold;
+        text-decoration: underline;
+        text-align: center;
+    }
+
+
+    /* On ajoute les labels des tableaux en fonction du tableau et de l'utilisateur */
+
+    /* SPOTS */
+
+    td[class="labelTableSpotAdmin"]:nth-of-type(1):before{content:"IdSpot :";}
+    td[class="labelTableSpotAdmin"]:nth-of-type(2):before{content:"Nom Spot :";}
+    td[class="labelTableSpotAdmin"]:nth-of-type(3):before{content:"Ville :";}
+    td[class="labelTableSpotAdmin"]:nth-of-type(4):before{content:"Département :";}
+    td[class="labelTableSpotAdmin"]:nth-of-type(5):before{content:"Utilisateur :";}
+
+    td[class="labelTableSpot"]:nth-of-type(1):before{content:"Nom Spot :";}
+    td[class="labelTableSpot"]:nth-of-type(2):before{content:"Ville :";}
+    td[class="labelTableSpot"]:nth-of-type(3):before{content:"Département :";}
+
+    /* SECTEUR */
+
+    td[class="labelTableSecteurAdmin"]:nth-of-type(1):before{content:"Id Secteur :";}
+    td[class="labelTableSecteurAdmin"]:nth-of-type(2):before{content:"Nom Secteur :";}
+    td[class="labelTableSecteurAdmin"]:nth-of-type(3):before{content:"Nom Spot :";}
+    td[class="labelTableSecteurAdmin"]:nth-of-type(4):before{content:"Utilisateur :";}
+
+    td[class="labelTableSecteur"]:nth-of-type(1):before{content:"Nom Secteur :";}
+    td[class="labelTableSecteur"]:nth-of-type(2):before{content:"Nom Spot :";}
+
+    /* VOIE */
+
+    td[class="labelTableVoieAdmin"]:nth-of-type(1):before{content:"Id Voie :";}
+    td[class="labelTableVoieAdmin"]:nth-of-type(2):before{content:"Nom Voie :";}
+    td[class="labelTableVoieAdmin"]:nth-of-type(3):before{content:"Nom Secteur :";}
+    td[class="labelTableVoieAdmin"]:nth-of-type(4):before{content:"Nom Spot :";}
+    td[class="labelTableVoieAdmin"]:nth-of-type(5):before{content:"Utilisateur :";}
+
+    td[class="labelTableVoie"]:nth-of-type(1):before{content:"Nom Voie :";}
+    td[class="labelTableVoie"]:nth-of-type(2):before{content:"Nom Secteur :";}
+    td[class="labelTableVoie"]:nth-of-type(3):before{content:"Nom Spot :";}
+
+    /* TOPO */
+
+    td[class="labelTableTopoAdmin"]:nth-of-type(1):before{content:"Id Topo :";}
+    td[class="labelTableTopoAdmin"]:nth-of-type(2):before{content:"Nom Topo :";}
+    td[class="labelTableTopoAdmin"]:nth-of-type(3):before{content:"Date Edition :";}
+    td[class="labelTableTopoAdmin"]:nth-of-type(4):before{content:"Utilisateur :";}
+    td[class*="labelTableTopoAdmin"]:nth-of-type(5):before{content:"Disponible :";}
+
+    td[class="labelTableTopo"]:nth-of-type(1):before{content:"Nom Topo :";}
+    td[class="labelTableTopo"]:nth-of-type(2):before{content:"Date Edition :";}
+    td[class*="labelTableTopo"]:nth-of-type(3):before{content:"Disponible :";}
+
+    /* PRETS TOPO */
+
+    td[class="labelTablePretTopoAdmin"]:nth-of-type(1):before{content:"Id Topo :";}
+    td[class="labelTablePretTopoAdmin"]:nth-of-type(2):before{content:"Id Pret :";}
+    td[class="labelTablePretTopoAdmin"]:nth-of-type(3):before{content:"Propriétaire Topo :";}
+    td[class="labelTablePretTopoAdmin"]:nth-of-type(4):before{content:"Nom Topo :";}
+    td[class="labelTablePretTopoAdmin"]:nth-of-type(5):before{content:"Emprunteur :";}
+    td[class="labelTablePretTopoAdmin"]:nth-of-type(6):before{content:"Date de réservation :";}
+    td[class="labelTablePretTopoAdmin"]:nth-of-type(7):before{content:"Statut réservation :";}
+    td[class="labelTablePretTopoAdmin"]:nth-of-type(8):before{content:"Adresse email :";}
+
+
+    td[class="labelTablePretTopo"]:nth-of-type(1):before{content:"Nom Topo :";}
+    td[class="labelTablePretTopo"]:nth-of-type(2):before{content:"Emprunteur :";}
+    td[class="labelTablePretTopo"]:nth-of-type(3):before{content:"Date de réservation :";}
+    td[class="labelTablePretTopo"]:nth-of-type(4):before{content:"Statut réservation :";}
+    td[class="labelTablePretTopo"]:nth-of-type(5):before{content:"Adresse email :";}
+
+    /* EMPRUNTS TOPO*/
+
+    td[class="labelEmpruntTopo"]:nth-of-type(1):before{content:"Nom Topo :";}
+    td[class="labelEmpruntTopo"]:nth-of-type(2):before{content:"Propriétaire Topo :";}
+    td[class="labelEmpruntTopo"]:nth-of-type(3):before{content:"Date de réservation :";}
+    td[class="labelEmpruntTopo"]:nth-of-type(4):before{content:"Statut réservation :";}
+    td[class="labelEmpruntTopo"]:nth-of-type(5):before{content:"Adresse email :";}
+
+    /* UTILISATEURS */
+
+    td[class="labelUtilisateur"]:nth-of-type(1):before{content:"Id utilisateur :";}
+    td[class="labelUtilisateur"]:nth-of-type(2):before{content:"Nom Utilisateur :";}
+    td[class="labelUtilisateur"]:nth-of-type(3):before{content:"Adresse email :";}
+    td[class="labelUtilisateur"]:nth-of-type(4):before{content:"Nom :";}
+    td[class*="labelUtilisateur"]:nth-of-type(5):before{content:"Prénom :";}
+    td[class*="labelUtilisateur"]:nth-of-type(6):before{content:"Administrateur :";}
+
+}
+
+@media screen and (max-width: 850px) {
+    #bannerDashboard, .menuDashboard{
+        flex-direction: column;
+    }
+
+    .menuDashboard{
+        margin:0.5em auto;
+    }
+
+    .menuDashboard button{
+        margin: 0;
+    }
+}
