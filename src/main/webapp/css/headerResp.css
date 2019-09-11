@@ -1,9 +1,9 @@
 
-
 @media screen and (max-width: 1225px) {
 
     header{
         flex-direction: column;
+        position: absolute;
     }
 
     #logo{
@@ -26,7 +26,7 @@
 
     .menu, .userDrop, .user{
         display: flex;
-        flex-grow: 2;
+        flex-grow: 1;
     }
 
     .menu div:first-of-type{border-bottom-left-radius: 12px;}
@@ -52,7 +52,7 @@
 
     .menu{flex-wrap: wrap;}
 
-    .menu a{line-height: 2em;}
+    .menu a{line-height: 3em;}
 
     .user div:first-of-type, .userDrop div{
         border-bottom-left-radius: 12px;

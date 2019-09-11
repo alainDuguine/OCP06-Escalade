@@ -85,8 +85,9 @@ header{
 
 .user a{
     line-height: 3em;
-    padding-right: 1em;
     padding-left: 0.5em;
+    padding-right: 0.5em;
+    margin: 0;
     color:black;
     text-decoration: none;
 }

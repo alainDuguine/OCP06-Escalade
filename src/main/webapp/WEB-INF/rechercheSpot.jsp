@@ -7,6 +7,7 @@
     <%@ include file="includeCss.jsp"%>
     <link rel="stylesheet" type="text/css" href="../css/table.css">
     <link rel="stylesheet" type="text/css" href="../css/form.css">
+    <link rel="stylesheet" type="text/css" charset="UTF-8" href="../css/rechercheSpotResponsive.css">
     <link href="https://fonts.googleapis.com/css?family=Merienda&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -33,13 +34,13 @@
                     </select>
                 </div>
                 <div class="rechercheForm">
-                    <select name="cotationMin">
+                    <select name="cotationMin" id="cotationMin">
                         <option value="">Cotation Min</option>
                         <c:forEach items="${cotations}" var="cotation">
                             <option value="${cotation.id}">${cotation.code}</option>
                         </c:forEach>
                     </select>
-                    <select name="cotationMax">
+                    <select name="cotationMax" id="cotationMax">
                         <option value="">Cotation Max</option>
                         <c:forEach items="${cotations}" var="cotation">
                             <option value="${cotation.id}">${cotation.code}</option>
