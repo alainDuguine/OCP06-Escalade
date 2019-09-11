@@ -66,7 +66,7 @@
                                 <td><c:out value="${spot.nom}"/></td>
                                 <td><c:out value="${spot.departement.code} - ${spot.departement.nom}"/></td>
                                 <td><c:out value="${spot.ville.nom}"/></td>
-                                <td class="spotInTopo"><a href="${spot.id}">Supprimer le spot de ce topo</a></td>
+                                <td class="spotInTopo"><a href="${spot.id}">Supprimer le spot</a></td>
                             </tr>
                         </c:forEach>
                         </tbody>

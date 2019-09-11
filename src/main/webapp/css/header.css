@@ -18,6 +18,10 @@ header{
     flex-direction: row;
 }
 
+.menuDashboard{
+    padding: 0.5em;
+}
+
 /* Mise en forme du logo */
 
 #logo{

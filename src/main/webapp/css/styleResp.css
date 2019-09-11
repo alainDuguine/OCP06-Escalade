@@ -17,14 +17,14 @@
         padding: 0;
     }
 
-    #selectTopoSpot, .resultatDiv{
+    #selectTopoSpot, .resultatDiv, .formDiv{
         box-sizing: border-box;
         width: 100%;
         margin-right: auto;
         margin-left: auto;
     }
 
-    #selectTopoSpot table{
+    #selectTopoSpot table, .modifTopo table{
         word-break: break-word;
         width: 100%;
     }
