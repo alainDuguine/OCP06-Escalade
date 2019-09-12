@@ -60,6 +60,6 @@
         integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
         crossorigin="anonymous">
 </script>
-<script src="../../js/checkPhotos.js"></script>
+<script type="text/javascript" charset="UTF-8" src="../../js/checkPhotos.js"></script>
 </body>
 </html>

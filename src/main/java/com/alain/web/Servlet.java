@@ -9,6 +9,8 @@ import com.alain.metier.SpotResearchDto;
 import com.alain.metier.Utilities;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.*;
 import java.io.IOException;
@@ -17,8 +19,11 @@ import java.util.*;
 
 public class Servlet extends HttpServlet {
 
+    private static final Logger logger = LogManager.getLogger("Servlet");
+
     @Override
     public void init(){
+        logger.info("Initialisation EntityManager");
         EntityManagerUtil entityManagerUtil = new EntityManagerUtil();
     }
 
@@ -49,6 +54,7 @@ public class Servlet extends HttpServlet {
                 if (cookies != null) {
                     for (Cookie cookie : cookies) {
                         if (cookie.getName().equals("email")) {
+                            logger.info("Récupération cookie :" + cookie.toString());
                             req.setAttribute("cookieEmail", cookie.getValue());
                         }
                     }
@@ -64,6 +70,7 @@ public class Servlet extends HttpServlet {
                     this.getServletContext().getRequestDispatcher("/WEB-INF/connexion.jsp").forward(req, resp);
                 }if(session.getAttribute("admin").equals(true)){
 
+                    logger.info("Chargement dashboard Administrateur");
                     // Si l'utilisateur est admin on charge chaque élément séparément, pour avoir accès à tous.
 
                     UtilisateurDaoImpl utilisateurDao = new UtilisateurDaoImpl();
@@ -91,7 +98,6 @@ public class Servlet extends HttpServlet {
                     req.setAttribute("listTopo", listTopo);
                     req.setAttribute("listReservations", listReservations);
                 }else{
-
                     // Si l'utilisateur n'est pas admin, on charge simplement l'utilisateur.
                     // Tous les objets le concernant seront dans son graphe d'objets;
                     UtilisateurDaoImpl utilisateurDao = new UtilisateurDaoImpl();
@@ -102,6 +108,7 @@ public class Servlet extends HttpServlet {
                 break;
             }
             case "/deconnexion.do":{
+                logger.info("Déconnexion :" + req.getSession().getAttribute("sessionUtilisateur"));
                 HttpSession session = req.getSession();
                 session.invalidate();
                 resp.sendRedirect("index.do");
@@ -124,6 +131,7 @@ public class Servlet extends HttpServlet {
                     Spot spot = spotDao.findOne(Long.parseLong(req.getParameter("idSpot")));
                     // Si le spot n'existe pas, ou si l'utilisateur n'a pas créé le spot et qu'il n'est pas admin, on envoie une page d'erreur
                     if (spot == null || (!spot.getUtilisateur().getUsername().equals(req.getSession().getAttribute("sessionUtilisateur"))) && (req.getSession().getAttribute("admin").equals(false))) {
+                        logger.warn("Tentative de modification non autorisée :" + req.getSession().getAttribute("sessionUtilisateur"));
                         this.getServletContext().getRequestDispatcher("/WEB-INF/erreur.jsp").forward(req, resp);
                     }else{
                         req.setAttribute("spot", spot);
@@ -172,6 +180,7 @@ public class Servlet extends HttpServlet {
                 SecteurDaoImpl secteurDao = new SecteurDaoImpl();
                 Secteur secteur = secteurDao.findOne(Long.parseLong(req.getParameter("idSecteur")));
                 if (secteur == null || (!secteur.getUtilisateur().getUsername().equals(req.getSession().getAttribute("sessionUtilisateur"))) && (req.getSession().getAttribute("admin").equals(false))) {
+                    logger.warn("Tentative de modification non autorisée :" + req.getSession().getAttribute("sessionUtilisateur"));
                     this.getServletContext().getRequestDispatcher("/WEB-INF/erreur.jsp").forward(req, resp);
                 }else {
                     req.setAttribute("secteur", secteur);
@@ -185,6 +194,7 @@ public class Servlet extends HttpServlet {
                 VoieDaoImpl voieDao = new VoieDaoImpl();
                 Voie voie = voieDao.findOne(Long.parseLong(req.getParameter("idVoie")));
                 if (voie == null ||(!voie.getUtilisateur().getUsername().equals(req.getSession().getAttribute("sessionUtilisateur"))) && (req.getSession().getAttribute("admin").equals(false))){
+                    logger.warn("Tentative de modification non autorisée :" + req.getSession().getAttribute("sessionUtilisateur"));
                     this.getServletContext().getRequestDispatcher("/WEB-INF/erreur.jsp").forward(req, resp);
                 }else {
                     CotationDaoImpl cotationDao = new CotationDaoImpl();
@@ -212,6 +222,7 @@ public class Servlet extends HttpServlet {
                     this.getServletContext().getRequestDispatcher("/WEB-INF/erreur.jsp").forward(req, resp);
                 }else{
                     if(session.getAttribute("admin").equals(true)){
+                        logger.info("Ajout topo demandé par administrateur");
                         TopoDaoImpl topoDao = new TopoDaoImpl();
                         List<Topo> listTopo = topoDao.findAll();
                         req.setAttribute("listTopo", listTopo);
@@ -327,6 +338,7 @@ public class Servlet extends HttpServlet {
              **** Gestion Utilisateur      *****************************************************************
              *********************************************************************************************** */
             case "/connexionForm.do": {
+                logger.info("Connexion nouvel utilisateur");
                 UtilisateurDaoImpl utilisateurDaoImpl = new UtilisateurDaoImpl();
                 CheckForm form = new CheckForm();
                 form.checkConnect(req, utilisateurDaoImpl);
@@ -336,12 +348,14 @@ public class Servlet extends HttpServlet {
                         Cookie cookieEmail = new Cookie("email", req.getParameter("email"));
                         cookieEmail.setMaxAge(60*60*24*30);
                         resp.addCookie(cookieEmail);
+                        logger.info("Création de cookie :" + cookieEmail.toString());
                     }
                     HttpSession session = req.getSession();
                     String username = ((Utilisateur) form.getEntitie()).getUsername();
                     Boolean admin = ((Utilisateur) form.getEntitie()).isAdmin();
                     session.setAttribute("sessionUtilisateur", username);
                     session.setAttribute("admin", admin);
+                    logger.info("Connexion réussie avec variable de session : " + username);
                     doGet(req,resp);
                 } else {
                     this.getServletContext().getRequestDispatcher("/WEB-INF/connexion.jsp").forward(req, resp);
@@ -349,6 +363,7 @@ public class Servlet extends HttpServlet {
                 break;
             }
             case "/saveUser.do": {
+                logger.info("Création nouvel utilisateur");
                 UtilisateurDaoImpl utilisateurDaoImpl = new UtilisateurDaoImpl();
                 CheckForm form = new CheckForm();
                 form.checkAndSave(req, "com.alain.dao.entities.Utilisateur", utilisateurDaoImpl);
@@ -361,6 +376,7 @@ public class Servlet extends HttpServlet {
                 Long idUser = Long.parseLong(req.getParameter("idUser"));
                 UtilisateurDaoImpl utilisateurDao = new UtilisateurDaoImpl();
                 Utilisateur utilisateur = utilisateurDao.findOne(idUser);
+                logger.info("Changement droits administrateurs utilisateur : " + utilisateur.getId());
                 utilisateur.setAdmin(!utilisateur.isAdmin());
                 utilisateurDao.update(utilisateur, req);
                 PrintWriter out = resp.getWriter();
@@ -398,6 +414,7 @@ public class Servlet extends HttpServlet {
                     dao = new TopoDaoImpl();
                     className = "com.alain.dao.entities.Topo";
                 }
+                logger.info("Requête sauvegarde nouvel objet : " + className);
                 CheckForm form = new CheckForm();
                 form.checkAndSave(req, className, dao);
                 if (form.isResultat() && !path.contains("Topo")){
@@ -410,6 +427,7 @@ public class Servlet extends HttpServlet {
                 if (form.isResultat()) {
                     resp.sendRedirect("/dashboard.do?resultat=true");
                 } else {
+                    logger.info("Sauvegarde échouée : " + form.getListErreurs().toString());
                     doGet(req, resp);
                 }
                 break;
@@ -436,6 +454,7 @@ public class Servlet extends HttpServlet {
                 }else{
                     dao = new TopoDaoImpl();
                 }
+                logger.info("Requête modification objet : " + dao + ", " + daoPhoto + ", " + idElement);
                 CheckForm form = new CheckForm();
                 form.checkAndUpdate(req, dao, idElement);
                 if (form.isResultat() && !path.contains("Topo")){
@@ -446,6 +465,7 @@ public class Servlet extends HttpServlet {
                 if (form.isResultat()) {
                     resp.sendRedirect("/dashboard.do?resultat=true");
                 } else {
+                    logger.info("Modification échouée : "+ form.getListErreurs().toString());
                     doGet(req, resp);
                 }
                 break;
@@ -462,6 +482,7 @@ public class Servlet extends HttpServlet {
                 } else {
                     dao = new VoieDaoImpl();
                 }
+                logger.info("Requête suppression objet : "+ dao + ", id : " + idElement);
                 Boolean result = dao.delete(idElement);
                 this.sendAjaxBooleanResponse(result, resp);
                 break;
@@ -469,8 +490,10 @@ public class Servlet extends HttpServlet {
             // Recherche multi-critères
             case "/rechercheSpot.do": {
                 SpotDaoImpl spotDao = new SpotDaoImpl();
+                logger.info("Recherche multi-critères de spots demandée");
                 Map<String, Object> paramMap = Utilities.getParameterMapFromReq(req);
                 List<SpotResearchDto> spots = spotDao.findSpotPersonalResearch(paramMap);
+                logger.info("Nombre de Résultats :" + spots.size());
                 req.setAttribute("spots", spots);
                 doGet(req, resp);
                 break;
@@ -505,6 +528,7 @@ public class Servlet extends HttpServlet {
                 } else {
                     dao = new ReservationDaoImpl();
                 }
+                logger.info("Requête suppression Ajax objet : "+ dao + ", id : " + idElement);
                 Boolean result = dao.delete(idElement);
                 this.sendAjaxBooleanResponse(result, resp);
                 break;
@@ -517,12 +541,14 @@ public class Servlet extends HttpServlet {
             case "/saveCommentaire.do": {
                 Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
                 CommentaireSpotDaoImpl commentaireDao = new CommentaireSpotDaoImpl();
+                logger.info("Requête AJAX sauvegarde nouveau commentaire");
                 CheckForm form = new CheckForm();
                 form.checkAndSave(req, "com.alain.dao.entities.CommentaireSpot", commentaireDao);
                 if (form.isResultat()) {
                     resp.setContentType("application/json");
                     resp.setCharacterEncoding("UTF-8");
                     CommentaireSpot commentaire = (CommentaireSpot) form.getEntitie();
+                    logger.info("Sauvegarde commentaire réussie : " + commentaire.getId());
                     String json = gson.toJson(commentaire);
                     PrintWriter out = resp.getWriter();
                     out.print(json);
@@ -532,13 +558,16 @@ public class Servlet extends HttpServlet {
             }
             case "/updateCommentaire.do":{
                 CommentaireSpotDaoImpl commentaireSpotDao = new CommentaireSpotDaoImpl();
+                logger.info("Requête AJAX modification commentaire : " + req.getParameter("idCommentaire"));
                 CheckForm form = new CheckForm();
                 form.checkAndUpdate(req, commentaireSpotDao, Long.parseLong(req.getParameter("idCommentaire")));
                 Map<String, String> ajaxReturn = new HashMap<>();
                 ajaxReturn.put("resultat", String.valueOf(form.isResultat()));
                 if (!form.isResultat()){
+                    logger.info("Modification commentaire échouée : " + form.getListErreurs().toString());
                     ajaxReturn.put("erreur",form.getListErreurs().toString());
                 }
+                logger.info("Modification commentaire réussie");
                 Gson gson = new Gson();
                 String ajaxReturnString = gson.toJson(ajaxReturn);
                 PrintWriter out = resp.getWriter();
@@ -556,10 +585,13 @@ public class Servlet extends HttpServlet {
             case "/reserverTopo.do":{
                 ReservationDaoImpl reservationDao = new ReservationDaoImpl();
                 CheckForm form = new CheckForm();
+                logger.info("Nouvelle demande de réservation topo");
                 form.checkAndSave(req, "com.alain.dao.entities.Reservation", reservationDao);
                 if (form.isResultat()) {
+                    logger.info("Création demande de réservation réussie");
                     sendAjaxBooleanResponse(true, resp);
                 }else{
+                    logger.info("Création demande de réservation échouée :" + form.getListErreurs().toString());
                     Map<String, String> ajaxReturn = new HashMap<>();
                     ajaxReturn.put("erreur", String.valueOf(form.getListErreurs().get("erreur")));
                     Gson gson = new Gson();
@@ -579,10 +611,12 @@ public class Servlet extends HttpServlet {
                 Reservation reservation = reservationDao.findOne(Long.parseLong(req.getParameter("idReservation")));
                 boolean result;
                 try {
+                    logger.info("Modification statut réservation topo :" + reservation.getId());
                     reservationDao.update(reservation, req);
                     result = true;
                 }catch (Exception e){
                     result = false;
+                    logger.warn("Modification statut réservation échouée :" + e.getMessage());
                 }
                 this.sendAjaxBooleanResponse(result, resp);
                 break;
@@ -590,6 +624,7 @@ public class Servlet extends HttpServlet {
             // Switcher disponibilité des topos
             case "/toggleTopo.do":{
                 Long idTopo = Long.parseLong(req.getParameter("idTopo"));
+                logger.info("Modification disponibilité topo : " + idTopo);
                 TopoDaoImpl topoDao = new TopoDaoImpl();
                 Topo topo = topoDao.findOne(idTopo);
                 topo.setDisponible(!topo.isDisponible());
@@ -608,14 +643,17 @@ public class Servlet extends HttpServlet {
                 TopoDaoImpl topoDao = new TopoDaoImpl();
                 String[] idTopos = req.getParameterValues("checkTopo");
                 Long idSpot = Long.parseLong(req.getParameter("idSpot"));
-                if (idTopos != null) {
+                logger.info("Demande d'association des topos : " + Arrays.toString(idTopos) + " au spot : " + idSpot);
+                if (idTopos.length != 0) {
                     for (String idTopo : idTopos) {
                         result = topoDao.addSpotInTopo(Long.parseLong(idTopo), idSpot);
                     }
                 }
                 if (result) {
+                    logger.info("Associations réussies");
                     resp.sendRedirect("/display.do?idSpot="+idSpot+"&resultat=true");
                 } else {
+                    logger.info("Associations échouées.");
                     doGet(req, resp);
                 }
                 break;
@@ -624,6 +662,7 @@ public class Servlet extends HttpServlet {
                 TopoDaoImpl topoDao = new TopoDaoImpl();
                 Long idTopo = Long.parseLong(req.getParameter("idTopo"));
                 Long idSpot = Long.parseLong(req.getParameter("idSpot"));
+                logger.info("Demande de suppression d'association du topo : " + idTopo+ " au spot : " + idSpot);
                 Boolean result = topoDao.deleteSpotFromTopo(idTopo, idSpot);
                 this.sendAjaxBooleanResponse(result, resp);
                 break;
@@ -631,12 +670,22 @@ public class Servlet extends HttpServlet {
         }
     }
 
+    /**
+     * Renvoie une réponse booléenne AJAX
+     * @param result
+     * @param resp
+     * @throws IOException
+     */
     private void sendAjaxBooleanResponse(Boolean result, HttpServletResponse resp) throws IOException {
         PrintWriter out = resp.getWriter();
         out.print(result);
         out.flush();
     }
 
+    /**
+     * Ajoute des en-tête no cache à une jsp
+     * @param resp
+     */
     private void setNoCache(HttpServletResponse resp) {
         resp.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
         resp.setHeader("Pragma", "no-cache");

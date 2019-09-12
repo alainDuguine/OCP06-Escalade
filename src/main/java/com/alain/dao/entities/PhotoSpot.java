@@ -1,4 +1,6 @@
 package com.alain.dao.entities;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -10,6 +12,8 @@ import java.io.InputStream;
 @PrimaryKeyJoinColumn(name = "id")
 @OnDelete(action = OnDeleteAction.CASCADE)
 public class PhotoSpot extends Photo {
+
+    private static final Logger logger = LogManager.getLogger("PhotoSpot");
 
     @ManyToOne
     private Spot spot;
@@ -34,6 +38,7 @@ public class PhotoSpot extends Photo {
      **** METHODS           ************************************************************************
      ******************************************************************************************** */
     public void removeRelation(){
+        logger.info("Suppression de l'association avec le spot :" + this.spot.getId());
         this.spot = null;
     }
 

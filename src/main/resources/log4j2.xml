@@ -8,7 +8,19 @@
         </Console>
 
         <!-- File Appender -->
-        <File name="File" fileName="d:/log/app.log">
+        <File name="File" fileName="d:\logs\hibernate.log">
+            <PatternLayout pattern="%d{yyyy-MMM-dd HH:mm:ss a} [%t] %-5level %logger{36} - %msg%n" />
+        </File>
+
+        <File name="FileInfo" fileName="d:\logs\info.log">
+            <PatternLayout pattern="%d{yyyy-MMM-dd HH:mm:ss a} [%t] %-5level %logger{36} - %msg%n" />
+        </File>
+
+        <File name="FileWarn" fileName="d:\logs\warn.log">
+            <PatternLayout pattern="%d{yyyy-MMM-dd HH:mm:ss a} [%t] %-5level %logger{36} - %msg%n" />
+        </File>
+
+        <File name="FileError" fileName="d:\logs\error.log">
             <PatternLayout pattern="%d{yyyy-MMM-dd HH:mm:ss a} [%t] %-5level %logger{36} - %msg%n" />
         </File>
 
@@ -16,34 +28,38 @@
     <Loggers>
         <!-- Log everything in hibernate -->
         <Logger name="org.hibernate" level="info" additivity="false">
-            <AppenderRef ref="Console" />
+<!--            <AppenderRef ref="Console" />-->
         </Logger>
 
         <Logger name="org.hibernate.event.internal.DefaultPersistEventListener" level="trace" additivity="false">
-            <AppenderRef ref="Console"/>
+<!--            <AppenderRef ref="Console"/>-->
             <AppenderRef ref="File"/>
         </Logger>
         <!-- Log SQL statements -->
         <Logger name="org.hibernate.SQL" level="debug" additivity="false">
-            <AppenderRef ref="Console" />
+<!--            <AppenderRef ref="Console" />-->
             <AppenderRef ref="File" />
         </Logger>
 
         <!-- Log JDBC bind parameters -->
         <Logger name="org.hibernate.type.descriptor.sql" level="trace" additivity="false">
-            <AppenderRef ref="Console" />
+<!--            <AppenderRef ref="Console" />-->
             <AppenderRef ref="File" />
         </Logger>
 
         <!-- Log custom packages -->
         <Logger name="com.boraji.tutorial.hibernate" level="debug" additivity="false">
-            <AppenderRef ref="Console" />
+<!--            <AppenderRef ref="Console" />-->
             <AppenderRef ref="File" />
         </Logger>
 
-        <Root level="error">
+        <Root level="info">
             <AppenderRef ref="Console" />
             <AppenderRef ref="File" />
+            <AppenderRef ref="FileInfo" />
+            <AppenderRef ref="FileWarn" />
+            <AppenderRef ref="FileError" />
         </Root>
+
     </Loggers>
 </Configuration>

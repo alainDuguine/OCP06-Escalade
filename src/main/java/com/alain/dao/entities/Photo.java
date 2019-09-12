@@ -1,16 +1,22 @@
 package com.alain.dao.entities;
 
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import javax.persistence.*;
 import javax.servlet.http.Part;
 import java.io.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Photo implements Serializable{
-    // todo fichier properties
+
+    private static final Logger logger = LogManager.getLogger("Photo");
+
     private static final String CHEMIN = "D:\\fichiers\\";
     private static final int TAILLE_TAMPON = 10240;
     public static final String CHAMP_PHOTO = "photo";
@@ -55,15 +61,18 @@ public class Photo implements Serializable{
         } catch (IOException e) {
             e.printStackTrace();
             this.erreur = "Erreur de configuration du serveur";
+            logger.error("Probleme upload photo " + Arrays.toString(e.getStackTrace()));
         } catch (IllegalStateException e){
             e.printStackTrace();
             this.erreur = "Les données envoyées sont trop volumineuses.";
+            logger.warn("Probleme upload photo " + Arrays.toString(e.getStackTrace()));
         }
         if (this.erreur == null){
             try{
                 ecrireFichier(this.contenu, this.nom, CHEMIN);
             }catch (Exception e){
                 this.erreur = "Erreur lors de l'écriture du fichier sur le disque";
+                logger.error("Probleme upload photo " + Arrays.toString(e.getStackTrace()));
             }
         }
     }
@@ -78,13 +87,16 @@ public class Photo implements Serializable{
         }
         dateTime = formatDate(LocalDateTime.now());
         nomGenere = dateTime + index + "." + extension;
+        logger.info("Nom fichier généré : " + nomGenere);
         return nomGenere;
     }
 
     private static String getExtension(Part part) {
         for (String contentDisposition : part.getHeader("content-disposition").split(";")){
             if(contentDisposition.trim().startsWith("filename")){
-                return contentDisposition.substring(contentDisposition.indexOf('.')+ 1).trim().replace("\"","");
+                String extension = contentDisposition.substring(contentDisposition.indexOf('.')+ 1).trim().replace("\"","");
+                logger.info("Récupération de l'extension du fichier " + extension);
+                return extension;
             }
         }
         return null;
@@ -96,6 +108,7 @@ public class Photo implements Serializable{
     }
 
     private void ecrireFichier(InputStream contenu, String nomPhoto, String chemin) throws Exception{
+        logger.info("Ecriture du fichier sur disque");
         BufferedInputStream entree = null;
         BufferedOutputStream sortie = null;
         try{
@@ -106,6 +119,7 @@ public class Photo implements Serializable{
             while((longueur = entree.read(tampon))>0){
                 sortie.write(tampon,0,longueur);
             }
+            logger.info("Ecriture du fichier terminée");
         }finally {
             try{
                 sortie.close();

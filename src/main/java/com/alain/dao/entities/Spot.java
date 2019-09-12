@@ -3,6 +3,9 @@ package com.alain.dao.entities;
 import com.alain.dao.contract.EntityRepository;
 import com.alain.dao.impl.SpotDaoImpl;
 import com.alain.metier.Utilities;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import javax.persistence.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
@@ -11,11 +14,15 @@ import java.util.*;
 @Entity
 @Table
 public class Spot extends Entitie implements Serializable {
+
+    private static final Logger logger = LogManager.getLogger("Spot");
+
     private static final String CHAMP_NOM = "nom";
     private static final String CHAMP_ADRESSE = "adresse";
     private static final String CHAMP_VILLE = "ville";
     private static final String CHAMP_DEPARTEMENT = "departement";
     private static final String CHAMP_DESCRIPTION = "description";
+
 
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
@@ -74,6 +81,7 @@ public class Spot extends Entitie implements Serializable {
 
     @Override
     public void hydrate(HttpServletRequest req) {
+        logger.info("Valorisation des champs d'un objet spot");
         this.setNom(Utilities.getValeurChamp(req, CHAMP_NOM));
         this.setAdresse(Utilities.getValeurChamp(req, CHAMP_ADRESSE));
         this.setDescription(Utilities.getValeurChamp(req, CHAMP_DESCRIPTION));
@@ -86,6 +94,7 @@ public class Spot extends Entitie implements Serializable {
 
     @Override
     public Map<String, String> checkErreurs(EntityRepository dao, HttpServletRequest req) {
+        logger.info("Vérification des champs");
         Map<String, String> listErreur = new HashMap<>();
 
         if (Utilities.isEmpty(this.nom)) {
@@ -102,6 +111,7 @@ public class Spot extends Entitie implements Serializable {
         }else if (this.description.length() > 2000){
             listErreur.put(CHAMP_DESCRIPTION, "Veuillez entrer une description de maximum 2000 caractères.");
         }
+        logger.info("Erreurs : " + listErreur.size() + " : " + listErreur.toString());
         return listErreur;
     }
 
@@ -119,6 +129,7 @@ public class Spot extends Entitie implements Serializable {
      * @param photo
      */
     public void removePhoto(Photo photo) {
+        logger.info("Suppression de l'association avec la photo :" + photo.getId());
         this.photos.removeIf(photoSpot -> photoSpot.getId().equals(photo.getId()));
     }
 
@@ -127,6 +138,7 @@ public class Spot extends Entitie implements Serializable {
      * @param commentaire
      */
     public void removeCommentaire(CommentaireSpot commentaire) {
+        logger.info("Suppression de l'association avec le commentaire :" + commentaire.getId());
         this.commentaires.removeIf(commentaireSpot -> commentaireSpot.getId() == commentaire.getId());
     }
 
@@ -135,6 +147,7 @@ public class Spot extends Entitie implements Serializable {
      * @param
      */
     public void removeFromTopo(Topo topo) {
+        logger.info("Suppression de l'association avec le topo :" + topo.getId());
         this.topos.removeIf(topoInSpot -> topoInSpot.getId() == topo.getId());
     }
 
@@ -143,6 +156,7 @@ public class Spot extends Entitie implements Serializable {
      * @param secteur
      */
     public void removeSecteur(Secteur secteur) {
+        logger.info("Suppression de l'association avec le secteur :" + secteur.getId());
         this.secteurs.removeIf(secteurInSpot -> secteurInSpot.getId() == secteur.getId());
     }
 
@@ -151,6 +165,7 @@ public class Spot extends Entitie implements Serializable {
      * @param topo
      */
     public void addTopo(Topo topo) {
+        logger.info("Ajout d'association avec le topo :" + topo.getId());
         if(!this.topos.contains(topo)) {
             this.topos.add(topo);
         }
@@ -160,6 +175,7 @@ public class Spot extends Entitie implements Serializable {
      * Supprime tous les liens vers le spot dans les topos
      */
     public void removeAllTopos() {
+        logger.info("Suppression de toutes les associations avec les topos du spot");
         for (Topo topo : topos) {
             topo.removeSpot(this);
         }
@@ -171,7 +187,42 @@ public class Spot extends Entitie implements Serializable {
      * @param
      */
     public void removeTopo(Topo topo) {
+        logger.info("Suppression de l'association avec le topo " + topo.getId());
         this.topos.removeIf(topoInList -> topoInList.getId() == topo.getId());
+    }
+
+    /**
+     * Ajoute un commentaire au spot
+     * @param commentaire
+     */
+    public void addCommentaire(CommentaireSpot commentaire) {
+        logger.info("Ajout d'association avec le commentaire " + commentaire.getId());
+        commentaire.setSpot(this);
+        this.commentaires.add(commentaire);
+    }
+
+    public void addPhoto(PhotoSpot photo){
+        logger.info("Ajout d'association avec la photo " + photo.getId());
+        photo.setSpot(this);
+        this.photos.add(photo);
+    }
+
+    public void setDepartement(Departement departement) {
+        logger.info("Ajout d'association avec le departement " + departement.getCode());
+        this.departement = departement;
+        departement.addSpot(this);
+    }
+
+    public void setVille(Ville ville) {
+        logger.info("Ajout d'association avec la ville " + ville.getId());
+        this.ville = ville;
+        ville.addSpot(this);
+    }
+
+    public void setUtilisateur(Utilisateur utilisateur) {
+        logger.info("Ajout d'association avec l'utilisateur " + utilisateur.getId());
+        this.utilisateur = utilisateur;
+        utilisateur.addSpot(this);
     }
 
     /* ***********************************************************************************************
@@ -206,26 +257,6 @@ public class Spot extends Entitie implements Serializable {
         this.secteurs.add(secteur);
     }
 
-    public void addPhoto(PhotoSpot photo){
-        photo.setSpot(this);
-        this.photos.add(photo);
-    }
-
-    public void addCommentaire(CommentaireSpot commentaire) {
-        commentaire.setSpot(this);
-        this.commentaires.add(commentaire);
-    }
-
-    public void setDepartement(Departement departement) {
-        this.departement = departement;
-        departement.addSpot(this);
-    }
-
-    public void setVille(Ville ville) {
-        this.ville = ville;
-        ville.addSpot(this);
-    }
-
     public String getAdresse() {
         return adresse;
     }
@@ -244,11 +275,6 @@ public class Spot extends Entitie implements Serializable {
 
     public Utilisateur getUtilisateur() {
         return utilisateur;
-    }
-
-    public void setUtilisateur(Utilisateur utilisateur) {
-        this.utilisateur = utilisateur;
-        utilisateur.addSpot(this);
     }
 
     public Departement getDepartement() {

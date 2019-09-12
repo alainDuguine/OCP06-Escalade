@@ -5,27 +5,25 @@ import com.alain.dao.contract.EntityRepository;
 import com.alain.dao.entities.*;
 import com.alain.metier.SpotResearchDto;
 import com.alain.metier.Utilities;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
 import javax.servlet.http.HttpServletRequest;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class SpotDaoImpl implements EntityRepository<Spot> {
 
     private EntityManager entityManager = EntityManagerUtil.getEntityManager();
+    private static final Logger logger = LogManager.getLogger("SpotDaoImpl");
 
     @Override
     public Spot save(Spot spot, HttpServletRequest req) {
         EntityTransaction transaction = entityManager.getTransaction();
         try {
+            logger.info("Tentative de sauvegarde d'un Spot");
             transaction.begin();
             UtilisateurDaoImpl utilisateurDao = new UtilisateurDaoImpl();
             Utilisateur utilisateur = utilisateurDao.findByUsername((String) req.getSession().getAttribute("sessionUtilisateur"));
@@ -36,10 +34,12 @@ public class SpotDaoImpl implements EntityRepository<Spot> {
             spot.setUtilisateur(utilisateur);
             entityManager.persist(spot);
             transaction.commit();
+            logger.info("Sauvegarde spot réussie  :" + spot.getId());
         } catch (Exception e){
             if (transaction != null)
                 transaction.rollback();
             e.printStackTrace();
+            logger.error("Sauvegarde spot échouée :" + Arrays.toString(e.getStackTrace()));
             throw e;
         }
         return spot;
@@ -49,6 +49,7 @@ public class SpotDaoImpl implements EntityRepository<Spot> {
     public Spot update(Spot spot, HttpServletRequest req) {
         EntityTransaction transaction = entityManager.getTransaction();
         try {
+            logger.info("Tentative de modification d'un Spot" + spot.getId());
             transaction.begin();
             Departement departement = entityManager.find(Departement.class, req.getParameter("departement"));
             Ville ville = entityManager.find(Ville.class, Long.parseLong(req.getParameter("ville")));
@@ -56,10 +57,12 @@ public class SpotDaoImpl implements EntityRepository<Spot> {
             spot.setVille(ville);
             entityManager.merge(spot);
             transaction.commit();
+            logger.info("Modification spot réussie" + spot.getId());
         } catch (Exception e){
             if (transaction != null)
                 transaction.rollback();
             e.printStackTrace();
+            logger.error("Modification spot échouée :" + Arrays.toString(e.getStackTrace()));
             throw e;
         }
         return spot;
@@ -69,33 +72,39 @@ public class SpotDaoImpl implements EntityRepository<Spot> {
     public boolean delete(Long id) {
         EntityTransaction transaction = entityManager.getTransaction();
         try {
+            logger.info("Tentative de suppression d'un spot" + id);
             transaction.begin();
             Spot spot = entityManager.find(Spot.class, id);
             spot.removeAllTopos();
             entityManager.remove(spot);
             entityManager.flush();
             transaction.commit();
+            logger.info("Suppression spot réussie" + id);
             return true;
         }catch (Exception e){
             if (transaction != null)
                 transaction.rollback();
             e.printStackTrace();
+            logger.error("Suppression spot échouée :" + Arrays.toString(e.getStackTrace()));
             return false;
         }
     }
 
     @Override
     public List<Spot> findAll() {
+        logger.info("Recherche de tous les spots");
         Query query = entityManager.createQuery("select spot from Spot spot order by spot.nom asc");
         return query.getResultList();
     }
 
     @Override
     public Spot findOne(Long id) {
+        logger.info("Recherche du spot " + id);
         return entityManager.find(Spot.class, id);
     }
 
     public List<Spot> findSpotInDepartement(String nomSpot, String departement) {
+        logger.info("Recherche du spot "+ nomSpot +" dans le département " + departement);
         Query query = entityManager.createQuery("select s from Spot s where s.nom= :nom and s.departement.code= :departement");
         query.setParameter("nom", nomSpot );
         query.setParameter("departement", departement);
@@ -107,6 +116,7 @@ public class SpotDaoImpl implements EntityRepository<Spot> {
      * @return
      */
     public List<SpotResearchDto> findAllForResearch(){
+        logger.info("Recherche des spots sous la forme SpotResearchDto");
         Query query = entityManager.createQuery("select new com.alain.metier.SpotResearchDto(spot.id, spot.nom, spot.departement.code, spot.departement.nom, spot.ville.nom, spot.secteurs.size, min(cotations.id), max(cotations.id), spot.officiel)" +
                 "        FROM Spot spot\n" +
                 "        left join spot.secteurs secteurs\n" +
@@ -123,58 +133,72 @@ public class SpotDaoImpl implements EntityRepository<Spot> {
      * @return le resultSet de la requête sous forme d'objets SpotResearchDto
      */
     public List<SpotResearchDto> findSpotPersonalResearch(Map<String, Object> paramReq){
+        logger.info("Démarrage requête personnalisée");
         List<SpotResearchDto> list = null;
         // nom des attributs dans la base de données
         String[] AttributList = {"spot.nom", "spot.officiel", "spot.departement.code", "spot.ville.nom", "min(cotations.id)", "max(cotations.id)", "spot.secteurs.size", "spot.secteurs.size"};
         // Map qui contiendra les paramètres à injecter (nom et valeur)
         Map <String, Object> paramInReq = new HashMap<>();
         StringBuffer builtQuery = new StringBuffer("select new com.alain.metier.SpotResearchDto(spot.id, spot.nom, spot.departement.code, spot.departement.nom, spot.ville.nom, spot.secteurs.size, min(cotations.id), max(cotations.id), spot.officiel) FROM Spot spot left join spot.secteurs secteurs left join secteurs.voies voies left join voies.cotation cotations");
+        logger.info("Base requête : " + builtQuery.toString());
 
-        // Adding the WHERE clauses
+        // Ajout des clauses WHERE
+        logger.info("Ajout des clauses WHERE");
         boolean first = true;
         for (int i=0; i <= 3;i++) {
             if ((paramReq.get(Utilities.paramList[i]) != null) && !(paramReq.get(Utilities.paramList[i]).equals(false)) && !(paramReq.get(Utilities.paramList[i]).equals(""))) {
                 builtQuery.append(first ? " where " : " and ");
                 if (Utilities.paramList[i].contains("nom")){
                     builtQuery.append("lower(" + AttributList[i] + ") like lower(concat('%', :" + Utilities.paramList[i]+", '%'))");
+                    logger.info("lower(" + AttributList[i] + ") like lower(concat('%', :" + Utilities.paramList[i]+", '%'))");
                 }else {
                     builtQuery.append(AttributList[i] + " = :" + Utilities.paramList[i]);
+                    logger.info(AttributList[i] + " = :" + Utilities.paramList[i]);
                 }
                 paramInReq.put(Utilities.paramList[i], paramReq.get(Utilities.paramList[i]));
                 first = false;
             }
         }
 
-        // Adding GROUP BY clause
+        // Ajout des clauses GROUP BY
         builtQuery.append(" group by spot.id, spot.departement.nom, spot.ville.nom");
+        logger.info("Ajout des clauses GROUP BY");
+        logger.info("group by spot.id, spot.departement.nom, spot.ville.nom");
 
-        // Adding HAVING clauses
+        // Ajout des clauses HAVING
+        logger.info("Ajout des clauses HAVING");
         first = true;
         for (int i = 4; i < Utilities.paramList.length; i++ ){
             if ((paramReq.get(Utilities.paramList[i]) != null) && !(paramReq.get(Utilities.paramList[i]).equals(""))) {
                 builtQuery.append(first ? " having " : " and ");
                 if (Utilities.paramList[i].contains("Min")){
                     builtQuery.append(AttributList[i] + " >= :" + Utilities.paramList[i]);
+                    logger.info(AttributList[i] + " >= :" + Utilities.paramList[i]);
                 }else{
                     builtQuery.append(AttributList[i] + " <= :" + Utilities.paramList[i]);
+                    logger.info(AttributList[i] + " <= :" + Utilities.paramList[i]);
                 }
                 paramInReq.put(Utilities.paramList[i], paramReq.get(Utilities.paramList[i]));
                 first = false;
             }
         }
 
-        // Adding order by
+        // Ajout des clauses order by
         builtQuery.append(" order by spot.nom");
+        logger.info("Ajout des clauses order by");
 
         Query query = entityManager.createQuery(builtQuery.toString());
 
-        // Injecting parameters
+        // Injection des paramètres
+        logger.info("Injection des paramètres");
         Iterator<String> iter = paramInReq.keySet().iterator();
         while (iter.hasNext()){
             String name = iter.next();
             Object value = paramInReq.get(name);
             query.setParameter(name, value);
+            logger.info("Paramètre : " + name + " - " + value);
         }
+        logger.info("Résultats" + query.getResultList().size());
         return query.getResultList();
     }
 
@@ -184,12 +208,14 @@ public class SpotDaoImpl implements EntityRepository<Spot> {
      * @return liste des noms de ville
      */
     public List<String> findVilleInDepHavingSpot(String codeDep) {
+        logger.info("Recherche des villes dans un département donné comportant au moins un spot");
         Query query = entityManager.createQuery("select spot.ville.nom from Spot spot where spot.departement.code= :codeDep ORDER BY spot.ville.nom ASC ");
         query.setParameter("codeDep", codeDep);
         return query.getResultList();
     }
 
     public List<Spot> findSpotInDepartementForUpdate(Long id, String nomSpot, String departement) {
+        logger.info("Recherche des villes dans un département pour modfication");
         Query query = entityManager.createQuery("select s from Spot s where s.nom= :nom and s.departement.code= :departement and s.id <> :id");
         query.setParameter("nom", nomSpot );
         query.setParameter("departement", departement);

@@ -2,6 +2,8 @@ package com.alain.dao.entities;
 
 import com.alain.dao.contract.EntityRepository;
 import com.alain.metier.Utilities;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.persistence.*;
 import javax.servlet.http.HttpServletRequest;
@@ -11,6 +13,9 @@ import java.util.*;
 @Entity
 @Table
 public class Topo extends Entitie implements Serializable {
+
+    private static final Logger logger = LogManager.getLogger("Topo");
+
     private static final String CHAMP_NOM = "nom";
     private static final String CHAMP_DESCRIPTION = "description";
     private static final String CHAMP_DATEPARUTION = "dateParution";
@@ -54,6 +59,7 @@ public class Topo extends Entitie implements Serializable {
 
     @Override
     public void hydrate(HttpServletRequest req) {
+        logger.info("Valorisation des champs d'un objet topo");
         this.setNom(Utilities.getValeurChamp(req, CHAMP_NOM));
         this.setDescription(Utilities.getValeurChamp(req, CHAMP_DESCRIPTION));
         this.setDateEdition(Utilities.getValeurChamp(req, CHAMP_DATEPARUTION));
@@ -61,6 +67,7 @@ public class Topo extends Entitie implements Serializable {
 
     @Override
     public Map<String, String> checkErreurs(EntityRepository dao, HttpServletRequest req) {
+        logger.info("Vérification des champs");
         Map<String, String> listErreur = new HashMap<>();
 
         if (Utilities.isEmpty(this.nom)) {
@@ -71,6 +78,7 @@ public class Topo extends Entitie implements Serializable {
         }else if (this.description.length() > 2000){
             listErreur.put(CHAMP_DESCRIPTION, "Veuillez entrer une description de maximum 2000 caractères.");
         }
+        logger.info("Erreurs : " + listErreur.size() + " : " + listErreur.toString());
         return listErreur;
     }
 
@@ -79,6 +87,7 @@ public class Topo extends Entitie implements Serializable {
      * @param
      */
     public void removeSpot(Spot spot) {
+        logger.info("Retrait de l'association avec le spot" + spot.getId());
         this.spots.removeIf(spotInList -> spotInList.getId() == spot.getId());
     }
 
@@ -87,6 +96,7 @@ public class Topo extends Entitie implements Serializable {
      * @param spot
      */
     public void addSpot(Spot spot) {
+        logger.info("Association avec le spot" + spot.getId());
         if(!this.spots.contains(spot)){
             this.spots.add(spot);
         }
@@ -97,6 +107,7 @@ public class Topo extends Entitie implements Serializable {
      * Supprime tous les liens vers le topo dans les spots
      */
     public void removeAllSpots() {
+        logger.info("Suppression de tous les liens vers les spots");
         for (Spot spot : spots){
             spot.removeTopo(this);
         }
@@ -108,11 +119,16 @@ public class Topo extends Entitie implements Serializable {
      * @return
      */
     public void addReservation(Reservation reservation){
+        logger.info("Asssociation d'une réservation :" + reservation.getId());
         this.reservations.add(reservation);
     }
 
-
+    /**
+     * Supprime une réservation à l'historique du topo
+     * @return
+     */
     public void removeReservation(Reservation reservation) {
+        logger.info("Suppression d'une association avec la réservation :" + reservation.getId());
         this.reservations.removeIf(reservationInList -> reservationInList.getId() == reservation.getId());
     }
     /* ***********************************************************************************************

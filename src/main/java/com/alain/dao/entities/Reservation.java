@@ -5,6 +5,8 @@ import com.alain.dao.impl.ReservationDaoImpl;
 import com.alain.dao.impl.TopoDaoImpl;
 import com.alain.dao.impl.UtilisateurDaoImpl;
 import com.alain.metier.Utilities;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.persistence.*;
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +21,10 @@ import java.util.Map;
 @Table
 @Access(AccessType.FIELD)
 public class Reservation extends Entitie implements Serializable {
+
+    private static final Logger logger = LogManager.getLogger("Reservation");
+
+
     private static final String CHAMP_EMPRUNTEUR = "user";
     private static final String ID_TOPO = "idTopo";
 
@@ -64,6 +70,7 @@ public class Reservation extends Entitie implements Serializable {
 
     @Override
     public void hydrate(HttpServletRequest req) {
+        logger.info("Valorisation des champs d'un objet Reservation");
         UtilisateurDaoImpl utilisateurDao = new UtilisateurDaoImpl();
         this.emprunteur = utilisateurDao.findByUsername(req.getParameter(CHAMP_EMPRUNTEUR));
         TopoDaoImpl topoDao = new TopoDaoImpl();
@@ -73,6 +80,7 @@ public class Reservation extends Entitie implements Serializable {
 
     @Override
     public Map<String, String> checkErreurs(EntityRepository dao, HttpServletRequest req) {
+        logger.info("Vérification des champs");
         Map<String, String> listErreur = new HashMap<>();
 
         if (this.emprunteur.getUsername() == this.preteur.getUsername()) {
@@ -97,13 +105,19 @@ public class Reservation extends Entitie implements Serializable {
         return dao.findReservationInTopoForUser(this.topo.getId(), this.getEmprunteur().getId());
     }
 
+    /**
+     * Ajout d'un nouvel évènement pour une réservvation
+     * @param reservationHistorique
+     */
     public void addEvent(ReservationHistorique reservationHistorique){
+        logger.info("Association avec un nouvel évènement :" +reservationHistorique.getId());
         this.listHistorique.add(reservationHistorique);
         this.setDernierStatut(reservationHistorique.getReservationStatut().toString());
         this.setDateDernierStatut(Utilities.dateStringFr(reservationHistorique.getDateTime()));
     }
 
     public void removeHistorique() {
+        logger.info("Suppression de toutes les associations avvec les évènements");
         this.listHistorique.clear();
     }
 

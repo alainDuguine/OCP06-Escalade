@@ -3,6 +3,9 @@ package com.alain.dao.entities;
 import com.alain.dao.contract.EntityRepository;
 import com.alain.dao.impl.SecteurDaoImpl;
 import com.alain.metier.Utilities;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import javax.persistence.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
@@ -14,9 +17,11 @@ import java.util.Map;
 @Entity
 @Table
 public class Secteur extends Entitie implements Serializable {
+
+    private static final Logger logger = LogManager.getLogger("Secteur");
+
     private static final String CHAMP_NOM = "nom";
     private static final String CHAMP_DESCRIPTION = "description";
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -65,12 +70,14 @@ public class Secteur extends Entitie implements Serializable {
 
     @Override
     public void hydrate(HttpServletRequest req) {
+        logger.info("Valorisation des champs d'un objet secteur");
         this.setNom(Utilities.getValeurChamp(req, CHAMP_NOM));
         this.setDescription(Utilities.getValeurChamp(req, CHAMP_DESCRIPTION));
     }
 
     @Override
     public Map<String, String> checkErreurs(EntityRepository dao, HttpServletRequest req) {
+        logger.info("Vérification des champs");
         Map<String, String> listErreur = new HashMap<>();
 
         if (Utilities.isEmpty(this.nom)) {
@@ -88,6 +95,7 @@ public class Secteur extends Entitie implements Serializable {
         }else if (this.description.length() > 2000){
             listErreur.put(CHAMP_DESCRIPTION, "Veuillez entrer une description de maximum 2000 caractères.");
         }
+        logger.info("Erreurs : " + listErreur.size() + " : " + listErreur.toString());
         return listErreur;
     }
 
@@ -111,9 +119,42 @@ public class Secteur extends Entitie implements Serializable {
      * @param photo
      */
     public void removePhoto(Photo photo) {
+        logger.info("Suppression de l'association avec la photo " + photo.getId());
         this.photos.removeIf(photoSecteur -> photoSecteur.getId().equals(photo.getId()));
     }
 
+    public void setSpot(Spot spot) {
+        logger.info("Association du spot" + spot.getId());
+        this.spot = spot;
+        spot.addSecteur(this);
+    }
+
+    public void addPhoto(PhotoSecteur photo){
+        logger.info("Association avec la photo " + photo.getId());
+        photo.setSecteur(this);
+        this.photos.add(photo);
+    }
+
+    public void addVoie(Voie voie) {
+        logger.info("Association avec la voie " + voie.getId());
+        this.voies.add(voie);
+    }
+
+    public void removeVoie(Voie voie) {
+        logger.info("Suppression de l'association avec la voie" + voie.getId());
+        this.voies.removeIf(voieInSecteur -> voieInSecteur.getId().equals(voie.getId()));
+    }
+
+    public void setUtilisateur(Utilisateur utilisateur) {
+        logger.info("Association avec l'utilisateur " + utilisateur.getId());
+        this.utilisateur = utilisateur;
+        utilisateur.addSecteur(this);
+    }
+
+    public void removeSpot() {
+        logger.info("Suppression de l'association avec le spot" + this.spot.getId());
+        this.spot = null;
+    }
     /* ***********************************************************************************************
      **** GETTERS & SETTERS ************************************************************************
      *********************************************************************************************** */
@@ -150,11 +191,6 @@ public class Secteur extends Entitie implements Serializable {
         return utilisateur;
     }
 
-    public void setUtilisateur(Utilisateur utilisateur) {
-        this.utilisateur = utilisateur;
-        utilisateur.addSecteur(this);
-    }
-
     public List<Voie> getVoies() {
         return voies;
     }
@@ -187,26 +223,5 @@ public class Secteur extends Entitie implements Serializable {
         this.photos = photos;
     }
 
-    public void setSpot(Spot spot) {
-        this.spot = spot;
-        spot.addSecteur(this);
-    }
-
-    public void addPhoto(PhotoSecteur photo){
-        photo.setSecteur(this);
-        this.photos.add(photo);
-    }
-
-    public void addVoie(Voie voie) {
-        this.voies.add(voie);
-    }
-
-    public void removeVoie(Voie voie) {
-        this.voies.removeIf(voieInSecteur -> voieInSecteur.getId().equals(voie.getId()));
-    }
-
-    public void removeSpot() {
-        this.spot = null;
-    }
 }
 

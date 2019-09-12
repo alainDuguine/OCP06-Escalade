@@ -190,8 +190,8 @@
     </section>
 
 <script type="text/javascript" src="../js/lightbox-plus-jquery.min.js"></script>
-<script type="text/javascript" src="../js/commentaireSpot.js"></script>
-<script type="text/javascript" src="../js/displayNav.js"></script>
+<script type="text/javascript" charset="UTF-8" src="../js/commentaireSpot.js"></script>
+<script type="text/javascript" charset="UTF-8" src="../js/displayNav.js"></script>
 <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
 <script>
 $(document).ready(function(){

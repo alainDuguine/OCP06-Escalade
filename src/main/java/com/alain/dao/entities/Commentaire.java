@@ -4,6 +4,8 @@ import com.alain.dao.contract.EntityRepository;
 import com.alain.metier.Utilities;
 import com.google.gson.annotations.Expose;
 import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 
 import javax.persistence.*;
@@ -18,6 +20,8 @@ import java.util.Map;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Commentaire extends Entitie implements Serializable {
+    private static final Logger logger = LogManager.getLogger("Commentaire");
+
     private static final String CHAMP_CONTENU = "contenu";
 
     @Id
@@ -51,6 +55,7 @@ public class Commentaire extends Entitie implements Serializable {
 
     @Override
     public void hydrate(HttpServletRequest req) {
+        logger.info("Valorisation des champs d'un objet commentaire");
         this.contenu = Utilities.getValeurChamp(req, CHAMP_CONTENU);
         this.dateTime = LocalDateTime.now();
         this.dateFormat = this.setDateFormat();
@@ -58,6 +63,7 @@ public class Commentaire extends Entitie implements Serializable {
 
     @Override
     public Map<String, String> checkErreurs(EntityRepository dao, HttpServletRequest req) {
+        logger.info("Vérification des champs");
         Map<String, String> listErreur = new HashMap<>();
 
         if (this.contenu == null) {
@@ -65,6 +71,7 @@ public class Commentaire extends Entitie implements Serializable {
         }else if (this.contenu.length() > 255){
             listErreur.put("erreur", "Un commentaire peut au maximum contenir 255 caractères");
         }
+        logger.info("Erreurs : " + listErreur.size() + " : " + listErreur.toString());
         return listErreur;
     }
 

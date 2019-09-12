@@ -1,5 +1,8 @@
 package com.alain.metier;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import javax.servlet.http.HttpServletRequest;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -10,6 +13,7 @@ import java.util.*;
 
 public class Utilities {
 
+    private static final Logger logger = LogManager.getLogger("Utilities");
     public static final String[] paramList = {"nomSpot", "officiel", "departement", "ville", "cotationMin", "cotationMax", "secteurMin", "secteurMax"};
 
     /**
@@ -28,26 +32,36 @@ public class Utilities {
         return  departementsMap;
     }
 
+    /**
+     * Vérifie l'email vie une regexp
+     * @param email à vérifier
+     * @return boolean
+     */
     public static boolean checkMail(String email){
         if ( email != null ) {
             if (email.matches("^[\\w._-]+@[\\w._-]+\\.[a-z]{2,4}$")) {
                 return true;
             }
         }
+        logger.info("Email non conforme " + email);
         return false;
     }
 
+    /**
+     * Vérifie si le mot de passe et la confirmation sont équivalentes
+     * @param password
+     * @param confirmation
+     * @return
+     */
     public static boolean checkPassword(String password, String confirmation) {
         if (password != null && confirmation != null) {
-            if (password.equals(confirmation)) {
-                return true;
-            }
+            return password.equals(confirmation);
         }
         return false;
     }
 
     /**
-     * Vérifie si le string est vide
+     * Vérifie si le string est vide ou null
      * @param string
      * @return
      */
@@ -57,8 +71,8 @@ public class Utilities {
 
     /**
      * retourne le champ auquel on a enlevé les espaces superflus
-     * @param req
-     * @param champ
+     * @param req httpservlet request
+     * @param champ nom du champ à traiter
      * @return
      */
     public static String getValeurChamp(HttpServletRequest req, String champ) {
@@ -71,9 +85,9 @@ public class Utilities {
     }
 
     /**
-     * Hashing password with SHA algorithm
-     * @param password non crypted
-     * @return password crypted
+     * Encode mot de passe en SHA-2556 avec salt
+     * @param password non crypté
+     * @return password crypté
      */
     public static String getSecurePassword(String password, byte[] salt){
         String generatedPassword = null;
@@ -88,6 +102,7 @@ public class Utilities {
             generatedPassword = sb.toString();
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
+            logger.error("Problème de Hashage " + e.getMessage());
         }
         return generatedPassword;
     }
@@ -102,6 +117,7 @@ public class Utilities {
             sr = SecureRandom.getInstance("SHA1PRNG", "SUN");
         } catch (NoSuchAlgorithmException | NoSuchProviderException e) {
             e.printStackTrace();
+            logger.error("Problème de génération salt pour hachage mot de passe " + e.getMessage());
         }
         byte[] salt = new byte[16];
         assert sr != null;
@@ -111,8 +127,8 @@ public class Utilities {
 
     /**
      * formate une variable LocalDateTime en français
-     * @param date
-     * @return
+     * @param date à formater
+     * @return date formatée
      */
     public static String dateStringFr(LocalDateTime date){
         String dateFormat;
@@ -120,22 +136,33 @@ public class Utilities {
         return dateFormat = date.getDayOfMonth() + " " + moisFr[date.getMonthValue()-1] + " " + date.getYear() + " - " + getFullHour(date) + ":" + getFullMinute(date);
     }
 
+    /**
+     * Ajoute un "0" si heure < 10
+     * @param date
+     * @return
+     */
     private static String getFullHour(LocalDateTime date) {
         return (date.getHour()<10?"0":"") + date.getHour();
     }
 
+    /**
+     * Ajoute un "0" si minute < 10
+     * @param date
+     * @return
+     */
     private static String getFullMinute(LocalDateTime date) {
         return (date.getMinute()<10?"0":"") + date.getMinute();
     }
 
     /**
-     * Créé une map contenant les paramètres pour exécter requête dynamique, à partir de l'objet HttpServletRequest
+     * Créé une map contenant les paramètres pour exécuter requête dynamique, à partir de l'objet HttpServletRequest
      * depuis le formulaire de recherche rechercheSpot.jsp
-     * @param req
+     * @param req servletrequest contenant les paramètres
      * @return une Map contenant le nom du paramètre et sa valeur
      */
     public static Map<String, Object> getParameterMapFromReq(HttpServletRequest req) {
         Map<String, Object> paramMap = new HashMap<>();
+
         for (String param : paramList) {
             if (param.contains("Min") || param.contains("Max")) {
                 if (req.getParameter(param) != "") {
@@ -157,6 +184,8 @@ public class Utilities {
                 paramMap.put(param, req.getParameter(param));
             }
         }
+        logger.info("Map de paramètres générées depuis ServletRequest pour requête personnalisée : "+ paramMap.toString());
         return paramMap;
     }
+
 }

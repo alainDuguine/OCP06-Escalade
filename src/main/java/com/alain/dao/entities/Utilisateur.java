@@ -3,6 +3,9 @@ package com.alain.dao.entities;
 import com.alain.dao.contract.EntityRepository;
 import com.alain.dao.impl.UtilisateurDaoImpl;
 import com.alain.metier.Utilities;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import javax.persistence.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
@@ -21,6 +24,8 @@ public class Utilisateur extends Entitie implements Serializable{
     private static final String CHAMP_CONF = "confirmation";
     private static final String CHAMP_NOM = "nom";
     private static final String CHAMP_PRENOM = "prenom";
+
+    private static final Logger logger = LogManager.getLogger("Utilisateur");
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -80,6 +85,7 @@ public class Utilisateur extends Entitie implements Serializable{
      ******************************************************************************************** */
 
     public void hydrate(HttpServletRequest req) {
+        logger.info("Valorisation des champs d'un objet utilisateur");
         this.setEmail(Utilities.getValeurChamp(req, CHAMP_EMAIL));
         this.setMotDePasse(Utilities.getValeurChamp(req, CHAMP_PASS));
         this.setConfirmation(Utilities.getValeurChamp(req, CHAMP_CONF));
@@ -91,6 +97,7 @@ public class Utilisateur extends Entitie implements Serializable{
     }
 
     public Map<String, String> checkErreurs(EntityRepository dao, HttpServletRequest req) {
+        logger.info("Vérification des champs");
         Map<String, String> listErreur = new HashMap<>();
 
         if (!Utilities.checkMail(this.email)) {
@@ -105,6 +112,7 @@ public class Utilisateur extends Entitie implements Serializable{
         if (!Utilities.checkPassword(motDePasse, confirmation)) {
             listErreur.put(CHAMP_PASS, "Les mots de passes ne correspondent pas");
         }
+        logger.info("Erreurs : " + listErreur.size() + " : " + listErreur.toString());
         return listErreur;
     }
 
@@ -118,8 +126,46 @@ public class Utilisateur extends Entitie implements Serializable{
      * @param reservation
      */
     public void removeReservation(Reservation reservation) {
+        logger.info("Supprime la réservation " + reservation.getId());
         this.emprunts.removeIf(empruntInList -> empruntInList.getId().equals(reservation.getId()));
         this.prets.removeIf(pretInList -> pretInList.getId().equals(reservation.getId()));
+    }
+
+    public void addSpot(Spot spot) {
+        logger.info("Ajoute un spot :" + spot.getId());
+        this.spots.add(spot);
+    }
+
+    public void addSecteur(Secteur secteur){
+        logger.info("Ajoute un secteur :" + secteur.getId());
+        this.secteurs.add(secteur);
+    }
+
+    public void addVoie(Voie voie){
+        logger.info("Ajoute une voie :" + voie.getId());
+        this.voies.add(voie);
+    }
+
+    public void addCommentaireSpot(CommentaireSpot commentaireSpot){
+        logger.info("Ajoute un commentaire :" + commentaireSpot.getId());
+        this.commentaireSpots.add(commentaireSpot);
+        commentaireSpot.setUtilisateur(this);
+        commentaireSpot.setUsername(this.getUsername());
+    }
+
+    public void addTopo(Topo topo) {
+        logger.info("Ajoute un topo :" + topo.getId());
+        this.topos.add(topo);
+    }
+
+    public void addPret(Reservation reservation){
+        logger.info("Ajoute un pret de topo :" + reservation.getId());
+        this.prets.add(reservation);
+    }
+
+    public void addEmprunt(Reservation reservation){
+        logger.info("Ajoute un emprunt de topo :" + reservation.getId());
+        this.emprunts.add(reservation);
     }
 
 
@@ -309,36 +355,6 @@ public class Utilisateur extends Entitie implements Serializable{
 
     public void setPrets(List<Reservation> prets) {
         this.prets = prets;
-    }
-
-    public void addSpot(Spot spot) {
-        this.spots.add(spot);
-    }
-
-    public void addSecteur(Secteur secteur){
-        this.secteurs.add(secteur);
-    }
-
-    public void addVoie(Voie voie){
-        this.voies.add(voie);
-    }
-
-    public void addCommentaireSpot(CommentaireSpot commentaireSpot){
-        this.commentaireSpots.add(commentaireSpot);
-        commentaireSpot.setUtilisateur(this);
-        commentaireSpot.setUsername(this.getUsername());
-    }
-
-    public void addTopo(Topo topo) {
-        this.topos.add(topo);
-    }
-
-    public void addPret(Reservation reservation){
-        this.prets.add(reservation);
-    }
-
-    public void addEmprunt(Reservation reservation){
-        this.emprunts.add(reservation);
     }
 
 }

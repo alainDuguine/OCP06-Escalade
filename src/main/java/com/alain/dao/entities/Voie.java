@@ -3,6 +3,9 @@ package com.alain.dao.entities;
 import com.alain.dao.contract.EntityRepository;
 import com.alain.dao.impl.VoieDaoImpl;
 import com.alain.metier.Utilities;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import javax.persistence.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
@@ -14,11 +17,15 @@ import java.util.Map;
 @Entity
 @Table
 public class Voie extends Entitie implements Serializable {
+
+    private static final Logger logger = LogManager.getLogger("Voie");
+
     private static final String CHAMP_NOM = "nom";
     private static final String CHAMP_COTATION = "cotation";
     private static final String CHAMP_ALTITUDE = "altitude";
     private static final String CHAMP_LONGUEUR = "longueur";
     private static final String CHAMP_DESCRIPTION = "description";
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -71,6 +78,7 @@ public class Voie extends Entitie implements Serializable {
 
     @Override
     public void hydrate(HttpServletRequest req) {
+        logger.info("Valorisation des champs d'un objet voie");
         this.setNom(Utilities.getValeurChamp(req, CHAMP_NOM));
         if(!(req.getParameter((CHAMP_ALTITUDE)).isEmpty())) {
             this.setAltitude(Integer.parseInt(req.getParameter(CHAMP_ALTITUDE)));
@@ -87,6 +95,7 @@ public class Voie extends Entitie implements Serializable {
 
     @Override
     public Map<String, String> checkErreurs(EntityRepository dao, HttpServletRequest req) {
+        logger.info("Vérification des champs");
         Map<String, String> listErreur = new HashMap<>();
 
         if (Utilities.isEmpty(this.nom)) {
@@ -100,7 +109,9 @@ public class Voie extends Entitie implements Serializable {
         }else if (this.description.length() > 2000){
             listErreur.put(CHAMP_DESCRIPTION, "Veuillez entrer une description de maximum 2000 caractères.");
         }
+        logger.info("Erreurs : " + listErreur.size() + " : " + listErreur.toString());
         return listErreur;
+
     }
 
     private List<Voie> checkVoieExist(VoieDaoImpl dao, HttpServletRequest req){
@@ -108,6 +119,40 @@ public class Voie extends Entitie implements Serializable {
             return dao.findVoieInSecteurForUpdate(this.getId(), this.nom, this.getSecteur().getId());
         }
         return dao.findVoieInSecteur(this.nom, Long.parseLong(req.getParameter("idElement")));
+    }
+
+    public void addPhoto(PhotoVoie photo) {
+        logger.info("Association avec la photo " + photo.getId());
+        photo.setVoie(this);
+        this.photos.add(photo);
+    }
+
+    public void removePhoto(PhotoVoie photo) {
+        logger.info("Suppression de l'association avec la photo " + photo.getId());
+        this.photos.removeIf(photoVoie -> photoVoie.getId().equals(photo.getId()));
+    }
+
+    public void removeSecteur() {
+        logger.info("Suppression de l'association avec le secteur" + this.secteur.getId());
+        this.secteur = null;
+    }
+
+    public void setSecteur(Secteur secteur) {
+        logger.info("Association du secteur" + secteur.getId());
+        this.secteur = secteur;
+        secteur.addVoie(this);
+    }
+
+    public void setCotation(Cotation cotation) {
+        logger.info("Association de la cotation" + cotation.getId());
+        this.cotation = cotation;
+        cotation.addVoies(this);
+    }
+
+    public void setUtilisateur(Utilisateur utilisateur) {
+        logger.info("Association avec l'utilisateur " + utilisateur.getId());
+        this.utilisateur = utilisateur;
+        utilisateur.addVoie(this);
     }
 
     /* ***********************************************************************************************
@@ -134,23 +179,8 @@ public class Voie extends Entitie implements Serializable {
         return secteur;
     }
 
-    public void setSecteur(Secteur secteur) {
-        this.secteur = secteur;
-        secteur.addVoie(this);
-    }
-
-    public void addPhoto(PhotoVoie photo) {
-        photo.setVoie(this);
-        this.photos.add(photo);
-    }
-
     public Cotation getCotation() {
         return cotation;
-    }
-
-    public void setCotation(Cotation cotation) {
-        this.cotation = cotation;
-        cotation.addVoies(this);
     }
 
     public double getAltitude() {
@@ -181,11 +211,6 @@ public class Voie extends Entitie implements Serializable {
         return utilisateur;
     }
 
-    public void setUtilisateur(Utilisateur utilisateur) {
-        this.utilisateur = utilisateur;
-        utilisateur.addVoie(this);
-    }
-
     public List<CommentaireVoie> getCommentaires() {
         return commentaires;
     }
@@ -210,11 +235,4 @@ public class Voie extends Entitie implements Serializable {
         this.photos = photos;
     }
 
-    public void removePhoto(PhotoVoie photo) {
-        this.photos.removeIf(photoVoie -> photoVoie.getId().equals(photo.getId()));
-    }
-
-    public void removeSecteur() {
-        this.secteur = null;
-    }
 }
