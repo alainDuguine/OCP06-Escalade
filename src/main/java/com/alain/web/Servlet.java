@@ -54,7 +54,7 @@ public class Servlet extends HttpServlet {
                 if (cookies != null) {
                     for (Cookie cookie : cookies) {
                         if (cookie.getName().equals("email")) {
-                            logger.info("Récupération cookie :" + cookie.toString());
+                            logger.info("Récupération cookie : " + cookie.toString());
                             req.setAttribute("cookieEmail", cookie.getValue());
                         }
                     }
@@ -108,7 +108,7 @@ public class Servlet extends HttpServlet {
                 break;
             }
             case "/deconnexion.do":{
-                logger.info("Déconnexion :" + req.getSession().getAttribute("sessionUtilisateur"));
+                logger.info("Déconnexion : " + req.getSession().getAttribute("sessionUtilisateur"));
                 HttpSession session = req.getSession();
                 session.invalidate();
                 resp.sendRedirect("index.do");
@@ -131,7 +131,7 @@ public class Servlet extends HttpServlet {
                     Spot spot = spotDao.findOne(Long.parseLong(req.getParameter("idSpot")));
                     // Si le spot n'existe pas, ou si l'utilisateur n'a pas créé le spot et qu'il n'est pas admin, on envoie une page d'erreur
                     if (spot == null || (!spot.getUtilisateur().getUsername().equals(req.getSession().getAttribute("sessionUtilisateur"))) && (req.getSession().getAttribute("admin").equals(false))) {
-                        logger.warn("Tentative de modification non autorisée :" + req.getSession().getAttribute("sessionUtilisateur"));
+                        logger.warn("Tentative de modification non autorisée : " + req.getSession().getAttribute("sessionUtilisateur"));
                         this.getServletContext().getRequestDispatcher("/WEB-INF/erreur.jsp").forward(req, resp);
                     }else{
                         req.setAttribute("spot", spot);
@@ -180,7 +180,7 @@ public class Servlet extends HttpServlet {
                 SecteurDaoImpl secteurDao = new SecteurDaoImpl();
                 Secteur secteur = secteurDao.findOne(Long.parseLong(req.getParameter("idSecteur")));
                 if (secteur == null || (!secteur.getUtilisateur().getUsername().equals(req.getSession().getAttribute("sessionUtilisateur"))) && (req.getSession().getAttribute("admin").equals(false))) {
-                    logger.warn("Tentative de modification non autorisée :" + req.getSession().getAttribute("sessionUtilisateur"));
+                    logger.warn("Tentative de modification non autorisée : " + req.getSession().getAttribute("sessionUtilisateur"));
                     this.getServletContext().getRequestDispatcher("/WEB-INF/erreur.jsp").forward(req, resp);
                 }else {
                     req.setAttribute("secteur", secteur);
@@ -194,7 +194,7 @@ public class Servlet extends HttpServlet {
                 VoieDaoImpl voieDao = new VoieDaoImpl();
                 Voie voie = voieDao.findOne(Long.parseLong(req.getParameter("idVoie")));
                 if (voie == null ||(!voie.getUtilisateur().getUsername().equals(req.getSession().getAttribute("sessionUtilisateur"))) && (req.getSession().getAttribute("admin").equals(false))){
-                    logger.warn("Tentative de modification non autorisée :" + req.getSession().getAttribute("sessionUtilisateur"));
+                    logger.warn("Tentative de modification non autorisée : " + req.getSession().getAttribute("sessionUtilisateur"));
                     this.getServletContext().getRequestDispatcher("/WEB-INF/erreur.jsp").forward(req, resp);
                 }else {
                     CotationDaoImpl cotationDao = new CotationDaoImpl();
@@ -348,7 +348,7 @@ public class Servlet extends HttpServlet {
                         Cookie cookieEmail = new Cookie("email", req.getParameter("email"));
                         cookieEmail.setMaxAge(60*60*24*30);
                         resp.addCookie(cookieEmail);
-                        logger.info("Création de cookie :" + cookieEmail.toString());
+                        logger.info("Création de cookie : " + cookieEmail.toString());
                     }
                     HttpSession session = req.getSession();
                     String username = ((Utilisateur) form.getEntitie()).getUsername();
@@ -495,7 +495,7 @@ public class Servlet extends HttpServlet {
                 logger.info("Recherche multi-critères de spots demandée");
                 Map<String, Object> paramMap = Utilities.getParameterMapFromReq(req);
                 List<SpotResearchDto> spots = spotDao.findSpotPersonalResearch(paramMap);
-                logger.info("Nombre de Résultats :" + spots.size());
+                logger.info("Nombre de Résultats : " + spots.size());
                 req.setAttribute("spots", spots);
                 doGet(req, resp);
                 break;
@@ -595,7 +595,7 @@ public class Servlet extends HttpServlet {
                     logger.info("Création demande de réservation réussie");
                     sendAjaxBooleanResponse(true, resp);
                 }else{
-                    logger.info("Création demande de réservation échouée :" + form.getListErreurs().toString());
+                    logger.info("Création demande de réservation échouée : " + form.getListErreurs().toString());
                     Map<String, String> ajaxReturn = new HashMap<>();
                     ajaxReturn.put("erreur", String.valueOf(form.getListErreurs().get("erreur")));
                     Gson gson = new Gson();
@@ -615,12 +615,12 @@ public class Servlet extends HttpServlet {
                 Reservation reservation = reservationDao.findOne(Long.parseLong(req.getParameter("idReservation")));
                 boolean result;
                 try {
-                    logger.info("Modification statut réservation topo :" + reservation.getId());
+                    logger.info("Modification statut réservation topo : " + reservation.getId());
                     reservationDao.update(reservation, req);
                     result = true;
                 }catch (Exception e){
                     result = false;
-                    logger.warn("Modification statut réservation échouée :" + e.getMessage());
+                    logger.warn("Modification statut réservation échouée : " + e.getMessage());
                 }
                 this.sendAjaxBooleanResponse(result, resp);
                 break;

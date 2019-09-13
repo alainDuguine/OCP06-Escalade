@@ -40,7 +40,7 @@ public class PhotoVoie extends Photo {
      ******************************************************************************************** */
 
     public void removeRelation() {
-        logger.info("Suppression de l'association avec la voie :" + this.voie.getId());
+        logger.info("Suppression de l'association avec la voie : " + this.voie.getId());
         this.voie = null;
     }
 

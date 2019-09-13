@@ -33,12 +33,12 @@ public class PhotoSecteurDaoImpl implements EntityRepository<PhotoSecteur>{
             secteur.addPhoto(photoSecteur);
             entityManager.persist(photoSecteur);
             transaction.commit();
-            logger.info("Photo sauvegardée :" + photoSecteur.getId() + ", secteur : " + secteur.getId());
+            logger.info("Photo sauvegardée : " + photoSecteur.getId() + ", secteur : " + secteur.getId());
         }catch (Exception e){
             if (transaction != null)
                 transaction.rollback();
             e.printStackTrace();
-            logger.error("Sauvegarde photo échouée :" + Arrays.toString(e.getStackTrace()));
+            logger.error("Sauvegarde photo échouée : " + Arrays.toString(e.getStackTrace()));
             throw e;
         }
             return photoSecteur;
@@ -53,7 +53,7 @@ public class PhotoSecteurDaoImpl implements EntityRepository<PhotoSecteur>{
     public boolean delete(Long idPhoto){
         EntityTransaction transaction = entityManager.getTransaction();
         try {
-            logger.info("Tentative de suppression d'une photoSecteur" + idPhoto);
+            logger.info("Tentative de suppression d'une photoSecteur " + idPhoto);
             transaction.begin();
             PhotoSecteur photo = entityManager.find(PhotoSecteur.class, idPhoto);
             Secteur secteur = entityManager.find(Secteur.class, photo.getSecteur().getId());
@@ -64,13 +64,13 @@ public class PhotoSecteurDaoImpl implements EntityRepository<PhotoSecteur>{
             Path path = Paths.get(Photo.getCHEMIN()+photo.getNom());
             Files.delete(path);
             transaction.commit();
-            logger.info("Suppression photo réussie" + idPhoto);
+            logger.info("Suppression photo réussie " + idPhoto);
             return true;
         }catch (Exception e){
             if (transaction != null)
                 transaction.rollback();
             e.printStackTrace();
-            logger.error("Suppression photo échouée :" + Arrays.toString(e.getStackTrace()));
+            logger.error("Suppression photo échouée : " + Arrays.toString(e.getStackTrace()));
             return false;
         }
     }

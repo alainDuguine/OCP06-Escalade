@@ -138,13 +138,13 @@ public class Voie extends Entitie implements Serializable {
     }
 
     public void setSecteur(Secteur secteur) {
-        logger.info("Association du secteur" + secteur.getId());
+        logger.info("Association du secteur " + secteur.getId());
         this.secteur = secteur;
         secteur.addVoie(this);
     }
 
     public void setCotation(Cotation cotation) {
-        logger.info("Association de la cotation" + cotation.getId());
+        logger.info("Association de la cotation " + cotation.getId());
         this.cotation = cotation;
         cotation.addVoies(this);
     }

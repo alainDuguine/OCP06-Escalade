@@ -126,45 +126,45 @@ public class Utilisateur extends Entitie implements Serializable{
      * @param reservation
      */
     public void removeReservation(Reservation reservation) {
-        logger.info("Supprime la réservation " + reservation.getId());
+        logger.info("Suppression de l'ssociation avec une réservation " + reservation.getId());
         this.emprunts.removeIf(empruntInList -> empruntInList.getId().equals(reservation.getId()));
         this.prets.removeIf(pretInList -> pretInList.getId().equals(reservation.getId()));
     }
 
     public void addSpot(Spot spot) {
-        logger.info("Ajoute un spot :" + spot.getId());
+        logger.info("Association avec un spot : " + spot.getId());
         this.spots.add(spot);
     }
 
     public void addSecteur(Secteur secteur){
-        logger.info("Ajoute un secteur :" + secteur.getId());
+        logger.info("Association avec un secteur : " + secteur.getId());
         this.secteurs.add(secteur);
     }
 
     public void addVoie(Voie voie){
-        logger.info("Ajoute une voie :" + voie.getId());
+        logger.info("Association avec une voie : " + voie.getId());
         this.voies.add(voie);
     }
 
     public void addCommentaireSpot(CommentaireSpot commentaireSpot){
-        logger.info("Ajoute un commentaire :" + commentaireSpot.getId());
+        logger.info("Association avec un commentaire : " + commentaireSpot.getId());
         this.commentaireSpots.add(commentaireSpot);
         commentaireSpot.setUtilisateur(this);
         commentaireSpot.setUsername(this.getUsername());
     }
 
     public void addTopo(Topo topo) {
-        logger.info("Ajoute un topo :" + topo.getId());
+        logger.info("Association avec un topo : " + topo.getId());
         this.topos.add(topo);
     }
 
     public void addPret(Reservation reservation){
-        logger.info("Ajoute un pret de topo :" + reservation.getId());
+        logger.info("Association avec un pret de topo : " + reservation.getId());
         this.prets.add(reservation);
     }
 
     public void addEmprunt(Reservation reservation){
-        logger.info("Ajoute un emprunt de topo :" + reservation.getId());
+        logger.info("Association avec un emprunt de topo : " + reservation.getId());
         this.emprunts.add(reservation);
     }
 

@@ -129,7 +129,7 @@ public class Spot extends Entitie implements Serializable {
      * @param photo
      */
     public void removePhoto(Photo photo) {
-        logger.info("Suppression de l'association avec la photo :" + photo.getId());
+        logger.info("Suppression de l'association avec la photo : " + photo.getId());
         this.photos.removeIf(photoSpot -> photoSpot.getId().equals(photo.getId()));
     }
 
@@ -138,8 +138,8 @@ public class Spot extends Entitie implements Serializable {
      * @param commentaire
      */
     public void removeCommentaire(CommentaireSpot commentaire) {
-        logger.info("Suppression de l'association avec le commentaire :" + commentaire.getId());
-        this.commentaires.removeIf(commentaireSpot -> commentaireSpot.getId() == commentaire.getId());
+        logger.info("Suppression de l'association avec le commentaire : " + commentaire.getId());
+        this.commentaires.removeIf(commentaireSpot -> commentaireSpot.getId().equals(commentaire.getId()));
     }
 
     /**
@@ -147,8 +147,8 @@ public class Spot extends Entitie implements Serializable {
      * @param
      */
     public void removeFromTopo(Topo topo) {
-        logger.info("Suppression de l'association avec le topo :" + topo.getId());
-        this.topos.removeIf(topoInSpot -> topoInSpot.getId() == topo.getId());
+        logger.info("Suppression de l'association avec le topo : " + topo.getId());
+        this.topos.removeIf(topoInSpot -> topoInSpot.getId().equals(topo.getId()));
     }
 
     /**
@@ -156,8 +156,8 @@ public class Spot extends Entitie implements Serializable {
      * @param secteur
      */
     public void removeSecteur(Secteur secteur) {
-        logger.info("Suppression de l'association avec le secteur :" + secteur.getId());
-        this.secteurs.removeIf(secteurInSpot -> secteurInSpot.getId() == secteur.getId());
+        logger.info("Suppression de l'association avec le secteur : " + secteur.getId());
+        this.secteurs.removeIf(secteurInSpot -> secteurInSpot.getId().equals(secteur.getId()));
     }
 
     /**
@@ -165,7 +165,7 @@ public class Spot extends Entitie implements Serializable {
      * @param topo
      */
     public void addTopo(Topo topo) {
-        logger.info("Ajout d'association avec le topo :" + topo.getId());
+        logger.info("Ajout d'association avec le topo : " + topo.getId());
         if(!this.topos.contains(topo)) {
             this.topos.add(topo);
         }
@@ -175,7 +175,7 @@ public class Spot extends Entitie implements Serializable {
      * Supprime tous les liens vers le spot dans les topos
      */
     public void removeAllTopos() {
-        logger.info("Suppression de toutes les associations avec les topos du spot");
+        logger.info("Suppression de toutes les associations avec les topos");
         for (Topo topo : topos) {
             topo.removeSpot(this);
         }
@@ -188,7 +188,7 @@ public class Spot extends Entitie implements Serializable {
      */
     public void removeTopo(Topo topo) {
         logger.info("Suppression de l'association avec le topo " + topo.getId());
-        this.topos.removeIf(topoInList -> topoInList.getId() == topo.getId());
+        this.topos.removeIf(topoInList -> topoInList.getId().equals(topo.getId()));
     }
 
     /**

@@ -38,7 +38,7 @@ public class PhotoSpot extends Photo {
      **** METHODS           ************************************************************************
      ******************************************************************************************** */
     public void removeRelation(){
-        logger.info("Suppression de l'association avec le spot :" + this.spot.getId());
+        logger.info("Suppression de l'association avec le spot : " + this.spot.getId());
         this.spot = null;
     }
 

@@ -1,8 +1,5 @@
 package com.alain.dao.entities;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;

@@ -40,12 +40,12 @@ public class CheckForm {
         try {
             classBean = Class.forName(className);
             bean = (Entitie) classBean.newInstance();
-            logger.info("Création d'un objet :" + className);
+            logger.info("Création d'un objet : " + className);
             bean.hydrate(req);
             this.listErreurs = bean.checkErreurs(dao, req);
             if (this.listErreurs.isEmpty()) {
                 dao.save(bean, req);
-                logger.info("Sauvegarde de l'objet réussie :" + className + ", id :" + bean.getId());
+                logger.info("Sauvegarde de l'objet réussie : " + className + ", id : " + bean.getId());
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -72,11 +72,11 @@ public class CheckForm {
                 if ((part.getName().equals("photo")) && (!part.getSubmittedFileName().isEmpty())) {
                     classBean = Class.forName(className);
                     photo = (Photo) classBean.newInstance();
-                    logger.info("Création d'un objet photo :" + className);
+                    logger.info("Création d'un objet photo : " + className);
                     photo.uploadPhoto(part, parts.indexOf(part));
                     if (photo.getErreur() == null) {
                         dao.save(photo, req);
-                        logger.info("Sauvegarde de la photo réussie :" + className + ", id :" + photo.getId());
+                        logger.info("Sauvegarde de la photo réussie : " + className + ", id : " + photo.getId());
                     }else{
                         erreurPhoto = photo.getErreur();
                     }
@@ -111,10 +111,11 @@ public class CheckForm {
             this.listErreurs = bean.checkErreurs(dao, req);
             if (this.listErreurs.isEmpty()) {
                 dao.update(bean, req);
-                logger.info("Modification d'un objet réussie :" + bean.getClass() + ", id : " + bean.getId());
+                logger.info("Modification d'un objet réussie : " + bean.getClass() + ", id : " + bean.getId());
             }
         } catch (Exception e) {
             e.printStackTrace();
+            assert bean != null;
             logger.error("Erreur lors de la modification d'un objet en BDD : " + bean.getClass() + ", id : " + bean.getId() + ", erreur :" + Arrays.toString(e.getStackTrace()));
             listErreurs.put("server", "Une erreur système est apparue, merci de réessayer plus tard");
         }
@@ -132,10 +133,10 @@ public class CheckForm {
         String password = req.getParameter("password");
         if (this.entitie == null){
             this.listErreurs.put(Utilisateur.getChampEmail(),"Cet email n'existe pas dans notre base");
-            logger.info("Connexion échouée :" + req.getParameter("email") + " inconnu");
+            logger.info("Connexion échouée : " + req.getParameter("email") + " inconnu");
         }else if (!((Utilisateur) this.entitie).checkPassword(password)){
             this.listErreurs.put(Utilisateur.getChampPass(),"Le mot de passe et l'email ne correspondent pas");
-            logger.info("Connexion échouée :" + req.getParameter("email") + " et " + req.getParameter("password") + " ne correspondent pas");
+            logger.info("Connexion échouée : " + req.getParameter("email") + " et " + req.getParameter("password") + " ne correspondent pas");
         }
         this.setResultat(checkResultListErreurs(this.listErreurs));
     }

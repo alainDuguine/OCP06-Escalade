@@ -107,7 +107,7 @@ public class Secteur extends Entitie implements Serializable {
      * @return
      * @throws Exception
      */
-    private List<Secteur> checkSecteurExist(SecteurDaoImpl dao, HttpServletRequest req) throws Exception {
+    private List<Secteur> checkSecteurExist(SecteurDaoImpl dao, HttpServletRequest req){
         if (this.getId() != null){
             return dao.findSecteurInSpotForUpdate(this.getId(), this.nom, this.getSpot().getId());
         }
@@ -124,7 +124,7 @@ public class Secteur extends Entitie implements Serializable {
     }
 
     public void setSpot(Spot spot) {
-        logger.info("Association du spot" + spot.getId());
+        logger.info("Association avec le spot " + spot.getId());
         this.spot = spot;
         spot.addSecteur(this);
     }
@@ -141,7 +141,7 @@ public class Secteur extends Entitie implements Serializable {
     }
 
     public void removeVoie(Voie voie) {
-        logger.info("Suppression de l'association avec la voie" + voie.getId());
+        logger.info("Suppression de l'association avec la voie " + voie.getId());
         this.voies.removeIf(voieInSecteur -> voieInSecteur.getId().equals(voie.getId()));
     }
 
@@ -152,7 +152,7 @@ public class Secteur extends Entitie implements Serializable {
     }
 
     public void removeSpot() {
-        logger.info("Suppression de l'association avec le spot" + this.spot.getId());
+        logger.info("Suppression de l'association avec le spot " + this.spot.getId());
         this.spot = null;
     }
     /* ***********************************************************************************************

@@ -117,7 +117,7 @@ public class TopoDaoImpl implements EntityRepository<Topo> {
             if (transaction != null)
                 transaction.rollback();
             e.printStackTrace();
-            logger.error("Suppression échouée :" + Arrays.toString(e.getStackTrace()));
+            logger.error("Suppression échouée : " + Arrays.toString(e.getStackTrace()));
             return false;
         }
 
@@ -141,7 +141,7 @@ public class TopoDaoImpl implements EntityRepository<Topo> {
             if (transaction != null)
                 transaction.rollback();
             e.printStackTrace();
-            logger.info("Ajout de relation échoué" + Arrays.toString(e.getStackTrace()));
+            logger.info("Ajout de relation échoué " + Arrays.toString(e.getStackTrace()));
             return false;
         }
     }

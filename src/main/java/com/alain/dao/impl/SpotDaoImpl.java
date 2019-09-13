@@ -34,12 +34,12 @@ public class SpotDaoImpl implements EntityRepository<Spot> {
             spot.setUtilisateur(utilisateur);
             entityManager.persist(spot);
             transaction.commit();
-            logger.info("Sauvegarde spot réussie  :" + spot.getId());
+            logger.info("Sauvegarde spot réussie  : " + spot.getId());
         } catch (Exception e){
             if (transaction != null)
                 transaction.rollback();
             e.printStackTrace();
-            logger.error("Sauvegarde spot échouée :" + Arrays.toString(e.getStackTrace()));
+            logger.error("Sauvegarde spot échouée : " + Arrays.toString(e.getStackTrace()));
             throw e;
         }
         return spot;
@@ -49,7 +49,7 @@ public class SpotDaoImpl implements EntityRepository<Spot> {
     public Spot update(Spot spot, HttpServletRequest req) {
         EntityTransaction transaction = entityManager.getTransaction();
         try {
-            logger.info("Tentative de modification d'un Spot" + spot.getId());
+            logger.info("Tentative de modification d'un Spot " + spot.getId());
             transaction.begin();
             Departement departement = entityManager.find(Departement.class, req.getParameter("departement"));
             Ville ville = entityManager.find(Ville.class, Long.parseLong(req.getParameter("ville")));
@@ -57,12 +57,12 @@ public class SpotDaoImpl implements EntityRepository<Spot> {
             spot.setVille(ville);
             entityManager.merge(spot);
             transaction.commit();
-            logger.info("Modification spot réussie" + spot.getId());
+            logger.info("Modification spot réussie " + spot.getId());
         } catch (Exception e){
             if (transaction != null)
                 transaction.rollback();
             e.printStackTrace();
-            logger.error("Modification spot échouée :" + Arrays.toString(e.getStackTrace()));
+            logger.error("Modification spot échouée : " + Arrays.toString(e.getStackTrace()));
             throw e;
         }
         return spot;
@@ -72,20 +72,20 @@ public class SpotDaoImpl implements EntityRepository<Spot> {
     public boolean delete(Long id) {
         EntityTransaction transaction = entityManager.getTransaction();
         try {
-            logger.info("Tentative de suppression d'un spot" + id);
+            logger.info("Tentative de suppression d'un spot " + id);
             transaction.begin();
             Spot spot = entityManager.find(Spot.class, id);
             spot.removeAllTopos();
             entityManager.remove(spot);
             entityManager.flush();
             transaction.commit();
-            logger.info("Suppression spot réussie" + id);
+            logger.info("Suppression spot réussie " + id);
             return true;
         }catch (Exception e){
             if (transaction != null)
                 transaction.rollback();
             e.printStackTrace();
-            logger.error("Suppression spot échouée :" + Arrays.toString(e.getStackTrace()));
+            logger.error("Suppression spot échouée : " + Arrays.toString(e.getStackTrace()));
             return false;
         }
     }
@@ -198,7 +198,7 @@ public class SpotDaoImpl implements EntityRepository<Spot> {
             query.setParameter(name, value);
             logger.info("Paramètre : " + name + " - " + value);
         }
-        logger.info("Résultats" + query.getResultList().size());
+        logger.info("Résultats " + query.getResultList().size());
         return query.getResultList();
     }
 
@@ -215,7 +215,7 @@ public class SpotDaoImpl implements EntityRepository<Spot> {
     }
 
     public List<Spot> findSpotInDepartementForUpdate(Long id, String nomSpot, String departement) {
-        logger.info("Recherche des villes dans un département pour modfication");
+        logger.info("Recherche des villes dans un département pour modification");
         Query query = entityManager.createQuery("select s from Spot s where s.nom= :nom and s.departement.code= :departement and s.id <> :id");
         query.setParameter("nom", nomSpot );
         query.setParameter("departement", departement);

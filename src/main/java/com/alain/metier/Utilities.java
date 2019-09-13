@@ -131,9 +131,8 @@ public class Utilities {
      * @return date formatée
      */
     public static String dateStringFr(LocalDateTime date){
-        String dateFormat;
         String[] moisFr = {"Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"};
-        return dateFormat = date.getDayOfMonth() + " " + moisFr[date.getMonthValue()-1] + " " + date.getYear() + " - " + getFullHour(date) + ":" + getFullMinute(date);
+        return date.getDayOfMonth() + " " + moisFr[date.getMonthValue()-1] + " " + date.getYear() + " - " + getFullHour(date) + ":" + getFullMinute(date);
     }
 
     /**
@@ -165,7 +164,7 @@ public class Utilities {
 
         for (String param : paramList) {
             if (param.contains("Min") || param.contains("Max")) {
-                if (req.getParameter(param) != "") {
+                if (!req.getParameter(param).equals("")) {
                     if(param.contains("cotation")) {
                         paramMap.put(param, Long.parseLong(req.getParameter(param)));
                     }else{
@@ -184,7 +183,7 @@ public class Utilities {
                 paramMap.put(param, req.getParameter(param));
             }
         }
-        logger.info("Map de paramètres générées depuis ServletRequest pour requête personnalisée : "+ paramMap.toString());
+        logger.info("Map de paramètres générée depuis ServletRequest pour requête personnalisée : "+ paramMap.toString());
         return paramMap;
     }
 

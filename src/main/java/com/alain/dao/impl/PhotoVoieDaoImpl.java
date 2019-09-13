@@ -33,12 +33,12 @@ public class PhotoVoieDaoImpl implements EntityRepository<PhotoVoie>{
             voie.addPhoto(photoVoie);
             entityManager.persist(photoVoie);
             transaction.commit();
-            logger.info("Photo sauvegardée :" + photoVoie.getId() + ", voie : " + voie.getId());
+            logger.info("Photo sauvegardée : " + photoVoie.getId() + ", voie : " + voie.getId());
         }catch (Exception e){
             if (transaction != null)
                 transaction.rollback();
             e.printStackTrace();
-            logger.error("Sauvegarde photo échouée :" + Arrays.toString(e.getStackTrace()));
+            logger.error("Sauvegarde photo échouée : " + Arrays.toString(e.getStackTrace()));
             throw e;
         }
         return photoVoie;
@@ -53,7 +53,7 @@ public class PhotoVoieDaoImpl implements EntityRepository<PhotoVoie>{
     public boolean delete(Long idPhoto){
         EntityTransaction transaction = entityManager.getTransaction();
         try {
-            logger.info("Tentative de suppression d'une photoVoie" + idPhoto);
+            logger.info("Tentative de suppression d'une photoVoie " + idPhoto);
             transaction.begin();
             PhotoVoie photo = entityManager.find(PhotoVoie.class, idPhoto);
             Voie voie = entityManager.find(Voie.class, photo.getVoie().getId());
@@ -64,13 +64,13 @@ public class PhotoVoieDaoImpl implements EntityRepository<PhotoVoie>{
             Path path = Paths.get(Photo.getCHEMIN()+photo.getNom());
             Files.delete(path);
             transaction.commit();
-            logger.info("Suppression photo réussie" + idPhoto);
+            logger.info("Suppression photo réussie " + idPhoto);
             return true;
         }catch (Exception e){
             if (transaction != null)
                 transaction.rollback();
             e.printStackTrace();
-            logger.error("Suppression photo échouée :" + Arrays.toString(e.getStackTrace()));
+            logger.error("Suppression photo échouée : " + Arrays.toString(e.getStackTrace()));
             return false;
         }
     }

@@ -39,7 +39,7 @@ public class PhotoSecteur extends Photo {
      ******************************************************************************************** */
 
     public void removeRelation() {
-        logger.info("Suppression de l'association avec le secteur :" + this.secteur.getId());
+        logger.info("Suppression de l'association avec le secteur : " + this.secteur.getId());
         this.secteur = null;
     }
 

@@ -87,7 +87,7 @@ public class Topo extends Entitie implements Serializable {
      * @param
      */
     public void removeSpot(Spot spot) {
-        logger.info("Retrait de l'association avec le spot" + spot.getId());
+        logger.info("Retrait de l'association avec le spot " + spot.getId());
         this.spots.removeIf(spotInList -> spotInList.getId().equals(spot.getId()));
     }
 
@@ -96,7 +96,7 @@ public class Topo extends Entitie implements Serializable {
      * @param spot
      */
     public void addSpot(Spot spot) {
-        logger.info("Association avec le spot" + spot.getId());
+        logger.info("Association avec le spot " + spot.getId());
         if(!this.spots.contains(spot)){
             this.spots.add(spot);
         }
@@ -116,19 +116,17 @@ public class Topo extends Entitie implements Serializable {
 
     /**
      * Ajoute une réservation à l'historique du topo
-     * @return
      */
     public void addReservation(Reservation reservation){
-        logger.info("Asssociation d'une réservation :" + reservation.getId());
+        logger.info("Asssociation d'une réservation : " + reservation.getId());
         this.reservations.add(reservation);
     }
 
     /**
      * Supprime une réservation à l'historique du topo
-     * @return
      */
     public void removeReservation(Reservation reservation) {
-        logger.info("Suppression d'une association avec la réservation :" + reservation.getId());
+        logger.info("Suppression d'une association avec la réservation : " + reservation.getId());
         this.reservations.removeIf(reservationInList -> reservationInList.getId().equals(reservation.getId()));
     }
 

@@ -25,12 +25,12 @@ public class UtilisateurDaoImpl implements EntityRepository<Utilisateur>{
             transaction.begin();
             entityManager.persist(utilisateur);
             transaction.commit();
-            logger.info("Sauvegarde utilisateur réussie" + utilisateur.getId());
+            logger.info("Sauvegarde utilisateur réussie " + utilisateur.getId());
         } catch (Exception e){
             if (transaction != null)
                 transaction.rollback();
             e.printStackTrace();
-            logger.error("Sauvegarde utilisateur échouée :" + Arrays.toString(e.getStackTrace()));
+            logger.error("Sauvegarde utilisateur échouée : " + Arrays.toString(e.getStackTrace()));
             throw e;
         }
         return utilisateur;
@@ -39,17 +39,17 @@ public class UtilisateurDaoImpl implements EntityRepository<Utilisateur>{
     public Utilisateur update(Utilisateur utilisateur,  HttpServletRequest req) {
         EntityTransaction transaction = entityManager.getTransaction();
         try {
-            logger.info("Tentative de modification d'un utilisateur" + utilisateur.getId());
+            logger.info("Tentative de modification d'un utilisateur " + utilisateur.getId());
             transaction.begin();
             entityManager.merge(utilisateur);
             entityManager.flush();
             transaction.commit();
-            logger.info("Modification utilisateur réussie" + utilisateur.getId());
+            logger.info("Modification utilisateur réussie " + utilisateur.getId());
         } catch (Exception e) {
             if (transaction != null)
                 transaction.rollback();
             e.printStackTrace();
-            logger.error("Modification utilisateur échouée :" + Arrays.toString(e.getStackTrace()));
+            logger.error("Modification utilisateur échouée : " + Arrays.toString(e.getStackTrace()));
             throw e;
         }
         return utilisateur;
@@ -58,18 +58,18 @@ public class UtilisateurDaoImpl implements EntityRepository<Utilisateur>{
     public boolean delete(Long id) {
         EntityTransaction transaction = entityManager.getTransaction();
         try {
-            logger.info("Tentative de suppression d'un utilisateur" + id);
+            logger.info("Tentative de suppression d'un utilisateur " + id);
             transaction.begin();
             Utilisateur utilisateur = entityManager.find(Utilisateur.class, id);
             entityManager.remove(utilisateur);
             transaction.commit();
-            logger.info("Suppression utilisateur réussie" + id);
+            logger.info("Suppression utilisateur réussie " + id);
             return true;
         }catch (Exception e){
             if (transaction != null)
                 transaction.rollback();
             e.printStackTrace();
-            logger.error("Suppression utilisateur échouée :" + Arrays.toString(e.getStackTrace()));
+            logger.error("Suppression utilisateur échouée : " + Arrays.toString(e.getStackTrace()));
             return false;
         }
     }
@@ -92,7 +92,7 @@ public class UtilisateurDaoImpl implements EntityRepository<Utilisateur>{
         try {
             return (Utilisateur) query.getSingleResult();
         } catch (Exception e){
-            logger.warn("Utilisateur introuvable" + email);
+            logger.warn("Utilisateur introuvable " + email);
             return null;
         }
     }
@@ -104,7 +104,7 @@ public class UtilisateurDaoImpl implements EntityRepository<Utilisateur>{
         try {
             return (Utilisateur) query.getSingleResult();
         } catch (Exception e){
-            logger.warn("Utilisateur introuvable" + username);
+            logger.warn("Utilisateur introuvable " + username);
             return null;
         }
     }

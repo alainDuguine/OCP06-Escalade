@@ -37,12 +37,12 @@ public class VoieDaoImpl implements EntityRepository<Voie> {
             voie.setUtilisateur(utilisateur);
             entityManager.persist(voie);
             transaction.commit();
-            logger.info("Sauvegarde voie réussie  :" + voie.getId() + ", secteur :" + secteur.getId());
+            logger.info("Sauvegarde voie réussie : " + voie.getId() + ", secteur :" + secteur.getId());
         }catch (Exception e){
             if (transaction != null)
                 transaction.rollback();
             e.printStackTrace();
-            logger.error("Sauvegarde voie échouée :" + Arrays.toString(e.getStackTrace()));
+            logger.error("Sauvegarde voie échouée : " + Arrays.toString(e.getStackTrace()));
             throw e;
         }
         return voie;
@@ -58,12 +58,12 @@ public class VoieDaoImpl implements EntityRepository<Voie> {
             voie.setCotation(cotation);
             entityManager.merge(voie);
             transaction.commit();
-            logger.info("Modification voie réussie" + voie.getId());
+            logger.info("Modification voie réussie " + voie.getId());
         }catch (Exception e){
             if (transaction != null)
                 transaction.rollback();
             e.printStackTrace();
-            logger.error("Modification voie échouée :" + Arrays.toString(e.getStackTrace()));
+            logger.error("Modification voie échouée : " + Arrays.toString(e.getStackTrace()));
             throw e;
         }
         return voie;
@@ -73,7 +73,7 @@ public class VoieDaoImpl implements EntityRepository<Voie> {
     public boolean delete(Long id) {
         EntityTransaction transaction = entityManager.getTransaction();
         try {
-            logger.info("Tentative de suppression d'une voie" + id);
+            logger.info("Tentative de suppression d'une voie " + id);
             transaction.begin();
             Voie voie = entityManager.find(Voie.class, id);
             Secteur secteur = entityManager.find(Secteur.class, voie.getSecteur().getId());
@@ -82,13 +82,13 @@ public class VoieDaoImpl implements EntityRepository<Voie> {
             entityManager.remove(voie);
             entityManager.flush();
             transaction.commit();
-            logger.info("Suppression voie réussie" + id);
+            logger.info("Suppression voie réussie " + id);
             return true;
         }catch (Exception e){
             if (transaction != null)
                 transaction.rollback();
             e.printStackTrace();
-            logger.error("Suppression voie échouée :" + Arrays.toString(e.getStackTrace()));
+            logger.error("Suppression voie échouée : " + Arrays.toString(e.getStackTrace()));
             return false;
         }
     }

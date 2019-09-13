@@ -23,12 +23,12 @@ public class VilleDaoImpl{
     }
 
     public Ville getById(Long id){
-        logger.info("Recherche de la ville" + id);
+        logger.info("Recherche de la ville " + id);
         return entityManager.find(Ville.class, id);
     }
 
     public Ville findOne(Long id) {
-        logger.info("Recherche de la ville" + id);
+        logger.info("Recherche de la ville " + id);
         return entityManager.find(Ville.class, id);
     }
 }

@@ -83,7 +83,7 @@ public class Reservation extends Entitie implements Serializable {
         logger.info("Vérification des champs");
         Map<String, String> listErreur = new HashMap<>();
 
-        if (this.emprunteur.getUsername() == this.preteur.getUsername()) {
+        if (this.emprunteur.getUsername().equals(this.preteur.getUsername())) {
             listErreur.put("erreur", "Vous ne pouvez pas réserver vos propres topos.");
         }
         if(!checkReservationEnCours((ReservationDaoImpl)dao, req).isEmpty()){
@@ -110,14 +110,14 @@ public class Reservation extends Entitie implements Serializable {
      * @param reservationHistorique
      */
     public void addEvent(ReservationHistorique reservationHistorique){
-        logger.info("Association avec un nouvel évènement :" +reservationHistorique.getId());
+        logger.info("Association avec un nouvel évènement : " +reservationHistorique.getId());
         this.listHistorique.add(reservationHistorique);
         this.setDernierStatut(reservationHistorique.getReservationStatut().toString());
         this.setDateDernierStatut(Utilities.dateStringFr(reservationHistorique.getDateTime()));
     }
 
     public void removeHistorique() {
-        logger.info("Suppression de toutes les associations avvec les évènements");
+        logger.info("Suppression de toutes les associations avec les évènements");
         this.listHistorique.clear();
     }
 

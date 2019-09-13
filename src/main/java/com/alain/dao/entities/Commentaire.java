@@ -3,7 +3,6 @@ package com.alain.dao.entities;
 import com.alain.dao.contract.EntityRepository;
 import com.alain.metier.Utilities;
 import com.google.gson.annotations.Expose;
-import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -12,9 +11,7 @@ import javax.persistence.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Entity

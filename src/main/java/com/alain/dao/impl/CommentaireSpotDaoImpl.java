@@ -34,12 +34,12 @@ public class CommentaireSpotDaoImpl implements EntityRepository<CommentaireSpot>
             utilisateur.addCommentaireSpot(commentaire);
             entityManager.persist(commentaire);
             transaction.commit();
-            logger.info("Commmentaire sauvegardé :" + commentaire.getId() + ", spot : " + spot.getId());
+            logger.info("Commmentaire sauvegardé : " + commentaire.getId() + ", spot : " + spot.getId());
         }catch (Exception e){
             if (transaction != null)
                 transaction.rollback();
             e.printStackTrace();
-            logger.error("Sauvegarde commentaire échouée :" + Arrays.toString(e.getStackTrace()));
+            logger.error("Sauvegarde commentaire échouée : " + Arrays.toString(e.getStackTrace()));
             throw e;
         }
         return commentaire;
@@ -49,16 +49,16 @@ public class CommentaireSpotDaoImpl implements EntityRepository<CommentaireSpot>
     public CommentaireSpot update(CommentaireSpot commentaireSpot, HttpServletRequest req) {
         EntityTransaction transaction = entityManager.getTransaction();
         try {
-            logger.info("Tentative de modification d'un commentaire" + commentaireSpot.getId());
+            logger.info("Tentative de modification d'un commentaire " + commentaireSpot.getId());
             transaction.begin();
             entityManager.merge(commentaireSpot);
             transaction.commit();
-            logger.info("Modification commentaire réussie" + commentaireSpot.getId());
+            logger.info("Modification commentaire réussie " + commentaireSpot.getId());
         } catch (Exception e){
             if (transaction != null)
                 transaction.rollback();
             e.printStackTrace();
-            logger.error("Modification commentaire échouée :" + Arrays.toString(e.getStackTrace()));
+            logger.error("Modification commentaire échouée : " + Arrays.toString(e.getStackTrace()));
             throw e;
         }
         return commentaireSpot;
@@ -69,7 +69,7 @@ public class CommentaireSpotDaoImpl implements EntityRepository<CommentaireSpot>
     public boolean delete(Long id) {
         EntityTransaction transaction = entityManager.getTransaction();
         try {
-            logger.info("Tentative de suppression d'un commentaire" + id);
+            logger.info("Tentative de suppression d'un commentaire " + id);
             transaction.begin();
             CommentaireSpot commentaire = entityManager.find(CommentaireSpot.class, id);
             Spot spot = entityManager.find(Spot.class, commentaire.getSpot().getId());
@@ -85,7 +85,7 @@ public class CommentaireSpotDaoImpl implements EntityRepository<CommentaireSpot>
             if (transaction != null)
                 transaction.rollback();
             e.printStackTrace();
-            logger.error("Suppression commentaire échouée :" + Arrays.toString(e.getStackTrace()));
+            logger.error("Suppression commentaire échouée : " + Arrays.toString(e.getStackTrace()));
             return false;
         }
     }

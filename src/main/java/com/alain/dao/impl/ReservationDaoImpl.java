@@ -20,7 +20,7 @@ public class ReservationDaoImpl extends EntityManagerUtil implements EntityRepos
     private static final Logger logger = LogManager.getLogger("RéservationDaoImpl");
 
     @Override
-    public Reservation save(Reservation reservation, HttpServletRequest req) throws Exception {
+    public Reservation save(Reservation reservation, HttpServletRequest req){
         EntityTransaction transaction = entityManager.getTransaction();
         try {
             logger.info("Tentative de sauvegarde d'une réservation");
@@ -37,12 +37,12 @@ public class ReservationDaoImpl extends EntityManagerUtil implements EntityRepos
             emprunteur.addEmprunt(reservation);
             entityManager.flush();
             transaction.commit();
-            logger.info("Réservation sauvegardée :" + reservation.getId() + ", topo : " + topo.getId()+ ", preteur :" + preteur.getUsername() + ", emprunteur : " + emprunteur.getUsername() );
+            logger.info("Réservation sauvegardée : " + reservation.getId() + ", topo : " + topo.getId()+ ", preteur : " + preteur.getUsername() + ", emprunteur : " + emprunteur.getUsername() );
         }catch (Exception e){
             if (transaction != null)
                 transaction.rollback();
             e.printStackTrace();
-            logger.error("Réservation échouée :" + Arrays.toString(e.getStackTrace()));
+            logger.error("Réservation échouée : " + Arrays.toString(e.getStackTrace()));
             throw e;
         }
         return reservation;
@@ -60,13 +60,13 @@ public class ReservationDaoImpl extends EntityManagerUtil implements EntityRepos
             if(path.contains("accepter")){
                 reservationHistorique.setReservationStatut(ReservationStatutEnum.APPROVED);
                 reservation.getTopo().setDisponible(false);
-                logger.info("Statut réservaton : acceptée" + reservation.getId());
+                logger.info("Statut réservaton : acceptée " + reservation.getId());
             }else if (path.contains("refuser")){
                 reservationHistorique.setReservationStatut(ReservationStatutEnum.REFUSED);
-                logger.info("Statut réservaton : refusée" + reservation.getId());
+                logger.info("Statut réservaton : refusée " + reservation.getId());
             }else{
                 reservationHistorique.setReservationStatut(ReservationStatutEnum.FINISHED);
-                logger.info("Statut réservaton : terminée" + reservation.getId());
+                logger.info("Statut réservaton : terminée " + reservation.getId());
             }
             reservationHistorique.setReservation(reservation);
             reservation.addEvent(reservationHistorique);
@@ -77,7 +77,7 @@ public class ReservationDaoImpl extends EntityManagerUtil implements EntityRepos
             if (transaction != null)
                 transaction.rollback();
             e.printStackTrace();
-            logger.error("Modification réservation échouée :" + Arrays.toString(e.getStackTrace()));
+            logger.error("Modification réservation échouée : " + Arrays.toString(e.getStackTrace()));
             throw e;
         }
         return reservation;
@@ -87,7 +87,7 @@ public class ReservationDaoImpl extends EntityManagerUtil implements EntityRepos
     public boolean delete(Long id) {
         EntityTransaction transaction = entityManager.getTransaction();
         try{
-            logger.info("Tentative de suppression d'une réservation" + id);
+            logger.info("Tentative de suppression d'une réservation " + id);
             transaction.begin();
             Reservation reservation = entityManager.find(Reservation.class, id);
             reservation.removeHistorique();
@@ -97,13 +97,13 @@ public class ReservationDaoImpl extends EntityManagerUtil implements EntityRepos
             entityManager.remove(reservation);
             entityManager.flush();
             transaction.commit();
-            logger.info("Suppression réservation réussie" + id);
+            logger.info("Suppression réservation réussie " + id);
             return true;
         }catch (Exception e){
             if (transaction != null)
                 transaction.rollback();
             e.printStackTrace();
-            logger.error("Suppression réservation échouée" + Arrays.toString(e.getStackTrace()));
+            logger.error("Suppression réservation échouée " + Arrays.toString(e.getStackTrace()));
             return false;
         }
     }
@@ -117,7 +117,7 @@ public class ReservationDaoImpl extends EntityManagerUtil implements EntityRepos
 
     @Override
     public Reservation findOne(Long id) {
-        logger.info("Recherche d'une réservation :" + id);
+        logger.info("Recherche d'une réservation : " + id);
         return entityManager.find(Reservation.class, id);
     }
 
