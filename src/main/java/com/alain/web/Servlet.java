@@ -71,7 +71,7 @@ public class Servlet extends HttpServlet {
                 }if(session.getAttribute("admin").equals(true)){
 
                     logger.info("Chargement dashboard Administrateur");
-                    // Si l'utilisateur est admin on charge chaque élément séparément, pour avoir accès à tous.
+                    // Si l'utilisateur est admin on charge chaque élément séparément, pour avoir accès à tout.
 
                     UtilisateurDaoImpl utilisateurDao = new UtilisateurDaoImpl();
                     List<Utilisateur> listUtilisateur = utilisateurDao.findAll();
@@ -380,6 +380,8 @@ public class Servlet extends HttpServlet {
                 utilisateur.setAdmin(!utilisateur.isAdmin());
                 utilisateurDao.update(utilisateur, req);
                 PrintWriter out = resp.getWriter();
+                resp.setContentType("application/json");
+                resp.setCharacterEncoding("UTF-8");
                 out.print(utilisateur.isAdmin());
                 out.flush();
                 break;
@@ -551,6 +553,8 @@ public class Servlet extends HttpServlet {
                     logger.info("Sauvegarde commentaire réussie : " + commentaire.getId());
                     String json = gson.toJson(commentaire);
                     PrintWriter out = resp.getWriter();
+                    resp.setContentType("application/json");
+                    resp.setCharacterEncoding("UTF-8");
                     out.print(json);
                     out.flush();
                 }
@@ -630,6 +634,8 @@ public class Servlet extends HttpServlet {
                 topo.setDisponible(!topo.isDisponible());
                 topoDao.update(topo, req);
                 PrintWriter out = resp.getWriter();
+                resp.setContentType("application/json");
+                resp.setCharacterEncoding("UTF-8");
                 out.print(topo.isDisponible());
                 out.flush();
                 break;
@@ -678,6 +684,8 @@ public class Servlet extends HttpServlet {
      */
     private void sendAjaxBooleanResponse(Boolean result, HttpServletResponse resp) throws IOException {
         PrintWriter out = resp.getWriter();
+        resp.setContentType("application/json");
+        resp.setCharacterEncoding("UTF-8");
         out.print(result);
         out.flush();
     }

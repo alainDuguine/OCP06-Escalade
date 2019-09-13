@@ -21,7 +21,7 @@ public class TopoDaoImpl implements EntityRepository<Topo> {
     private static final Logger logger = LogManager.getLogger("TopoDaoImpl");
 
     @Override
-    public Topo save(Topo topo, HttpServletRequest req) throws Exception {
+    public Topo save(Topo topo, HttpServletRequest req){
         EntityTransaction transaction = entityManager.getTransaction();
         try {
             logger.info("Tentative de sauvegarde d'un topo");
@@ -70,6 +70,7 @@ public class TopoDaoImpl implements EntityRepository<Topo> {
             transaction.begin();
             Topo topo = entityManager.find(Topo.class, id);
             topo.removeAllSpots();
+            topo.removeAllReservations();
             entityManager.remove(topo);
             entityManager.flush();
             transaction.commit();

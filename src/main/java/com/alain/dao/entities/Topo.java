@@ -33,7 +33,7 @@ public class Topo extends Entitie implements Serializable {
     @ManyToOne
     private Utilisateur utilisateur;
 
-    @OneToMany (mappedBy = "topo")
+    @OneToMany (mappedBy = "topo", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Reservation> reservations = new ArrayList<>();
 
     @ManyToMany
@@ -88,7 +88,7 @@ public class Topo extends Entitie implements Serializable {
      */
     public void removeSpot(Spot spot) {
         logger.info("Retrait de l'association avec le spot" + spot.getId());
-        this.spots.removeIf(spotInList -> spotInList.getId() == spot.getId());
+        this.spots.removeIf(spotInList -> spotInList.getId().equals(spot.getId()));
     }
 
     /**
@@ -129,7 +129,12 @@ public class Topo extends Entitie implements Serializable {
      */
     public void removeReservation(Reservation reservation) {
         logger.info("Suppression d'une association avec la réservation :" + reservation.getId());
-        this.reservations.removeIf(reservationInList -> reservationInList.getId() == reservation.getId());
+        this.reservations.removeIf(reservationInList -> reservationInList.getId().equals(reservation.getId()));
+    }
+
+    public void removeAllReservations() {
+        logger.info("Suppression des associations avec toutes les réservation");
+        this.reservations.clear();
     }
     /* ***********************************************************************************************
      **** GETTERS & SETTERS ************************************************************************
@@ -199,4 +204,5 @@ public class Topo extends Entitie implements Serializable {
     public void setReservations(List<Reservation> reservations) {
         this.reservations = reservations;
     }
+
 }
