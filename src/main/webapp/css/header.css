@@ -150,6 +150,8 @@ header{
 
 #iconUser{
     padding-right: 0.5em;
+    height: 100%;
+    align-self: center;
 }
 
 .userDrop > ul{
