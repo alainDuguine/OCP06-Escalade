@@ -1,5 +1,8 @@
 package com.alain.dao.entities;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -8,6 +11,8 @@ import java.util.List;
 @Entity
 @Table
 public class Cotation implements Serializable {
+
+    private static final Logger logger = LogManager.getLogger("Cotation");
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,6 +39,10 @@ public class Cotation implements Serializable {
      **** METHODS           ************************************************************************
      ******************************************************************************************** */
 
+    public void removeVoie(Voie voie){
+        logger.info("Suppression de l'association avec une voie" + voie.getId());
+        this.voies.removeIf(voieInList -> voieInList.getId().equals(voie.getId()));
+    }
 
     /* ***********************************************************************************************
      **** GETTERS & SETTERS ************************************************************************

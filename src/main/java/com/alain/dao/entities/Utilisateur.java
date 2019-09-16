@@ -62,9 +62,9 @@ public class Utilisateur extends Entitie implements Serializable{
     private List<ComplementVoie> complementVoies = new ArrayList<>();
     @OneToMany (mappedBy = "utilisateur", cascade = CascadeType.ALL)
     private List<Topo> topos = new ArrayList<>();
-    @OneToMany (mappedBy = "emprunteur")
+    @OneToMany (mappedBy = "emprunteur", cascade = CascadeType.ALL)
     private List<Reservation> emprunts = new ArrayList<>();
-    @OneToMany (mappedBy = "preteur")
+    @OneToMany (mappedBy = "preteur", cascade = CascadeType.ALL)
     private List<Reservation> prets = new ArrayList<>();
 
     /* ********************************************************************************************
@@ -126,7 +126,7 @@ public class Utilisateur extends Entitie implements Serializable{
      * @param reservation
      */
     public void removeReservation(Reservation reservation) {
-        logger.info("Suppression de l'ssociation avec une réservation " + reservation.getId());
+        logger.info("Suppression de l'association avec une réservation " + reservation.getId());
         this.emprunts.removeIf(empruntInList -> empruntInList.getId().equals(reservation.getId()));
         this.prets.removeIf(pretInList -> pretInList.getId().equals(reservation.getId()));
     }
@@ -142,7 +142,7 @@ public class Utilisateur extends Entitie implements Serializable{
     }
 
     public void addVoie(Voie voie){
-        logger.info("Association avec une voie : " + voie.getId());
+        logger.info("Association avec une voie");
         this.voies.add(voie);
     }
 
@@ -166,6 +166,16 @@ public class Utilisateur extends Entitie implements Serializable{
     public void addEmprunt(Reservation reservation){
         logger.info("Association avec un emprunt de topo : " + reservation.getId());
         this.emprunts.add(reservation);
+    }
+
+    public void removeSpot(Spot spot){
+        logger.info("Suppression de l'association avec un spot" + spot.getId());
+        this.spots.removeIf(spotInList -> spotInList.getId().equals(spot.getId()));
+    }
+
+    public void removeVoie(Voie voie){
+        logger.info("Suppression de l'association avec une voie" + voie.getId());
+        this.voies.removeIf(voieInList -> voieInList.getId().equals(voie.getId()));
     }
 
 

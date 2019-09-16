@@ -76,8 +76,9 @@ public class VoieDaoImpl implements EntityRepository<Voie> {
             logger.info("Tentative de suppression d'une voie " + id);
             transaction.begin();
             Voie voie = entityManager.find(Voie.class, id);
-            Secteur secteur = entityManager.find(Secteur.class, voie.getSecteur().getId());
-            secteur.removeVoie(voie);
+            voie.getSecteur().removeVoie(voie);
+            voie.getUtilisateur().removeVoie(voie);
+            voie.getCotation().removeVoie(voie);
             voie.removeSecteur();
             entityManager.remove(voie);
             entityManager.flush();

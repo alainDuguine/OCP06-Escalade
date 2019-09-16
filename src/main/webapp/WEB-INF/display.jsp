@@ -65,7 +65,7 @@
                                         </p>
                                     </div>
                                 </div>
-                                <li class="itemTopo"><a href="#" id="${topo.nom}">- <c:out value="${topo.nom}"/></a><button class="buttonReservationTopo" type="button">Réserver</button></li>
+                                <li class="itemTopo" title="Cliquez pour une brève description"><a href="#" id="${topo.nom}">- <c:out value="${topo.nom}"/></a><button class="buttonReservationTopo" type="button">Réserver</button></li>
                                 <hr>
                             </c:if>
                         </c:forEach>

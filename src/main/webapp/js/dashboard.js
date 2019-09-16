@@ -3,7 +3,7 @@ $(document).ready(function () {
     // Alerte si réservation de topo en attente
     var attentePret = $("#attentePret").html(),
     attenteEmprunt = $("#attenteEmprunt").html();
-    console.log(attentePret + " " + attenteEmprunt);
+    console.log(attentePret, attenteEmprunt);
     if(attentePret === 'true'){
         alert("Vous avez des demandes de prêts de topos en attente. Vous les trouverez dans l'onglet \"Mes Topos\"");
     }
@@ -27,7 +27,7 @@ $(document).ready(function () {
         if (confirm("Etes-vous sûr de vouloir modifier la disponibilité de ce topo ?")) {
             $.post("toggleTopo.do", {idTopo: topoId}, function (data) {
                 var result;
-                if (data === 'true'){
+                if (data === true){
                     result = 'Oui';
                 }else{
                     result = 'Non';
@@ -45,13 +45,14 @@ $(document).ready(function () {
         if (confirm("Etes-vous sûr de vouloir modifier les doits utilisateurs pour cet utilisateur ?")) {
             $.post("toggleAdmin.do", {idUser: userId}, function (data) {
                 var result;
-                if (data === 'true'){
+                if (data === true){
                     result = 'Oui';
                 }else{
                     result = 'Non';
                 }
                 $(el).parent().siblings(".adminTable").text(result);
-                alert("Modification des droits effectuée");
+                // alert("Modification des droits effectuée");
+                if(!alert("Modification des droits effectuée")){window.location.reload()}
             })
         }
     });
@@ -72,9 +73,10 @@ $(document).ready(function () {
         }
         if (confirm(msg)) {
             $.post(path, {idElement: elId}, function (data) {
-                if (data === 'true') {
+                if (data === true) {
                     el.parent().remove();
-                    if(!alert("Suppression effectuée")){window.location.reload()}
+                    alert("Suppression effectuée");
+                    // if(!alert("Suppression effectuée")){window.location.reload()}
                 } else {
                     alert("Suppression échouée");
                 }
@@ -96,7 +98,7 @@ $(document).ready(function () {
         }
         if (confirm(msg)){
             $.post(buttonPath, {idReservation: idReservation}, function (data){
-                if (data === 'true') {
+                if (data === true) {
                     if (buttonPath === "accepterPret.do"){
                         $('#statutReservation').val("Acceptée");
                         if(!alert("La demande de prêt a bien été acceptée !")){window.location.reload()}

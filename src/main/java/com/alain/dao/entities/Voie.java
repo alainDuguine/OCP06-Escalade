@@ -122,7 +122,7 @@ public class Voie extends Entitie implements Serializable {
     }
 
     public void addPhoto(PhotoVoie photo) {
-        logger.info("Association avec la photo " + photo.getId());
+        logger.info("Association avec la photo");
         photo.setVoie(this);
         this.photos.add(photo);
     }

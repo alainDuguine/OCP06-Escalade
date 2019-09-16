@@ -93,7 +93,7 @@
                 spotId = $(this).attr('href');
             if (confirm("Etes-vous sûr de vouloir supprimer ce spot de ce topo ?")) {
                 $.post("supprimerSpotInTopo.do", {idSpot: spotId, idTopo: topoId}, function (data) {
-                    if (data === 'true') {
+                    if (data === true) {
                         if(!alert("Suppression effectuée")){window.location.reload()}
                     } else {
                         alert("Suppression échouée");

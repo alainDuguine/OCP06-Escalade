@@ -1,5 +1,8 @@
 package com.alain.dao.entities;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
@@ -7,6 +10,8 @@ import java.util.List;
 @Entity
 @Table
 public class Ville implements Serializable {
+
+    private static final Logger logger = LogManager.getLogger("Ville");
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,6 +40,11 @@ public class Ville implements Serializable {
     /* ********************************************************************************************
      **** METHODS           ************************************************************************
      ******************************************************************************************** */
+
+    public void removeSpot(Spot spot){
+        logger.info("Suppression de l'association avec un spot " + spot.getId());
+        this.spots.removeIf(spotInList -> spotInList.getId().equals(spot.getId()));
+    }
 
     /* ***********************************************************************************************
      **** GETTERS & SETTERS ************************************************************************

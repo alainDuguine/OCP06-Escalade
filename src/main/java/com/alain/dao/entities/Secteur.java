@@ -105,7 +105,6 @@ public class Secteur extends Entitie implements Serializable {
      * @param dao
      * @param req
      * @return
-     * @throws Exception
      */
     private List<Secteur> checkSecteurExist(SecteurDaoImpl dao, HttpServletRequest req){
         if (this.getId() != null){
@@ -136,7 +135,7 @@ public class Secteur extends Entitie implements Serializable {
     }
 
     public void addVoie(Voie voie) {
-        logger.info("Association avec la voie " + voie.getId());
+        logger.info("Association avec la voie ");
         this.voies.add(voie);
     }
 

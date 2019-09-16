@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="../../css/table.css">
     <link rel="stylesheet" type="text/css" href="../../css/dashboard.css">
     <link rel="stylesheet" type="text/css" charset="UTF-8" href="../../css/dashboardResp.css">
-    <link rel="stylesheet" type="text/css" charset="UTF-8" href="../../css/tableResp.css">
+    <link charset="UTF-8" href="../../css/tableResp.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Merienda&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -300,7 +300,7 @@
                             </c:when>
                             <c:otherwise>
                                 <td class="labelEmpruntTopo">Terminée</td>
-                                <td class="labelEmpruntTopo">${emprunt.emprunteur.email}</td>
+                                <td class="labelEmpruntTopo">${emprunt.preteur.email}</td>
                             </c:otherwise>
                         </c:choose>
                     </tr>

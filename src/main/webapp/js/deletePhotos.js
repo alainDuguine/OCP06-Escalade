@@ -6,9 +6,9 @@ $(document).ready(function() {
             photoId = $(this).attr('href');
         if (confirm("Etes-vous sûr de vouloir supprimer cette photo ?")) {
             $.post("supprimerPhoto.do", {idElement: photoId, jspUrl: jspUrl}, function (data) {
-                if (data == 'true') {
+                if (data === true) {
                     el.parent().remove();
-                    if(!alert("Suppression effectuée")){window.location.reload()};
+                    if(!alert("Suppression effectuée")){window.location.reload()}
                 } else {
                     alert("Suppression échouée");
                 }

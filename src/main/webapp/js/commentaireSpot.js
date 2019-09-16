@@ -8,7 +8,7 @@ $(document).ready(function(){
         var idSpot = $('#idSpot').val();
         if (commentaire.length > 280){
             alert("Un commentaire peut au maximum contenir 280 caractères");
-        }else if (commentaire.length == 0) {
+        }else if (commentaire.length === 0) {
             alert("Vous ne pouvez pas publier un commentaire vide")
         }else{
             $.post("saveCommentaire.do", {contenu: commentaire, idSpot: idSpot, utilisateur: utilisateur},
@@ -29,7 +29,7 @@ $(document).ready(function(){
         }
     })
 
-    var commentaireAvantUpdate, idComm
+    var commentaireAvantUpdate, idComm;
 
     //Suppression et modification des commentaires par l'administrateur
     $(".modifComm > a").click(function (event) {
@@ -40,7 +40,7 @@ $(document).ready(function(){
         if (path === "supprimerCommentaire.do") {
             if (confirm("Etes-vous sûr de vouloir supprimer ce commentaire ?")) {
                 $.post(path, {idElement: idComm}, function (data) {
-                    if (data == 'true') {
+                    if (data === true) {
                         el.parent().parent().remove();
                         alert("Suppression effectuée");
                     } else {
@@ -60,16 +60,16 @@ $(document).ready(function(){
     });
 
     //Sauvegarde de la modification d'un commentaire
-    $(".updateCommentaire").click(function (event) {
+    $(".updateCommentaire").click(function () {
         var contenuComm = $('#inputModifCommentaire').val();
         if (confirm("Etes-vous sûr de vouloir modifier ce commentaire ?")) {
             $.post("updateCommentaire.do", {idCommentaire: idComm, contenu: contenuComm}, function (data) {
-                if (data.resultat == 'true') {
-                    if(!alert("Modification effectuée")){window.location.reload()};
+                if (data.resultat === true) {
+                    if(!alert("Modification effectuée")){window.location.reload()}
                 } else {
                     if(!alert("Modification échouée : "+ data.erreur)){
                         $('#content'+idComm).text(commentaireAvantUpdate);
-                    };
+                    }
                 }
             })
         }

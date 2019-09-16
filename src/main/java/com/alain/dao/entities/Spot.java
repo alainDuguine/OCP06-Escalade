@@ -196,13 +196,13 @@ public class Spot extends Entitie implements Serializable {
      * @param commentaire
      */
     public void addCommentaire(CommentaireSpot commentaire) {
-        logger.info("Ajout d'association avec le commentaire " + commentaire.getId());
+        logger.info("Ajout d'association avec le commentaire ");
         commentaire.setSpot(this);
         this.commentaires.add(commentaire);
     }
 
     public void addPhoto(PhotoSpot photo){
-        logger.info("Ajout d'association avec la photo " + photo.getId());
+        logger.info("Ajout d'association avec la photo ");
         photo.setSpot(this);
         this.photos.add(photo);
     }

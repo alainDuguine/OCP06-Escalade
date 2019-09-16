@@ -75,6 +75,9 @@ public class SpotDaoImpl implements EntityRepository<Spot> {
             logger.info("Tentative de suppression d'un spot " + id);
             transaction.begin();
             Spot spot = entityManager.find(Spot.class, id);
+            spot.getUtilisateur().removeSpot(spot);
+            spot.getDepartement().removeSpot(spot);
+            spot.getVille().removeSpot(spot);
             spot.removeAllTopos();
             entityManager.remove(spot);
             entityManager.flush();
