@@ -27,7 +27,7 @@ $(document).ready(function(){
                     }
                 });
         }
-    })
+    });
 
     var commentaireAvantUpdate, idComm;
 
@@ -51,7 +51,7 @@ $(document).ready(function(){
             // remplace l'affichage du commentaire en input<text> et affiche les boutons de sauvegardes de modification
         }else if (path === "modifierCommentaire.do"){
             event.preventDefault();
-            commentaireAvantUpdate = $('#content'+idComm).text().trim();
+            commentaireAvantUpdate = $('#content'+idComm).text().replace(/\'/g, '&apos;').trim();
             $('#content'+idComm).replaceWith("<input id='inputModifCommentaire' type='text' id='content' value='"+commentaireAvantUpdate+"' style='width:100%;height: 2.5em;border-radius: 5px;'/>");
             $('#updateCommentaire'+idComm).show();
             $('#annulerUpdate'+idComm).show();
@@ -62,9 +62,10 @@ $(document).ready(function(){
     //Sauvegarde de la modification d'un commentaire
     $(".updateCommentaire").click(function () {
         var contenuComm = $('#inputModifCommentaire').val();
+        alert(contenuComm);
         if (confirm("Etes-vous sûr de vouloir modifier ce commentaire ?")) {
             $.post("updateCommentaire.do", {idCommentaire: idComm, contenu: contenuComm}, function (data) {
-                if (data.resultat === true) {
+                if (data.resultat === 'true') {
                     if(!alert("Modification effectuée")){window.location.reload()}
                 } else {
                     if(!alert("Modification échouée : "+ data.erreur)){
