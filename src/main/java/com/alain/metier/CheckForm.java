@@ -96,7 +96,6 @@ public class CheckForm {
         this.setResultat(checkResultListErreurs(listErreurs));
     }
 
-
     /**
      * Méthode générique pour modifier les objets depuis la requete Http
      * @param req httpServletRequest contenant les paramètres
@@ -141,6 +140,11 @@ public class CheckForm {
         this.setResultat(checkResultListErreurs(this.listErreurs));
     }
 
+    /**
+     * Vérifie si a iiste d'erreuur est vie
+     * @param listErreurs à vérifier
+     * @return true si vide, false sinon
+     */
     public boolean checkResultListErreurs(Map<String, String> listErreurs) {
         return listErreurs.isEmpty();
     }

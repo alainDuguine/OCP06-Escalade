@@ -14,6 +14,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Représente un objet voie ajouté sur le site
+ * Il est associé à un secteur
+ * et peut contenir des photos et des voies
+ */
 @Entity
 @Table
 public class Voie extends Entitie implements Serializable {
@@ -114,6 +119,13 @@ public class Voie extends Entitie implements Serializable {
 
     }
 
+    /**
+     * On ne peut pas publier 2x la même voie dans un spot
+     * Vérifie si la voie existe déjà dans le spot
+     * @param dao dataAccessObbject
+     * @param req pour récupérer les infos nécessaires
+     * @return liste des résultats
+     */
     private List<Voie> checkVoieExist(VoieDaoImpl dao, HttpServletRequest req){
         if (this.getId() != null){
             return dao.findVoieInSecteurForUpdate(this.getId(), this.nom, this.getSecteur().getId());
@@ -121,34 +133,57 @@ public class Voie extends Entitie implements Serializable {
         return dao.findVoieInSecteur(this.nom, Long.parseLong(req.getParameter("idElement")));
     }
 
+    /**
+     * Ajoute une association avec une photo
+     * @param photo à associer
+     */
     public void addPhoto(PhotoVoie photo) {
         logger.info("Association avec la photo");
         photo.setVoie(this);
         this.photos.add(photo);
     }
 
+    /**
+     * Supprime une association avec une photo
+     * @param photo à dissocier
+     */
     public void removePhoto(PhotoVoie photo) {
         logger.info("Suppression de l'association avec la photo " + photo.getId());
         this.photos.removeIf(photoVoie -> photoVoie.getId().equals(photo.getId()));
     }
 
+    /**
+     * Supprime une association avec un secteur
+     */
     public void removeSecteur() {
         logger.info("Suppression de l'association avec le secteur" + this.secteur.getId());
         this.secteur = null;
     }
 
+    /**
+     * Ajoute une association avec un secteur
+     * @param secteur à associer
+     */
     public void setSecteur(Secteur secteur) {
         logger.info("Association du secteur " + secteur.getId());
         this.secteur = secteur;
         secteur.addVoie(this);
     }
 
+    /**
+     * Ajoute une association avec une cotation
+     * @param cotation à associer
+     */
     public void setCotation(Cotation cotation) {
         logger.info("Association de la cotation " + cotation.getId());
         this.cotation = cotation;
         cotation.addVoies(this);
     }
 
+    /**
+     * Ajoute une association avec un utilisateur
+     * @param utilisateur à associer
+     */
     public void setUtilisateur(Utilisateur utilisateur) {
         logger.info("Association avec l'utilisateur " + utilisateur.getId());
         this.utilisateur = utilisateur;

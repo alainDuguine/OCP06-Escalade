@@ -20,6 +20,13 @@ public class TopoDaoImpl implements EntityRepository<Topo> {
     private EntityManager entityManager = EntityManagerUtil.getEntityManager();
     private static final Logger logger = LogManager.getLogger("TopoDaoImpl");
 
+    /**
+     * Enregistre un topo en base de données
+     * ajoute les associations avec l'utilisateur,
+     * @param topo à enregistrer
+     * @param req requête http
+     * @return l'objet topo
+     */
     @Override
     public Topo save(Topo topo, HttpServletRequest req){
         EntityTransaction transaction = entityManager.getTransaction();
@@ -42,6 +49,12 @@ public class TopoDaoImpl implements EntityRepository<Topo> {
         return topo;
     }
 
+    /**
+     * Modifie un topo en base de données
+     * @param topo à modifier
+     * @param req requête http
+     * @return l'objet topo
+     */
     @Override
     public Topo update(Topo topo, HttpServletRequest req) {
         EntityTransaction transaction = entityManager.getTransaction();
@@ -62,6 +75,12 @@ public class TopoDaoImpl implements EntityRepository<Topo> {
         return topo;
     }
 
+    /**
+     * Supprime un topo en base de données
+     * supprime les associations avec le spot et avec les réservations
+     * @param id du topo
+     * @return booléen
+     */
     @Override
     public boolean delete(Long id) {
         EntityTransaction transaction = entityManager.getTransaction();
@@ -98,6 +117,12 @@ public class TopoDaoImpl implements EntityRepository<Topo> {
         return entityManager.find(Topo.class, id);
     }
 
+    /**
+     * Supprime l'association entre un spot et un topo
+     * @param idTopo identifiant du topo
+     * @param idSpot identifiant du spot
+     * @return booléen
+     */
     public boolean deleteSpotFromTopo(Long idTopo, Long idSpot) {
         EntityTransaction transaction = entityManager.getTransaction();
         try {
@@ -123,6 +148,12 @@ public class TopoDaoImpl implements EntityRepository<Topo> {
 
     }
 
+    /**
+     * Ajoute l'association entre un spot et un topo
+     * @param idTopo identifiant du topo
+     * @param idSpot identifiant du spot
+     * @return booléen
+     */
     public boolean addSpotInTopo(Long idTopo, Long idSpot) {
         EntityTransaction transaction = entityManager.getTransaction();
         try{

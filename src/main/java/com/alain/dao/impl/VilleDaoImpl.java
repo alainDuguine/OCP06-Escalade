@@ -15,6 +15,11 @@ public class VilleDaoImpl{
     private static final Logger logger = LogManager.getLogger("VilleDaoImpl");
 
 
+    /**
+     * Retourne toutes les villes présente dans un département
+     * @param codeDep code du département
+     * @return liste des villes
+     */
     public List<Ville> findAllInDep(String codeDep){
         logger.info("Recherche des villes dans le département " + codeDep);
         Query query = entityManager.createQuery("select v.id, v.nom from Ville v where v.departement.code= :x order by v.nom");

@@ -8,6 +8,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Représente un département français
+ * La liste des départements est chargée au premier démarrage de l'application via data.sql
+ */
 @Entity
 @Table
 public class Departement implements Serializable {

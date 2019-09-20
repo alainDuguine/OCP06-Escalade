@@ -19,6 +19,13 @@ public class SpotDaoImpl implements EntityRepository<Spot> {
     private EntityManager entityManager = EntityManagerUtil.getEntityManager();
     private static final Logger logger = LogManager.getLogger("SpotDaoImpl");
 
+    /**
+     * Enregistre un spot en base de données
+     * ajoute les associations avec le département, la ville et l'utilisateur,
+     * @param spot à enregistrer
+     * @param req requête http
+     * @return l'objet spot
+     */
     @Override
     public Spot save(Spot spot, HttpServletRequest req) {
         EntityTransaction transaction = entityManager.getTransaction();
@@ -45,6 +52,12 @@ public class SpotDaoImpl implements EntityRepository<Spot> {
         return spot;
     }
 
+    /**
+     * Modifie un spot en base de données
+     * @param spot à modifier
+     * @param req requête http
+     * @return l'objet spot
+     */
     @Override
     public Spot update(Spot spot, HttpServletRequest req) {
         EntityTransaction transaction = entityManager.getTransaction();
@@ -68,6 +81,12 @@ public class SpotDaoImpl implements EntityRepository<Spot> {
         return spot;
     }
 
+    /**
+     * Supprime un spot en base de données
+     * supprime les associations avec le département, la ville, l'utilisateur et les topos
+     * @param id du secteur
+     * @return booléen
+     */
     @Override
     public boolean delete(Long id) {
         EntityTransaction transaction = entityManager.getTransaction();
@@ -106,6 +125,10 @@ public class SpotDaoImpl implements EntityRepository<Spot> {
         return entityManager.find(Spot.class, id);
     }
 
+    /**
+     * Retourne l'ensemble des spots enregistrés dans le départeement
+     * @return liste des résultats
+     */
     public List<Spot> findSpotInDepartement(String nomSpot, String departement) {
         logger.info("Recherche du spot "+ nomSpot +" dans le département " + departement);
         Query query = entityManager.createQuery("select s from Spot s where s.nom= :nom and s.departement.code= :departement");
@@ -116,7 +139,7 @@ public class SpotDaoImpl implements EntityRepository<Spot> {
 
     /**
      * Retourne l'ensemble des spots existants sous la forme SpotResearchDto
-     * @return
+     * @return liste des résultats
      */
     public List<SpotResearchDto> findAllForResearch(){
         logger.info("Recherche des spots sous la forme SpotResearchDto");
@@ -217,6 +240,14 @@ public class SpotDaoImpl implements EntityRepository<Spot> {
         return query.getResultList();
     }
 
+    /**
+     * Recherche un spot par nom dans un départemment ayant un identifiant différent du secteur
+     * (Utile pour la modification d'un spot, afin de s'assurer qu'on ne donne pas le nom d'un spot déjà présent dans le département)
+     * @param id identifiant du spot
+     * @param nomSpot nom du spot
+     * @param departement nom du département
+     * @return liste des secteurs
+     */
     public List<Spot> findSpotInDepartementForUpdate(Long id, String nomSpot, String departement) {
         logger.info("Recherche des villes dans un département pour modification");
         Query query = entityManager.createQuery("select s from Spot s where s.nom= :nom and s.departement.code= :departement and s.id <> :id");

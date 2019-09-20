@@ -62,7 +62,6 @@ $(document).ready(function(){
     //Sauvegarde de la modification d'un commentaire
     $(".updateCommentaire").click(function () {
         var contenuComm = $('#inputModifCommentaire').val();
-        alert(contenuComm);
         if (confirm("Etes-vous sûr de vouloir modifier ce commentaire ?")) {
             $.post("updateCommentaire.do", {idCommentaire: idComm, contenu: contenuComm}, function (data) {
                 if (data.resultat === 'true') {

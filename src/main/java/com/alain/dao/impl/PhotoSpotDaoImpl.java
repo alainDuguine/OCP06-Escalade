@@ -22,6 +22,13 @@ public class PhotoSpotDaoImpl implements EntityRepository<PhotoSpot>{
     private EntityManager entityManager = EntityManagerUtil.getEntityManager();
     private static final Logger logger = LogManager.getLogger("PhotoSpotDaoImpl");
 
+    /**
+     * Enregistre une photo dans un spot en base de données
+     * ajoute les associations avec le spot,
+     * @param photoSpot à enregistrer
+     * @param req requête http
+     * @return l'objet photo
+     */
     @Override
     public PhotoSpot save(PhotoSpot photoSpot, HttpServletRequest req) {
         EntityTransaction transaction = entityManager.getTransaction();
@@ -49,6 +56,12 @@ public class PhotoSpotDaoImpl implements EntityRepository<PhotoSpot>{
         return null;
     }
 
+    /**
+     * Supprime une photo dans un spot en base de données
+     * Supprime les associations avec le spot,
+     * @param idPhoto identifiant de la photo
+     * @return booléen
+     */
     @Override
     public boolean delete(Long idPhoto){
         EntityTransaction transaction = entityManager.getTransaction();

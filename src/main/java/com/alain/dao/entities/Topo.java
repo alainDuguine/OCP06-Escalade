@@ -10,6 +10,11 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
 import java.util.*;
 
+/**
+ * Objet représentant un livre mis à disposition par un utilisateur
+ * Il peut être associé à plusieurs Spots
+ * Et peut faire l'objet d'une demande de réservation
+ */
 @Entity
 @Table
 public class Topo extends Entitie implements Serializable {

@@ -7,6 +7,11 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.util.Arrays;
 
+/**
+ * Classe d'accès à l'unité de persistence
+ * création de la base si demandé
+ * voir resources/META-INF/persistence.xml pour configuration
+ */
 public class EntityManagerUtil{
 
     private static EntityManagerFactory entityManagerFactory;
@@ -24,7 +29,6 @@ public class EntityManagerUtil{
             logger.error("Impossible de créer l'entityManager" + e.getMessage() + " / " + Arrays.toString(e.getStackTrace()));
         }
     }
-
 
     public EntityManagerFactory getEntityManagerFactory() {
         return entityManagerFactory;

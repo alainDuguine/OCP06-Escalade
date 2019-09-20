@@ -3,19 +3,25 @@ package com.alain.dao.entities;
 import com.google.gson.annotations.Expose;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.util.Date;
 
+/**
+ * Seuls les commentaires de spots sont implémentés pour le moment
+ * il est possible de garder la même logique pour implémenter les commentaires voies ou secteurs
+ */
 @Entity
 @Table
-@PrimaryKeyJoinColumn(name="id")
+@OnDelete(action = OnDeleteAction.CASCADE)
 public class CommentaireSpot extends Commentaire {
 
     private static final Logger logger = LogManager.getLogger("CommentaireSpot");
 
     @Expose(serialize = false, deserialize = false)
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private Spot spot;
 
     /* ********************************************************************************************
@@ -40,8 +46,8 @@ public class CommentaireSpot extends Commentaire {
         this.spot = spot;
     }
 
-    public void removeRelation() {
-        logger.info("Suprression de l'aasssociation avec le spot " + spot.getId());
+    public void removeSpot() {
+        logger.info("Supression de l'association avec le spot " + spot.getId());
         this.spot = null;
     }
 
@@ -53,4 +59,8 @@ public class CommentaireSpot extends Commentaire {
         return spot;
     }
 
+    public void removeRelations() {
+        this.getUtilisateur().removeCommentaireSpot(this);
+        this.getSpot().removeCommentaire(this);
+    }
 }

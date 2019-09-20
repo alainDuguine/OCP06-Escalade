@@ -22,6 +22,13 @@ public class PhotoSecteurDaoImpl implements EntityRepository<PhotoSecteur>{
     private EntityManager entityManager = EntityManagerUtil.getEntityManager();
     private static final Logger logger = LogManager.getLogger("PhotoSecteurDaoImpl");
 
+    /**
+     * Enregistre une photo dans un secteur en base de données
+     * ajoute les associations avec le secteur,
+     * @param photoSecteur à enregistrer
+     * @param req requête http
+     * @return l'objet photo
+     */
     @Override
     public PhotoSecteur save(PhotoSecteur photoSecteur, HttpServletRequest req) {
         EntityTransaction transaction = entityManager.getTransaction();
@@ -49,6 +56,12 @@ public class PhotoSecteurDaoImpl implements EntityRepository<PhotoSecteur>{
         return null;
     }
 
+    /**
+     * Supprime une photo dans un secteur en base de données
+     * Supprime les associations avec le secteur,
+     * @param idPhoto identifiant de la photo
+     * @return booléen
+     */
     @Override
     public boolean delete(Long idPhoto){
         EntityTransaction transaction = entityManager.getTransaction();

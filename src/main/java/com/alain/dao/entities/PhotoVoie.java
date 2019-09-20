@@ -8,6 +8,9 @@ import org.hibernate.annotations.OnDeleteAction;
 import javax.persistence.*;
 import java.io.InputStream;
 
+/**
+ * Voir Photo
+ */
 @Entity
 @Table
 @PrimaryKeyJoinColumn(name = "id")

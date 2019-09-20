@@ -14,6 +14,9 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Objet représentant un commentaire publié par un utilisateur
+ */
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Commentaire extends Entitie implements Serializable {

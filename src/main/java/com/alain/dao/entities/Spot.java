@@ -11,6 +11,11 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
 import java.util.*;
 
+/**
+ * Représente un objet Spot ajouté sur le site
+ * C'est l'objet parent de toutes les autres entitées secteur ou voie
+ * il peut contenir des photos et des secteurs
+ */
 @Entity
 @Table
 public class Spot extends Entitie implements Serializable {
@@ -126,7 +131,7 @@ public class Spot extends Entitie implements Serializable {
 
     /**
      * Iterator pour enlever une photo d'un spot
-     * @param photo
+     * @param photo à dissocier
      */
     public void removePhoto(Photo photo) {
         logger.info("Suppression de l'association avec la photo : " + photo.getId());
@@ -135,7 +140,7 @@ public class Spot extends Entitie implements Serializable {
 
     /**
      * Iterator pour enlever un commentaire d'un spot
-     * @param commentaire
+     * @param commentaire à dissocier
      */
     public void removeCommentaire(CommentaireSpot commentaire) {
         logger.info("Suppression de l'association avec le commentaire : " + commentaire.getId());
@@ -144,7 +149,7 @@ public class Spot extends Entitie implements Serializable {
 
     /**
      * Iterator pour enlever un Spot d'un Topo
-     * @param
+     * @param topo à dissocier
      */
     public void removeFromTopo(Topo topo) {
         logger.info("Suppression de l'association avec le topo : " + topo.getId());
@@ -153,7 +158,7 @@ public class Spot extends Entitie implements Serializable {
 
     /**
      * Iterator pour enlever un secteur d'un spot
-     * @param secteur
+     * @param secteur à dissocier
      */
     public void removeSecteur(Secteur secteur) {
         logger.info("Suppression de l'association avec le secteur : " + secteur.getId());
@@ -162,7 +167,7 @@ public class Spot extends Entitie implements Serializable {
 
     /**
      * Ajoute un topo à la liste s'il n'est pas déjà présent
-     * @param topo
+     * @param topo à associer
      */
     public void addTopo(Topo topo) {
         logger.info("Ajout d'association avec le topo : " + topo.getId());
@@ -184,7 +189,7 @@ public class Spot extends Entitie implements Serializable {
 
     /**
      * Iterator pour enlever un topo d'un spot
-     * @param
+     * @param topo à dissocier
      */
     public void removeTopo(Topo topo) {
         logger.info("Suppression de l'association avec le topo " + topo.getId());
@@ -193,7 +198,7 @@ public class Spot extends Entitie implements Serializable {
 
     /**
      * Ajoute un commentaire au spot
-     * @param commentaire
+     * @param commentaire à associer
      */
     public void addCommentaire(CommentaireSpot commentaire) {
         logger.info("Ajout d'association avec le commentaire ");
@@ -201,24 +206,40 @@ public class Spot extends Entitie implements Serializable {
         this.commentaires.add(commentaire);
     }
 
+    /**
+     * Ajoute une photo au spot
+     * @param photo à associer
+     */
     public void addPhoto(PhotoSpot photo){
         logger.info("Ajout d'association avec la photo ");
         photo.setSpot(this);
         this.photos.add(photo);
     }
 
+    /**
+     * Associe un département au spot
+     * @param departement à associer
+     */
     public void setDepartement(Departement departement) {
         logger.info("Ajout d'association avec le departement " + departement.getCode());
         this.departement = departement;
         departement.addSpot(this);
     }
 
+    /**
+     * Associe une ville au spot
+     * @param ville à associer
+     */
     public void setVille(Ville ville) {
         logger.info("Ajout d'association avec la ville " + ville.getId());
         this.ville = ville;
         ville.addSpot(this);
     }
 
+    /**
+     * Associe un utilisateur au spot
+     * @param utilisateur à associer
+     */
     public void setUtilisateur(Utilisateur utilisateur) {
         logger.info("Ajout d'association avec l'utilisateur " + utilisateur.getId());
         this.utilisateur = utilisateur;

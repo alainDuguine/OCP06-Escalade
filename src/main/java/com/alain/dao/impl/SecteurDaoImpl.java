@@ -20,7 +20,14 @@ public class SecteurDaoImpl extends EntityManagerUtil implements EntityRepositor
     private EntityManager entityManager = EntityManagerUtil.getEntityManager();
     private static final Logger logger = LogManager.getLogger("SecteurDaoImpl");
 
-
+    /**
+     * Enregistre un secteur en base de données
+     * ajoute les associations avec le spot et l'utilisateur,
+     * @param secteur à enregistrer
+     * @param req requête http
+     * @return l'objet secteur
+     */
+    @Override
     public Secteur save(Secteur secteur, HttpServletRequest req) {
         EntityTransaction transaction = entityManager.getTransaction();
         try{
@@ -45,6 +52,12 @@ public class SecteurDaoImpl extends EntityManagerUtil implements EntityRepositor
         return secteur;
     }
 
+    /**
+     * Modifie un secteur en base de données
+     * @param secteur à modifier
+     * @param req requête http
+     * @return l'objet secteur
+     */
     @Override
     public Secteur update(Secteur secteur,  HttpServletRequest req) {
         EntityTransaction transaction = entityManager.getTransaction();
@@ -64,6 +77,12 @@ public class SecteurDaoImpl extends EntityManagerUtil implements EntityRepositor
         return secteur;
     }
 
+    /**
+     * Supprime un secteur en base de données
+     * supprime les associations avec le spot
+     * @param id du secteur
+     * @return booléen
+     */
     @Override
     public boolean delete(Long id) {
         EntityTransaction transaction = entityManager.getTransaction();
@@ -101,6 +120,12 @@ public class SecteurDaoImpl extends EntityManagerUtil implements EntityRepositor
         return entityManager.find(Secteur.class, id);
     }
 
+    /**
+     * Recherche un secteur par nom dans un spot
+     * @param nomSecteur  nom du secteur
+     * @param idSpot identifiant du spot
+     * @return liste des secteurs
+     */
     public List<Secteur> findSecteurInSpot(String nomSecteur, Long idSpot){
         logger.info("Recherche du secteur "+ nomSecteur +" dans le spot " + idSpot);
         Query query = entityManager.createQuery("select s from Secteur s where s.nom= :nom and s.spot.id= :idSpot");
@@ -109,6 +134,14 @@ public class SecteurDaoImpl extends EntityManagerUtil implements EntityRepositor
         return query.getResultList();
     }
 
+    /**
+     * Recherche un secteur par nom dans un spot ayant un identifiant différent du secteur
+     * (Utile pour la modification d'un secteur, afin de s'assurer qu'on ne donne pas le nom d'un spot déjà présent)
+     * @param idSecteur identifiant du secteur
+     * @param nomSecteur  nom du secteur
+     * @param idSpot identifiant du spot
+     * @return liste des secteurs
+     */
     public List<Secteur> findSecteurInSpotForUpdate(Long idSecteur, String nomSecteur, long idSpot) {
         logger.info("Recherche du secteur "+ nomSecteur +" dans le spot " + idSpot + "pour modification");
         Query query = entityManager.createQuery("select s from Secteur s where s.nom= :nom and s.spot.id= :idSpot and s.id <> :idSecteur");

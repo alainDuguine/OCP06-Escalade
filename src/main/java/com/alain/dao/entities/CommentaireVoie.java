@@ -1,11 +1,18 @@
 package com.alain.dao.entities;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 import java.util.Date;
 
+/**
+ * Non implémenté - voir CommentaireSpot
+ */
 @Entity
 @Table
 @PrimaryKeyJoinColumn(name="id")
+@OnDelete(action = OnDeleteAction.CASCADE)
 public class CommentaireVoie extends Commentaire{
 
     @ManyToOne

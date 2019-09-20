@@ -4,6 +4,9 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+/**
+ * Objet associé à une réservation, permettant de conserver l'historique des transactions d'un prêt
+ */
 @Entity
 @Table
 public class ReservationHistorique implements Serializable {

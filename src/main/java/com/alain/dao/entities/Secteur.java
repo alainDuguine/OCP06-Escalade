@@ -14,6 +14,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Représente un objet secteur ajouté sur le site
+ * Il est associé à un spot
+ * et peut contenir des photos et des voies
+ */
 @Entity
 @Table
 public class Secteur extends Entitie implements Serializable {
@@ -100,11 +105,10 @@ public class Secteur extends Entitie implements Serializable {
     }
 
     /**
-     * check if the secteur exist in the spot for new record, and update
      * Vériifie si un secteur existe dans le spot pour un nouvel enregistrement ou pour modification
-     * @param dao
-     * @param req
-     * @return
+     * @param dao dataAccessObject
+     * @param req requête http
+     * @return Liste des résultats
      */
     private List<Secteur> checkSecteurExist(SecteurDaoImpl dao, HttpServletRequest req){
         if (this.getId() != null){
@@ -115,41 +119,64 @@ public class Secteur extends Entitie implements Serializable {
 
     /**
      * Iterator pour enlever une photo d'un secteur
-     * @param photo
+     * @param photo à dissocier
      */
     public void removePhoto(Photo photo) {
         logger.info("Suppression de l'association avec la photo " + photo.getId());
         this.photos.removeIf(photoSecteur -> photoSecteur.getId().equals(photo.getId()));
     }
 
+    /**
+     * Associe un spot au secteur
+     * @param spot à associer
+     */
     public void setSpot(Spot spot) {
         logger.info("Association avec le spot " + spot.getId());
         this.spot = spot;
         spot.addSecteur(this);
     }
 
+    /**
+     * Ajoute une photo au secteur
+     * @param photo à associer
+     */
     public void addPhoto(PhotoSecteur photo){
         logger.info("Association avec la photo " + photo.getId());
         photo.setSecteur(this);
         this.photos.add(photo);
     }
 
+    /**
+     * Associe une voie au secteur
+     * @param voie à associer
+     */
     public void addVoie(Voie voie) {
         logger.info("Association avec la voie ");
         this.voies.add(voie);
     }
 
+    /**
+     * Iterator pour enlever une voie d'un secteur
+     * @param voie à dissocier
+     */
     public void removeVoie(Voie voie) {
         logger.info("Suppression de l'association avec la voie " + voie.getId());
         this.voies.removeIf(voieInSecteur -> voieInSecteur.getId().equals(voie.getId()));
     }
 
+    /**
+     * Associe un utilisateur au secteur
+     * @param utilisateur à associer
+     */
     public void setUtilisateur(Utilisateur utilisateur) {
         logger.info("Association avec l'utilisateur " + utilisateur.getId());
         this.utilisateur = utilisateur;
         utilisateur.addSecteur(this);
     }
 
+    /**
+     * Iterator pour dissocier du spot
+     */
     public void removeSpot() {
         logger.info("Suppression de l'association avec le spot " + this.spot.getId());
         this.spot = null;

@@ -16,7 +16,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
+/**
+ * Objet décrivant un prêt ou un emprunt de topo
+ */
 @Entity
 @Table
 @Access(AccessType.FIELD)

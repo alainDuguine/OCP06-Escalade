@@ -21,6 +21,13 @@ public class VoieDaoImpl implements EntityRepository<Voie> {
     private EntityManager entityManager = EntityManagerUtil.getEntityManager();
     private static final Logger logger = LogManager.getLogger("VoieoImpl");
 
+    /**
+     * Enregistre une voie en base de données
+     * ajoute les associations avec le secteur, la cotation et l'utilisateur,
+     * @param voie à enregistrer
+     * @param req requête http
+     * @return l'objet voie
+     */
     @Override
     public Voie save(Voie voie, HttpServletRequest req) {
         EntityTransaction transaction = entityManager.getTransaction();
@@ -48,6 +55,12 @@ public class VoieDaoImpl implements EntityRepository<Voie> {
         return voie;
     }
 
+    /**
+     * Modifie une voie en base de données
+     * @param voie à modifier
+     * @param req requête http
+     * @return l'objet voie
+     */
     @Override
     public Voie update(Voie voie,  HttpServletRequest req) {
         EntityTransaction transaction = entityManager.getTransaction();
@@ -69,6 +82,12 @@ public class VoieDaoImpl implements EntityRepository<Voie> {
         return voie;
     }
 
+    /**
+     * Supprime une voie en base de données
+     * supprime les associations avec le secteur, la cotation et l'utilisateur
+     * @param id de la voie
+     * @return booléen
+     */
     @Override
     public boolean delete(Long id) {
         EntityTransaction transaction = entityManager.getTransaction();
@@ -107,6 +126,12 @@ public class VoieDaoImpl implements EntityRepository<Voie> {
         return entityManager.find(Voie.class, id);
     }
 
+    /**
+     * Recherche une voie par nom dans un secteur
+     * @param nomVoie  nom de la voie
+     * @param idSecteur identifiant du secteur
+     * @return liste des voies
+     */
     public List<Voie> findVoieInSecteur(String nomVoie, Long idSecteur){
         logger.info("Recherche de la voie "+ nomVoie +" dans le secteur " + idSecteur);
         Query query = entityManager.createQuery("select v from Voie v where v.nom= :nom and v.secteur.id= :idSecteur");
@@ -114,7 +139,14 @@ public class VoieDaoImpl implements EntityRepository<Voie> {
         query.setParameter("idSecteur", idSecteur);
         return query.getResultList();
     }
-
+    /**
+     * Recherche une voie par nom dans un secteur ayant un identifiant différent de la voie
+     * (Utile pour la modification d'une voie, afin de s'assurer qu'on ne donne pas le nom d'une voie déjà présente)
+     * @param idVoie identifiant de la voie
+     * @param nomVoie  nom de la voie
+     * @param idSecteur identifiant du secteur
+     * @return liste des voies
+     */
     public List<Voie> findVoieInSecteurForUpdate(Long idVoie, String nomVoie, Long idSecteur) {
         logger.info("Recherche de la voie "+ idVoie +" "+nomVoie +" dans le secteur " + idSecteur + "pour modification");
         Query query = entityManager.createQuery("select v from Voie v where v.nom= :nom and v.secteur.id= :idSecteur and v.id <> :idVoie");

@@ -14,6 +14,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Objet représentant un utilisateur inscrit sur le site
+ * Il peut publier des spots, secteurs, voies, commentaires, topos etc...
+ */
 @Entity
 @Table
 public class Utilisateur extends Entitie implements Serializable{
@@ -123,7 +127,7 @@ public class Utilisateur extends Entitie implements Serializable{
 
     /**
      * Supprime les relations pour une réservation
-     * @param reservation
+     * @param reservation à associer
      */
     public void removeReservation(Reservation reservation) {
         logger.info("Suppression de l'association avec une réservation " + reservation.getId());
@@ -131,21 +135,37 @@ public class Utilisateur extends Entitie implements Serializable{
         this.prets.removeIf(pretInList -> pretInList.getId().equals(reservation.getId()));
     }
 
+    /**
+     * Ajoute une association avec un spot
+     * @param spot à associer
+     */
     public void addSpot(Spot spot) {
         logger.info("Association avec un spot : " + spot.getId());
         this.spots.add(spot);
     }
 
+    /**
+     * Ajoute une association avec un secteur
+     * @param secteur à associer
+     */
     public void addSecteur(Secteur secteur){
         logger.info("Association avec un secteur : " + secteur.getId());
         this.secteurs.add(secteur);
     }
 
+    /**
+     * Ajoute une association avec une voie
+     * @param voie à associer
+     */
     public void addVoie(Voie voie){
         logger.info("Association avec une voie");
         this.voies.add(voie);
     }
 
+    /**
+     * Ajoute une association avec un commentaire
+     * @param commentaireSpot à associer
+     */
     public void addCommentaireSpot(CommentaireSpot commentaireSpot){
         logger.info("Association avec un commentaire : " + commentaireSpot.getId());
         this.commentaireSpots.add(commentaireSpot);
@@ -153,29 +173,58 @@ public class Utilisateur extends Entitie implements Serializable{
         commentaireSpot.setUsername(this.getUsername());
     }
 
+    /**
+     * Ajoute une association avec un topo
+     * @param topo à associer
+     */
     public void addTopo(Topo topo) {
         logger.info("Association avec un topo : " + topo.getId());
         this.topos.add(topo);
     }
 
+    /**
+     * Ajoute une association avec une reservation en tant que prêt
+     * @param reservation à associer
+     */
     public void addPret(Reservation reservation){
         logger.info("Association avec un pret de topo : " + reservation.getId());
         this.prets.add(reservation);
     }
 
+    /**
+     * Ajoute une association avec une reservation en tant qu'emprunt
+     * @param reservation à associer
+     */
     public void addEmprunt(Reservation reservation){
         logger.info("Association avec un emprunt de topo : " + reservation.getId());
         this.emprunts.add(reservation);
     }
 
+    /**
+     * Supprime une association avec un spot
+     * @param spot à dissocier
+     */
     public void removeSpot(Spot spot){
         logger.info("Suppression de l'association avec un spot" + spot.getId());
         this.spots.removeIf(spotInList -> spotInList.getId().equals(spot.getId()));
     }
 
+    /**
+     * Supprime une association avec une voie
+     * @param voie à dissocier
+     */
     public void removeVoie(Voie voie){
         logger.info("Suppression de l'association avec une voie" + voie.getId());
         this.voies.removeIf(voieInList -> voieInList.getId().equals(voie.getId()));
+    }
+
+    /**
+     * Supprime une association avec un commentaireSpot
+     * @param commentaireSpot à dissocier
+     */
+    public void removeCommentaireSpot(CommentaireSpot commentaireSpot) {
+        logger.info("Suppression de l'association avec un commentaire" + commentaireSpot.getId());
+        this.commentaireSpots.removeIf(commInList -> commInList.getId().equals(commentaireSpot.getId()));
     }
 
 

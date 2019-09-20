@@ -2,6 +2,7 @@ package com.alain.dao.impl;
 
 import com.alain.EntityManagerUtil;
 import com.alain.dao.contract.EntityRepository;
+import com.alain.dao.entities.Commentaire;
 import com.alain.dao.entities.CommentaireSpot;
 import com.alain.dao.entities.Spot;
 import com.alain.dao.entities.Utilisateur;
@@ -20,6 +21,13 @@ public class CommentaireSpotDaoImpl implements EntityRepository<CommentaireSpot>
     private static final Logger logger = LogManager.getLogger("CommentaireSpotDaoImpl");
     private EntityManager entityManager = EntityManagerUtil.getEntityManager();
 
+    /**
+     * Enregistre un commentaire en base de données
+     * ajoute les associations avec le spot et l'utilisateur,
+     * @param commentaire à enregistrer
+     * @param req requête http
+     * @return l'objet commentaire
+     */
     @Override
     public CommentaireSpot save(CommentaireSpot commentaire, HttpServletRequest req){
         EntityTransaction transaction = entityManager.getTransaction();
@@ -45,6 +53,12 @@ public class CommentaireSpotDaoImpl implements EntityRepository<CommentaireSpot>
         return commentaire;
     }
 
+    /**
+     * Modifie un commentaire en base de données
+     * @param commentaireSpot à modifier
+     * @param req requête http
+     * @return l'objet commentaire
+     */
     @Override
     public CommentaireSpot update(CommentaireSpot commentaireSpot, HttpServletRequest req) {
         EntityTransaction transaction = entityManager.getTransaction();
@@ -64,20 +78,26 @@ public class CommentaireSpotDaoImpl implements EntityRepository<CommentaireSpot>
         return commentaireSpot;
     }
 
-
+    /**
+     * Supprime un commentaire en base de données
+     * supprime les associations
+     * @param id du commentaire
+     * @return booléen
+     */
     @Override
     public boolean delete(Long id) {
         EntityTransaction transaction = entityManager.getTransaction();
         try {
             logger.info("Tentative de suppression d'un commentaire " + id);
             transaction.begin();
-            CommentaireSpot commentaire = entityManager.find(CommentaireSpot.class, id);
-            Spot spot = entityManager.find(Spot.class, commentaire.getSpot().getId());
-            commentaire.removeRelation();
-            spot.removeCommentaire(commentaire);
-            entityManager.remove(commentaire);
+            CommentaireSpot commentaireSpot = entityManager.find(CommentaireSpot.class, id);
+//            Commentaire commentaire = entityManager.find(Commentaire.class, id);
+//            Spot spot = entityManager.find(Spot.class, commentaireSpot.getSpot().getId());
+            commentaireSpot.removeRelations();
+//            commentaireSpot.removeSpot();
+            entityManager.remove(commentaireSpot);
+//            entityManager.remove(commentaire);
             entityManager.flush();
-            entityManager.clear();
             transaction.commit();
             logger.info("Suppression commentaire réussie");
             return true;
@@ -101,6 +121,11 @@ public class CommentaireSpotDaoImpl implements EntityRepository<CommentaireSpot>
         return entityManager.find(CommentaireSpot.class, id);
     }
 
+    /**
+     * Retourne tous les commentaires enregistrées dans un spot
+     * @param id du spot
+     * @return liste des commentaires
+     */
     public List<CommentaireSpot> findAllInSpot(Long id){
         logger.info("Recherche de tous les commentaires pour le spot " + id);
         Query query = entityManager.createQuery("select c from CommentaireSpot c where c.spot.id= :x order by c.dateTime desc");

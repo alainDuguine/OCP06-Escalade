@@ -11,6 +11,10 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 
+/**
+ * Photos uploadés par les utilisateurs. Elles sont stockées en local sur le serveur (ici "D:\fichiers)
+ * Les associations avec le spot, secteur ou voie est définit dans les classes filles PotoSpot, PhotoSecteur et PhotoVoie
+ */
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Photo implements Serializable{
@@ -33,7 +37,6 @@ public class Photo implements Serializable{
     private InputStream contenu;
 
 
-
     /* ********************************************************************************************
      **** CONSTRUCTORS      ************************************************************************
      *********************************************************************************************** */
@@ -51,6 +54,12 @@ public class Photo implements Serializable{
      **** METHODS           ************************************************************************
      ******************************************************************************************** */
 
+    /**
+     * Méthode génnérale d'upload de photo sur le serveur local
+     * avec création de nom avec timestamp + incrément depuis la requette Http
+     * @param part liste des champs de formulaire envoyées via requête HTTP
+     * @param index numéro de la photo dans la requête
+     */
     public void uploadPhoto(Part part, int index){
         try {
             this.setNom(createPhotoName(part, index));
@@ -69,7 +78,7 @@ public class Photo implements Serializable{
         }
         if (this.erreur == null){
             try{
-                ecrireFichier(this.contenu, this.nom, CHEMIN);
+                ecrireFichier(this.contenu, this.nom);
             }catch (Exception e){
                 this.erreur = "Erreur lors de l'écriture du fichier sur le disque";
                 logger.error("Probleme upload photo " + Arrays.toString(e.getStackTrace()));
@@ -77,6 +86,12 @@ public class Photo implements Serializable{
         }
     }
 
+    /**
+     * Crée un nom unique pour chaque photo uploadée à partir d'un timestamp de l'index du fichier et de l'extension, vérifie si l'extension correspond bien aux formats supportés.
+     * @param part liste des champs de formulaire envoyées via requête HTTP
+     * @param index  numéro de la photo dans la requête
+     * @return nom généré
+     */
     private String createPhotoName (Part part, int index) {
         String dateTime;
         String extension;
@@ -91,6 +106,11 @@ public class Photo implements Serializable{
         return nomGenere;
     }
 
+    /**
+     * Récupère l'extension à partir du nom du fichier
+     * @param part liste des champs de formulaire envoyées via requête HTTP
+     * @return l'extension s'il y a un fichier, sinon retourne null
+     */
     private static String getExtension(Part part) {
         for (String contentDisposition : part.getHeader("content-disposition").split(";")){
             if(contentDisposition.trim().startsWith("filename")){
@@ -102,12 +122,23 @@ public class Photo implements Serializable{
         return null;
     }
 
+    /**
+     * formate la date locale
+     * @param now date du moment
+     * @return date formatée
+     */
     private static String formatDate(LocalDateTime now) {
         DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
         return now.format(myFormatObj);
     }
 
-    private void ecrireFichier(InputStream contenu, String nomPhoto, String chemin) throws Exception{
+    /**
+     * Ecrit le fichier uploadé sur le disque
+     * @param contenu contenu du fichier récupéré via part.getInputstream()
+     * @param nomPhoto nom de la photo généré via createPhotoName()
+     * @throws Exception en cas d'erreur serveur
+     */
+    private void ecrireFichier(InputStream contenu, String nomPhoto) throws Exception{
         logger.info("Ecriture du fichier sur disque");
         BufferedInputStream entree = null;
         BufferedOutputStream sortie = null;

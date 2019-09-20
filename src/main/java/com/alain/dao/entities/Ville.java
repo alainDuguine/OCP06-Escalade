@@ -7,6 +7,10 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * Objet représentangt une ville française.
+ * Elles sont reliées aux départements, et sont chargées en base de donnée au premier démarrage de l'application via data.sql
+ */
 @Entity
 @Table
 public class Ville implements Serializable {
@@ -41,6 +45,10 @@ public class Ville implements Serializable {
      **** METHODS           ************************************************************************
      ******************************************************************************************** */
 
+    /**
+     * Supprime une association avec un spot
+     * @param spot à dissocier
+     */
     public void removeSpot(Spot spot){
         logger.info("Suppression de l'association avec un spot " + spot.getId());
         this.spots.removeIf(spotInList -> spotInList.getId().equals(spot.getId()));

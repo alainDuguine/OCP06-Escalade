@@ -19,6 +19,13 @@ public class ReservationDaoImpl extends EntityManagerUtil implements EntityRepos
     private EntityManager entityManager = EntityManagerUtil.getEntityManager();
     private static final Logger logger = LogManager.getLogger("RéservationDaoImpl");
 
+    /**
+     * Enregistre une réservation pour un topo en base de données
+     * ajoute les associations avec les utilisateurs,
+     * @param reservation à enregistrer
+     * @param req requête http
+     * @return l'objet reservation
+     */
     @Override
     public Reservation save(Reservation reservation, HttpServletRequest req){
         EntityTransaction transaction = entityManager.getTransaction();
@@ -48,6 +55,12 @@ public class ReservationDaoImpl extends EntityManagerUtil implements EntityRepos
         return reservation;
     }
 
+    /**
+     * Modifie du statut d'une réservation et enregistrement en base de données
+     * @param reservation à modifier
+     * @param req requête http
+     * @return l'objet commentaire
+     */
     @Override
     public Reservation update(Reservation reservation, HttpServletRequest req) {
         EntityTransaction transaction = entityManager.getTransaction();
@@ -83,6 +96,12 @@ public class ReservationDaoImpl extends EntityManagerUtil implements EntityRepos
         return reservation;
     }
 
+    /**
+     * Supprime une réservation en base de données
+     * supprime les associations
+     * @param id de la réservation
+     * @return booléen
+     */
     @Override
     public boolean delete(Long id) {
         EntityTransaction transaction = entityManager.getTransaction();
@@ -121,6 +140,12 @@ public class ReservationDaoImpl extends EntityManagerUtil implements EntityRepos
         return entityManager.find(Reservation.class, id);
     }
 
+    /**
+     * Retourne toutes les réservations pour un topo et pour un emprunteur
+     * @param idTopo identifiant du topo
+     * @param idEmprunteur identifiant de l'emprunteur
+     * @return liste des réservations
+     */
     public List<Reservation> findReservationInTopoForUser(Long idTopo, Long idEmprunteur) {
         logger.info("Recherche de toutes les réservations concernant le topo " + idTopo + " et l'emprunteur " + idEmprunteur);
         Query query = entityManager.createQuery("select r from Reservation r where r.emprunteur.id= :idEmprunteur and r.topo.id= :idTopo and r.dernierStatut = 'PENDING'");

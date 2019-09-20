@@ -49,9 +49,9 @@ public class Utilities {
 
     /**
      * Vérifie si le mot de passe et la confirmation sont équivalentes
-     * @param password
-     * @param confirmation
-     * @return
+     * @param password mot de passe non crypté
+     * @param confirmation confirmation non cryptée
+     * @return booléen
      */
     public static boolean checkPassword(String password, String confirmation) {
         if (password != null && confirmation != null) {
@@ -62,8 +62,8 @@ public class Utilities {
 
     /**
      * Vérifie si le string est vide ou null
-     * @param string
-     * @return
+     * @param string à tester
+     * @return true si vide, falsse sinon
      */
     public static boolean isEmpty(String string){
         return (string == null && string.isEmpty());
@@ -73,7 +73,7 @@ public class Utilities {
      * retourne le champ auquel on a enlevé les espaces superflus
      * @param req httpservlet request
      * @param champ nom du champ à traiter
-     * @return
+     * @return champ traité
      */
     public static String getValeurChamp(HttpServletRequest req, String champ) {
         String valeur = req.getParameter(champ);
@@ -137,8 +137,8 @@ public class Utilities {
 
     /**
      * Ajoute un "0" si heure < 10
-     * @param date
-     * @return
+     * @param date date à tester
+     * @return heure traitée, sous forme de string
      */
     private static String getFullHour(LocalDateTime date) {
         return (date.getHour()<10?"0":"") + date.getHour();
@@ -146,8 +146,8 @@ public class Utilities {
 
     /**
      * Ajoute un "0" si minute < 10
-     * @param date
-     * @return
+     * @param date date à tester
+     * @return minute traitée, sous forme de string
      */
     private static String getFullMinute(LocalDateTime date) {
         return (date.getMinute()<10?"0":"") + date.getMinute();

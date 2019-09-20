@@ -15,9 +15,15 @@ import java.util.List;
 
 public class UtilisateurDaoImpl implements EntityRepository<Utilisateur>{
 
-    EntityManager entityManager = EntityManagerUtil.getEntityManager();
+    private EntityManager entityManager = EntityManagerUtil.getEntityManager();
     private static final Logger logger = LogManager.getLogger("UtilisateurDaoImpl");
 
+    /**
+     * Enregistre un utilisateur en base de données
+     * @param utilisateur à enregistrer
+     * @param req requête http
+     * @return l'objet utilisateur
+     */
     public Utilisateur save(Utilisateur utilisateur, HttpServletRequest req) {
         EntityTransaction transaction = entityManager.getTransaction();
         try {
@@ -36,6 +42,12 @@ public class UtilisateurDaoImpl implements EntityRepository<Utilisateur>{
         return utilisateur;
     }
 
+    /**
+     * Modifie un utilisateur en base de données
+     * @param utilisateur à modifier
+     * @param req requête http
+     * @return l'objet utilisateur
+     */
     public Utilisateur update(Utilisateur utilisateur,  HttpServletRequest req) {
         EntityTransaction transaction = entityManager.getTransaction();
         try {
@@ -55,6 +67,11 @@ public class UtilisateurDaoImpl implements EntityRepository<Utilisateur>{
         return utilisateur;
     }
 
+    /**
+     * Supprime un utilisateur en base de données
+     * @param id de l'utilisateur
+     * @return booléen
+     */
     public boolean delete(Long id) {
         EntityTransaction transaction = entityManager.getTransaction();
         try {

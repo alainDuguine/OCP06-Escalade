@@ -8,6 +8,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Représente la cotation (la difficulté) d'une voie.
+ * Les cotations sont chargées en base de données au premier démarrage de l'application via data.sql
+ */
 @Entity
 @Table
 public class Cotation implements Serializable {

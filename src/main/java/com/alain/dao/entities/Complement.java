@@ -4,6 +4,10 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * Non implémenté - On pourra dans le futur permettre aux utilisateurs de publier des compléments d'informations
+ * pour chaque spot, secteur ou voie, en utilisant la même logique que la publication de commentaires ou de photos.
+ */
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Complement implements Serializable {

@@ -3,6 +3,9 @@ package com.alain.dao.entities;
 import javax.persistence.*;
 import java.util.Date;
 
+/**
+ * Non implémenté - voir Complement
+ */
 @Entity
 @Table
 @PrimaryKeyJoinColumn(name="id")
